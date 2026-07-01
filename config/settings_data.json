@@ -38,7 +38,7 @@
     "enable_hover_effects": true,
     "enable_page_transitions": false,
     "page_width": 1400,
-    "spacing_sections": 0,
+    "spacing_sections": 16,
     "grid_gutter": 8,
     "cart_type": "drawer",
     "cart_free_shipping_bar": true,

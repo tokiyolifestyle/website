@@ -74,9 +74,23 @@
           <div class="site-footer__column" {{ block.shopify_attributes }}>
             <h3>{{ block.settings.title }}</h3>
             <ul role="list">
-              {%- for link in block.settings.menu.links -%}
-                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-              {%- endfor -%}
+              {%- if block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
+                {%- for link in block.settings.menu.links -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor -%}
+              {%- else -%}
+                {%- if block.settings.title contains 'Shop' -%}
+                  <li><a href="/collections/all">New Arrivals</a></li>
+                  <li><a href="/collections/all">Bestsellers</a></li>
+                  <li><a href="/collections/all">Clothing</a></li>
+                  <li><a href="/collections/all">Accessories</a></li>
+                {%- else -%}
+                  <li><a href="/pages/about-us">About Us</a></li>
+                  <li><a href="/pages/contact">Contact Us</a></li>
+                  <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+                  <li><a href="/pages/terms-of-service">Terms of Service</a></li>
+                {%- endif -%}
+              {%- endif -%}
             </ul>
           </div>
         {%- endif -%}

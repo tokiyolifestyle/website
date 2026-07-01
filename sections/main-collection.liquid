@@ -116,8 +116,6 @@
       </div>
     </aside>
 
-    <div class="collection-filters__overlay" data-filter-overlay></div>
-
     {%- comment -%} Product grid {%- endcomment -%}
     <div class="collection-grid-wrap">
       {%- paginate collection.products by section.settings.products_per_page -%}
@@ -143,6 +141,7 @@
       {%- endpaginate -%}
     </div>
   </div>
+  <div class="collection-filters__overlay" data-filter-overlay></div>
 </div>
 
 <style>
