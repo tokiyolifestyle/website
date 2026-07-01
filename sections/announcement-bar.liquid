@@ -1,7 +1,7 @@
 {%- comment -%} Announcement Bar — Auto-scroll Marquee {%- endcomment -%}
 
-<div class="announcement-bar" data-announcement-bar>
-  <div class="announcement-bar__track">
+<div class="announcement-bar" data-announcement-bar style="background:var(--color-primary); color:#FFFFFF;">
+  <div class="announcement-bar__track" style="animation-duration: {{ section.settings.speed | default: 75 }}s;">
     {%- for block in section.blocks -%}
       {%- for i in (1..2) -%}
         <div class="announcement-bar__item" {{ block.shopify_attributes }}>

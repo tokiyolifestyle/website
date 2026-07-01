@@ -47,8 +47,8 @@
       "settings": {
         "eyebrow": "Trending Now",
         "title": "Bestsellers",
-        "limit": 10,
-        "columns": 5,
+        "limit": 8,
+        "columns": 4,
         "cta_label": "View All Products",
         "cta_link": "/collections/all"
       }
@@ -58,13 +58,13 @@
       "settings": {
         "text": "Tokiyo Lifestyle | Wear Your Story | Premium Streetwear | Made In India | Elevate Your Wardrobe",
         "separator": "✦",
-        "speed": 25,
+        "speed": 45,
         "font_size": 12,
         "font_weight": "700",
         "uppercase": true,
         "padding_vertical": 12,
-        "background": "#0A0A0A",
-        "text_color": "#333333"
+        "background": "#FAFAF9",
+        "text_color": "#E2E2DF"
       }
     },
     "image-with-text": {

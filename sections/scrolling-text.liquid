@@ -1,6 +1,6 @@
-<section class="scrolling-text section-scrolling-text" style="background:{{ section.settings.background | default: '#141414' }};color:{{ section.settings.text_color | default: '#C9A86A' }};border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);">
+<section class="scrolling-text section-scrolling-text" style="background:{{ section.settings.background | default: '#FAFAF9' }};color:{{ section.settings.text_color | default: '#B89047' }};border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);">
   <div class="marquee-wrap" aria-hidden="true">
-    <div class="marquee-track" style="animation-duration:{{ section.settings.speed | default: 20 }}s;">
+    <div class="marquee-track" style="animation-duration:{{ section.settings.speed | default: 45 }}s;">
       {%- assign items = section.settings.text | split: '|' -%}
       {%- for item in items -%}
         <span class="marquee-item">{{ item | strip }}{% if section.settings.separator != blank %} <span class="marquee-sep">{{ section.settings.separator }}</span> {% endif %}</span>
@@ -18,10 +18,10 @@
     display:inline-block; white-space:nowrap;
     font-size:{{ section.settings.font_size | default: 14 }}px;
     font-weight:{{ section.settings.font_weight | default: '600' }};
-    padding:0 1rem;
+    padding:0 1.5rem;
     {% if section.settings.uppercase %}text-transform:uppercase;letter-spacing:.15em;{% endif %}
   }
-  .marquee-sep { color:var(--color-accent,#C9A86A); margin:0 .5rem; opacity:0.6; }
+  .marquee-sep { color:var(--color-accent,#B89047); margin:0 .5rem; opacity:0.6; }
 </style>
 
 {% schema %}
@@ -32,13 +32,13 @@
   "settings": [
     { "type": "text", "id": "text", "label": "Text (separate items with |)", "default": "Premium Quality | New Season Arrivals | Free Shipping Over ₹2999 | Wear Your Confidence | Limited Edition Drops | Crafted With Care" },
     { "type": "text", "id": "separator", "label": "Separator between items", "default": "✦" },
-    { "type": "range", "id": "speed", "min": 10, "max": 60, "step": 5, "unit": "s", "label": "Speed", "default": 20 },
+    { "type": "range", "id": "speed", "min": 10, "max": 90, "step": 5, "unit": "s", "label": "Speed", "default": 45 },
     { "type": "range", "id": "font_size", "min": 10, "max": 40, "step": 2, "unit": "px", "label": "Font size", "default": 14 },
     { "type": "select", "id": "font_weight", "label": "Font weight", "options": [{"value":"400","label":"Regular"},{"value":"600","label":"Semibold"},{"value":"700","label":"Bold"},{"value":"800","label":"ExtraBold"}], "default": "600" },
     { "type": "checkbox", "id": "uppercase", "label": "Uppercase", "default": true },
     { "type": "range", "id": "padding_vertical", "min": 8, "max": 40, "step": 4, "unit": "px", "label": "Padding (top/bottom)", "default": 16 },
-    { "type": "color", "id": "background", "label": "Background", "default": "#141414" },
-    { "type": "color", "id": "text_color", "label": "Text color", "default": "#C9A86A" }
+    { "type": "color", "id": "background", "label": "Background", "default": "#FAFAF9" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#B89047" }
   ],
   "presets": [{ "name": "Scrolling Text" }]
 }

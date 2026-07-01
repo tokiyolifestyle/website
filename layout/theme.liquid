@@ -48,23 +48,23 @@
 
   <style>
     :root{
-      --color-primary: {{ settings.color_primary | default: '#F5F5F0' }};
-      --color-secondary: {{ settings.color_secondary | default: '#0A0A0A' }};
-      --color-accent: {{ settings.color_accent | default: '#C9A86A' }};
-      --color-background: {{ settings.color_background | default: '#0A0A0A' }};
-      --color-success: {{ settings.color_success | default: '#3BB273' }};
-      --color-error: {{ settings.color_error | default: '#D72638' }};
-      --color-surface: #141414;
-      --color-surface-raised: #1a1a1a;
-      --color-border: rgba(255,255,255,0.08);
-      --color-text-muted: #888888;
+      --color-primary: {{ settings.color_primary | default: '#111111' }};
+      --color-secondary: {{ settings.color_secondary | default: '#FFFFFF' }};
+      --color-accent: {{ settings.color_accent | default: '#B89047' }};
+      --color-background: {{ settings.color_background | default: '#FAFAF9' }};
+      --color-success: {{ settings.color_success | default: '#2E7D32' }};
+      --color-error: {{ settings.color_error | default: '#C62828' }};
+      --color-surface: #FFFFFF;
+      --color-surface-raised: #FFFFFF;
+      --color-border: rgba(0,0,0,0.08);
+      --color-text-muted: #767674;
       --font-heading: 'Poppins', sans-serif;
       --font-body: 'Inter', sans-serif;
       --card-radius: {{ settings.card_border_radius | default: 0 }}px;
       --button-radius: {{ settings.button_border_radius | default: 0 }}px;
-      --page-width: {{ settings.page_width | default: 1440 }}px;
-      --spacing-sections: {{ settings.spacing_sections | default: 0 }}px;
-      --grid-gutter: {{ settings.grid_gutter | default: 16 }}px;
+      --page-width: {{ settings.page_width | default: 1400 }}px;
+      --spacing-sections: {{ settings.spacing_sections | default: 64 }}px;
+      --grid-gutter: {{ settings.grid_gutter | default: 24 }}px;
     }
   </style>
 
