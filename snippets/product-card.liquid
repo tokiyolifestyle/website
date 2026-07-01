@@ -1,11 +1,10 @@
 {%- comment -%}
-  Product card snippet
+  Product card snippet — Dark Premium
   Accepts: product, section (optional), lazy (optional, default: true), class_modifier
 {%- endcomment -%}
 
 {%- assign lazy_load = lazy | default: true -%}
 {%- assign card_class = 'product-card' -%}
-{%- if settings.card_shadow -%}{%- assign card_class = card_class | append: ' product-card--shadow' -%}{%- endif -%}
 {%- if class_modifier != blank -%}{%- assign card_class = card_class | append: ' ' | append: class_modifier -%}{%- endif -%}
 
 {%- assign current_variant = product.selected_or_first_available_variant -%}
@@ -35,14 +34,21 @@
           }}
         {%- endif -%}
       {%- else -%}
-        {{ 'product-apparel-1' | placeholder_svg_tag: 'product-card__image product-card__image--primary' }}
+        <div class="coming-soon-placeholder">
+          <div class="coming-soon-placeholder__inner">
+            <span class="coming-soon-placeholder__icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </span>
+            <span class="coming-soon-placeholder__text">Coming Soon</span>
+          </div>
+        </div>
       {%- endif -%}
 
       <div class="product-card__badges">
         {%- if product.available == false -%}
           <span class="badge badge--soldout">Sold Out</span>
         {%- elsif is_on_sale -%}
-          <span class="badge badge--sale">{{ 'sections.product.save_amount' | t: amount: save_percent | append: '%' }}</span>
+          <span class="badge badge--sale">-{{ save_percent }}%</span>
         {%- elsif product.tags contains 'new' or product.tags contains 'New Arrival' -%}
           <span class="badge badge--new">New</span>
         {%- endif -%}
@@ -52,9 +58,9 @@
         <button
           class="product-card__wishlist-btn"
           data-wishlist-toggle="{{ product.id }}"
-          aria-label="{{ 'sections.product.wishlist_add' | t }}"
+          aria-label="Add to Wishlist"
           type="button">
-          {% render 'icon-heart' %}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </button>
       {%- endif -%}
 
@@ -65,14 +71,14 @@
               class="button button--solid button--full button--small"
               data-quick-add="{{ product.variants.first.id }}"
               type="button">
-              {{ 'sections.product.quick_add' | t }}
+              Add to Cart
             </button>
           {%- else -%}
             <button
               class="button button--solid button--full button--small"
               data-quick-view="{{ product.handle }}"
               type="button">
-              {{ 'sections.product.select_options' | t }}
+              Select Options
             </button>
           {%- endif -%}
         </div>
@@ -94,6 +100,16 @@
       {%- else -%}
         <span>{{ current_variant.price | money }}</span>
       {%- endif -%}
+    </div>
+
+    {%- comment -%} Star Ratings {%- endcomment -%}
+    <div class="product-card__rating">
+      <div class="product-card__stars">
+        {%- for i in (1..5) -%}
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.39 6.56H19l-5.3 4.04 1.97 6.56L10 14.24l-5.67 3.92 1.97-6.56L1 7.56h6.61z"/></svg>
+        {%- endfor -%}
+      </div>
+      <span class="product-card__rating-count">4.8</span>
     </div>
 
     {%- assign color_option = product.options_by_name['Color'] -%}

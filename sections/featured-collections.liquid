@@ -1,66 +1,90 @@
+{%- comment -%} Featured Collections — Premium Dark Cards {%- endcomment -%}
+
 <section class="featured-collections section-featured-collections">
   <div class="page-width">
-    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
-      <div class="section-header-block animate-on-scroll fade-up">
-        {%- if section.settings.eyebrow != blank -%}<p class="text-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-        {%- if section.settings.title != blank -%}<h2>{{ section.settings.title }}</h2>{%- endif -%}
-        {%- if section.settings.subtitle != blank -%}<p>{{ section.settings.subtitle }}</p>{%- endif -%}
-      </div>
-    {%- endif -%}
+    <div class="section-header-block animate-on-scroll fade-up">
+      <p class="text-eyebrow">{{ section.settings.eyebrow | default: 'Explore' }}</p>
+      <h2>{{ section.settings.title | default: 'Shop by Category' }}</h2>
+      <p>{{ section.settings.subtitle | default: 'Curated collections crafted for the modern lifestyle.' }}</p>
+    </div>
 
-    <div class="featured-collections__grid stagger-children" style="grid-template-columns:repeat({{ section.settings.columns }},1fr);">
+    <div class="fc-grid stagger-children">
       {%- for block in section.blocks -%}
-        {%- assign coll = collections[block.settings.collection] -%}
-        <a href="{{ block.settings.link | default: coll.url | default: '/collections/all' }}" class="collection-card hover-lift" {{ block.shopify_attributes }}>
-          <div class="collection-card__media hover-zoom">
+        <a href="{{ block.settings.link | default: '#' }}" class="fc-card" {{ block.shopify_attributes }}>
+          <div class="fc-card__media">
             {%- if block.settings.image != blank -%}
               {{ block.settings.image | image_url: width: 800 | image_tag:
                 loading: 'lazy',
                 widths: '400, 600, 800',
-                sizes: '(max-width:749px) 50vw, 25vw',
+                sizes: '(max-width:749px) 50vw, 20vw',
+                class: 'fc-card__img',
                 alt: block.settings.title | escape
               }}
-            {%- elsif coll != blank and coll.featured_image != blank -%}
-              {{ coll.featured_image | image_url: width: 800 | image_tag:
-                loading: 'lazy',
-                widths: '400, 600, 800',
-                sizes: '(max-width:749px) 50vw, 25vw',
-                alt: coll.title | escape
-              }}
             {%- else -%}
-              {{ 'collection-apparel-1' | placeholder_svg_tag: 'collection-card__placeholder' }}
+              <div class="fc-card__placeholder">
+                <span class="fc-card__placeholder-icon">{{ block.settings.title | slice: 0 }}</span>
+              </div>
             {%- endif -%}
-            <div class="collection-card__overlay"></div>
+            <div class="fc-card__overlay"></div>
           </div>
-          <div class="collection-card__info">
-            <h3>{{ block.settings.title | default: coll.title | default: 'Collection' }}</h3>
-            {%- if block.settings.subtitle != blank -%}<p>{{ block.settings.subtitle }}</p>{%- endif -%}
-            <span class="collection-card__cta">Shop Now {% render 'icon-chevron-right' %}</span>
+          <div class="fc-card__content">
+            <h3>{{ block.settings.title }}</h3>
+            <span class="fc-card__cta">Shop Now →</span>
           </div>
         </a>
       {%- endfor -%}
     </div>
-
-    {%- if section.settings.cta_label != blank -%}
-      <div class="section-cta animate-on-scroll fade-up">
-        <a href="{{ section.settings.cta_link | default: '/collections' }}" class="button button--outline">{{ section.settings.cta_label }}</a>
-      </div>
-    {%- endif -%}
   </div>
 </section>
 
 <style>
-  .featured-collections__grid { display:grid; gap:var(--grid-gutter,20px); }
-  @media(max-width:749px) { .featured-collections__grid { grid-template-columns:repeat(2,1fr) !important; } }
-  .collection-card { display:block; border-radius:var(--card-radius,12px); overflow:hidden; position:relative; }
-  .collection-card__media { aspect-ratio:3/4; background:#eee; position:relative; }
-  .collection-card__media img,.collection-card__placeholder { width:100%; height:100%; object-fit:cover; }
-  .collection-card__overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(17,17,17,.55) 0%, transparent 55%); }
-  .collection-card__info { position:absolute; bottom:0; left:0; right:0; padding:1.25rem; color:#fff; }
-  .collection-card__info h3 { font-size:1.1rem; margin-bottom:.2rem; }
-  .collection-card__info p { font-size:.8125rem; opacity:.85; margin-bottom:.5rem; }
-  .collection-card__cta { display:inline-flex; align-items:center; gap:4px; font-size:.8125rem; font-weight:600; text-decoration:underline; text-underline-offset:3px; }
-  .section-cta { text-align:center; margin-top:2.5rem; }
+  .featured-collections { padding: 5rem 0; background: var(--color-background, #0A0A0A); }
+  .fc-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+  }
+  @media(max-width:989px){ .fc-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media(max-width:600px){ .fc-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .fc-card {
+    position: relative; display: block; overflow: hidden;
+    aspect-ratio: 3/4;
+    background: var(--color-surface, #141414);
+  }
+  .fc-card__media { position:absolute; inset:0; }
+  .fc-card__img { width:100%; height:100%; object-fit:cover; transition:transform .7s cubic-bezier(.25,.46,.45,.94); }
+  .fc-card__placeholder {
+    width:100%; height:100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .fc-card__placeholder-icon {
+    font-size:3rem; font-weight:800; color: var(--color-accent, #C9A86A); opacity:0.3;
+    font-family: var(--font-heading);
+  }
+  .fc-card__overlay {
+    position:absolute; inset:0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+    transition: background .3s ease;
+  }
+  .fc-card:hover .fc-card__overlay { background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.1) 100%); }
+  .fc-card:hover .fc-card__img { transform:scale(1.08); }
+  .fc-card__content {
+    position:absolute; bottom:0; left:0; right:0; padding:1.5rem;
+    z-index:2; color:#fff;
+  }
+  .fc-card__content h3 {
+    font-size:1rem; font-weight:700; margin:0 0 0.5rem;
+    letter-spacing:0.04em; text-transform:uppercase; color:#fff;
+  }
+  .fc-card__cta {
+    font-size:0.6875rem; text-transform:uppercase; letter-spacing:0.1em;
+    color: var(--color-accent, #C9A86A); font-weight:600;
+    opacity:0; transform:translateY(8px);
+    transition: opacity .3s ease, transform .3s ease;
+  }
+  .fc-card:hover .fc-card__cta { opacity:1; transform:translateY(0); }
 </style>
 
 {% schema %}
@@ -69,34 +93,30 @@
   "tag": "section",
   "class": "section-featured-collections",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop By Category" },
-    { "type": "text", "id": "title", "label": "Title", "default": "Explore Collections" },
-    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Curated edits for every occasion and style." },
-    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Columns (desktop)", "default": 4 },
-    { "type": "text", "id": "cta_label", "label": "View all label", "default": "View All Collections" },
-    { "type": "url",  "id": "cta_link",  "label": "View all link" }
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Explore" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Shop by Category" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Curated collections crafted for the modern lifestyle." }
   ],
   "blocks": [
     {
       "type": "collection",
       "name": "Collection",
       "settings": [
-        { "type": "collection", "id": "collection", "label": "Collection" },
-        { "type": "image_picker", "id": "image", "label": "Custom image" },
-        { "type": "text", "id": "title", "label": "Label" },
-        { "type": "text", "id": "subtitle", "label": "Subtitle" },
-        { "type": "url",  "id": "link",  "label": "Link override" }
+        { "type": "text", "id": "title", "label": "Title", "default": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "link", "label": "Link" }
       ]
     }
   ],
-  "default": {
+  "presets": [{
+    "name": "Featured Collections",
     "blocks": [
       { "type": "collection", "settings": { "title": "Men's Essentials" } },
       { "type": "collection", "settings": { "title": "Women's Edit" } },
-      { "type": "collection", "settings": { "title": "Oversized Tees" } },
-      { "type": "collection", "settings": { "title": "Hoodies & Sweatshirts" } }
+      { "type": "collection", "settings": { "title": "Accessories" } },
+      { "type": "collection", "settings": { "title": "Footwear" } },
+      { "type": "collection", "settings": { "title": "Winterwear" } }
     ]
-  },
-  "presets": [{ "name": "Featured Collections" }]
+  }]
 }
 {% endschema %}

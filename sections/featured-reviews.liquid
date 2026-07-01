@@ -1,46 +1,33 @@
-<section class="featured-reviews section-featured-reviews">
+{%- comment -%} Featured Reviews — Dark Glass Cards {%- endcomment -%}
+
+<section class="reviews section-reviews" style="background:{{ section.settings.background | default: '#0A0A0A' }};">
   <div class="page-width">
     <div class="section-header-block animate-on-scroll fade-up">
-      {%- if section.settings.eyebrow != blank -%}<p class="text-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-      <h2>{{ section.settings.title }}</h2>
-      {%- if section.settings.aggregate_rating != blank -%}
-        <div class="reviews-aggregate">
-          <div class="reviews-stars" aria-label="{{ section.settings.aggregate_rating }} out of 5 stars">
-            {%- assign full_stars = section.settings.aggregate_rating | floor -%}
-            {%- for i in (1..5) -%}
-              <span class="star {% if i <= full_stars %}star--filled{% endif %}">{% assign filled = false %}{% if i <= full_stars %}{% assign filled = true %}{% endif %}{% render 'icon-star', filled: filled %}</span>
-            {%- endfor -%}
-          </div>
-          <strong>{{ section.settings.aggregate_rating }}</strong>
-          <span class="reviews-aggregate__count">({{ section.settings.total_reviews }} reviews)</span>
-        </div>
-      {%- endif -%}
+      <p class="text-eyebrow">{{ section.settings.eyebrow | default: 'Reviews' }}</p>
+      <h2>{{ section.settings.title | default: 'What Our Customers Say' }}</h2>
     </div>
 
-    <div class="reviews-grid stagger-children">
+    <div class="reviews__grid stagger-children">
       {%- for block in section.blocks -%}
         <div class="review-card" {{ block.shopify_attributes }}>
-          <div class="review-card__stars" aria-label="{{ block.settings.rating }} out of 5 stars">
-            {%- assign r = block.settings.rating | plus: 0 -%}
+          <div class="review-card__stars">
+            {%- assign rating = block.settings.rating | default: 5 -%}
             {%- for i in (1..5) -%}
-              {%- assign filled = false -%}
-              {%- if i <= r -%}{%- assign filled = true -%}{%- endif -%}
-              {% render 'icon-star', filled: filled %}
+              {%- if i <= rating -%}
+                <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path d="M10 1l2.39 6.56H19l-5.3 4.04 1.97 6.56L10 14.24l-5.67 3.92 1.97-6.56L1 7.56h6.61z"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1" width="14" height="14"><path d="M10 1l2.39 6.56H19l-5.3 4.04 1.97 6.56L10 14.24l-5.67 3.92 1.97-6.56L1 7.56h6.61z"/></svg>
+              {%- endif -%}
             {%- endfor -%}
           </div>
-          {%- if block.settings.review_text != blank -%}
-            <p class="review-card__text">{{ block.settings.review_text }}</p>
-          {%- endif -%}
+          <p class="review-card__text">"{{ block.settings.text }}"</p>
           <div class="review-card__author">
-            {%- if block.settings.author_image != blank -%}
-              {{ block.settings.author_image | image_url: width: 80 | image_tag: loading: 'lazy', class: 'review-card__avatar', alt: block.settings.author_name | escape }}
-            {%- else -%}
-              <div class="review-card__avatar review-card__avatar--initials" aria-hidden="true">{{ block.settings.author_name | slice: 0, 1 | upcase }}</div>
-            {%- endif -%}
+            <div class="review-card__avatar">{{ block.settings.author | slice: 0 }}</div>
             <div>
-              <strong class="review-card__name">{{ block.settings.author_name }}</strong>
-              {%- if block.settings.author_location != blank -%}<span class="review-card__location">{{ block.settings.author_location }}</span>{%- endif -%}
-              {%- if block.settings.verified -%}<span class="review-card__verified">✓ Verified purchase</span>{%- endif -%}
+              <strong>{{ block.settings.author }}</strong>
+              {%- if block.settings.verified -%}
+                <span class="review-card__verified">✓ Verified Buyer</span>
+              {%- endif -%}
             </div>
           </div>
         </div>
@@ -50,57 +37,64 @@
 </section>
 
 <style>
-  .featured-reviews { background:var(--color-background,#f9f9f9); }
-  .reviews-aggregate { display:flex; align-items:center; gap:.75rem; justify-content:center; margin-top:.75rem; }
-  .reviews-stars, .review-card__stars { display:flex; gap:2px; color:var(--color-accent,#C9A86A); }
-  .star--filled svg { fill:currentColor; }
-  .reviews-aggregate__count { color:#888; font-size:.875rem; }
-  .reviews-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
-  @media(max-width:989px){ .reviews-grid { grid-template-columns:repeat(2,1fr); } }
-  @media(max-width:600px){ .reviews-grid { grid-template-columns:1fr; } }
-  .review-card { background:#fff; border-radius:var(--card-radius,12px); padding:1.75rem; box-shadow:0 4px 18px rgba(17,17,17,.05); }
-  .review-card__stars { margin-bottom:1rem; }
-  .review-card__text { color:#444; font-size:.9375rem; line-height:1.7; margin-bottom:1.25rem; }
-  .review-card__author { display:flex; gap:.75rem; align-items:center; }
-  .review-card__avatar { width:42px; height:42px; border-radius:50%; object-fit:cover; }
-  .review-card__avatar--initials { background:var(--color-accent,#C9A86A); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1rem; }
-  .review-card__name { display:block; font-size:.9rem; }
-  .review-card__location,.review-card__verified { display:block; font-size:.75rem; color:#888; }
-  .review-card__verified { color:var(--color-success,#3BB273); }
+  .reviews { padding:5rem 0; }
+  .reviews__grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+  @media(max-width:749px){ .reviews__grid { grid-template-columns:1fr; } }
+
+  .review-card {
+    background: var(--color-surface, #141414);
+    border: 1px solid var(--color-border, rgba(255,255,255,0.06));
+    padding: 2rem;
+    transition: border-color .3s ease;
+  }
+  .review-card:hover { border-color: var(--color-accent, #C9A86A); }
+  .review-card__stars { display:flex; gap:2px; color:var(--color-accent,#C9A86A); margin-bottom:1.25rem; }
+  .review-card__text {
+    font-size:0.9375rem; line-height:1.8;
+    color:rgba(255,255,255,0.6); margin-bottom:1.5rem;
+    font-style:italic;
+  }
+  .review-card__author { display:flex; align-items:center; gap:0.75rem; }
+  .review-card__avatar {
+    width:36px; height:36px;
+    background: var(--color-accent, #C9A86A); color:#0A0A0A;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:0.875rem;
+    text-transform:uppercase;
+  }
+  .review-card__author strong { color:#fff; font-size:0.8125rem; display:block; }
+  .review-card__verified { font-size:0.6875rem; color:var(--color-accent,#C9A86A); display:block; margin-top:2px; }
 </style>
 
 {% schema %}
 {
   "name": "Featured Reviews",
   "tag": "section",
-  "class": "section-featured-reviews",
+  "class": "section-reviews",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Customer Love" },
-    { "type": "text", "id": "title", "label": "Title", "default": "What Our Customers Say" },
-    { "type": "text", "id": "aggregate_rating", "label": "Aggregate rating (e.g. 4.8)", "default": "4.8" },
-    { "type": "text", "id": "total_reviews", "label": "Total reviews count", "default": "2,400+" }
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Reviews" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "What Our Customers Say" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#0A0A0A" }
   ],
   "blocks": [
     {
       "type": "review",
       "name": "Review",
       "settings": [
+        { "type": "text", "id": "author", "label": "Author name", "default": "Customer" },
+        { "type": "textarea", "id": "text", "label": "Review text", "default": "Amazing quality! The fabric feels premium and the fit is perfect." },
         { "type": "range", "id": "rating", "min": 1, "max": 5, "step": 1, "label": "Rating", "default": 5 },
-        { "type": "textarea", "id": "review_text", "label": "Review text", "default": "Absolutely love the quality. The fabric is so soft and the fit is perfect. Will definitely be ordering more!" },
-        { "type": "image_picker", "id": "author_image", "label": "Author photo" },
-        { "type": "text", "id": "author_name", "label": "Author name", "default": "Priya S." },
-        { "type": "text", "id": "author_location", "label": "Author location", "default": "Mumbai, India" },
-        { "type": "checkbox", "id": "verified", "label": "Verified purchase", "default": true }
+        { "type": "checkbox", "id": "verified", "label": "Verified buyer", "default": true }
       ]
     }
   ],
-  "default": {
+  "presets": [{
+    "name": "Featured Reviews",
     "blocks": [
-      { "type": "review", "settings": { "rating": 5, "review_text": "The quality exceeded my expectations. The fabric is incredibly soft and the stitching is flawless.", "author_name": "Priya S.", "author_location": "Mumbai", "verified": true } },
-      { "type": "review", "settings": { "rating": 5, "review_text": "Great fits, quick delivery, love the minimalist designs. My go-to brand for everyday wear.", "author_name": "Arjun M.", "author_location": "Bengaluru", "verified": true } },
-      { "type": "review", "settings": { "rating": 5, "review_text": "Finally a brand that nails both quality and style. The oversized tee is my new favourite piece.", "author_name": "Sneha K.", "author_location": "Delhi", "verified": true } }
+      { "type": "review", "settings": { "author": "Arjun M.", "text": "The oversized tee is hands down the best I've owned. Premium cotton, perfect drape, and the packaging was elite. Tokiyo gets it!", "rating": 5, "verified": true } },
+      { "type": "review", "settings": { "author": "Priya S.", "text": "Obsessed with the cargo pants! The quality is unreal for the price. Already ordered two more pieces. Definitely my new go-to brand.", "rating": 5, "verified": true } },
+      { "type": "review", "settings": { "author": "Rahul K.", "text": "Fast shipping, beautiful packaging, and the hoodie fits like a dream. This brand is going places. Highly recommend!", "rating": 5, "verified": true } }
     ]
-  },
-  "presets": [{ "name": "Featured Reviews" }]
+  }]
 }
 {% endschema %}

@@ -1,65 +1,64 @@
+{%- comment -%} Trending Products — Dark Premium with Coming Soon {%- endcomment -%}
+
 <section class="trending-products section-trending-products">
   <div class="page-width">
     <div class="section-header-block animate-on-scroll fade-up">
-      {%- if section.settings.eyebrow != blank -%}<p class="text-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-      <h2>{{ section.settings.title }}</h2>
-      {%- if section.settings.subtitle != blank -%}<p>{{ section.settings.subtitle }}</p>{%- endif -%}
+      <p class="text-eyebrow">{{ section.settings.eyebrow | default: 'Trending Now' }}</p>
+      <h2>{{ section.settings.title | default: 'Bestsellers' }}</h2>
     </div>
 
-    {%- if section.settings.tabs_enabled -%}
-      <div class="product-tabs" data-tabs>
-        <div class="product-tabs__nav" role="tablist">
-          {%- for block in section.blocks -%}
-            <button class="product-tabs__tab{% if forloop.first %} is-active{% endif %}"
-              role="tab"
-              aria-selected="{{ forloop.first }}"
-              data-tab="tab-{{ block.id }}"
-              {{ block.shopify_attributes }}>
-              {{ block.settings.tab_label }}
-            </button>
-          {%- endfor -%}
-        </div>
-        {%- for block in section.blocks -%}
-          <div class="product-tabs__panel" data-tab-panel="tab-{{ block.id }}" {% unless forloop.first %}hidden{% endunless %}>
-            {%- assign coll = collections[block.settings.collection] -%}
-            <div class="product-grid product-grid--{{ section.settings.columns }} stagger-children">
-              {%- if coll != blank -%}
-                {%- for product in coll.products limit: section.settings.products_count -%}
-                  {% render 'product-card', product: product, lazy: true %}
-                {%- endfor -%}
-              {%- else -%}
-                {%- for i in (1..section.settings.products_count) -%}
-                  {%- assign placeholder_name = 'product-' | append: i -%}
-                  <div class="product-card product-card--placeholder">
-                    <div class="product-card__media">{{ placeholder_name | placeholder_svg_tag }}</div>
-                    <div class="product-card__info"><p class="product-card__title">Sample Product {{ i }}</p><div class="product-card__price"><span>₹999</span></div></div>
-                  </div>
-                {%- endfor -%}
-              {%- endif -%}
+    {%- if section.settings.collection != blank and section.settings.collection.products.size > 0 -%}
+      <div class="product-grid product-grid--{{ section.settings.columns }} stagger-children">
+        {%- for product in section.settings.collection.products limit: section.settings.limit -%}
+          {% render 'product-card', product: product, lazy: true %}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      {%- comment -%} Coming Soon Products Placeholder {%- endcomment -%}
+      <div class="product-grid product-grid--5 stagger-children">
+        {%- assign placeholder_products = "Oversized Tee,Cargo Pants,Puffer Jacket,Sneakers,Crossbody Bag,Denim Jacket,Wide Leg Pants,Beanie Cap,Hoodie,Chain Necklace" | split: "," -%}
+        {%- assign placeholder_prices = "1499,2499,3999,2999,1999,3499,2299,999,2799,1299" | split: "," -%}
+        {%- assign placeholder_compare = "2499,3999,5999,4499,3499,4999,3499,1499,3999,1999" | split: "," -%}
+        {%- assign placeholder_ratings = "4.8,4.6,4.9,4.7,4.5,4.8,4.4,4.3,4.9,4.6" | split: "," -%}
+        {%- assign placeholder_reviews = "124,89,56,203,67,145,78,34,187,92" | split: "," -%}
+        {%- assign placeholder_cats = "Men's,Men's,Winterwear,Footwear,Accessories,Men's,Women's,Accessories,Winterwear,Accessories" | split: "," -%}
+
+        {%- for item in placeholder_products limit: section.settings.limit -%}
+          <div class="product-card">
+            <div class="product-card__media">
+              <div class="coming-soon-placeholder">
+                <div class="coming-soon-placeholder__inner">
+                  <span class="coming-soon-placeholder__icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </span>
+                  <span class="coming-soon-placeholder__text">Coming Soon</span>
+                </div>
+              </div>
+              <span class="badge badge--new">New</span>
+            </div>
+            <div class="product-card__info">
+              <p class="product-card__vendor">{{ placeholder_cats[forloop.index0] }}</p>
+              <h3 class="product-card__title">{{ item }}</h3>
+              <div class="product-card__price">
+                <span class="price--sale">₹{{ placeholder_prices[forloop.index0] }}</span>
+                <span class="price--compare">₹{{ placeholder_compare[forloop.index0] }}</span>
+              </div>
+              <div class="product-card__rating">
+                <div class="product-card__stars">
+                  {%- for i in (1..5) -%}
+                    <svg viewBox="0 0 20 20"><path d="M10 1l2.39 6.56H19l-5.3 4.04 1.97 6.56L10 14.24l-5.67 3.92 1.97-6.56L1 7.56h6.61z"/></svg>
+                  {%- endfor -%}
+                </div>
+                <span class="product-card__rating-count">{{ placeholder_ratings[forloop.index0] }} ({{ placeholder_reviews[forloop.index0] }})</span>
+              </div>
             </div>
           </div>
         {%- endfor -%}
       </div>
-    {%- else -%}
-      {%- assign main_coll = collections[section.settings.collection] -%}
-      <div class="product-grid product-grid--{{ section.settings.columns }} stagger-children">
-        {%- if main_coll != blank -%}
-          {%- for product in main_coll.products limit: section.settings.products_count -%}
-            {% render 'product-card', product: product, lazy: true %}
-          {%- endfor -%}
-        {%- else -%}
-          {%- for i in (1..section.settings.products_count) -%}
-            <div class="product-card product-card--shadow">
-              <div class="product-card__media">{{ 'product-' | append: i | placeholder_svg_tag }}</div>
-              <div class="product-card__info"><h3 class="product-card__title">Sample Product {{ i }}</h3><div class="product-card__price"><span>₹{{ 799 | plus: i | times: 100 }}</span></div></div>
-            </div>
-          {%- endfor -%}
-        {%- endif -%}
-      </div>
     {%- endif -%}
 
     {%- if section.settings.cta_label != blank -%}
-      <div class="section-cta animate-on-scroll fade-up">
+      <div style="text-align:center;margin-top:3rem;" class="animate-on-scroll fade-up">
         <a href="{{ section.settings.cta_link | default: '/collections/all' }}" class="button button--outline">{{ section.settings.cta_label }}</a>
       </div>
     {%- endif -%}
@@ -67,10 +66,36 @@
 </section>
 
 <style>
-  .product-tabs__nav { display:flex; gap:.5rem; margin-bottom:2rem; flex-wrap:wrap; border-bottom:2px solid #eee; }
-  .product-tabs__tab { padding:.65rem 1.25rem; font-weight:500; font-size:.9rem; border-bottom:2px solid transparent; margin-bottom:-2px; transition:color .2s,border-color .2s; }
-  .product-tabs__tab[aria-selected="true"],.product-tabs__tab.is-active { color:var(--color-primary,#111); border-bottom-color:var(--color-primary,#111); }
-  .product-tabs__tab:hover { color:var(--color-accent,#C9A86A); }
+  .trending-products { padding: 5rem 0; background: var(--color-background, #0A0A0A); }
+
+  .coming-soon-placeholder {
+    width:100%; height:100%; aspect-ratio:3/4;
+    background: linear-gradient(145deg, #111 0%, #1a1a1a 50%, #111 100%);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .coming-soon-placeholder::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(circle at 50% 50%, rgba(201,168,106,0.06) 0%, transparent 70%);
+  }
+  .coming-soon-placeholder__inner {
+    text-align:center; z-index:1;
+  }
+  .coming-soon-placeholder__icon {
+    display:block; margin-bottom:0.75rem;
+    color: var(--color-accent, #C9A86A); opacity:0.4;
+  }
+  .coming-soon-placeholder__text {
+    font-size:0.6875rem; text-transform:uppercase; letter-spacing:0.2em;
+    color: rgba(255,255,255,0.25); font-weight:600;
+  }
+
+  .coming-soon-placeholder .badge--new {
+    position:absolute; top:12px; left:12px;
+  }
+  .product-card__media .badge--new {
+    position:absolute; top:12px; left:12px; z-index:2;
+  }
 </style>
 
 {% schema %}
@@ -79,33 +104,14 @@
   "tag": "section",
   "class": "section-trending-products",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What's Hot" },
-    { "type": "text", "id": "title", "label": "Title", "default": "Trending Now" },
-    { "type": "text", "id": "subtitle", "label": "Subtitle" },
-    { "type": "checkbox", "id": "tabs_enabled", "label": "Enable category tabs", "default": true },
-    { "type": "collection", "id": "collection", "label": "Collection (if no tabs)" },
-    { "type": "range", "id": "products_count", "min": 2, "max": 12, "step": 1, "label": "Products to show", "default": 8 },
-    { "type": "range", "id": "columns", "min": 2, "max": 4, "step": 1, "label": "Columns", "default": 4 },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop All" },
-    { "type": "url",  "id": "cta_link",  "label": "CTA link" }
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Trending Now" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Bestsellers" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "limit", "min": 4, "max": 12, "step": 1, "label": "Products to show", "default": 10 },
+    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Columns", "default": 5 },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "View All Products" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
   ],
-  "blocks": [
-    {
-      "type": "tab",
-      "name": "Tab",
-      "settings": [
-        { "type": "text", "id": "tab_label", "label": "Tab label", "default": "New Arrivals" },
-        { "type": "collection", "id": "collection", "label": "Collection" }
-      ]
-    }
-  ],
-  "default": {
-    "blocks": [
-      { "type": "tab", "settings": { "tab_label": "New Arrivals" } },
-      { "type": "tab", "settings": { "tab_label": "Best Sellers" } },
-      { "type": "tab", "settings": { "tab_label": "On Sale" } }
-    ]
-  },
   "presets": [{ "name": "Trending Products" }]
 }
 {% endschema %}

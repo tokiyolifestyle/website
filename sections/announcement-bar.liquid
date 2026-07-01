@@ -1,20 +1,32 @@
-{%- if section.blocks.size > 0 -%}
-<div class="announcement-bar" data-announcement-bar {% if section.settings.auto_rotate and section.blocks.size > 1 %}data-auto-rotate="{{ section.settings.rotate_speed | times: 1000 }}"{% endif %}>
+{%- comment -%} Announcement Bar — Auto-scroll Marquee {%- endcomment -%}
+
+<div class="announcement-bar" data-announcement-bar>
   <div class="announcement-bar__track">
     {%- for block in section.blocks -%}
-      <div class="announcement-bar__item{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
-        {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{%- endif -%}
-        <p>{{ block.settings.text }}</p>
-        {%- if block.settings.link != blank -%}</a>{%- endif -%}
-      </div>
+      {%- for i in (1..2) -%}
+        <div class="announcement-bar__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}">★&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;★</a>
+          {%- else -%}
+            <p>★&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;★</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    {%- endfor -%}
+    {%- comment -%} Duplicate for seamless loop {%- endcomment -%}
+    {%- for block in section.blocks -%}
+      {%- for i in (1..2) -%}
+        <div class="announcement-bar__item" aria-hidden="true">
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}">★&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;★</a>
+          {%- else -%}
+            <p>★&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;★</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
     {%- endfor -%}
   </div>
-  {%- if section.blocks.size > 1 -%}
-    <button class="announcement-bar__prev" aria-label="{{ 'accessibility.previous_slide' | t }}">{% render 'icon-chevron-left' %}</button>
-    <button class="announcement-bar__next" aria-label="{{ 'accessibility.next_slide' | t }}">{% render 'icon-chevron-right' %}</button>
-  {%- endif -%}
 </div>
-{%- endif -%}
 
 {% schema %}
 {
@@ -23,20 +35,14 @@
   "class": "section-announcement",
   "settings": [
     {
-      "type": "checkbox",
-      "id": "auto_rotate",
-      "label": "Auto-rotate messages",
-      "default": true
-    },
-    {
       "type": "range",
-      "id": "rotate_speed",
-      "min": 3,
-      "max": 10,
-      "step": 1,
+      "id": "speed",
+      "min": 10,
+      "max": 60,
+      "step": 5,
       "unit": "s",
-      "label": "Rotate speed",
-      "default": 5
+      "label": "Scroll speed",
+      "default": 30
     }
   ],
   "blocks": [
@@ -44,29 +50,10 @@
       "type": "announcement",
       "name": "Announcement",
       "settings": [
-        {
-          "type": "text",
-          "id": "text",
-          "label": "Text",
-          "default": "Free shipping on all orders above ₹2999"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Link"
-        }
+        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping on all orders above ₹2999" },
+        { "type": "url", "id": "link", "label": "Link (optional)" }
       ]
     }
-  ],
-  "default": {
-    "blocks": [
-      { "type": "announcement", "settings": { "text": "Free shipping on all orders above ₹2999" } },
-      { "type": "announcement", "settings": { "text": "New arrivals dropping every Friday" } },
-      { "type": "announcement", "settings": { "text": "Use code TOKIYO10 for 10% off your first order" } }
-    ]
-  },
-  "presets": [
-    { "name": "Announcement Bar" }
   ]
 }
 {% endschema %}

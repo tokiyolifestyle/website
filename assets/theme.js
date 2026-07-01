@@ -1,5 +1,5 @@
 /* ==========================================================================
-   TOKIYO LIFESTYLE — theme.js
+   TOKIYO LIFESTYLE — theme.js — Dark Premium Edition
    ========================================================================== */
 'use strict';
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
@@ -47,26 +47,7 @@ function initMobileNav() {
   });
 }
 
-function initAnnouncementBar() {
-  const bar = $('[data-announcement-bar]');
-  if (!bar) return;
-  const items = $$('.announcement-bar__item', bar);
-  const prev = $('.announcement-bar__prev', bar);
-  const next = $('.announcement-bar__next', bar);
-  if (items.length <= 1) return;
-  let current = 0;
-  let timer = null;
-  const speed = parseInt(bar.dataset.autoRotate) || 5000;
-  const goTo = idx => {
-    items[current].classList.remove('is-active');
-    current = (idx + items.length) % items.length;
-    items[current].classList.add('is-active');
-  };
-  const start = () => { timer = setInterval(() => goTo(current + 1), speed); };
-  if (bar.hasAttribute('data-auto-rotate')) start();
-  prev && prev.addEventListener('click', () => { clearInterval(timer); goTo(current - 1); start(); });
-  next && next.addEventListener('click', () => { clearInterval(timer); goTo(current + 1); start(); });
-}
+/* Announcement bar is now pure CSS marquee — no JS needed */
 
 function initBackToTop() {
   const btn = $('#BackToTop');
@@ -79,7 +60,7 @@ function initScrollAnimations() {
   if (!window.IntersectionObserver) return;
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
   $$('.animate-on-scroll, .stagger-children').forEach(el => obs.observe(el));
 }
 
@@ -160,10 +141,19 @@ function initSliders() {
   });
 }
 
+/* Smooth page load — fade in body */
+function initPageLoad() {
+  document.body.style.opacity = '0';
+  document.body.style.transition = 'opacity 0.4s ease';
+  requestAnimationFrame(() => {
+    document.body.style.opacity = '1';
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  initPageLoad();
   initHeader();
   initMobileNav();
-  initAnnouncementBar();
   initBackToTop();
   initScrollAnimations();
   initParallax();

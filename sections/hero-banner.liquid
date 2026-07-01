@@ -1,5 +1,5 @@
-<section class="hero-banner section-hero-banner" style="--hero-height:{{ section.settings.hero_height }}vh;">
-  <div class="hero-banner__media parallax-container">
+<section class="hero-banner" style="--hero-height:{{ section.settings.hero_height }}vh;">
+  <div class="hero-banner__media">
     {%- if section.settings.video_url != blank -%}
       <video class="hero-banner__video" autoplay muted loop playsinline aria-hidden="true">
         <source src="{{ section.settings.video_url }}" type="video/mp4">
@@ -14,49 +14,79 @@
         alt: section.settings.image.alt | escape
       }}
     {%- else -%}
-      {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-banner__img hero-banner__placeholder' }}
+      <div class="hero-banner__img hero-banner__placeholder">
+        <div class="hero-placeholder-pattern"></div>
+      </div>
     {%- endif -%}
-    <div class="hero-banner__overlay" style="opacity:{{ section.settings.overlay_opacity | divided_by: 100.0 }};background:{{ section.settings.overlay_color }};"></div>
+    <div class="hero-banner__overlay"></div>
+    <div class="hero-banner__gradient"></div>
   </div>
 
   <div class="hero-banner__content page-width hero-banner__content--{{ section.settings.content_alignment }}">
     {%- if section.settings.eyebrow != blank -%}
-      <p class="text-eyebrow animate-on-scroll fade-up" style="color:{{ section.settings.eyebrow_color }};">{{ section.settings.eyebrow }}</p>
+      <p class="text-eyebrow animate-on-scroll fade-up">{{ section.settings.eyebrow }}</p>
     {%- endif -%}
     {%- if section.settings.heading != blank -%}
-      <h1 class="hero-banner__heading animate-on-scroll fade-up" style="color:{{ section.settings.text_color }};">{{ section.settings.heading }}</h1>
+      <h1 class="hero-banner__heading animate-on-scroll fade-up">{{ section.settings.heading }}</h1>
     {%- endif -%}
     {%- if section.settings.subheading != blank -%}
-      <p class="hero-banner__subheading animate-on-scroll fade-up" style="color:{{ section.settings.text_color }};">{{ section.settings.subheading }}</p>
+      <p class="hero-banner__subheading animate-on-scroll fade-up">{{ section.settings.subheading }}</p>
     {%- endif -%}
     <div class="hero-banner__ctas animate-on-scroll fade-up">
       {%- if section.settings.cta_label != blank -%}
         <a href="{{ section.settings.cta_link }}" class="button button--solid">{{ section.settings.cta_label }}</a>
       {%- endif -%}
       {%- if section.settings.cta2_label != blank -%}
-        <a href="{{ section.settings.cta2_link }}" class="button button--outline" style="color:{{ section.settings.text_color }};border-color:{{ section.settings.text_color }};">{{ section.settings.cta2_label }}</a>
+        <a href="{{ section.settings.cta2_link }}" class="button button--outline">{{ section.settings.cta2_label }}</a>
       {%- endif -%}
     </div>
+  </div>
+
+  <div class="hero-banner__scroll-indicator animate-on-scroll fade-up">
+    <span></span>
   </div>
 </section>
 
 <style>
-  .hero-banner { position:relative; height:var(--hero-height, 90vh); min-height:480px; display:flex; align-items:center; overflow:hidden; }
+  .hero-banner { position:relative; height:var(--hero-height, 100vh); min-height:600px; display:flex; align-items:flex-end; overflow:hidden; background:#0A0A0A; }
   .hero-banner__media { position:absolute; inset:0; z-index:0; }
   .hero-banner__img { width:100%; height:100%; object-fit:cover; }
-  .hero-banner__placeholder { width:100%; height:100%; }
   .hero-banner__video { width:100%; height:100%; object-fit:cover; }
-  .hero-banner__overlay { position:absolute; inset:0; }
-  .hero-banner__content { position:relative; z-index:2; width:100%; }
+  .hero-banner__placeholder { background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 50%, #0A0A0A 100%); display:flex; align-items:center; justify-content:center; }
+  .hero-placeholder-pattern { width:100%; height:100%; background-image: radial-gradient(circle at 20% 50%, rgba(201,168,106,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(201,168,106,0.05) 0%, transparent 50%); }
+  .hero-banner__overlay { position:absolute; inset:0; background: rgba(0,0,0,0.5); }
+  .hero-banner__gradient { position:absolute; inset:0; background: linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.6) 30%, transparent 60%); z-index: 1; }
+  .hero-banner__content { position:relative; z-index:2; width:100%; padding-bottom: 6rem; }
   .hero-banner__content--center { text-align:center; }
-  .hero-banner__content--right  { text-align:right; }
-  .hero-banner__heading { font-size:clamp(2.5rem,6vw,5rem); font-weight:800; line-height:1.05; margin-bottom:1rem; }
-  .hero-banner__subheading { font-size:1.1rem; max-width:520px; margin-bottom:2rem; opacity:0.9; }
+  .hero-banner__content--right { text-align:right; }
+  .hero-banner__heading {
+    font-size:clamp(2.5rem,7vw,5.5rem); font-weight:700; line-height:1.05;
+    margin-bottom:1.25rem; color:#fff; letter-spacing:-0.03em;
+  }
+  .hero-banner__subheading {
+    font-size:1rem; max-width:480px; margin-bottom:2.5rem;
+    color:rgba(255,255,255,0.6); line-height:1.7; letter-spacing:0.02em;
+  }
   .hero-banner__content--center .hero-banner__subheading { margin-inline:auto; }
   .hero-banner__ctas { display:flex; gap:1rem; flex-wrap:wrap; }
   .hero-banner__content--center .hero-banner__ctas { justify-content:center; }
   .hero-banner__content--right .hero-banner__ctas { justify-content:flex-end; }
-  @media(max-width:749px){ .hero-banner { height:70vh; } .hero-banner__heading { font-size:2.25rem; } }
+
+  .hero-banner__scroll-indicator {
+    position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); z-index:3;
+  }
+  .hero-banner__scroll-indicator span {
+    display:block; width:1px; height:48px;
+    background: linear-gradient(to bottom, var(--color-accent, #C9A86A), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse { 0%,100%{opacity:0.3;transform:scaleY(0.5)} 50%{opacity:1;transform:scaleY(1)} }
+
+  @media(max-width:749px){
+    .hero-banner { height:85vh; min-height:500px; align-items:flex-end; }
+    .hero-banner__heading { font-size:2.25rem; }
+    .hero-banner__content { padding-bottom:4rem; }
+  }
 </style>
 
 {% schema %}
@@ -67,15 +97,11 @@
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Background image" },
     { "type": "text", "id": "video_url", "label": "Video URL (.mp4)", "info": "Overrides image if set" },
-    { "type": "range", "id": "hero_height", "min": 40, "max": 100, "step": 5, "unit": "vh", "label": "Banner height", "default": 90 },
-    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 80, "step": 5, "label": "Overlay opacity", "default": 30 },
-    { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
+    { "type": "range", "id": "hero_height", "min": 40, "max": 100, "step": 5, "unit": "vh", "label": "Banner height", "default": 100 },
     { "type": "select", "id": "content_alignment", "label": "Content alignment", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}], "default": "left" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "New Collection" },
-    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color", "default": "#C9A86A" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Dress Your Best,\nEvery Day." },
-    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Premium fashion essentials crafted for the modern wardrobe." },
-    { "type": "color", "id": "text_color", "label": "Text color", "default": "#FFFFFF" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "Luxury Essentials" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Redefine Your Style" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Premium fashion crafted for those who dare to stand out. Explore the new collection." },
     { "type": "text", "id": "cta_label", "label": "Primary button label", "default": "Shop Now" },
     { "type": "url",  "id": "cta_link",  "label": "Primary button link" },
     { "type": "text", "id": "cta2_label", "label": "Secondary button label", "default": "Explore Collections" },
