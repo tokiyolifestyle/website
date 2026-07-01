@@ -1,6 +1,17 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
+    "logo": "shopify://shop_images/file_2.jpg",
     "logo_width": 150,
+    "favicon": "shopify://shop_images/file_2.jpg",
     "color_primary": "#111111",
     "color_secondary": "#FFFFFF",
     "color_accent": "#C9A86A",
@@ -36,7 +47,7 @@
     "enable_image_zoom": true,
     "enable_sticky_add_to_cart": true,
     "show_stock_indicator": true,
-    "low_stock_threshold": 5,
+    "low_stock_threshold": 12,
     "show_delivery_checker": true,
     "show_cod_badge": true,
     "enable_size_guide": true,
@@ -56,13 +67,31 @@
     "enable_language_selector": true,
     "enable_dark_mode_toggle": false,
     "sections": {
-      "header-group": {
-        "type": "header-group",
-        "sections": {}
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {}
       },
-      "footer-group": {
-        "type": "footer-group",
-        "sections": {}
+      "search-drawer": {
+        "type": "search-drawer",
+        "settings": {}
+      },
+      "quick-view-modal": {
+        "type": "quick-view-modal",
+        "settings": {}
+      },
+      "popup-newsletter": {
+        "type": "popup-newsletter",
+        "settings": {
+          "enabled": true,
+          "delay": 5,
+          "eyebrow": "Exclusive Offer",
+          "title": "Get 10% Off Your First Order",
+          "subtitle": "Join the Tokiyo Lifestyle community and be the first to know about new drops.",
+          "placeholder": "Enter your email",
+          "button_label": "Claim My Discount",
+          "success_message": "Code sent to your email!",
+          "skip_label": "No thanks, I'll pay full price"
+        }
       }
     },
     "content_for_index": []
