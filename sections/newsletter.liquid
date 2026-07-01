@@ -1,0 +1,68 @@
+<section class="newsletter-section section-newsletter" style="background:{{ section.settings.background_color }};">
+  <div class="page-width">
+    <div class="newsletter-section__inner animate-on-scroll scale-in">
+      <div class="newsletter-section__text">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="text-eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 style="color:{{ section.settings.text_color }};">{{ section.settings.title }}</h2>
+        {%- if section.settings.subtitle != blank -%}
+          <p style="color:{{ section.settings.text_color }};opacity:.8;">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- form 'customer', id: 'SectionNewsletterForm' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="newsletter-section__form">
+          <label for="SectionNewsletterEmail" class="visually-hidden">{{ 'general.newsletter_form.newsletter_email' | t }}</label>
+          <input
+            type="email"
+            name="contact[email]"
+            id="SectionNewsletterEmail"
+            placeholder="{{ section.settings.placeholder }}"
+            required>
+          <button type="submit" class="button button--solid">{{ section.settings.button_label }}</button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p class="newsletter-section__success">{{ section.settings.success_message }}</p>
+        {%- endif -%}
+        {%- if section.settings.disclaimer != blank -%}
+          <p class="newsletter-section__disclaimer" style="color:{{ section.settings.text_color }};opacity:.6;">{{ section.settings.disclaimer }}</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .newsletter-section { padding-block:var(--spacing-sections,64px); }
+  .newsletter-section__inner { text-align:center; max-width:580px; margin:0 auto; }
+  .newsletter-section__inner h2 { font-size:clamp(1.75rem,3vw,2.5rem); margin-bottom:.5rem; }
+  .newsletter-section__inner p { margin-bottom:1.5rem; }
+  .newsletter-section__form { display:flex; gap:.5rem; margin-bottom:.75rem; }
+  .newsletter-section__form input { flex:1; padding:.9rem 1.25rem; border-radius:var(--button-radius,8px); border:2px solid transparent; font-size:1rem; }
+  .newsletter-section__form input:focus { outline:none; border-color:var(--color-accent,#C9A86A); }
+  .newsletter-section__success { color:var(--color-success,#3BB273); font-weight:600; }
+  .newsletter-section__disclaimer { font-size:.75rem; margin-top:.5rem; }
+  @media(max-width:600px){ .newsletter-section__form { flex-direction:column; } }
+</style>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "class": "section-newsletter",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Join the Community" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Get Early Access to New Drops" },
+    { "type": "text", "id": "subtitle", "label": "Subtext", "default": "Subscribe and get 10% off your first order. No spam, just good vibes." },
+    { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Enter your email address" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe" },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "You're in! Check your inbox for your discount code." },
+    { "type": "text", "id": "disclaimer", "label": "Disclaimer text", "default": "By subscribing you agree to our Privacy Policy." },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#111111" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#FFFFFF" }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

@@ -1,0 +1,21 @@
+<div class="quick-view-overlay overlay" data-quick-view-overlay></div>
+<div class="quick-view-modal modal" data-quick-view-modal id="QuickViewModal" role="dialog" aria-modal="true">
+  <div class="quick-view-modal__inner">
+    <button class="quick-view-modal__close" data-quick-view-close aria-label="Close">{% render 'icon-close' %}</button>
+    <div class="quick-view-modal__content" data-quick-view-content></div>
+  </div>
+</div>
+<style>
+  .quick-view-overlay { position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90; }
+  .quick-view-modal { position:fixed;inset:0;z-index:91;display:flex;align-items:center;justify-content:center;padding:1.5rem; }
+  .quick-view-modal__inner { background:#fff;border-radius:16px;max-width:900px;width:100%;max-height:90vh;overflow-y:auto;position:relative; }
+  .quick-view-modal__close { position:absolute;top:1rem;right:1rem;width:36px;height:36px;border-radius:50%;background:#f5f5f5;display:flex;align-items:center;justify-content:center;z-index:2; }
+  .quick-view-modal__content { padding:2rem; }
+</style>
+{% schema %}
+{
+  "name": "Quick View Modal",
+  "tag": "div",
+  "class": "section-quick-view-modal"
+}
+{% endschema %}

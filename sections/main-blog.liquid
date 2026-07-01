@@ -1,0 +1,40 @@
+<div class="blog-page page-width">
+  {% render 'breadcrumbs' %}
+  <h1 class="animate-on-scroll fade-up">{{ blog.title }}</h1>
+  <div class="blog-grid stagger-children">
+    {%- for article in blog.articles -%}
+      <a href="{{ article.url }}" class="article-card hover-lift">
+        {%- if article.image -%}
+          <div class="article-card__image hover-zoom">
+            {{ article.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: article.title | escape }}
+          </div>
+        {%- endif -%}
+        <div class="article-card__info">
+          <p class="article-card__date">{{ article.published_at | date: '%B %d, %Y' }}</p>
+          <h2>{{ article.title }}</h2>
+          <p>{{ article.excerpt | strip_html | truncatewords: 20 }}</p>
+          <span class="article-card__read-more">Read More</span>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+  {%- paginate blog.articles by 9 -%}{% render 'pagination', paginate: paginate %}{%- endpaginate -%}
+</div>
+<style>
+  .blog-page { padding-block:2.5rem var(--spacing-sections,64px); }
+  .blog-page h1 { margin-bottom:2rem; }
+  .blog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; }
+  @media(max-width:989px){ .blog-grid { grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:600px){ .blog-grid { grid-template-columns:1fr; } }
+  .article-card { border-radius:var(--card-radius,12px); overflow:hidden; background:#fff; box-shadow:0 4px 18px rgba(17,17,17,.05); display:block; }
+  .article-card__image { aspect-ratio:16/9; overflow:hidden; }
+  .article-card__image img { width:100%; height:100%; object-fit:cover; }
+  .article-card__info { padding:1.25rem; }
+  .article-card__date { font-size:.8rem; color:#aaa; margin-bottom:.4rem; }
+  .article-card__info h2 { font-size:1.1rem; margin-bottom:.5rem; }
+  .article-card__info p { font-size:.875rem; color:#666; margin-bottom:.75rem; }
+  .article-card__read-more { font-size:.8125rem; font-weight:600; color:var(--color-accent,#C9A86A); }
+</style>
+{% schema %}
+{ "name": "Blog Posts", "tag": "section", "class": "section-blog" }
+{% endschema %}

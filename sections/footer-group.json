@@ -1,0 +1,37 @@
+{
+  "name": "Footer",
+  "type": "footer",
+  "sections": {
+    "main-footer": {
+      "type": "footer",
+      "blocks": {
+        "link-col-1": {
+          "type": "link_column",
+          "settings": {
+            "title": "Shop",
+            "menu": "footer"
+          }
+        },
+        "link-col-2": {
+          "type": "link_column",
+          "settings": {
+            "title": "Help",
+            "menu": "footer"
+          }
+        }
+      },
+      "block_order": ["link-col-1", "link-col-2"],
+      "settings": {
+        "show_newsletter": true,
+        "newsletter_title": "Join the Tokiyo Family",
+        "newsletter_subtitle": "Get 10% off your first order and stay updated on new drops.",
+        "brand_description": "Tokiyo Lifestyle is a premium fashion label crafting timeless essentials for the modern wardrobe.",
+        "contact_title": "Get in Touch",
+        "contact_email": "support@tokiyolifestyle.com",
+        "contact_phone": "+91 98765 43210",
+        "show_payment_icons": true
+      }
+    }
+  },
+  "order": ["main-footer"]
+}

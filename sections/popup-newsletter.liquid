@@ -1,0 +1,89 @@
+{%- if section.settings.enabled -%}
+<div class="popup-overlay overlay" data-popup-overlay></div>
+<div class="popup-modal modal" data-popup id="PopupNewsletter" role="dialog" aria-modal="true" aria-label="Newsletter signup">
+  <button class="popup-modal__close" data-popup-close aria-label="Close">{% render 'icon-close' %}</button>
+  <div class="popup-modal__body">
+    {%- if section.settings.image != blank -%}
+      <div class="popup-modal__image">
+        {{ section.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: '' }}
+      </div>
+    {%- endif -%}
+    <div class="popup-modal__content">
+      {%- if section.settings.eyebrow != blank -%}<p class="text-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2>{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}<p>{{ section.settings.subtitle }}</p>{%- endif -%}
+      {%- form 'customer', id: 'PopupNewsletterForm' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="popup-modal__form">
+          <input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder }}" required>
+          <button type="submit" class="button button--solid button--full">{{ section.settings.button_label }}</button>
+        </div>
+        {%- if form.posted_successfully? -%}<p class="popup-modal__success">{{ section.settings.success_message }}</p>{%- endif -%}
+      {%- endform -%}
+      <button class="popup-modal__skip" data-popup-close type="button">{{ section.settings.skip_label }}</button>
+    </div>
+  </div>
+</div>
+<style>
+  .popup-overlay { position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100; }
+  .popup-modal { position:fixed;inset:0;z-index:101;display:flex;align-items:center;justify-content:center;padding:1.5rem; }
+  .popup-modal__body { background:#fff;border-radius:16px;max-width:700px;width:100%;overflow:hidden;position:relative;display:grid;grid-template-columns:1fr 1fr; }
+  @media(max-width:600px){ .popup-modal__body { grid-template-columns:1fr; } .popup-modal__image { display:none; } }
+  .popup-modal__close { position:absolute;top:1rem;right:1rem;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;z-index:2; }
+  .popup-modal__image { aspect-ratio:3/4;overflow:hidden; }
+  .popup-modal__image img { width:100%;height:100%;object-fit:cover; }
+  .popup-modal__content { padding:2.5rem; }
+  .popup-modal__content h2 { font-size:1.5rem;margin-bottom:.5rem; }
+  .popup-modal__content p { color:#666;font-size:.9rem;margin-bottom:1.25rem; }
+  .popup-modal__form { display:flex;flex-direction:column;gap:.65rem; }
+  .popup-modal__form input { padding:.85rem 1rem;border:1px solid #ddd;border-radius:8px;font-size:1rem; }
+  .popup-modal__success { color:#3BB273;font-weight:600;margin-top:.75rem; }
+  .popup-modal__skip { margin-top:1rem;font-size:.8125rem;color:#aaa;text-decoration:underline;cursor:pointer;display:block; }
+</style>
+<script>
+  (function(){
+    const modal = document.getElementById('PopupNewsletter');
+    const overlay = document.querySelector('[data-popup-overlay]');
+    if (!modal) return;
+    const COOKIE = 'tokiyo-popup-closed';
+    const dismissed = localStorage.getItem(COOKIE);
+    if (dismissed) return;
+    const delay = {{ section.settings.delay | times: 1000 }};
+    setTimeout(() => {
+      modal.classList.add('is-open');
+      overlay && overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }, delay);
+    function closePopup() {
+      modal.classList.remove('is-open');
+      overlay && overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+      localStorage.setItem(COOKIE, '1');
+    }
+    document.querySelectorAll('[data-popup-close]').forEach(btn => btn.addEventListener('click', closePopup));
+    overlay && overlay.addEventListener('click', closePopup);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Popup Newsletter",
+  "tag": "div",
+  "class": "section-popup-newsletter",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Enable popup", "default": true },
+    { "type": "range", "id": "delay", "min": 2, "max": 30, "step": 1, "unit": "s", "label": "Delay before showing", "default": 5 },
+    { "type": "image_picker", "id": "image", "label": "Side image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Exclusive Offer" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Get 10% Off Your First Order" },
+    { "type": "text", "id": "subtitle", "label": "Subtext", "default": "Join the Tokiyo Lifestyle community and be the first to know about new drops." },
+    { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Enter your email" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Claim My Discount" },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Code sent to your email!" },
+    { "type": "text", "id": "skip_label", "label": "Skip link label", "default": "No thanks, I'll pay full price" }
+  ],
+  "presets": [{ "name": "Popup Newsletter" }]
+}
+{% endschema %}

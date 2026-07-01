@@ -1,0 +1,81 @@
+{%- comment -%} SEO meta tags, Open Graph, Twitter Card, JSON-LD {%- endcomment -%}
+
+{%- if request.page_type == 'index' -%}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ shop.name | escape }}">
+  <meta property="og:description" content="{{ shop.description | default: shop.name | strip_html | truncatewords: 30 | escape }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {%- if settings.logo != blank -%}
+    <meta property="og:image" content="{{ settings.logo | image_url: width: 1200 }}">
+  {%- endif -%}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": {{ shop.name | json }},
+    "url": "{{ shop.url }}",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "{{ shop.url }}/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+{%- elsif request.page_type == 'product' -%}
+  <meta property="og:type" content="product">
+  <meta property="og:title" content="{{ product.title | escape }}">
+  <meta property="og:description" content="{{ product.description | strip_html | truncatewords: 30 | escape }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:price:amount" content="{{ product.price | money_without_currency }}">
+  <meta property="og:price:currency" content="{{ cart.currency.iso_code }}">
+  {%- if product.featured_media -%}
+    <meta property="og:image" content="{{ product.featured_media | image_url: width: 1200 }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="1600">
+  {%- endif -%}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "description": {{ product.description | strip_html | json }},
+    "sku": {{ product.selected_or_first_available_variant.sku | json }},
+    "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+    "image": {{ product.featured_media | image_url: width: 1200 | json }},
+    "url": "{{ shop.url }}{{ product.url }}",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      "price": "{{ product.price | money_without_currency }}",
+      "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+      "seller": { "@type": "Organization", "name": {{ shop.name | json }} }
+    }
+  }
+  </script>
+
+{%- elsif request.page_type == 'collection' -%}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ collection.title | escape }}">
+  <meta property="og:description" content="{{ collection.description | strip_html | truncatewords: 30 | escape }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {%- if collection.featured_image -%}
+    <meta property="og:image" content="{{ collection.featured_image | image_url: width: 1200 }}">
+  {%- endif -%}
+
+{%- elsif request.page_type == 'article' -%}
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ article.title | escape }}">
+  <meta property="og:description" content="{{ article.excerpt_or_content | strip_html | truncatewords: 30 | escape }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {%- if article.image -%}
+    <meta property="og:image" content="{{ article.image | image_url: width: 1200 }}">
+  {%- endif -%}
+{%- endif -%}
+
+<meta property="og:site_name" content="{{ shop.name | escape }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title | escape }}">
+<meta name="twitter:description" content="{{ page_description | default: shop.description | strip_html | truncatewords: 30 | escape }}">

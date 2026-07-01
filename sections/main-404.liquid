@@ -1,0 +1,17 @@
+<div class="error-page page-width">
+  <div class="error-page__content animate-on-scroll fade-up">
+    <p class="error-page__code">404</p>
+    <h1>{{ 'templates.404.title' | t }}</h1>
+    <p>{{ 'templates.404.subtext' | t }}</p>
+    <a href="{{ routes.root_url }}" class="button button--solid">{{ 'templates.404.back_to_home' | t }}</a>
+  </div>
+</div>
+<style>
+  .error-page { text-align:center; padding:6rem 1rem; }
+  .error-page__code { font-size:8rem; font-weight:800; color:#f0f0f0; line-height:1; margin-bottom:0; font-family:var(--font-heading,'Poppins',sans-serif); }
+  .error-page__content h1 { font-size:2rem; margin-bottom:1rem; }
+  .error-page__content p { color:#888; margin-bottom:2rem; }
+</style>
+{% schema %}
+{ "name": "404 Page", "tag": "section", "class": "section-404" }
+{% endschema %}

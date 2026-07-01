@@ -1,0 +1,36 @@
+<div class="customer-page page-width customer-account">
+  <div class="customer-account__header">
+    <h1>{{ 'customer.account.title' | t }}</h1>
+    <a href="{{ routes.account_logout_url }}" class="button button--outline button--small">Log out</a>
+  </div>
+  <div class="customer-account__grid">
+    <div class="customer-account__info">
+      <h2>{{ 'customer.account.details' | t }}</h2>
+      <p>{{ customer.first_name }} {{ customer.last_name }}</p>
+      <p>{{ customer.email }}</p>
+      <a href="{{ routes.account_addresses_url }}" class="button button--outline button--small">{{ 'customer.account.view_addresses' | t }}</a>
+    </div>
+    <div class="customer-account__orders">
+      <h2>{{ 'customer.orders.title' | t }}</h2>
+      {%- if customer.orders.size > 0 -%}
+        <table class="orders-table">
+          <thead><tr><th>{{ 'customer.orders.order_number' | t }}</th><th>{{ 'customer.orders.date' | t }}</th><th>{{ 'customer.orders.payment_status' | t }}</th><th>{{ 'customer.orders.fulfillment_status' | t }}</th><th>{{ 'customer.orders.total' | t }}</th></tr></thead>
+          <tbody>
+            {%- for order in customer.orders -%}
+              <tr>
+                <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+                <td>{{ order.created_at | date: '%b %d, %Y' }}</td>
+                <td>{{ order.financial_status_label }}</td>
+                <td>{{ order.fulfillment_status_label }}</td>
+                <td>{{ order.total_price | money }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      {%- else -%}
+        <p>{{ 'customer.orders.no_orders' | t }}</p>
+        <a href="/collections/all" class="button button--outline">{{ 'customer.orders.start_shopping' | t }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

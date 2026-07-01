@@ -1,0 +1,15 @@
+{
+  "settings_schema": {
+    "colors": {
+      "name": "Colors"
+    }
+  },
+  "sections": {
+    "header": {
+      "name": "Header",
+      "settings": {
+        "logo_label": "Logo"
+      }
+    }
+  }
+}

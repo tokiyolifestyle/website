@@ -1,0 +1,33 @@
+<div class="form-row">
+  <div class="form-field"><label>First Name</label><input type="text" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name"></div>
+  <div class="form-field"><label>Last Name</label><input type="text" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name"></div>
+</div>
+<div class="form-field"><label>Company</label><input type="text" name="address[company]" value="{{ form.company }}"></div>
+<div class="form-field"><label>Address 1</label><input type="text" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1" required></div>
+<div class="form-field"><label>Address 2</label><input type="text" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2"></div>
+<div class="form-row">
+  <div class="form-field"><label>City</label><input type="text" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" required></div>
+  <div class="form-field"><label>ZIP / Postal Code</label><input type="text" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code"></div>
+</div>
+<div class="form-row">
+  <div class="form-field">
+    <label>Country</label>
+    <select name="address[country]" id="AddressCountry" data-default="{{ form.country }}">
+      {{ all_country_option_tags }}
+    </select>
+  </div>
+  <div class="form-field">
+    <label>Province / State</label>
+    <select name="address[province]" id="AddressProvince">
+      <option>Select province</option>
+    </select>
+  </div>
+</div>
+<div class="form-field"><label>Phone</label><input type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel"></div>
+{%- if form.id -%}
+  <div class="form-field">
+    <label>
+      <input type="checkbox" name="address[default]" value="1" {% if form.id == customer.default_address.id %}checked{% endif %}> Set as default address
+    </label>
+  </div>
+{%- endif -%}

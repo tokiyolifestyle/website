@@ -1,0 +1,46 @@
+<div class="search-page page-width">
+  <div class="search-page__header animate-on-scroll fade-up">
+    <h1>{{ 'templates.search.title' | t }}</h1>
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form">
+      <input type="hidden" name="type" value="product">
+      <div class="search-page__input-wrap">
+        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products..." aria-label="Search" autocomplete="off">
+        <button type="submit" class="button button--solid">Search</button>
+      </div>
+    </form>
+  </div>
+
+  {%- if search.performed -%}
+    {%- if search.results_count > 0 -%}
+      <p class="search-page__count">{{ search.results_count }} results for "{{ search.terms }}"</p>
+      <div class="product-grid product-grid--4 stagger-children">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {% render 'product-card', product: item, lazy: true %}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- if search.results_count > 20 -%}
+        {%- paginate search.results by 20 -%}{% render 'pagination', paginate: paginate %}{%- endpaginate -%}
+      {%- endif -%}
+    {%- else -%}
+      <div class="search-page__no-results">
+        <p>{{ 'general.search.no_results' | t: terms: search.terms }}</p>
+        <a href="/collections/all" class="button button--outline">Browse All Products</a>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+<style>
+  .search-page { padding-block:2.5rem var(--spacing-sections,64px); }
+  .search-page__header { text-align:center; max-width:640px; margin:0 auto 3rem; }
+  .search-page__form { margin-top:1.5rem; }
+  .search-page__input-wrap { display:flex; gap:.5rem; }
+  .search-page__input-wrap input { flex:1; padding:.9rem 1.25rem; border:2px solid #e5e5e5; border-radius:var(--button-radius,8px); font-size:1rem; }
+  .search-page__input-wrap input:focus { outline:none; border-color:var(--color-primary,#111); }
+  .search-page__count { color:#888; font-size:.875rem; margin-bottom:1.5rem; }
+  .search-page__no-results { text-align:center; padding:4rem 0; color:#888; }
+</style>
+{% schema %}
+{ "name": "Search Results", "tag": "section", "class": "section-search-page" }
+{% endschema %}

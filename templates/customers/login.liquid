@@ -1,0 +1,42 @@
+<div class="customer-page page-width">
+  <div class="customer-page__inner">
+    <h1>{{ 'customer.login_page.title' | t }}</h1>
+    {%- form 'customer_login' -%}
+      {%- if form.errors -%}
+        <div class="form-errors">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+      <div class="form-field">
+        <label for="CustomerEmail">{{ 'customer.login_page.email' | t }}</label>
+        <input type="email" name="customer[email]" id="CustomerEmail" autocomplete="email" required>
+      </div>
+      <div class="form-field">
+        <label for="CustomerPassword">{{ 'customer.login_page.password' | t }}</label>
+        <input type="password" name="customer[password]" id="CustomerPassword" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="button button--solid button--full">{{ 'customer.login_page.sign_in' | t }}</button>
+    {%- endform -%}
+    <div class="customer-page__links">
+      <a href="#recover" id="RecoverLink">{{ 'customer.login_page.forgot_password' | t }}</a>
+      <a href="{{ routes.account_register_url }}">{{ 'customer.login_page.create_account' | t }}</a>
+    </div>
+    <div id="RecoverForm" style="display:none;margin-top:2rem;">
+      <h2>{{ 'customer.recover_password.title' | t }}</h2>
+      <p>{{ 'customer.recover_password.subtext' | t }}</p>
+      {%- form 'recover_customer_password' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="form-success">{{ 'customer.recover_password.success' | t }}</p>
+        {%- endif -%}
+        <div class="form-field">
+          <label for="RecoverEmail">{{ 'customer.recover_password.email' | t }}</label>
+          <input type="email" name="email" id="RecoverEmail" autocomplete="email" required>
+        </div>
+        <button type="submit" class="button button--solid">{{ 'customer.recover_password.submit' | t }}</button>
+        <a href="#" id="HideRecoverLink">{{ 'customer.recover_password.back_to_login' | t }}</a>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+<script>
+  document.getElementById('RecoverLink')?.addEventListener('click', e => { e.preventDefault(); document.getElementById('RecoverForm').style.display='block'; });
+  document.getElementById('HideRecoverLink')?.addEventListener('click', e => { e.preventDefault(); document.getElementById('RecoverForm').style.display='none'; });
+</script>

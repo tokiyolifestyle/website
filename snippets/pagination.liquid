@@ -1,0 +1,42 @@
+{%- if paginate.pages > 1 -%}
+  <nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}">
+    <ul class="pagination__list" role="list">
+      {%- if paginate.previous -%}
+        <li>
+          <a href="{{ paginate.previous.url }}" class="pagination__btn pagination__btn--prev" aria-label="{{ 'general.pagination.previous' | t }}">
+            {% render 'icon-chevron-left' %}
+          </a>
+        </li>
+      {%- endif -%}
+
+      {%- for part in paginate.parts -%}
+        <li>
+          {%- if part.is_link -%}
+            <a href="{{ part.url }}" class="pagination__btn" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">{{ part.title }}</a>
+          {%- elsif part.title == paginate.current_page -%}
+            <span class="pagination__btn pagination__btn--current" aria-current="page" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">{{ part.title }}</span>
+          {%- else -%}
+            <span class="pagination__ellipsis">{{ part.title }}</span>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+
+      {%- if paginate.next -%}
+        <li>
+          <a href="{{ paginate.next.url }}" class="pagination__btn pagination__btn--next" aria-label="{{ 'general.pagination.next' | t }}">
+            {% render 'icon-chevron-right' %}
+          </a>
+        </li>
+      {%- endif -%}
+    </ul>
+  </nav>
+
+  <style>
+    .pagination { display:flex; justify-content:center; margin-top:3rem; }
+    .pagination__list { display:flex; gap:.4rem; align-items:center; }
+    .pagination__btn { display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; font-size:.875rem; font-weight:500; border:1.5px solid #e5e5e5; transition:all .2s; }
+    .pagination__btn:hover { border-color:var(--color-primary,#111); color:var(--color-primary,#111); }
+    .pagination__btn--current { background:var(--color-primary,#111); color:#fff; border-color:var(--color-primary,#111); }
+    .pagination__ellipsis { padding:0 .25rem; color:#aaa; }
+  </style>
+{%- endif -%}

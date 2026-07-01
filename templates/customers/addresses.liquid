@@ -1,0 +1,32 @@
+<div class="customer-page page-width">
+  <h1>{{ 'customer.addresses.title' | t }}</h1>
+  <a href="{{ routes.account_url }}" class="button button--outline button--small">← Back to Account</a>
+  {%- paginate customer.addresses by 5 -%}
+    <div class="addresses-grid">
+      <div class="address-card address-card--new">
+        <h2>{{ 'customer.addresses.add_new' | t }}</h2>
+        {%- form 'customer_address', customer.new_address -%}
+          {% render 'address-form', form: form %}
+          <button type="submit" class="button button--solid">Save</button>
+        {%- endform -%}
+      </div>
+      {%- for address in customer.addresses -%}
+        <div class="address-card">
+          {%- if address == customer.default_address -%}<span class="badge badge--new">Default</span>{%- endif -%}
+          <p>{{ address.first_name }} {{ address.last_name }}</p>
+          <p>{{ address.address1 }}</p>
+          {%- if address.address2 != blank -%}<p>{{ address.address2 }}</p>{%- endif -%}
+          <p>{{ address.city }}, {{ address.province }} {{ address.zip }}</p>
+          <p>{{ address.country }}</p>
+          <div class="address-card__actions">
+            <button data-target="#EditAddress-{{ address.id }}" class="button button--small button--outline">Edit</button>
+            {%- form 'customer_address', address -%}
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="button button--small button--outline" onclick="return confirm('Delete this address?')">Delete</button>
+            {%- endform -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endpaginate -%}
+</div>

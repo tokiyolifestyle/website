@@ -1,0 +1,124 @@
+{
+  "sections": {
+    "hero-banner": {
+      "type": "hero-banner",
+      "settings": {
+        "hero_height": 90,
+        "overlay_opacity": 35,
+        "overlay_color": "#000000",
+        "content_alignment": "left",
+        "eyebrow": "SS 2025 Collection",
+        "heading": "Dress Your Best,\nEvery Day.",
+        "subheading": "Premium fashion essentials crafted for the modern wardrobe.",
+        "text_color": "#FFFFFF",
+        "cta_label": "Shop Now",
+        "cta2_label": "Explore Collections"
+      }
+    },
+    "scrolling-text-1": {
+      "type": "scrolling-text",
+      "settings": {
+        "text": "Free Shipping Over ₹2999 | New Season Arrivals | Premium Quality | Wear It Your Way | Shop The Edit | Made For You",
+        "separator": "★",
+        "speed": 22,
+        "font_size": 14,
+        "font_weight": "600",
+        "uppercase": true,
+        "padding_vertical": 14,
+        "background": "#111111",
+        "text_color": "#FFFFFF"
+      }
+    },
+    "featured-collections": {
+      "type": "featured-collections",
+      "blocks": {
+        "col-1": { "type": "collection", "settings": { "title": "Men's Essentials", "subtitle": "Basics & Beyond" } },
+        "col-2": { "type": "collection", "settings": { "title": "Women's Edit",     "subtitle": "Feminine & Modern" } },
+        "col-3": { "type": "collection", "settings": { "title": "Oversized Tees",   "subtitle": "The Drop" } },
+        "col-4": { "type": "collection", "settings": { "title": "Hoodies & Sweatshirts", "subtitle": "Layer Up" } }
+      },
+      "block_order": ["col-1","col-2","col-3","col-4"],
+      "settings": {
+        "eyebrow": "Shop By Category",
+        "title": "Explore Collections",
+        "subtitle": "Curated edits for every occasion and style.",
+        "columns": 4,
+        "cta_label": "View All Collections",
+        "cta_link": "/collections"
+      }
+    },
+    "trending-products": {
+      "type": "trending-products",
+      "blocks": {
+        "tab-1": { "type": "tab", "settings": { "tab_label": "New Arrivals" } },
+        "tab-2": { "type": "tab", "settings": { "tab_label": "Best Sellers" } },
+        "tab-3": { "type": "tab", "settings": { "tab_label": "On Sale" } }
+      },
+      "block_order": ["tab-1","tab-2","tab-3"],
+      "settings": {
+        "eyebrow": "What's Hot",
+        "title": "Trending Now",
+        "tabs_enabled": true,
+        "products_count": 8,
+        "columns": 4,
+        "cta_label": "Shop All",
+        "cta_link": "/collections/all"
+      }
+    },
+    "image-with-text": {
+      "type": "image-with-text",
+      "blocks": {
+        "feat-1": { "type": "feature", "settings": { "emoji": "✓", "title": "Premium Fabrics", "text": "GOTS-certified organic cotton and sustainable blends." } },
+        "feat-2": { "type": "feature", "settings": { "emoji": "✓", "title": "Ethical Production", "text": "Made in fair-trade certified facilities." } },
+        "feat-3": { "type": "feature", "settings": { "emoji": "✓", "title": "Designed to Last", "text": "Timeless silhouettes that outlast fast fashion." } }
+      },
+      "block_order": ["feat-1","feat-2","feat-3"],
+      "settings": {
+        "layout": "image_first",
+        "eyebrow": "Our Philosophy",
+        "title": "Crafted With Purpose",
+        "text": "<p>Every piece in the Tokiyo collection is designed with intent — quality materials, considered cuts, and details that matter. We believe style should never cost the planet.</p>",
+        "cta_label": "Discover Our Story",
+        "cta_link": "/pages/about-us"
+      }
+    },
+    "featured-reviews": {
+      "type": "featured-reviews",
+      "blocks": {
+        "rev-1": { "type": "review", "settings": { "rating": 5, "review_text": "The quality exceeded my expectations. The fabric is incredibly soft and the stitching is flawless. My new go-to brand for everyday wear.", "author_name": "Priya S.", "author_location": "Mumbai", "verified": true } },
+        "rev-2": { "type": "review", "settings": { "rating": 5, "review_text": "Great fits, quick delivery, love the minimalist designs. The oversized tee fits exactly as described — will definitely order more.", "author_name": "Arjun M.", "author_location": "Bengaluru", "verified": true } },
+        "rev-3": { "type": "review", "settings": { "rating": 5, "review_text": "Finally a brand that nails both quality and style. The hoodie is super warm and the colour is exactly as shown. 10/10 would recommend.", "author_name": "Sneha K.", "author_location": "Delhi", "verified": true } }
+      },
+      "block_order": ["rev-1","rev-2","rev-3"],
+      "settings": {
+        "eyebrow": "Customer Love",
+        "title": "What Our Customers Say",
+        "aggregate_rating": "4.8",
+        "total_reviews": "2,400+"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Join the Community",
+        "title": "Get Early Access to New Drops",
+        "subtitle": "Subscribe and get 10% off your first order. No spam, just good vibes.",
+        "placeholder": "Enter your email address",
+        "button_label": "Subscribe",
+        "success_message": "You're in! Check your inbox for your discount code.",
+        "disclaimer": "By subscribing you agree to our Privacy Policy.",
+        "background_color": "#111111",
+        "text_color": "#FFFFFF"
+      }
+    }
+  },
+  "order": [
+    "hero-banner",
+    "scrolling-text-1",
+    "featured-collections",
+    "trending-products",
+    "image-with-text",
+    "featured-reviews",
+    "newsletter"
+  ]
+}

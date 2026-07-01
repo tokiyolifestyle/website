@@ -1,0 +1,8 @@
+/* Product Card component overrides — all base in theme.css */
+.product-grid { display:grid;gap:var(--grid-gutter,20px); }
+.product-grid--2 { grid-template-columns:repeat(2,1fr); }
+.product-grid--3 { grid-template-columns:repeat(3,1fr); }
+.product-grid--4 { grid-template-columns:repeat(4,1fr); }
+@media(max-width:989px){.product-grid--4{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:749px){.product-grid--2,.product-grid--3,.product-grid--4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:479px){.product-grid--4{grid-template-columns:repeat(2,1fr)}}

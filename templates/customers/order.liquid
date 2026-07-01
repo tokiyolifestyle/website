@@ -1,0 +1,25 @@
+<div class="customer-page page-width">
+  <a href="{{ routes.account_url }}" class="button button--outline button--small">← Back to Account</a>
+  <h1>Order {{ order.name }}</h1>
+  <p>Placed on {{ order.created_at | date: '%B %d, %Y' }}</p>
+  <table class="orders-table">
+    <thead><tr><th>Product</th><th>SKU</th><th>Price</th><th>Qty</th><th>Total</th></tr></thead>
+    <tbody>
+      {%- for line_item in order.line_items -%}
+        <tr>
+          <td>{{ line_item.title }}</td>
+          <td>{{ line_item.sku }}</td>
+          <td>{{ line_item.price | money }}</td>
+          <td>{{ line_item.quantity }}</td>
+          <td>{{ line_item.final_line_price | money }}</td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+  <div class="order-summary">
+    <p>Subtotal: {{ order.subtotal_price | money }}</p>
+    {%- for shipping_method in order.shipping_methods -%}<p>Shipping ({{ shipping_method.title }}): {{ shipping_method.price | money }}</p>{%- endfor -%}
+    {%- for tax_line in order.tax_lines -%}<p>Tax ({{ tax_line.title }} {{ tax_line.rate_percentage }}%): {{ tax_line.price | money }}</p>{%- endfor -%}
+    <p><strong>Total: {{ order.total_price | money }}</strong></p>
+  </div>
+</div>

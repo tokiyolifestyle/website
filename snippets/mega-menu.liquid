@@ -1,0 +1,44 @@
+{%- comment -%}
+  Renders a mega menu dropdown for a given top-level linklist item.
+  Accepts: link (a link object from a linklist), menu (the full linklist for nested children)
+{%- endcomment -%}
+
+{%- if link.links.size > 0 -%}
+  <div class="mega-menu" id="MegaMenu-{{ link.handle }}" data-mega-menu>
+    <div class="mega-menu__inner page-width">
+      <div class="mega-menu__columns">
+        {%- for child_link in link.links -%}
+          <div class="mega-menu__column">
+            <a href="{{ child_link.url }}" class="mega-menu__column-title">
+              {{ child_link.title }}
+            </a>
+            {%- if child_link.links.size > 0 -%}
+              <ul class="mega-menu__list" role="list">
+                {%- for grandchild_link in child_link.links -%}
+                  <li>
+                    <a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.mega_menu_image != blank -%}
+        <div class="mega-menu__feature">
+          <a href="{{ section.settings.mega_menu_image_link | default: '#' }}">
+            {{ section.settings.mega_menu_image | image_url: width: 600 | image_tag:
+              loading: 'lazy',
+              widths: '300,400,600',
+              alt: section.settings.mega_menu_image.alt
+            }}
+            {%- if section.settings.mega_menu_image_caption != blank -%}
+              <span class="mega-menu__feature-caption">{{ section.settings.mega_menu_image_caption }}</span>
+            {%- endif -%}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

@@ -1,0 +1,49 @@
+<nav class="breadcrumbs page-width" aria-label="breadcrumb">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="{{ routes.root_url }}"><span itemprop="name">Home</span></a>
+      <meta itemprop="position" content="1">
+    </li>
+
+    {%- if request.page_type == 'product' -%}
+      {%- assign collection = product.collections.first -%}
+      {%- if collection != blank -%}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a itemprop="item" href="{{ collection.url }}"><span itemprop="name">{{ collection.title }}</span></a>
+          <meta itemprop="position" content="2">
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <span itemprop="name">{{ product.title }}</span>
+          <meta itemprop="position" content="3">
+        </li>
+      {%- else -%}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <span itemprop="name">{{ product.title }}</span>
+          <meta itemprop="position" content="2">
+        </li>
+      {%- endif -%}
+
+    {%- elsif request.page_type == 'collection' -%}
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{{ collection.title }}</span>
+        <meta itemprop="position" content="2">
+      </li>
+
+    {%- elsif request.page_type == 'article' -%}
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="{{ blog.url }}"><span itemprop="name">{{ blog.title }}</span></a>
+        <meta itemprop="position" content="2">
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{{ article.title }}</span>
+        <meta itemprop="position" content="3">
+      </li>
+
+    {%- elsif request.page_type == 'page' -%}
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{{ page.title }}</span>
+        <meta itemprop="position" content="2">
+      </li>
+    {%- endif -%}
+  </ol>
+</nav>

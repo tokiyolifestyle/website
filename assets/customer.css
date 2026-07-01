@@ -1,0 +1,22 @@
+.customer-page { padding-block:2.5rem var(--spacing-sections,64px); max-width:900px; }
+.customer-page__inner { max-width:480px; }
+.customer-page h1 { margin-bottom:2rem; }
+.form-field { margin-bottom:1.25rem; }
+.form-field label { display:block; font-weight:500; font-size:.875rem; margin-bottom:.4rem; }
+.form-field input, .form-field select, .form-field textarea { width:100%; padding:.85rem 1rem; border:1.5px solid #ddd; border-radius:8px; font-size:1rem; transition:border-color .2s; }
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus { outline:none; border-color:var(--color-primary,#111); }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.form-errors { background:#fef2f2; border:1px solid var(--color-error,#D72638); color:var(--color-error,#D72638); padding:.75rem 1rem; border-radius:8px; margin-bottom:1rem; font-size:.875rem; }
+.form-success { color:var(--color-success,#3BB273); font-size:.875rem; margin-bottom:1rem; }
+.customer-page__links { display:flex; gap:1.5rem; margin-top:1rem; font-size:.875rem; }
+.customer-account__header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; }
+.customer-account__grid { display:grid; grid-template-columns:300px 1fr; gap:3rem; }
+@media(max-width:749px){ .customer-account__grid { grid-template-columns:1fr; } }
+.orders-table { width:100%; border-collapse:collapse; font-size:.875rem; }
+.orders-table th, .orders-table td { padding:.75rem 1rem; text-align:left; border-bottom:1px solid #f0f0f0; }
+.orders-table th { font-weight:600; background:#fafafa; }
+.addresses-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.5rem; margin-top:2rem; }
+.address-card { background:#fff; border:1.5px solid #eee; border-radius:12px; padding:1.25rem; }
+.address-card p { font-size:.875rem; color:#555; margin-bottom:.25rem; }
+.address-card__actions { display:flex; gap:.5rem; margin-top:.75rem; }
+.order-summary { margin-top:1.5rem; padding:1rem; background:#fafafa; border-radius:8px; font-size:.875rem; }

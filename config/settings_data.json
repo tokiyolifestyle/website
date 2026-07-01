@@ -1,0 +1,73 @@
+{
+  "current": {
+    "logo_width": 150,
+    "color_primary": "#111111",
+    "color_secondary": "#FFFFFF",
+    "color_accent": "#C9A86A",
+    "color_background": "#F9F9F9",
+    "color_success": "#3BB273",
+    "color_error": "#D72638",
+    "color_sale_badge": "#D72638",
+    "color_new_badge": "#3BB273",
+    "type_header_font": "poppins",
+    "heading_scale": 100,
+    "type_body_font": "inter",
+    "body_scale": 100,
+    "button_border_radius": 8,
+    "button_style": "solid",
+    "button_uppercase": true,
+    "card_border_radius": 12,
+    "card_image_ratio": "portrait",
+    "card_shadow": true,
+    "show_secondary_image": true,
+    "show_vendor": false,
+    "show_quick_add": true,
+    "enable_animations": true,
+    "enable_parallax": true,
+    "enable_hover_effects": true,
+    "enable_page_transitions": false,
+    "page_width": 1440,
+    "spacing_sections": 64,
+    "grid_gutter": 20,
+    "cart_type": "drawer",
+    "cart_free_shipping_bar": true,
+    "cart_free_shipping_threshold": "2999",
+    "cart_show_gift_note": true,
+    "enable_image_zoom": true,
+    "enable_sticky_add_to_cart": true,
+    "show_stock_indicator": true,
+    "low_stock_threshold": 5,
+    "show_delivery_checker": true,
+    "show_cod_badge": true,
+    "enable_size_guide": true,
+    "enable_color_swatches": true,
+    "enable_wishlist": true,
+    "enable_compare": true,
+    "enable_predictive_search": true,
+    "search_show_suggestions": true,
+    "search_suggestions": "Hoodies, Oversized Tees, Cargo Pants, Jackets, Sneakers",
+    "social_instagram": "https://instagram.com",
+    "social_facebook": "https://facebook.com",
+    "social_twitter": "https://twitter.com",
+    "social_youtube": "",
+    "social_pinterest": "",
+    "social_tiktok": "",
+    "enable_currency_selector": true,
+    "enable_language_selector": true,
+    "enable_dark_mode_toggle": false,
+    "sections": {
+      "header-group": {
+        "type": "header-group",
+        "sections": {}
+      },
+      "footer-group": {
+        "type": "footer-group",
+        "sections": {}
+      }
+    },
+    "content_for_index": []
+  },
+  "presets": {
+    "Default": {}
+  }
+}

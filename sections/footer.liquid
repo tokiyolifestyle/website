@@ -1,0 +1,197 @@
+<footer class="site-footer">
+  {%- if section.settings.show_newsletter -%}
+    <div class="site-footer__newsletter">
+      <div class="page-width">
+        <div class="site-footer__newsletter-inner">
+          <div>
+            <h2>{{ section.settings.newsletter_title | default: 'Join the Tokiyo Family' }}</h2>
+            <p>{{ section.settings.newsletter_subtitle | default: 'Get 10% off your first order and stay updated on new drops.' }}</p>
+          </div>
+          {%- form 'customer', id: 'FooterNewsletterForm', class: 'newsletter-form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="newsletter-form__row">
+              <label for="FooterNewsletterEmail" class="visually-hidden">{{ 'general.newsletter_form.newsletter_email' | t }}</label>
+              <input type="email" name="contact[email]" id="FooterNewsletterEmail" placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}" required>
+              <button type="submit" class="button button--solid">{{ 'general.newsletter_form.submit' | t }}</button>
+            </div>
+            {%- if form.posted_successfully? -%}
+              <p class="newsletter-form__success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="site-footer__main page-width">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        {%- if settings.logo != blank -%}
+          {{ settings.logo | image_url: width: 160 | image_tag: loading: 'lazy', alt: shop.name }}
+        {%- else -%}
+          <span class="site-footer__logo-text">{{ shop.name }}</span>
+        {%- endif -%}
+        {%- if section.settings.brand_description != blank -%}
+          <p class="site-footer__brand-desc">{{ section.settings.brand_description }}</p>
+        {%- endif -%}
+
+        <div class="site-footer__social">
+          {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" aria-label="Instagram" target="_blank" rel="noopener">IG</a>{%- endif -%}
+          {%- if settings.social_facebook != blank -%}<a href="{{ settings.social_facebook }}" aria-label="Facebook" target="_blank" rel="noopener">FB</a>{%- endif -%}
+          {%- if settings.social_twitter != blank -%}<a href="{{ settings.social_twitter }}" aria-label="Twitter" target="_blank" rel="noopener">X</a>{%- endif -%}
+          {%- if settings.social_youtube != blank -%}<a href="{{ settings.social_youtube }}" aria-label="YouTube" target="_blank" rel="noopener">YT</a>{%- endif -%}
+          {%- if settings.social_pinterest != blank -%}<a href="{{ settings.social_pinterest }}" aria-label="Pinterest" target="_blank" rel="noopener">PIN</a>{%- endif -%}
+          {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" aria-label="TikTok" target="_blank" rel="noopener">TT</a>{%- endif -%}
+        </div>
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'link_column' -%}
+          <div class="site-footer__column" {{ block.shopify_attributes }}>
+            <h3>{{ block.settings.title }}</h3>
+            <ul role="list">
+              {%- for link in block.settings.menu.links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <div class="site-footer__column site-footer__contact">
+        <h3>{{ section.settings.contact_title | default: 'Get in Touch' }}</h3>
+        {%- if section.settings.contact_email != blank -%}
+          <p><a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a></p>
+        {%- endif -%}
+        {%- if section.settings.contact_phone != blank -%}
+          <p><a href="tel:{{ section.settings.contact_phone }}">{{ section.settings.contact_phone }}</a></p>
+        {%- endif -%}
+
+        {%- if settings.enable_currency_selector or settings.enable_language_selector -%}
+          <div class="site-footer__localization">
+            {%- if settings.enable_language_selector and localization.available_languages.size > 1 -%}
+              {%- form 'localization', id: 'FooterLanguageForm' -%}
+                <select name="locale_code" onchange="this.form.submit()" aria-label="Language">
+                  {%- for language in localization.available_languages -%}
+                    <option value="{{ language.iso_code }}" {% if language.iso_code == localization.language.iso_code %}selected{% endif %}>{{ language.endonym_name | capitalize }}</option>
+                  {%- endfor -%}
+                </select>
+              {%- endform -%}
+            {%- endif -%}
+
+            {%- if settings.enable_currency_selector and localization.available_countries.size > 1 -%}
+              {%- form 'localization', id: 'FooterCurrencyForm' -%}
+                <select name="country_code" onchange="this.form.submit()" aria-label="Country/Currency">
+                  {%- for country in localization.available_countries -%}
+                    <option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>{{ country.name }} ({{ country.currency.iso_code }})</option>
+                  {%- endfor -%}
+                </select>
+              {%- endform -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.show_payment_icons -%}
+      <div class="site-footer__payment">
+        {%- for type in shop.enabled_payment_types -%}
+          {{ type | payment_type_svg_tag: class: 'payment-icon' }}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="site-footer__bottom">
+      <p>© {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+      <ul class="site-footer__legal" role="list">
+        <li><a href="{{ pages.privacy-policy.url | default: '/pages/privacy-policy' }}">Privacy Policy</a></li>
+        <li><a href="{{ pages.terms-of-service.url | default: '/pages/terms-of-service' }}">Terms</a></li>
+        <li><a href="{{ pages.refund-policy.url | default: '/pages/refund-policy' }}">Refund Policy</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "footer",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Newsletter title",
+      "default": "Join the Tokiyo Family"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_subtitle",
+      "label": "Newsletter subtitle",
+      "default": "Get 10% off your first order and stay updated on new drops."
+    },
+    {
+      "type": "textarea",
+      "id": "brand_description",
+      "label": "Brand description",
+      "default": "Tokiyo Lifestyle is a premium fashion label crafting timeless essentials for the modern wardrobe."
+    },
+    {
+      "type": "text",
+      "id": "contact_title",
+      "label": "Contact column title",
+      "default": "Get in Touch"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Contact email",
+      "default": "support@tokiyolifestyle.com"
+    },
+    {
+      "type": "text",
+      "id": "contact_phone",
+      "label": "Contact phone",
+      "default": "+91 98765 43210"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link_column",
+      "name": "Link Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Column title",
+          "default": "Quick Links"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "link_column", "settings": { "title": "Shop" } },
+      { "type": "link_column", "settings": { "title": "Help" } }
+    ]
+  }
+}
+{% endschema %}

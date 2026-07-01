@@ -1,0 +1,79 @@
+<div class="cart-page page-width">
+  <h1 class="cart-page__title">{{ 'sections.cart.title' | t }}</h1>
+  {%- if cart.item_count > 0 -%}
+    {%- form 'cart', cart, id: 'CartForm', class: 'cart-page__form' -%}
+      <div class="cart-page__grid">
+        <div class="cart-page__items">
+          {%- for item in cart.items -%}
+            <div class="cart-page__item cart-item">
+              <div class="cart-item__image">
+                {%- if item.image -%}{{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: item.title | escape }}{%- endif -%}
+              </div>
+              <div class="cart-item__details">
+                <p class="cart-item__title"><a href="{{ item.url }}">{{ item.product.title }}</a></p>
+                {%- unless item.product.has_only_default_variant -%}<p class="cart-item__variant">{{ item.variant.title }}</p>{%- endunless -%}
+                <p class="cart-item__price">{{ item.final_price | money }}</p>
+                <div class="cart-item__qty">
+                  <button type="button" class="cart-item__qty-btn" data-qty-change="-1">{% render 'icon-minus' %}</button>
+                  <input class="cart-item__qty-input" data-qty-input type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="0">
+                  <button type="button" class="cart-item__qty-btn" data-qty-change="1">{% render 'icon-plus' %}</button>
+                </div>
+              </div>
+              <div class="cart-item__total">
+                <p>{{ item.final_line_price | money }}</p>
+                <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" class="cart-item__remove">Remove</a>
+              </div>
+            </div>
+          {%- endfor -%}
+          <div class="cart-page__update"><button type="submit" name="update" class="button button--outline">Update Cart</button></div>
+        </div>
+        <div class="cart-page__summary">
+          <h2>Order Summary</h2>
+          <div class="cart-page__summary-row"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
+          <p class="cart-page__summary-note">Taxes and shipping calculated at checkout</p>
+          {%- if settings.cart_show_gift_note -%}
+            <div class="cart-page__note-wrap">
+              <label for="CartPageNote">Gift Note</label>
+              <textarea id="CartPageNote" name="note" rows="3">{{ cart.note }}</textarea>
+            </div>
+          {%- endif -%}
+          <a href="{{ routes.checkout_url }}" class="button button--solid button--full">{{ 'sections.cart.checkout' | t }}</a>
+          <a href="/collections/all" class="button button--outline button--full" style="margin-top:.5rem">{{ 'general.continue_shopping' | t }}</a>
+        </div>
+      </div>
+    {%- endform -%}
+  {%- else -%}
+    <div class="cart-empty">
+      <p>{{ 'sections.cart.empty' | t }}</p>
+      <a href="/collections/all" class="button button--solid">{{ 'sections.cart.start_shopping' | t }}</a>
+    </div>
+  {%- endif -%}
+</div>
+<style>
+  .cart-page { padding-block:2.5rem var(--spacing-sections,64px); }
+  .cart-page__title { margin-bottom:2rem; }
+  .cart-page__grid { display:grid; grid-template-columns:1fr 360px; gap:3rem; align-items:start; }
+  @media(max-width:989px){ .cart-page__grid { grid-template-columns:1fr; } }
+  .cart-page__item { display:grid; grid-template-columns:100px 1fr auto; gap:1.25rem; padding:1.25rem 0; border-bottom:1px solid #f0f0f0; }
+  .cart-page__item .cart-item__image { border-radius:8px; overflow:hidden; aspect-ratio:3/4; }
+  .cart-page__item .cart-item__image img { width:100%; height:100%; object-fit:cover; }
+  .cart-item__total { text-align:right; }
+  .cart-item__remove { font-size:.75rem; color:#aaa; text-decoration:underline; }
+  .cart-page__update { padding-top:1rem; }
+  .cart-page__summary { background:#fff; border-radius:12px; padding:1.75rem; box-shadow:0 4px 18px rgba(17,17,17,.06); }
+  .cart-page__summary h2 { font-size:1.1rem; margin-bottom:1rem; }
+  .cart-page__summary-row { display:flex; justify-content:space-between; font-weight:600; margin-bottom:.75rem; }
+  .cart-page__summary-note { font-size:.8rem; color:#999; margin-bottom:1rem; }
+  .cart-page__note-wrap { margin-bottom:1rem; }
+  .cart-page__note-wrap label { font-size:.875rem; font-weight:500; display:block; margin-bottom:.35rem; }
+  .cart-page__note-wrap textarea { width:100%; border:1px solid #ddd; border-radius:8px; padding:.65rem; font-size:.875rem; resize:none; }
+  .cart-empty { text-align:center; padding:5rem 0; }
+  .cart-empty p { color:#888; margin-bottom:1.5rem; }
+</style>
+{% schema %}
+{
+  "name": "Cart Page",
+  "tag": "section",
+  "class": "section-cart-page"
+}
+{% endschema %}

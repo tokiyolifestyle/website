@@ -1,0 +1,54 @@
+<div class="contact-page page-width">
+  {% render 'breadcrumbs' %}
+  <div class="contact-page__grid">
+    <div class="contact-page__info animate-on-scroll fade-right">
+      <h1>{{ 'templates.contact.title' | t }}</h1>
+      <p>Have a question or feedback? We'd love to hear from you. Our team typically responds within 24 hours.</p>
+      <div class="contact-info-block"><strong>Email</strong><p><a href="mailto:support@tokiyolifestyle.com">support@tokiyolifestyle.com</a></p></div>
+      <div class="contact-info-block"><strong>Phone</strong><p>+91 98765 43210<br>Mon–Sat, 10am–7pm IST</p></div>
+      <div class="contact-info-block"><strong>Headquarters</strong><p>Tokiyo Lifestyle Pvt. Ltd.<br>Mumbai, India 400001</p></div>
+    </div>
+    <div class="contact-page__form animate-on-scroll fade-left">
+      {%- form 'contact', id: 'ContactForm' -%}
+        {%- if form.posted_successfully? -%}
+          <div class="form-success">{{ 'templates.contact.success' | t }}</div>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <div class="form-errors">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+        <div class="form-row">
+          <div class="form-field">
+            <label for="ContactName">{{ 'templates.contact.name' | t }}</label>
+            <input type="text" name="contact[name]" id="ContactName" value="{{ form.name }}" autocomplete="name" required>
+          </div>
+          <div class="form-field">
+            <label for="ContactEmail">{{ 'templates.contact.email' | t }}</label>
+            <input type="email" name="contact[email]" id="ContactEmail" value="{{ form.email }}" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="ContactPhone">{{ 'templates.contact.phone' | t }}</label>
+          <input type="tel" name="contact[phone]" id="ContactPhone" value="{{ form.phone }}" autocomplete="tel">
+        </div>
+        <div class="form-field">
+          <label for="ContactMessage">{{ 'templates.contact.message' | t }}</label>
+          <textarea name="contact[body]" id="ContactMessage" rows="5" required>{{ form.body }}</textarea>
+        </div>
+        <button type="submit" class="button button--solid">{{ 'templates.contact.submit' | t }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+<style>
+  .contact-page { padding-block:2.5rem var(--spacing-sections,64px); }
+  .contact-page__grid { display:grid; grid-template-columns:1fr 1.4fr; gap:4rem; align-items:start; }
+  @media(max-width:749px){ .contact-page__grid { grid-template-columns:1fr; gap:2.5rem; } }
+  .contact-page__info h1 { font-size:clamp(1.75rem,3vw,2.5rem); margin-bottom:1rem; }
+  .contact-info-block { margin-top:1.5rem; }
+  .contact-info-block strong { display:block; margin-bottom:.25rem; }
+  .contact-info-block p { color:#666; font-size:.9rem; }
+  .form-field textarea { min-height:120px; resize:vertical; }
+</style>
+{% schema %}
+{ "name": "Contact Page", "tag": "section", "class": "section-contact" }
+{% endschema %}

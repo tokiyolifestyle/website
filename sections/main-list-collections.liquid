@@ -1,0 +1,31 @@
+<div class="collections-list-page page-width">
+  <h1 class="animate-on-scroll fade-up">All Collections</h1>
+  <div class="featured-collections__grid stagger-children" style="grid-template-columns:repeat(4,1fr);">
+    {%- for collection in collections -%}
+      {%- unless collection.handle == 'frontpage' -%}
+        <a href="{{ collection.url }}" class="collection-card hover-lift">
+          <div class="collection-card__media hover-zoom">
+            {%- if collection.featured_image -%}
+              {{ collection.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: collection.title | escape }}
+            {%- else -%}
+              {{ 'collection-apparel-1' | placeholder_svg_tag: 'collection-card__placeholder' }}
+            {%- endif -%}
+            <div class="collection-card__overlay"></div>
+          </div>
+          <div class="collection-card__info">
+            <h3>{{ collection.title }}</h3>
+            <span class="collection-card__cta">Shop Now {% render 'icon-chevron-right' %}</span>
+          </div>
+        </a>
+      {%- endunless -%}
+    {%- endfor -%}
+  </div>
+</div>
+<style>
+  .collections-list-page { padding-block:2.5rem var(--spacing-sections,64px); }
+  .collections-list-page h1 { margin-bottom:2rem; }
+  @media(max-width:749px){ .featured-collections__grid { grid-template-columns:repeat(2,1fr) !important; } }
+</style>
+{% schema %}
+{ "name": "Collections List", "tag": "section", "class": "section-collections-list" }
+{% endschema %}
