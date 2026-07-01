@@ -267,7 +267,7 @@
       <div class="page-width sticky-atc__inner">
         <div class="sticky-atc__product">
           {%- if product.featured_media -%}
-            {{ product.featured_media | image_url: width: 80 | image_tag: loading: 'lazy', alt: product.title | escape, class: 'sticky-atc__img' }}
+            {{ product.featured_media | image_url: width: 80 | image_tag: loading: 'lazy', alt: product.title, class: 'sticky-atc__img' }}
           {%- endif -%}
           <div>
             <p class="sticky-atc__title">{{ product.title }}</p>
