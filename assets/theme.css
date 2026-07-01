@@ -241,21 +241,73 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  padding-block: 1.25rem;
+  padding-block: 0.5rem;
 }
 .site-header__mobile-toggle { display: none; color: var(--color-primary, #111111); }
 @media (max-width: 989px) {
   .site-header__mobile-toggle { display: flex; }
   .site-header__nav { display: none; }
 }
-.site-header__logo-link { display: inline-flex; }
+.bg-fill { fill: #111111 !important; stroke: #111111 !important; }
+.window-fill { fill: #FFFFFF !important; }
+.site-header__logo-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.site-header__logo-link img,
+.header__logo-img {
+  display: block;
+  max-height: 54px;
+  width: auto;
+  mix-blend-mode: multiply;
+}
+.logo-pagoda-svg {
+  height: 38px;
+  width: auto;
+  display: block;
+}
 .site-header__logo-text {
-  font-family: var(--font-heading, 'Poppins', sans-serif);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+.logo-tokiyo {
+  font-family: 'Playfair Display', 'Didot', 'Georgia', serif;
+  font-size: 1.4rem;
   font-weight: 800;
-  font-size: 1.35rem;
   letter-spacing: 0.12em;
+  color: #111111;
   text-transform: uppercase;
-  color: var(--color-primary, #111111);
+  line-height: 1;
+}
+.logo-tokiyo .red-o {
+  color: #E31B23;
+}
+.logo-lifestyle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.48rem;
+  letter-spacing: 0.32em;
+  font-weight: 700;
+  color: #111111;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+.logo-lifestyle::before,
+.logo-lifestyle::after {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 1px;
+  background-color: #111111;
+  vertical-align: middle;
+  margin: 0 6px;
+  opacity: 0.7;
 }
 .site-header__nav-list { display: flex; gap: 2.25rem; }
 .site-header__nav-item { position: relative; }
@@ -386,7 +438,57 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 .site-footer__column a { color: rgba(255,255,255,0.5); transition: color 0.25s ease; font-size: 0.875rem; }
 .site-footer__column a:hover { color: var(--color-accent, #B89047); }
 .site-footer__brand-desc { color: rgba(255,255,255,0.45); font-size: 0.875rem; margin: 1.25rem 0; line-height: 1.8; }
-.site-footer__logo-text { font-size: 1.25rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #FFFFFF; }
+.site-footer__logo-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+.site-footer__logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.1;
+}
+.site-footer__logo-text .logo-tokiyo {
+  color: #FFFFFF !important;
+  font-family: 'Playfair Display', 'Didot', 'Georgia', serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.site-footer__logo-text .logo-tokiyo .red-o {
+  color: #E31B23 !important;
+}
+.site-footer__logo-text .logo-lifestyle {
+  color: rgba(255,255,255,0.7) !important;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.48rem;
+  letter-spacing: 0.32em;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+.site-footer__logo-text .logo-lifestyle::before,
+.site-footer__logo-text .logo-lifestyle::after {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 1px;
+  background-color: rgba(255,255,255,0.5) !important;
+  vertical-align: middle;
+  margin: 0 6px;
+  opacity: 0.7;
+}
+.site-footer .bg-fill { fill: #FFFFFF !important; stroke: #FFFFFF !important; }
+.site-footer .window-fill { fill: #111111 !important; }
+.site-footer .logo-pagoda-svg {
+  height: 38px;
+  width: auto;
+  display: block;
+  margin-bottom: 2px;
+}
 .site-footer__social { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
 .site-footer__social a {
   width: 36px; height: 36px;

@@ -40,14 +40,30 @@
   </div>
 </div>
 <style>
-  .contact-page { padding-block:2.5rem var(--spacing-sections,64px); }
-  .contact-page__grid { display:grid; grid-template-columns:1fr 1.4fr; gap:4rem; align-items:start; }
-  @media(max-width:749px){ .contact-page__grid { grid-template-columns:1fr; gap:2.5rem; } }
-  .contact-page__info h1 { font-size:clamp(1.75rem,3vw,2.5rem); margin-bottom:1rem; }
-  .contact-info-block { margin-top:1.5rem; }
-  .contact-info-block strong { display:block; margin-bottom:.25rem; }
-  .contact-info-block p { color:#666; font-size:.9rem; }
-  .form-field textarea { min-height:120px; resize:vertical; }
+  .contact-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .contact-page__grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: start; }
+  @media(max-width: 749px){ .contact-page__grid { grid-template-columns: 1fr; gap: 3rem; } }
+  .contact-page__info h1 { font-size: clamp(1.75rem, 3vw, 2.5rem); margin-bottom: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
+  .contact-page__info > p { color: var(--color-text-muted, #767674); line-height: 1.7; margin-bottom: 2rem; }
+  .contact-info-block { margin-top: 2rem; border-top: 1px solid var(--color-border, rgba(0,0,0,0.06)); padding-top: 1.25rem; }
+  .contact-info-block strong { display: block; margin-bottom: .5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-accent, #B89047); }
+  .contact-info-block p { color: var(--color-primary, #111111); font-size: .9375rem; line-height: 1.6; }
+  .contact-info-block a { text-decoration: underline; transition: color 0.2s; }
+  .contact-info-block a:hover { color: var(--color-accent, #B89047); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media(max-width: 480px){ .form-row { grid-template-columns: 1fr; gap: 0; } }
+  .form-field { margin-bottom: 2rem; }
+  .form-field label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-text-muted, #767674);
+    margin-bottom: 0.35rem;
+  }
+  .form-success { padding: 1rem; background: rgba(46,125,50,0.08); border-left: 3px solid #2E7D32; color: #2E7D32; margin-bottom: 2rem; font-weight: 600; font-size: 0.875rem; }
+  .form-errors { padding: 1rem; background: rgba(198,40,40,0.08); border-left: 3px solid #C62828; color: #C62828; margin-bottom: 2rem; font-weight: 600; font-size: 0.875rem; }
 </style>
 {% schema %}
 { "name": "Contact Page", "tag": "section", "class": "section-contact" }
