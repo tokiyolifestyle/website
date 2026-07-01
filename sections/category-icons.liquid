@@ -1,0 +1,246 @@
+{%- comment -%} Category Icons Strip — Animated horizontal scroll {%- endcomment -%}
+
+<section class="category-icons section-category-icons">
+  <div class="category-icons__inner page-width">
+    <div class="category-icons__track" id="CategoryIconsTrack">
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'category' -%}
+          <a href="{{ block.settings.link | default: '/collections/all' }}"
+             class="category-icon-item"
+             style="animation-delay: {{ forloop.index0 | times: 0.08 }}s;"
+             {{ block.shopify_attributes }}>
+            <div class="category-icon-item__circle">
+              {%- case block.settings.icon -%}
+                {%- when 'tshirt' -%}
+                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 10L14 7C14 7 15.5 12 20 12C24.5 12 26 7 26 7L32 10L29 18H26V33H14V18H11L8 10Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  </svg>
+                {%- when 'oversized' -%}
+                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 10L14 7C14 7 16 13 20 13C24 13 26 7 26 7L34 10L30 20H26V34H14V20H10L6 10Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    <path d="M8 16H11" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M29 16H32" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                {%- when 'hoodie' -%}
+                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12L15 8C15 8 17 11 20 11C23 11 25 8 25 8L31 12L29 22H26V34H14V22H11L9 12Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    <path d="M17 8C17 8 18 14 20 14C22 14 23 8 23 8" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M17 14V20M23 14V20" stroke="white" stroke-width="1" fill="none"/>
+                  </svg>
+                {%- when 'cargo' -%}
+                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 8H27L30 20L27 35H22L20 28L18 35H13L10 20L13 8Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    <rect x="13" y="17" width="5" height="4" rx="0.5" stroke="white" stroke-width="1.2" fill="none"/>
+                    <rect x="22" y="17" width="5" height="4" rx="0.5" stroke="white" stroke-width="1.2" fill="none"/>
+                    <line x1="13" y1="8" x2="27" y2="8" stroke="white" stroke-width="1" />
+                  </svg>
+                {%- when 'jacket' -%}
+                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 13L15 9L18 14L20 12L22 14L25 9L31 13L33 24H27V34H13V24H7L9 13Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    <line x1="20" y1="12" x2="20" y2="34" stroke="white" stroke-width="1.5"/>
+                    <circle cx="20" cy="18" r="1" fill="white"/>
+                    <circle cx="20" cy="23" r="1" fill="white"/>
+                    <circle cx="20" cy="28" r="1" fill="white"/>
+                  </svg>
+                {%- when 'accessories' -%}
+                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <circle cx="20" cy="20" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <line x1="20" y1="10" x2="20" y2="14" stroke="currentColor" stroke-width="2"/>
+                    <line x1="20" y1="26" x2="20" y2="30" stroke="currentColor" stroke-width="2"/>
+                    <line x1="10" y1="20" x2="14" y2="20" stroke="currentColor" stroke-width="2"/>
+                    <line x1="26" y1="20" x2="30" y2="20" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="2.5" fill="currentColor"/>
+                  </svg>
+                {%- when 'footwear' -%}
+                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 28C8 28 10 22 16 20L22 16C22 16 25 14 28 17L33 22C33 22 35 24 32 27L28 28H8Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    <path d="M8 28H32C32 28 33 30 30 31H8C8 31 7 30 8 28Z" fill="currentColor" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M16 20L18 27" stroke="white" stroke-width="1" stroke-linecap="round"/>
+                  </svg>
+                {%- when 'bags' -%}
+                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="16" width="20" height="16" rx="1" fill="currentColor" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M15 16V13C15 10.8 17.2 9 20 9C22.8 9 25 10.8 25 13V16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <line x1="10" y1="22" x2="30" y2="22" stroke="white" stroke-width="1.5"/>
+                    <circle cx="20" cy="27" r="2" fill="white"/>
+                  </svg>
+                {%- when 'winter' -%}
+                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 9H27L30 19H27L28 32H12L13 19H10L13 9Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    <path d="M13 9C13 9 15 13 20 13C25 13 27 9 27 9" stroke="white" stroke-width="1.5" fill="none"/>
+                    <path d="M15 17H25" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                {%- when 'women' -%}
+                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 8H26L30 22H24L26 34H14L16 22H10L14 8Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    <path d="M14 8C14 8 17 13 20 13C23 13 26 8 26 8" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                  </svg>
+                {%- else -%}
+                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 10L14 7C14 7 15.5 12 20 12C24.5 12 26 7 26 7L32 10L29 18H26V33H14V18H11L8 10Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  </svg>
+              {%- endcase -%}
+            </div>
+            <span class="category-icon-item__label">{{ block.settings.label }}</span>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .category-icons {
+    background: #FFFFFF;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+  .category-icons__inner { position: relative; }
+  .category-icons__track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 0.75rem 0.5rem;
+    justify-content: flex-start;
+  }
+  .category-icons__track::-webkit-scrollbar { display: none; }
+
+  .category-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    flex-shrink: 0;
+    cursor: pointer;
+    animation: categoryFloat 3s ease-in-out infinite;
+  }
+
+  @keyframes categoryFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .category-icon-item:nth-child(2) { animation-delay: 0.2s; }
+  .category-icon-item:nth-child(3) { animation-delay: 0.4s; }
+  .category-icon-item:nth-child(4) { animation-delay: 0.6s; }
+  .category-icon-item:nth-child(5) { animation-delay: 0.8s; }
+  .category-icon-item:nth-child(6) { animation-delay: 1.0s; }
+  .category-icon-item:nth-child(7) { animation-delay: 1.2s; }
+  .category-icon-item:nth-child(8) { animation-delay: 1.4s; }
+  .category-icon-item:nth-child(9) { animation-delay: 1.6s; }
+  .category-icon-item:nth-child(10) { animation-delay: 1.8s; }
+
+  .category-icon-item:hover { animation-play-state: paused; }
+
+  .category-icon-item__circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #0A0A0A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .category-icon-item__circle svg {
+    width: 26px;
+    height: 26px;
+  }
+  .category-icon-item:hover .category-icon-item__circle {
+    background: #E31B23;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(227,27,35,0.35);
+  }
+
+  .category-icon-item__label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #0A0A0A;
+    text-align: center;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+    position: relative;
+  }
+  .category-icon-item__label::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 100%;
+    height: 2px;
+    background: #E31B23;
+    transition: transform 0.25s ease;
+  }
+  .category-icon-item:hover .category-icon-item__label { color: #E31B23; }
+  .category-icon-item:hover .category-icon-item__label::after { transform: translateX(-50%) scaleX(1); }
+
+  @media(max-width: 749px) {
+    .category-icon-item__circle { width: 52px; height: 52px; }
+    .category-icon-item__circle svg { width: 22px; height: 22px; }
+    .category-icon-item__label { font-size: 0.6rem; }
+    .category-icons__track { gap: 1.25rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Category Icons",
+  "tag": "section",
+  "class": "section-category-icons",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "T-Shirts" },
+        { "type": "url", "id": "link", "label": "Collection Link" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "tshirt", "label": "T-Shirt" },
+            { "value": "oversized", "label": "Oversized" },
+            { "value": "hoodie", "label": "Hoodie" },
+            { "value": "cargo", "label": "Cargo / Bottoms" },
+            { "value": "jacket", "label": "Jacket" },
+            { "value": "accessories", "label": "Accessories" },
+            { "value": "footwear", "label": "Footwear" },
+            { "value": "bags", "label": "Bags" },
+            { "value": "winter", "label": "Winterwear" },
+            { "value": "women", "label": "Women" }
+          ],
+          "default": "tshirt"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Category Icons",
+    "blocks": [
+      { "type": "category", "settings": { "label": "T-Shirts", "icon": "tshirt", "link": "/collections/all" } },
+      { "type": "category", "settings": { "label": "Oversized", "icon": "oversized", "link": "/collections/all" } },
+      { "type": "category", "settings": { "label": "Hoodies", "icon": "hoodie", "link": "/collections/all" } },
+      { "type": "category", "settings": { "label": "Cargo", "icon": "cargo", "link": "/collections/all" } },
+      { "type": "category", "settings": { "label": "Jackets", "icon": "jacket", "link": "/collections/all" } },
+      { "type": "category", "settings": { "label": "Accessories", "icon": "accessories", "link": "/collections/all" } },
+      { "type": "category", "settings": { "label": "Footwear", "icon": "footwear", "link": "/collections/all" } },
+      { "type": "category", "settings": { "label": "Bags", "icon": "bags", "link": "/collections/all" } },
+      { "type": "category", "settings": { "label": "Winterwear", "icon": "winter", "link": "/collections/all" } }
+    ]
+  }]
+}
+{% endschema %}

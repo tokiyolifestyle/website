@@ -9,7 +9,9 @@
         "heading": "Redefine Your Style",
         "subheading": "Premium fashion crafted for those who dare to stand out. Explore the new collection.",
         "cta_label": "Shop Now",
-        "cta2_label": "Explore Collections"
+        "cta_link": "/collections/all",
+        "cta2_label": "Explore Collections",
+        "cta2_link": "/collections/all"
       }
     },
     "scrolling-text-1": {
@@ -17,14 +19,29 @@
       "settings": {
         "text": "Premium Quality | New Season Arrivals | Free Shipping Over ₹2999 | Wear Your Confidence | Limited Edition Drops | Crafted With Care",
         "separator": "✦",
-        "speed": 20,
+        "speed": 25,
         "font_size": 14,
-        "font_weight": "600",
+        "font_weight": "700",
         "uppercase": true,
         "padding_vertical": 16,
-        "background": "#141414",
-        "text_color": "#C9A86A"
+        "background": "#0A0A0A",
+        "text_color": "#E31B23"
       }
+    },
+    "category-icons": {
+      "type": "category-icons",
+      "blocks": {
+        "cat-1": { "type": "category", "settings": { "label": "T-Shirts", "icon": "tshirt", "link": "/collections/all" } },
+        "cat-2": { "type": "category", "settings": { "label": "Oversized", "icon": "oversized", "link": "/collections/all" } },
+        "cat-3": { "type": "category", "settings": { "label": "Hoodies", "icon": "hoodie", "link": "/collections/all" } },
+        "cat-4": { "type": "category", "settings": { "label": "Cargo", "icon": "cargo", "link": "/collections/all" } },
+        "cat-5": { "type": "category", "settings": { "label": "Jackets", "icon": "jacket", "link": "/collections/all" } },
+        "cat-6": { "type": "category", "settings": { "label": "Accessories", "icon": "accessories", "link": "/collections/all" } },
+        "cat-7": { "type": "category", "settings": { "label": "Footwear", "icon": "footwear", "link": "/collections/all" } },
+        "cat-8": { "type": "category", "settings": { "label": "Bags", "icon": "bags", "link": "/collections/all" } },
+        "cat-9": { "type": "category", "settings": { "label": "Winterwear", "icon": "winter", "link": "/collections/all" } }
+      },
+      "block_order": ["cat-1","cat-2","cat-3","cat-4","cat-5","cat-6","cat-7","cat-8","cat-9"]
     },
     "featured-collections": {
       "type": "featured-collections",
@@ -58,13 +75,13 @@
       "settings": {
         "text": "Tokiyo Lifestyle | Wear Your Story | Premium Streetwear | Made In India | Elevate Your Wardrobe",
         "separator": "✦",
-        "speed": 45,
+        "speed": 40,
         "font_size": 12,
         "font_weight": "700",
         "uppercase": true,
         "padding_vertical": 12,
-        "background": "#FAFAF9",
-        "text_color": "#E2E2DF"
+        "background": "#0A0A0A",
+        "text_color": "#FFFFFF"
       }
     },
     "image-with-text": {
@@ -111,6 +128,7 @@
   "order": [
     "hero-banner",
     "scrolling-text-1",
+    "category-icons",
     "featured-collections",
     "trending-products",
     "scrolling-text-2",
