@@ -102,9 +102,11 @@
         "id": "type_header_font",
         "label": "Heading font",
         "options": [
-          { "value": "poppins", "label": "Poppins" }
+          { "value": "poppins", "label": "Poppins" },
+          { "value": "playfair_display", "label": "Playfair Display" },
+          { "value": "outfit", "label": "Outfit" }
         ],
-        "default": "poppins"
+        "default": "playfair_display"
       },
       {
         "type": "range",
@@ -125,7 +127,8 @@
         "id": "type_body_font",
         "label": "Body font",
         "options": [
-          { "value": "inter", "label": "Inter" }
+          { "value": "inter", "label": "Inter" },
+          { "value": "plus_jakarta_sans", "label": "Plus Jakarta Sans" }
         ],
         "default": "inter"
       },

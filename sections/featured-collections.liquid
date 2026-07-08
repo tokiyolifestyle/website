@@ -51,13 +51,13 @@
     position: relative; display: block; overflow: hidden;
     aspect-ratio: 3/4;
     background: #F5F5F5;
-    border: 1px solid rgba(0,0,0,0.06);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   .fc-card:hover {
-    border-color: #E31B23;
-    box-shadow: 0 12px 32px rgba(227,27,35,0.1);
-    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(197, 168, 128, 0.12);
+    transform: translateY(-4px);
   }
   .fc-card__media { position:absolute; inset:0; }
   .fc-card__img { width:100%; height:100%; object-fit:cover; transition:transform .7s cubic-bezier(.25,.46,.45,.94); }
@@ -75,7 +75,7 @@
     background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(0,0,0,0.02) 8px, rgba(0,0,0,0.02) 16px);
   }
   .fc-card__placeholder-icon {
-    font-size:3rem; font-weight:800; color: #E31B23; opacity:0.25;
+    font-size:3rem; font-weight:800; color: var(--color-accent, #C5A880); opacity:0.25;
     font-family: var(--font-heading);
     z-index: 1;
   }
@@ -96,7 +96,7 @@
   }
   .fc-card__cta {
     font-size:0.6875rem; text-transform:uppercase; letter-spacing:0.1em;
-    color: #E31B23; font-weight:700;
+    color: var(--color-accent, #C5A880); font-weight:700;
     opacity:0; transform:translateY(8px);
     transition: opacity .3s ease, transform .3s ease;
     display: inline-flex; align-items: center; gap: 4px;
