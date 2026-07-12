@@ -1,70 +1,112 @@
 {%- comment -%}
-  Category Grid — Bewakoof / LimeRoad-style tabbed category browser
-  Men's & Women's → Oversized / Regular → 6 subcategories each
+  ═══════════════════════════════════════════════════════════════
+  TOKIYO CATEGORY UNIVERSE — One-of-a-kind immersive experience
+  3D tilt cards, glowing borders, particles, split-reveal, magnetic hover
+  ═══════════════════════════════════════════════════════════════
 {%- endcomment -%}
 
-<section class="category-grid-section" id="CategoryGrid">
+<section class="catg-universe" id="CategoryUniverse">
+  {%- comment -%} Floating particles background {%- endcomment -%}
+  <div class="catg-universe__particles" id="CatgParticles" aria-hidden="true"></div>
+
   <div class="page-width">
-    {%- comment -%} Section Header {%- endcomment -%}
-    <div class="catg__header animate-on-scroll fade-up">
-      <p class="text-eyebrow">{{ section.settings.eyebrow | default: 'Explore' }}</p>
-      <h2>{{ section.settings.title | default: 'Shop by Category' }}</h2>
+    {%- comment -%} Section Header with animated line {%- endcomment -%}
+    <div class="catg-universe__header">
+      <p class="text-eyebrow animate-on-scroll fade-up">{{ section.settings.eyebrow | default: 'Explore' }}</p>
+      <h2 class="catg-universe__title animate-on-scroll fade-up">
+        <span class="catg-universe__title-line" data-split-text>{{ section.settings.title | default: 'Shop by Category' }}</span>
+      </h2>
+      <div class="catg-universe__title-underline animate-on-scroll fade-up"></div>
     </div>
 
-    {%- comment -%} Gender Tabs {%- endcomment -%}
-    <div class="catg__tabs" role="tablist">
-      <button class="catg__tab is-active" role="tab" aria-selected="true" data-catg-tab="men" id="tab-men" aria-controls="panel-men">
-        <span class="catg__tab-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="4" r="2.5"/><path d="M8 24V14H6l4-8h4l4 8h-2v10"/></svg>
-        </span>
-        MEN
+    {%- comment -%} ═══ Quick Icon Strip (LimeRoad style) ═══ {%- endcomment -%}
+    <div class="catg-quickstrip animate-on-scroll fade-up" data-quickstrip>
+      <div class="catg-quickstrip__track">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.show_in_strip -%}
+            <a href="{{ block.settings.link | default: '#' }}" class="catg-quickstrip__item" data-quickstrip-item>
+              <div class="catg-quickstrip__circle">
+                {%- if block.settings.strip_image != blank -%}
+                  {{ block.settings.strip_image | image_url: width: 120 | image_tag:
+                    loading: 'lazy', widths: '60, 120', class: 'catg-quickstrip__img',
+                    alt: block.settings.label | escape
+                  }}
+                {%- else -%}
+                  <span class="catg-quickstrip__letter">{{ block.settings.label | slice: 0 }}</span>
+                {%- endif -%}
+                <div class="catg-quickstrip__glow"></div>
+              </div>
+              <span class="catg-quickstrip__label">{{ block.settings.label }}</span>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- comment -%} ═══ Gender Tabs — Futuristic pill style ═══ {%- endcomment -%}
+    <div class="catg-universe__tabs animate-on-scroll fade-up" role="tablist">
+      <div class="catg-universe__tabs-bg" data-tab-slider></div>
+      <button class="catg-universe__tab is-active" role="tab" aria-selected="true" data-catg-tab="men" id="utab-men">
+        <span class="catg-universe__tab-text">MEN'S</span>
+        <span class="catg-universe__tab-glow"></span>
       </button>
-      <button class="catg__tab" role="tab" aria-selected="false" data-catg-tab="women" id="tab-women" aria-controls="panel-women">
-        <span class="catg__tab-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="4" r="2.5"/><path d="M9 24v-8H7l3-6 2-4 2 4 3 6h-2v8"/></svg>
-        </span>
-        WOMEN
+      <button class="catg-universe__tab" role="tab" aria-selected="false" data-catg-tab="women" id="utab-women">
+        <span class="catg-universe__tab-text">WOMEN'S</span>
+        <span class="catg-universe__tab-glow"></span>
       </button>
     </div>
 
-    {%- comment -%} ========== MEN'S PANEL ========== {%- endcomment -%}
-    <div class="catg__panel is-active" id="panel-men" role="tabpanel" aria-labelledby="tab-men" data-catg-panel="men">
+    {%- comment -%} ═══ MEN'S PANEL ═══ {%- endcomment -%}
+    <div class="catg-universe__panel is-active" data-catg-panel="men" id="upanel-men">
 
       {%- comment -%} Oversized Section {%- endcomment -%}
-      <div class="catg__section">
-        <button class="catg__section-header" data-catg-accordion aria-expanded="true">
-          <div class="catg__section-title">
-            <span class="catg__section-badge">OVERSIZED</span>
-            <span class="catg__section-subtitle">Premium Oversized Fits</span>
+      <div class="catg-universe__section">
+        <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
+          <div class="catg-universe__section-left">
+            <span class="catg-universe__section-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8L10 5C10 5 11.5 10 16 10L22 5L20 14H17V22H7V14H4L2 5Z"/></svg>
+            </span>
+            <div>
+              <span class="catg-universe__section-badge">OVERSIZED</span>
+              <span class="catg-universe__section-sub">Drop-shoulder premium fits</span>
+            </div>
           </div>
-          <svg class="catg__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="catg__section-body is-open">
-          <div class="catg__card-grid stagger-children">
+          <div class="catg-universe__section-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="catg-universe__section-body is-open">
+          <div class="catg-universe__grid">
             {%- for block in section.blocks -%}
               {%- if block.settings.gender == 'men' and block.settings.fit == 'oversized' -%}
-                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg__card" {{ block.shopify_attributes }}>
-                  <div class="catg__card-media">
-                    {%- if block.settings.image != blank -%}
-                      {{ block.settings.image | image_url: width: 600 | image_tag:
-                        loading: 'lazy',
-                        widths: '300, 450, 600',
-                        sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 20vw',
-                        class: 'catg__card-img',
-                        alt: block.settings.label | escape
-                      }}
-                    {%- else -%}
-                      <div class="catg__card-placeholder">
-                        <span>{{ block.settings.label | slice: 0 }}</span>
+                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
+                  <div class="catg-card-3d__inner">
+                    <div class="catg-card-3d__glow-border"></div>
+                    <div class="catg-card-3d__media">
+                      {%- if block.settings.image != blank -%}
+                        {{ block.settings.image | image_url: width: 600 | image_tag:
+                          loading: 'lazy', widths: '300, 450, 600',
+                          sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 18vw',
+                          class: 'catg-card-3d__img', alt: block.settings.label | escape
+                        }}
+                      {%- else -%}
+                        <div class="catg-card-3d__placeholder">
+                          <div class="catg-card-3d__placeholder-pattern"></div>
+                          <span class="catg-card-3d__placeholder-letter">{{ block.settings.label | slice: 0, 2 }}</span>
+                        </div>
+                      {%- endif -%}
+                      <div class="catg-card-3d__shimmer"></div>
+                      <div class="catg-card-3d__overlay"></div>
+                    </div>
+                    <div class="catg-card-3d__content">
+                      <span class="catg-card-3d__tag">OVERSIZED</span>
+                      <h3 class="catg-card-3d__title">{{ block.settings.label }}</h3>
+                      <div class="catg-card-3d__explore">
+                        <span>Explore</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                       </div>
-                    {%- endif -%}
-                    <div class="catg__card-overlay"></div>
-                  </div>
-                  <div class="catg__card-info">
-                    <span class="catg__card-label">{{ block.settings.label }}</span>
-                    <span class="catg__card-arrow">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                    </span>
+                    </div>
+                    <div class="catg-card-3d__shine" data-card-shine></div>
                   </div>
                 </a>
               {%- endif -%}
@@ -74,40 +116,53 @@
       </div>
 
       {%- comment -%} Regular Section {%- endcomment -%}
-      <div class="catg__section">
-        <button class="catg__section-header" data-catg-accordion aria-expanded="true">
-          <div class="catg__section-title">
-            <span class="catg__section-badge">REGULAR</span>
-            <span class="catg__section-subtitle">Classic Fit Collection</span>
+      <div class="catg-universe__section">
+        <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
+          <div class="catg-universe__section-left">
+            <span class="catg-universe__section-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8L10 5C10 5 11 9 12 9C13 9 14 5 14 5L18 8L16 14H14V22H10V14H8L6 8Z"/></svg>
+            </span>
+            <div>
+              <span class="catg-universe__section-badge">REGULAR FIT</span>
+              <span class="catg-universe__section-sub">Classic comfort essentials</span>
+            </div>
           </div>
-          <svg class="catg__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="catg__section-body is-open">
-          <div class="catg__card-grid stagger-children">
+          <div class="catg-universe__section-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="catg-universe__section-body is-open">
+          <div class="catg-universe__grid">
             {%- for block in section.blocks -%}
               {%- if block.settings.gender == 'men' and block.settings.fit == 'regular' -%}
-                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg__card" {{ block.shopify_attributes }}>
-                  <div class="catg__card-media">
-                    {%- if block.settings.image != blank -%}
-                      {{ block.settings.image | image_url: width: 600 | image_tag:
-                        loading: 'lazy',
-                        widths: '300, 450, 600',
-                        sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 20vw',
-                        class: 'catg__card-img',
-                        alt: block.settings.label | escape
-                      }}
-                    {%- else -%}
-                      <div class="catg__card-placeholder">
-                        <span>{{ block.settings.label | slice: 0 }}</span>
+                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
+                  <div class="catg-card-3d__inner">
+                    <div class="catg-card-3d__glow-border"></div>
+                    <div class="catg-card-3d__media">
+                      {%- if block.settings.image != blank -%}
+                        {{ block.settings.image | image_url: width: 600 | image_tag:
+                          loading: 'lazy', widths: '300, 450, 600',
+                          sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 18vw',
+                          class: 'catg-card-3d__img', alt: block.settings.label | escape
+                        }}
+                      {%- else -%}
+                        <div class="catg-card-3d__placeholder">
+                          <div class="catg-card-3d__placeholder-pattern"></div>
+                          <span class="catg-card-3d__placeholder-letter">{{ block.settings.label | slice: 0, 2 }}</span>
+                        </div>
+                      {%- endif -%}
+                      <div class="catg-card-3d__shimmer"></div>
+                      <div class="catg-card-3d__overlay"></div>
+                    </div>
+                    <div class="catg-card-3d__content">
+                      <span class="catg-card-3d__tag">REGULAR</span>
+                      <h3 class="catg-card-3d__title">{{ block.settings.label }}</h3>
+                      <div class="catg-card-3d__explore">
+                        <span>Explore</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                       </div>
-                    {%- endif -%}
-                    <div class="catg__card-overlay"></div>
-                  </div>
-                  <div class="catg__card-info">
-                    <span class="catg__card-label">{{ block.settings.label }}</span>
-                    <span class="catg__card-arrow">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                    </span>
+                    </div>
+                    <div class="catg-card-3d__shine" data-card-shine></div>
                   </div>
                 </a>
               {%- endif -%}
@@ -117,44 +172,56 @@
       </div>
     </div>
 
-    {%- comment -%} ========== WOMEN'S PANEL ========== {%- endcomment -%}
-    <div class="catg__panel" id="panel-women" role="tabpanel" aria-labelledby="tab-women" data-catg-panel="women" hidden>
-
-      {%- comment -%} Oversized Section {%- endcomment -%}
-      <div class="catg__section">
-        <button class="catg__section-header" data-catg-accordion aria-expanded="true">
-          <div class="catg__section-title">
-            <span class="catg__section-badge">OVERSIZED</span>
-            <span class="catg__section-subtitle">Premium Oversized Fits</span>
+    {%- comment -%} ═══ WOMEN'S PANEL ═══ {%- endcomment -%}
+    <div class="catg-universe__panel" data-catg-panel="women" id="upanel-women" hidden>
+      {%- comment -%} Oversized {%- endcomment -%}
+      <div class="catg-universe__section">
+        <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
+          <div class="catg-universe__section-left">
+            <span class="catg-universe__section-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8L10 5C10 5 11.5 10 16 10L22 5L20 14H17V22H7V14H4L2 5Z"/></svg>
+            </span>
+            <div>
+              <span class="catg-universe__section-badge">OVERSIZED</span>
+              <span class="catg-universe__section-sub">Drop-shoulder premium fits</span>
+            </div>
           </div>
-          <svg class="catg__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="catg__section-body is-open">
-          <div class="catg__card-grid stagger-children">
+          <div class="catg-universe__section-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="catg-universe__section-body is-open">
+          <div class="catg-universe__grid">
             {%- for block in section.blocks -%}
               {%- if block.settings.gender == 'women' and block.settings.fit == 'oversized' -%}
-                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg__card" {{ block.shopify_attributes }}>
-                  <div class="catg__card-media">
-                    {%- if block.settings.image != blank -%}
-                      {{ block.settings.image | image_url: width: 600 | image_tag:
-                        loading: 'lazy',
-                        widths: '300, 450, 600',
-                        sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 20vw',
-                        class: 'catg__card-img',
-                        alt: block.settings.label | escape
-                      }}
-                    {%- else -%}
-                      <div class="catg__card-placeholder">
-                        <span>{{ block.settings.label | slice: 0 }}</span>
+                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
+                  <div class="catg-card-3d__inner">
+                    <div class="catg-card-3d__glow-border"></div>
+                    <div class="catg-card-3d__media">
+                      {%- if block.settings.image != blank -%}
+                        {{ block.settings.image | image_url: width: 600 | image_tag:
+                          loading: 'lazy', widths: '300, 450, 600',
+                          sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 18vw',
+                          class: 'catg-card-3d__img', alt: block.settings.label | escape
+                        }}
+                      {%- else -%}
+                        <div class="catg-card-3d__placeholder">
+                          <div class="catg-card-3d__placeholder-pattern"></div>
+                          <span class="catg-card-3d__placeholder-letter">{{ block.settings.label | slice: 0, 2 }}</span>
+                        </div>
+                      {%- endif -%}
+                      <div class="catg-card-3d__shimmer"></div>
+                      <div class="catg-card-3d__overlay"></div>
+                    </div>
+                    <div class="catg-card-3d__content">
+                      <span class="catg-card-3d__tag">OVERSIZED</span>
+                      <h3 class="catg-card-3d__title">{{ block.settings.label }}</h3>
+                      <div class="catg-card-3d__explore">
+                        <span>Explore</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                       </div>
-                    {%- endif -%}
-                    <div class="catg__card-overlay"></div>
-                  </div>
-                  <div class="catg__card-info">
-                    <span class="catg__card-label">{{ block.settings.label }}</span>
-                    <span class="catg__card-arrow">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                    </span>
+                    </div>
+                    <div class="catg-card-3d__shine" data-card-shine></div>
                   </div>
                 </a>
               {%- endif -%}
@@ -162,42 +229,54 @@
           </div>
         </div>
       </div>
-
-      {%- comment -%} Regular Section {%- endcomment -%}
-      <div class="catg__section">
-        <button class="catg__section-header" data-catg-accordion aria-expanded="true">
-          <div class="catg__section-title">
-            <span class="catg__section-badge">REGULAR</span>
-            <span class="catg__section-subtitle">Classic Fit Collection</span>
+      {%- comment -%} Regular {%- endcomment -%}
+      <div class="catg-universe__section">
+        <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
+          <div class="catg-universe__section-left">
+            <span class="catg-universe__section-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8L10 5C10 5 11 9 12 9C13 9 14 5 14 5L18 8L16 14H14V22H10V14H8L6 8Z"/></svg>
+            </span>
+            <div>
+              <span class="catg-universe__section-badge">REGULAR FIT</span>
+              <span class="catg-universe__section-sub">Classic comfort essentials</span>
+            </div>
           </div>
-          <svg class="catg__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="catg__section-body is-open">
-          <div class="catg__card-grid stagger-children">
+          <div class="catg-universe__section-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="catg-universe__section-body is-open">
+          <div class="catg-universe__grid">
             {%- for block in section.blocks -%}
               {%- if block.settings.gender == 'women' and block.settings.fit == 'regular' -%}
-                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg__card" {{ block.shopify_attributes }}>
-                  <div class="catg__card-media">
-                    {%- if block.settings.image != blank -%}
-                      {{ block.settings.image | image_url: width: 600 | image_tag:
-                        loading: 'lazy',
-                        widths: '300, 450, 600',
-                        sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 20vw',
-                        class: 'catg__card-img',
-                        alt: block.settings.label | escape
-                      }}
-                    {%- else -%}
-                      <div class="catg__card-placeholder">
-                        <span>{{ block.settings.label | slice: 0 }}</span>
+                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
+                  <div class="catg-card-3d__inner">
+                    <div class="catg-card-3d__glow-border"></div>
+                    <div class="catg-card-3d__media">
+                      {%- if block.settings.image != blank -%}
+                        {{ block.settings.image | image_url: width: 600 | image_tag:
+                          loading: 'lazy', widths: '300, 450, 600',
+                          sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 18vw',
+                          class: 'catg-card-3d__img', alt: block.settings.label | escape
+                        }}
+                      {%- else -%}
+                        <div class="catg-card-3d__placeholder">
+                          <div class="catg-card-3d__placeholder-pattern"></div>
+                          <span class="catg-card-3d__placeholder-letter">{{ block.settings.label | slice: 0, 2 }}</span>
+                        </div>
+                      {%- endif -%}
+                      <div class="catg-card-3d__shimmer"></div>
+                      <div class="catg-card-3d__overlay"></div>
+                    </div>
+                    <div class="catg-card-3d__content">
+                      <span class="catg-card-3d__tag">REGULAR</span>
+                      <h3 class="catg-card-3d__title">{{ block.settings.label }}</h3>
+                      <div class="catg-card-3d__explore">
+                        <span>Explore</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                       </div>
-                    {%- endif -%}
-                    <div class="catg__card-overlay"></div>
-                  </div>
-                  <div class="catg__card-info">
-                    <span class="catg__card-label">{{ block.settings.label }}</span>
-                    <span class="catg__card-arrow">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                    </span>
+                    </div>
+                    <div class="catg-card-3d__shine" data-card-shine></div>
                   </div>
                 </a>
               {%- endif -%}
@@ -209,334 +288,637 @@
   </div>
 </section>
 
+{%- comment -%} ═══════════════════ STYLES ═══════════════════ {%- endcomment -%}
 <style>
-  /* ========== Category Grid Section ========== */
-  .category-grid-section {
-    padding: var(--spacing-sections, 48px) 0;
-    background: #FFFFFF;
+  /* ═══ Universe Container ═══ */
+  .catg-universe {
+    position: relative;
+    padding: clamp(3rem, 6vw, 5rem) 0;
+    background: #FAFAF9;
+    overflow: hidden;
   }
-  .catg__header {
-    text-align: center;
-    margin-bottom: 2rem;
+  .catg-universe__particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
   }
-  .catg__header h2 {
-    margin-bottom: 0.25rem;
+  .catg-universe > .page-width { position: relative; z-index: 1; }
+
+  /* ═══ Header ═══ */
+  .catg-universe__header { text-align: center; margin-bottom: 2rem; }
+  .catg-universe__title { position: relative; display: inline-block; }
+  .catg-universe__title-line {
+    background: linear-gradient(135deg, var(--color-primary, #0C0C0E) 0%, var(--color-accent, #C5A880) 50%, var(--color-primary, #0C0C0E) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textGradientShift 4s ease infinite;
+  }
+  @keyframes textGradientShift {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 200% center; }
+  }
+  .catg-universe__title-underline {
+    width: 60px;
+    height: 3px;
+    margin: 0.75rem auto 0;
+    background: linear-gradient(90deg, transparent, var(--color-accent, #C5A880), transparent);
+    border-radius: 2px;
+    animation: lineShimmer 3s ease-in-out infinite;
+  }
+  @keyframes lineShimmer {
+    0%, 100% { opacity: 0.5; width: 40px; }
+    50% { opacity: 1; width: 80px; }
   }
 
-  /* ---- Tabs ---- */
-  .catg__tabs {
+  /* ═══ Quick Icon Strip ═══ */
+  .catg-quickstrip {
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+    position: relative;
+  }
+  .catg-quickstrip::before,
+  .catg-quickstrip::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; width: 40px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .catg-quickstrip::before { left: 0; background: linear-gradient(to right, #FAFAF9, transparent); }
+  .catg-quickstrip::after { right: 0; background: linear-gradient(to left, #FAFAF9, transparent); }
+  .catg-quickstrip__track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 1rem 2rem;
+    justify-content: center;
+  }
+  .catg-quickstrip__track::-webkit-scrollbar { display: none; }
+  .catg-quickstrip__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .catg-quickstrip__item:hover { transform: translateY(-4px) scale(1.05); }
+  .catg-quickstrip__circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    background: #F0EFED;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .catg-quickstrip__item:hover .catg-quickstrip__circle {
+    border-color: var(--color-accent, #C5A880);
+    box-shadow: 0 0 20px rgba(197, 168, 128, 0.3), 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .catg-quickstrip__glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--color-accent, #C5A880), transparent, var(--color-accent, #C5A880));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+    animation: glowSpin 3s linear infinite;
+  }
+  .catg-quickstrip__item:hover .catg-quickstrip__glow { opacity: 1; }
+  @keyframes glowSpin { to { transform: rotate(360deg); } }
+  .catg-quickstrip__img { width: 100%; height: 100%; object-fit: cover; }
+  .catg-quickstrip__letter {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; height: 100%;
+    font-size: 1.25rem; font-weight: 800;
+    color: var(--color-accent, #C5A880);
+    font-family: var(--font-heading);
+  }
+  .catg-quickstrip__label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-primary, #0C0C0E);
+    white-space: nowrap;
+    transition: color 0.3s ease;
+  }
+  .catg-quickstrip__item:hover .catg-quickstrip__label { color: var(--color-accent, #C5A880); }
+
+  /* ═══ Gender Tabs — Futuristic Pill ═══ */
+  .catg-universe__tabs {
     display: flex;
     justify-content: center;
     gap: 0;
     margin-bottom: 2.5rem;
-    border-bottom: 2px solid rgba(0,0,0,0.06);
     position: relative;
+    background: rgba(12, 12, 14, 0.04);
+    border-radius: 50px;
+    padding: 4px;
+    width: fit-content;
+    margin-inline: auto;
   }
-  .catg__tab {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1rem 2.5rem;
-    font-size: 0.8125rem;
-    font-weight: 800;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-text-muted, #767674);
-    background: none;
-    border: none;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-  }
-  .catg__tab::after {
-    content: '';
+  .catg-universe__tabs-bg {
     position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: var(--color-accent, #C5A880);
-    transform: scaleX(0);
-    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    top: 4px; bottom: 4px; left: 4px;
+    width: calc(50% - 4px);
+    background: var(--color-primary, #0C0C0E);
+    border-radius: 50px;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 0;
   }
-  .catg__tab.is-active {
-    color: var(--color-primary, #0C0C0E);
+  .catg-universe__tabs-bg.slide-right {
+    transform: translateX(100%);
   }
-  .catg__tab.is-active::after {
-    transform: scaleX(1);
+  .catg-universe__tab {
+    position: relative;
+    z-index: 1;
+    padding: 0.75rem 2.5rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color 0.4s ease;
+    color: var(--color-text-muted, #767674);
+    border-radius: 50px;
   }
-  .catg__tab:hover {
-    color: var(--color-primary, #0C0C0E);
+  .catg-universe__tab.is-active { color: #FFFFFF; }
+  .catg-universe__tab:not(.is-active):hover { color: var(--color-primary, #0C0C0E); }
+  .catg-universe__tab-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    opacity: 0;
+    background: radial-gradient(ellipse at center, rgba(197,168,128,0.15), transparent 70%);
+    transition: opacity 0.3s ease;
   }
-  .catg__tab-icon {
-    display: flex;
-    transition: transform 0.3s ease;
-  }
-  .catg__tab:hover .catg__tab-icon {
-    transform: scale(1.15);
-  }
+  .catg-universe__tab:hover .catg-universe__tab-glow { opacity: 1; }
 
-  /* ---- Panels ---- */
-  .catg__panel {
+  /* ═══ Panels ═══ */
+  .catg-universe__panel {
     display: none;
-    animation: catgPanelIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
-  .catg__panel.is-active {
+  .catg-universe__panel.is-active {
     display: block;
+    animation: panelReveal 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
-  @keyframes catgPanelIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes panelReveal {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
 
-  /* ---- Section Accordion ---- */
-  .catg__section {
-    margin-bottom: 2rem;
-  }
-  .catg__section-header {
+  /* ═══ Section Accordion ═══ */
+  .catg-universe__section { margin-bottom: 1.5rem; }
+  .catg-universe__section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    padding: 1.25rem 0;
-    border: none;
-    background: none;
+    padding: 1rem 1.25rem;
+    background: #FFFFFF;
+    border-radius: 12px;
     cursor: pointer;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+    margin-bottom: 0;
   }
-  .catg__section-title {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  .catg-universe__section-header:hover {
+    border-color: rgba(197, 168, 128, 0.2);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
   }
-  .catg__section-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.4rem 1rem;
-    background: var(--color-primary, #0C0C0E);
-    color: #FFFFFF;
-    font-size: 0.6875rem;
-    font-weight: 800;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
+  .catg-universe__section-left { display: flex; align-items: center; gap: 1rem; }
+  .catg-universe__section-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--color-primary, #0C0C0E), #1a1a1a);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--color-accent, #C5A880);
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
   }
-  .catg__section-subtitle {
+  .catg-universe__section-header:hover .catg-universe__section-icon {
+    transform: rotate(-5deg) scale(1.05);
+  }
+  .catg-universe__section-badge {
     font-size: 0.8125rem;
-    color: var(--color-text-muted, #767674);
-    font-weight: 500;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--color-primary, #0C0C0E);
+    display: block;
   }
-  .catg__chevron {
-    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  .catg-universe__section-sub {
+    font-size: 0.7rem;
     color: var(--color-text-muted, #767674);
+    display: block;
+    margin-top: 1px;
   }
-  .catg__section-header[aria-expanded="false"] .catg__chevron {
+  .catg-universe__section-chevron {
+    color: var(--color-text-muted, #767674);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .catg-universe__section-header[aria-expanded="false"] .catg-universe__section-chevron {
     transform: rotate(-90deg);
   }
 
-  /* ---- Section Body ---- */
-  .catg__section-body {
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease, padding 0.4s ease;
+  /* Section Body */
+  .catg-universe__section-body {
+    max-height: 0; opacity: 0; overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.5s ease, padding 0.4s ease;
     padding: 0;
   }
-  .catg__section-body.is-open {
-    max-height: 1200px;
-    opacity: 1;
-    padding: 1.5rem 0;
+  .catg-universe__section-body.is-open {
+    max-height: 1500px; opacity: 1;
+    padding: 1.25rem 0 0.5rem;
   }
 
-  /* ---- Card Grid ---- */
-  .catg__card-grid {
+  /* ═══ 3D Card Grid ═══ */
+  .catg-universe__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 16px;
   }
-  @media(max-width: 600px) {
-    .catg__card-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
+  @media(max-width:600px) { .catg-universe__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+
+  /* ═══ 3D Tilt Card — THE STAR ═══ */
+  .catg-card-3d {
+    perspective: 800px;
+    display: block;
+    text-decoration: none;
+  }
+  .catg-card-3d__inner {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .catg-card-3d:hover .catg-card-3d__inner {
+    box-shadow: 0 24px 48px rgba(12, 12, 14, 0.15),
+                0 0 30px rgba(197, 168, 128, 0.12);
   }
 
-  /* ---- Category Card ---- */
-  .catg__card {
-    position: relative;
-    display: block;
-    border-radius: 12px;
-    overflow: hidden;
-    text-decoration: none;
-    aspect-ratio: 4 / 5;
-    background: #F5F5F5;
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* Glowing Border Effect */
+  .catg-card-3d__glow-border {
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    z-index: -1;
+    background: conic-gradient(
+      from var(--glow-angle, 0deg),
+      var(--color-accent, #C5A880),
+      transparent 25%,
+      transparent 50%,
+      var(--color-accent, #C5A880) 75%,
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: glowRotate 4s linear infinite;
   }
-  .catg__card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(12, 12, 14, 0.1);
+  .catg-card-3d:hover .catg-card-3d__glow-border { opacity: 1; }
+  @keyframes glowRotate {
+    to { --glow-angle: 360deg; }
+  }
+  /* Fallback for browsers that don't support @property */
+  @supports not (background: conic-gradient(from 0deg, red, blue)) {
+    .catg-card-3d__glow-border {
+      background: linear-gradient(135deg, var(--color-accent, #C5A880), transparent, var(--color-accent, #C5A880));
+    }
   }
 
   /* Card Media */
-  .catg__card-media {
-    position: absolute;
-    inset: 0;
+  .catg-card-3d__media { position: absolute; inset: 0; }
+  .catg-card-3d__img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s ease;
   }
-  .catg__card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  .catg__card:hover .catg__card-img {
-    transform: scale(1.08);
-  }
-  .catg__card-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(0,0,0,0.75) 0%,
-      rgba(0,0,0,0.2) 40%,
-      rgba(0,0,0,0.05) 70%,
-      transparent 100%
-    );
-    transition: background 0.4s ease;
-  }
-  .catg__card:hover .catg__card-overlay {
-    background: linear-gradient(
-      to top,
-      rgba(0,0,0,0.85) 0%,
-      rgba(0,0,0,0.35) 45%,
-      rgba(0,0,0,0.1) 75%,
-      transparent 100%
-    );
+  .catg-card-3d:hover .catg-card-3d__img {
+    transform: scale(1.1);
+    filter: brightness(0.9) saturate(1.1);
   }
 
-  /* Card Placeholder (when no image) */
-  .catg__card-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #F0EFED 0%, #E8E6E3 100%);
-    position: relative;
+  /* Shimmer sweep effect */
+  .catg-card-3d__shimmer {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255,255,255,0.15) 45%,
+      rgba(255,255,255,0.25) 50%,
+      rgba(255,255,255,0.15) 55%,
+      transparent 60%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.8s ease;
+    z-index: 1;
   }
-  .catg__card-placeholder::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.015) 10px, rgba(0,0,0,0.015) 20px);
-  }
-  .catg__card-placeholder span {
-    font-size: 3rem;
-    font-weight: 900;
-    color: var(--color-accent, #C5A880);
-    opacity: 0.2;
-    font-family: var(--font-heading);
+  .catg-card-3d:hover .catg-card-3d__shimmer {
+    transform: translateX(100%);
   }
 
-  /* Card Info */
-  .catg__card-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  /* Overlay */
+  .catg-card-3d__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(12,12,14,0.9) 0%,
+      rgba(12,12,14,0.4) 35%,
+      rgba(12,12,14,0.05) 65%,
+      transparent 100%
+    );
+    transition: background 0.5s ease;
     z-index: 2;
   }
-  .catg__card-label {
-    font-size: 0.8125rem;
-    font-weight: 700;
+  .catg-card-3d:hover .catg-card-3d__overlay {
+    background: linear-gradient(
+      to top,
+      rgba(12,12,14,0.95) 0%,
+      rgba(12,12,14,0.5) 40%,
+      rgba(12,12,14,0.15) 70%,
+      transparent 100%
+    );
+  }
+
+  /* Placeholder */
+  .catg-card-3d__placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #F0EFED 0%, #E5E3E0 50%, #F0EFED 100%);
+    background-size: 200% 200%;
+    animation: placeholderShift 6s ease infinite;
+    position: relative;
+  }
+  @keyframes placeholderShift {
+    0%, 100% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+  }
+  .catg-card-3d__placeholder-pattern {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(197,168,128,0.08) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .catg-card-3d__placeholder-letter {
+    font-size: 2.5rem; font-weight: 900;
+    color: var(--color-accent, #C5A880); opacity: 0.15;
+    font-family: var(--font-heading);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    z-index: 1;
+  }
+
+  /* Card Content */
+  .catg-card-3d__content {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 1.25rem;
+    z-index: 3;
+    transform: translateZ(30px);
+  }
+  .catg-card-3d__tag {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.5rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: var(--color-accent, #C5A880);
+    background: rgba(197, 168, 128, 0.15);
+    backdrop-filter: blur(4px);
+    border-radius: 3px;
+    margin-bottom: 0.35rem;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+  }
+  .catg-card-3d:hover .catg-card-3d__tag {
+    opacity: 1; transform: translateY(0);
+  }
+  .catg-card-3d__title {
+    font-size: 0.9375rem;
+    font-weight: 700;
     color: #FFFFFF;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     line-height: 1.2;
+    transition: transform 0.4s ease;
   }
-  .catg__card-arrow {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #FFFFFF;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
+  .catg-card-3d:hover .catg-card-3d__title {
+    transform: translateY(-4px);
   }
-  .catg__card:hover .catg__card-arrow {
-    background: var(--color-accent, #C5A880);
-    color: var(--color-primary, #0C0C0E);
+  .catg-card-3d__explore {
+    display: flex; align-items: center; gap: 0.35rem;
+    font-size: 0.65rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--color-accent, #C5A880);
+    margin-top: 0.5rem;
+    opacity: 0; transform: translateY(12px);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+  }
+  .catg-card-3d:hover .catg-card-3d__explore {
+    opacity: 1; transform: translateY(0);
+  }
+  .catg-card-3d__explore svg {
+    transition: transform 0.3s ease;
+  }
+  .catg-card-3d:hover .catg-card-3d__explore svg {
     transform: translateX(4px);
   }
 
-  /* ---- Mobile Adjustments ---- */
-  @media(max-width: 749px) {
-    .catg__tab {
-      padding: 0.85rem 1.5rem;
-      font-size: 0.75rem;
-    }
-    .catg__card-label {
-      font-size: 0.7rem;
-    }
-    .catg__card-arrow {
-      width: 28px;
-      height: 28px;
-    }
-    .catg__card-info {
-      padding: 0.75rem 1rem;
-    }
-    .catg__section-badge {
-      font-size: 0.6rem;
-      padding: 0.3rem 0.75rem;
-    }
-    .catg__section-subtitle {
-      font-size: 0.7rem;
-    }
+  /* Cursor-following shine spot */
+  .catg-card-3d__shine {
+    position: absolute; inset: 0;
+    background: radial-gradient(
+      circle at var(--shine-x, 50%) var(--shine-y, 50%),
+      rgba(255,255,255,0.12) 0%,
+      transparent 60%
+    );
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .catg-card-3d:hover .catg-card-3d__shine { opacity: 1; }
+
+  /* ═══ Responsive ═══ */
+  @media(max-width:749px) {
+    .catg-universe__tab { padding: 0.65rem 1.75rem; font-size: 0.7rem; }
+    .catg-card-3d__title { font-size: 0.75rem; }
+    .catg-card-3d__content { padding: 0.85rem; }
+    .catg-quickstrip__circle { width: 52px; height: 52px; }
+    .catg-quickstrip__track { justify-content: flex-start; gap: 1.25rem; }
+    .catg-universe__section-icon { width: 36px; height: 36px; border-radius: 8px; }
+    .catg-universe__section-badge { font-size: 0.7rem; }
+    .catg-card-3d__tag { display: none; }
+  }
+
+  /* ═══ Floating Particle Style ═══ */
+  .catg-particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particleFloat var(--particle-duration, 8s) ease-in-out infinite;
+    opacity: var(--particle-opacity, 0.15);
+  }
+  @keyframes particleFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(var(--px, 20px), var(--py, -30px)) scale(1.2); }
+    50% { transform: translate(var(--px2, -15px), var(--py2, 20px)) scale(0.8); }
+    75% { transform: translate(var(--px3, 25px), var(--py3, 10px)) scale(1.1); }
+  }
+
+  /* Register CSS custom property for conic-gradient animation */
+  @property --glow-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
   }
 </style>
 
+{%- comment -%} ═══════════════════ JAVASCRIPT ═══════════════════ {%- endcomment -%}
 <script>
-  (function(){
-    /* Tab switching */
-    const tabs = document.querySelectorAll('[data-catg-tab]');
-    const panels = document.querySelectorAll('[data-catg-panel]');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const target = tab.dataset.catgTab;
-        tabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected','false'); });
-        panels.forEach(p => { p.classList.remove('is-active'); p.hidden = true; });
-        tab.classList.add('is-active');
-        tab.setAttribute('aria-selected','true');
-        const panel = document.querySelector(`[data-catg-panel="${target}"]`);
-        if(panel){ panel.classList.add('is-active'); panel.hidden = false; }
+(function(){
+  'use strict';
+
+  /* ═══ Tab Switching ═══ */
+  const tabs = document.querySelectorAll('[data-catg-tab]');
+  const panels = document.querySelectorAll('[data-catg-panel]');
+  const slider = document.querySelector('[data-tab-slider]');
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected','false'); });
+      panels.forEach(p => { p.classList.remove('is-active'); p.hidden = true; });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected','true');
+      const panel = document.querySelector(`[data-catg-panel="${tab.dataset.catgTab}"]`);
+      if(panel) { panel.classList.add('is-active'); panel.hidden = false; }
+      /* Slide background pill */
+      if(slider) slider.classList.toggle('slide-right', i === 1);
+      /* Re-init 3D tilt for new panel */
+      init3DTilt();
+    });
+  });
+
+  /* ═══ Accordion ═══ */
+  document.querySelectorAll('[data-catg-accordion]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const body = btn.nextElementSibling;
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      body.classList.toggle('is-open', !isOpen);
+    });
+  });
+
+  /* ═══ 3D Tilt Effect ═══ */
+  function init3DTilt() {
+    if(window.innerWidth < 750 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    document.querySelectorAll('[data-tilt]').forEach(card => {
+      const inner = card.querySelector('.catg-card-3d__inner');
+      const shine = card.querySelector('[data-card-shine]');
+      if(!inner) return;
+
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        const tiltX = (0.5 - y) * 20;  /* Max 10 degrees */
+        const tiltY = (x - 0.5) * 20;
+        inner.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+        /* Move shine spot */
+        if(shine) {
+          shine.style.setProperty('--shine-x', (x * 100) + '%');
+          shine.style.setProperty('--shine-y', (y * 100) + '%');
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        inner.style.transform = '';
+        inner.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease';
+        setTimeout(() => { inner.style.transition = ''; }, 600);
+      });
+
+      card.addEventListener('mouseenter', () => {
+        inner.style.transition = 'none';
       });
     });
-    /* Accordion toggle */
-    document.querySelectorAll('[data-catg-accordion]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const body = btn.nextElementSibling;
-        const isOpen = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!isOpen));
-        body.classList.toggle('is-open', !isOpen);
+  }
+  init3DTilt();
+
+  /* ═══ Floating Particles ═══ */
+  function initParticles() {
+    const container = document.getElementById('CatgParticles');
+    if(!container || window.innerWidth < 750) return;
+
+    const colors = ['rgba(197,168,128,0.2)', 'rgba(12,12,14,0.06)', 'rgba(197,168,128,0.12)'];
+    for(let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'catg-particle';
+      const size = 4 + Math.random() * 10;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.setProperty('--particle-duration', (6 + Math.random() * 8) + 's');
+      p.style.setProperty('--particle-opacity', (0.08 + Math.random() * 0.15).toFixed(2));
+      p.style.setProperty('--px', (Math.random() * 60 - 30) + 'px');
+      p.style.setProperty('--py', (Math.random() * 60 - 30) + 'px');
+      p.style.setProperty('--px2', (Math.random() * 60 - 30) + 'px');
+      p.style.setProperty('--py2', (Math.random() * 60 - 30) + 'px');
+      p.style.setProperty('--px3', (Math.random() * 60 - 30) + 'px');
+      p.style.setProperty('--py3', (Math.random() * 60 - 30) + 'px');
+      p.style.animationDelay = (Math.random() * 5) + 's';
+      container.appendChild(p);
+    }
+  }
+  initParticles();
+
+  /* ═══ Staggered Entrance for Cards ═══ */
+  if(window.IntersectionObserver) {
+    const gridObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          const cards = entry.target.querySelectorAll('.catg-card-3d');
+          cards.forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px) scale(0.95)';
+            setTimeout(() => {
+              card.style.transition = 'opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0) scale(1)';
+            }, 80 * i);
+          });
+          gridObserver.unobserve(entry.target);
+        }
       });
-    });
-  })();
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.catg-universe__grid').forEach(grid => gridObserver.observe(grid));
+  }
+
+})();
 </script>
 
 {% schema %}
 {
-  "name": "Category Grid",
+  "name": "Category Universe",
   "tag": "section",
-  "class": "section-category-grid",
+  "class": "section-category-universe",
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Explore" },
     { "type": "text", "id": "title", "label": "Heading", "default": "Shop by Category" }
@@ -548,57 +930,49 @@
       "settings": [
         { "type": "text", "id": "label", "label": "Category Name", "default": "Graphic Print" },
         { "type": "image_picker", "id": "image", "label": "Category Image" },
+        { "type": "image_picker", "id": "strip_image", "label": "Icon Strip Image (small circular)" },
         { "type": "url", "id": "link", "label": "Collection Link" },
+        { "type": "checkbox", "id": "show_in_strip", "label": "Show in quick icon strip", "default": true },
         {
-          "type": "select",
-          "id": "gender",
-          "label": "Gender",
-          "options": [
-            { "value": "men", "label": "Men's" },
-            { "value": "women", "label": "Women's" }
-          ],
+          "type": "select", "id": "gender", "label": "Gender",
+          "options": [ { "value": "men", "label": "Men's" }, { "value": "women", "label": "Women's" } ],
           "default": "men"
         },
         {
-          "type": "select",
-          "id": "fit",
-          "label": "Fit Type",
-          "options": [
-            { "value": "oversized", "label": "Oversized" },
-            { "value": "regular", "label": "Regular" }
-          ],
+          "type": "select", "id": "fit", "label": "Fit Type",
+          "options": [ { "value": "oversized", "label": "Oversized" }, { "value": "regular", "label": "Regular" } ],
           "default": "oversized"
         }
       ]
     }
   ],
   "presets": [{
-    "name": "Category Grid",
+    "name": "Category Universe",
     "blocks": [
-      { "type": "category", "settings": { "label": "Graphic Print", "gender": "men", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Anime", "gender": "men", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Streetwear", "gender": "men", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Story Wear", "gender": "men", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Minimal", "gender": "men", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Solid Basics", "gender": "men", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Graphic Print", "gender": "men", "fit": "regular" } },
-      { "type": "category", "settings": { "label": "Anime", "gender": "men", "fit": "regular" } },
-      { "type": "category", "settings": { "label": "Streetwear", "gender": "men", "fit": "regular" } },
-      { "type": "category", "settings": { "label": "Story Wear", "gender": "men", "fit": "regular" } },
-      { "type": "category", "settings": { "label": "Minimal", "gender": "men", "fit": "regular" } },
-      { "type": "category", "settings": { "label": "Solid Basics", "gender": "men", "fit": "regular" } },
-      { "type": "category", "settings": { "label": "Graphic Print", "gender": "women", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Anime", "gender": "women", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Streetwear", "gender": "women", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Story Wear", "gender": "women", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Minimal", "gender": "women", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Solid Basics", "gender": "women", "fit": "oversized" } },
-      { "type": "category", "settings": { "label": "Graphic", "gender": "women", "fit": "regular" } },
-      { "type": "category", "settings": { "label": "Anime", "gender": "women", "fit": "regular" } },
-      { "type": "category", "settings": { "label": "Streetwear", "gender": "women", "fit": "regular" } },
-      { "type": "category", "settings": { "label": "Story Wear", "gender": "women", "fit": "regular" } },
-      { "type": "category", "settings": { "label": "Minimal", "gender": "women", "fit": "regular" } },
-      { "type": "category", "settings": { "label": "Solid Basics", "gender": "women", "fit": "regular" } }
+      { "type": "category", "settings": { "label": "Graphic Print", "gender": "men", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Anime", "gender": "men", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Streetwear", "gender": "men", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Story Wear", "gender": "men", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Minimal", "gender": "men", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Solid Basics", "gender": "men", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Graphic Print", "gender": "men", "fit": "regular", "show_in_strip": false } },
+      { "type": "category", "settings": { "label": "Anime", "gender": "men", "fit": "regular", "show_in_strip": false } },
+      { "type": "category", "settings": { "label": "Streetwear", "gender": "men", "fit": "regular", "show_in_strip": false } },
+      { "type": "category", "settings": { "label": "Story Wear", "gender": "men", "fit": "regular", "show_in_strip": false } },
+      { "type": "category", "settings": { "label": "Minimal", "gender": "men", "fit": "regular", "show_in_strip": false } },
+      { "type": "category", "settings": { "label": "Solid Basics", "gender": "men", "fit": "regular", "show_in_strip": false } },
+      { "type": "category", "settings": { "label": "Graphic Print", "gender": "women", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Anime", "gender": "women", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Streetwear", "gender": "women", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Story Wear", "gender": "women", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Minimal", "gender": "women", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Solid Basics", "gender": "women", "fit": "oversized", "show_in_strip": true } },
+      { "type": "category", "settings": { "label": "Graphic", "gender": "women", "fit": "regular", "show_in_strip": false } },
+      { "type": "category", "settings": { "label": "Anime", "gender": "women", "fit": "regular", "show_in_strip": false } },
+      { "type": "category", "settings": { "label": "Streetwear", "gender": "women", "fit": "regular", "show_in_strip": false } },
+      { "type": "category", "settings": { "label": "Story Wear", "gender": "women", "fit": "regular", "show_in_strip": false } },
+      { "type": "category", "settings": { "label": "Minimal", "gender": "women", "fit": "regular", "show_in_strip": false } },
+      { "type": "category", "settings": { "label": "Solid Basics", "gender": "women", "fit": "regular", "show_in_strip": false } }
     ]
   }]
 }
