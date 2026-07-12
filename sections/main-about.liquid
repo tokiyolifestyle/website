@@ -1,0 +1,184 @@
+{%- comment -%} About Us — Premium Brand Story Page {%- endcomment -%}
+
+<section class="about-hero">
+  <div class="about-hero__media">
+    {%- if section.settings.hero_image != blank -%}
+      {{ section.settings.hero_image | image_url: width: 1920 | image_tag:
+        loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1440, 1920', sizes: '100vw', class: 'about-hero__img'
+      }}
+    {%- else -%}
+      <div class="about-hero__img about-hero__placeholder"></div>
+    {%- endif -%}
+    <div class="about-hero__overlay"></div>
+  </div>
+  <div class="about-hero__content page-width">
+    <p class="text-eyebrow animate-on-scroll fade-up">{{ section.settings.eyebrow | default: 'Our Story' }}</p>
+    <h1 class="about-hero__heading animate-on-scroll fade-up">{{ section.settings.heading | default: 'Crafted for the Bold' }}</h1>
+    <p class="about-hero__subheading animate-on-scroll fade-up">{{ section.settings.subheading | default: 'We believe fashion is an expression of identity, not a trend to follow.' }}</p>
+  </div>
+</section>
+
+{%- comment -%} Brand Story Section {%- endcomment -%}
+<section class="about-story page-width">
+  <div class="about-story__grid">
+    <div class="about-story__text animate-on-scroll fade-left">
+      <p class="text-eyebrow">{{ section.settings.story_eyebrow | default: 'Who We Are' }}</p>
+      <h2>{{ section.settings.story_title | default: 'Born from Passion, Worn with Pride' }}</h2>
+      <div class="about-story__body rte">
+        {{ section.settings.story_body | default: '<p>Tokiyo Lifestyle was born from a simple belief — that premium streetwear should be accessible to everyone. We design for the bold, the creative, and the unapologetic.</p><p>Every piece in our collection is carefully crafted using premium fabrics, ethical manufacturing, and designs that tell a story. From oversized tees to statement graphics, we blend Japanese-inspired aesthetics with Indian streetwear culture.</p>' }}
+      </div>
+    </div>
+    <div class="about-story__image animate-on-scroll fade-right image-reveal">
+      {%- if section.settings.story_image != blank -%}
+        {{ section.settings.story_image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400, 600, 800', class: 'about-story__img' }}
+      {%- else -%}
+        <div class="about-story__img-placeholder"></div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Values Section {%- endcomment -%}
+<section class="about-values">
+  <div class="page-width">
+    <div class="section-header-block animate-on-scroll fade-up">
+      <p class="text-eyebrow">What We Stand For</p>
+      <h2>Our Values</h2>
+    </div>
+    <div class="about-values__grid stagger-children">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'value' -%}
+          <div class="about-value-card" {{ block.shopify_attributes }}>
+            <div class="about-value-card__number">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.description }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Stats Section {%- endcomment -%}
+<section class="about-stats">
+  <div class="page-width">
+    <div class="about-stats__grid stagger-children">
+      <div class="about-stat">
+        <span class="about-stat__number" data-counter="10000" data-counter-suffix="+">0</span>
+        <span class="about-stat__label">Happy Customers</span>
+      </div>
+      <div class="about-stat">
+        <span class="about-stat__number" data-counter="500" data-counter-suffix="+">0</span>
+        <span class="about-stat__label">Unique Designs</span>
+      </div>
+      <div class="about-stat">
+        <span class="about-stat__number" data-counter="50" data-counter-suffix="+">0</span>
+        <span class="about-stat__label">Cities Delivered</span>
+      </div>
+      <div class="about-stat">
+        <span class="about-stat__number" data-counter="4" data-counter-suffix=".8★">0</span>
+        <span class="about-stat__label">Average Rating</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} CTA Section {%- endcomment -%}
+<section class="about-cta">
+  <div class="page-width">
+    <div class="about-cta__inner animate-on-scroll scale-in">
+      <h2>Ready to Redefine Your Style?</h2>
+      <p>Join thousands who chose to stand out. Premium quality, bold designs, delivered to your doorstep.</p>
+      <div class="about-cta__buttons">
+        <a href="/collections/all" class="button button--solid">Shop Now</a>
+        <a href="/pages/contact" class="button button--outline">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Hero */
+  .about-hero { position: relative; height: 70vh; min-height: 450px; display: flex; align-items: flex-end; overflow: hidden; background: #0A0A0A; }
+  .about-hero__media { position: absolute; inset: 0; }
+  .about-hero__img { width: 100%; height: 100%; object-fit: cover; }
+  .about-hero__placeholder { background: linear-gradient(135deg, #0A0A0A, #1a1a1a, #0A0A0A); }
+  .about-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.15) 100%); }
+  .about-hero__content { position: relative; z-index: 2; padding-bottom: 4rem; max-width: 600px; }
+  .about-hero__heading { font-size: clamp(2rem, 5vw, 3.5rem); color: #fff; margin-bottom: 1rem; line-height: 1.1; }
+  .about-hero__subheading { color: rgba(255,255,255,0.6); font-size: 1rem; line-height: 1.7; }
+
+  /* Story */
+  .about-story { padding: var(--spacing-sections, 64px) 0; }
+  .about-story__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  @media(max-width:989px) { .about-story__grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .about-story__text h2 { margin-bottom: 1rem; }
+  .about-story__body { color: var(--color-text-muted, #767674); line-height: 1.8; }
+  .about-story__body p { margin-bottom: 1rem; }
+  .about-story__img { width: 100%; border-radius: 12px; aspect-ratio: 4/5; object-fit: cover; }
+  .about-story__img-placeholder { width: 100%; aspect-ratio: 4/5; background: linear-gradient(135deg, #F0EFED, #E8E6E3); border-radius: 12px; }
+
+  /* Values */
+  .about-values { padding: var(--spacing-sections, 64px) 0; background: var(--color-background, #FAFAF9); }
+  .about-values__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  @media(max-width:989px) { .about-values__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media(max-width:600px) { .about-values__grid { grid-template-columns: 1fr; } }
+  .about-value-card { padding: 2rem; background: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .about-value-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.06); }
+  .about-value-card__number { font-size: 2rem; font-weight: 800; color: var(--color-accent, #C5A880); opacity: 0.3; font-family: var(--font-heading); margin-bottom: 0.5rem; }
+  .about-value-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+  .about-value-card p { font-size: 0.875rem; color: var(--color-text-muted, #767674); line-height: 1.6; }
+
+  /* Stats */
+  .about-stats { padding: var(--spacing-sections, 64px) 0; background: var(--color-primary, #0C0C0E); }
+  .about-stats__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+  @media(max-width:749px) { .about-stats__grid { grid-template-columns: repeat(2, 1fr); } }
+  .about-stat__number { display: block; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--color-accent, #C5A880); font-family: var(--font-heading); margin-bottom: 0.25rem; }
+  .about-stat__label { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+
+  /* CTA */
+  .about-cta { padding: var(--spacing-sections, 64px) 0; }
+  .about-cta__inner { text-align: center; max-width: 600px; margin: 0 auto; padding: 4rem 2rem; background: linear-gradient(135deg, var(--color-primary, #0C0C0E), #1a1a1a); border-radius: 16px; }
+  .about-cta__inner h2 { color: #FFFFFF; margin-bottom: 0.75rem; }
+  .about-cta__inner p { color: rgba(255,255,255,0.5); margin-bottom: 2rem; }
+  .about-cta__buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .about-cta__buttons .button--outline { color: #FFFFFF; border-color: rgba(255,255,255,0.25); }
+  .about-cta__buttons .button--outline:hover { background: var(--color-accent, #C5A880); color: var(--color-primary, #0C0C0E); border-color: var(--color-accent, #C5A880); }
+</style>
+
+{% schema %}
+{
+  "name": "About Page",
+  "tag": "section",
+  "class": "section-about",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Hero background image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our Story" },
+    { "type": "text", "id": "heading", "label": "Hero heading", "default": "Crafted for the Bold" },
+    { "type": "text", "id": "subheading", "label": "Hero subheading", "default": "We believe fashion is an expression of identity, not a trend to follow." },
+    { "type": "text", "id": "story_eyebrow", "label": "Story eyebrow", "default": "Who We Are" },
+    { "type": "text", "id": "story_title", "label": "Story heading", "default": "Born from Passion, Worn with Pride" },
+    { "type": "richtext", "id": "story_body", "label": "Story body" },
+    { "type": "image_picker", "id": "story_image", "label": "Story image" }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Premium Quality" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Every piece crafted with premium fabrics and attention to detail." }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "About Page",
+    "blocks": [
+      { "type": "value", "settings": { "title": "Premium Quality", "description": "Every piece is crafted with premium 240 GSM cotton and meticulous attention to detail." } },
+      { "type": "value", "settings": { "title": "Bold Designs", "description": "Original artwork and graphics designed in-house by our creative team." } },
+      { "type": "value", "settings": { "title": "Made in India", "description": "Proudly manufactured in India, supporting local artisans and ethical practices." } },
+      { "type": "value", "settings": { "title": "Customer First", "description": "Easy returns, fast shipping, and a community of thousands who trust us." } }
+    ]
+  }]
+}
+{% endschema %}

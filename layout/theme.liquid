@@ -74,6 +74,9 @@
 
 <body class="template-{{ request.page_type | handle }}">
 
+  {%- comment -%} Scroll Progress Bar {%- endcomment -%}
+  <div data-scroll-progress style="width:0%;"></div>
+
   <a class="skip-to-content-link visually-hidden" href="#MainContent">
     {{ 'accessibility.skip_to_content' | t }}
   </a>

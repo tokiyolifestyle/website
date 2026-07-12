@@ -1,112 +1,520 @@
-<section class="hero-banner" style="--hero-height:{{ section.settings.hero_height }}vh;">
-  <div class="hero-banner__media">
-    {%- if section.settings.video_url != blank -%}
-      <video class="hero-banner__video" autoplay muted loop playsinline aria-hidden="true">
-        <source src="{{ section.settings.video_url }}" type="video/mp4">
-      </video>
-    {%- elsif section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 1920 | image_tag:
-        loading: 'eager',
-        fetchpriority: 'high',
-        widths: '750, 1100, 1440, 1920',
-        sizes: '100vw',
-        class: 'hero-banner__img',
-        alt: section.settings.image.alt | escape
-      }}
-    {%- else -%}
-      <div class="hero-banner__img hero-banner__placeholder">
-        <div class="hero-placeholder-pattern"></div>
-      </div>
-    {%- endif -%}
-    <div class="hero-banner__overlay"></div>
-    <div class="hero-banner__gradient"></div>
+{%- comment -%}
+  Hero Banner Carousel — LimeRoad-style auto-sliding banner
+  Multiple slides with auto-play, dots, swipe, parallax
+{%- endcomment -%}
+
+<section class="hero-carousel" style="--hero-height:{{ section.settings.hero_height }}vh;" data-hero-carousel>
+  <div class="hero-carousel__track" data-hero-track>
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'slide' -%}
+        <div class="hero-carousel__slide {% if forloop.first %}is-active{% endif %}" data-hero-slide="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          <div class="hero-carousel__media">
+            {%- if block.settings.video_url != blank -%}
+              <video class="hero-carousel__video" autoplay muted loop playsinline aria-hidden="true">
+                <source src="{{ block.settings.video_url }}" type="video/mp4">
+              </video>
+            {%- elsif block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 1920 | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                widths: '750, 1100, 1440, 1920',
+                sizes: '100vw',
+                class: 'hero-carousel__img',
+                data-parallax-img: '',
+                alt: block.settings.image.alt | default: block.settings.heading | escape
+              }}
+            {%- else -%}
+              <div class="hero-carousel__img hero-carousel__placeholder" style="background: linear-gradient(135deg, {{ block.settings.bg_color | default: '#0A0A0A' }} 0%, #1a1a1a 50%, {{ block.settings.bg_color | default: '#0A0A0A' }} 100%);"></div>
+            {%- endif -%}
+            <div class="hero-carousel__overlay" style="opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+            <div class="hero-carousel__gradient"></div>
+          </div>
+
+          <div class="hero-carousel__content page-width hero-carousel__content--{{ block.settings.content_alignment | default: section.settings.content_alignment }}">
+            {%- if block.settings.eyebrow != blank -%}
+              <p class="text-eyebrow hero-carousel__eyebrow">{{ block.settings.eyebrow }}</p>
+            {%- endif -%}
+            {%- if block.settings.heading != blank -%}
+              <h2 class="hero-carousel__heading">{{ block.settings.heading }}</h2>
+            {%- endif -%}
+            {%- if block.settings.subheading != blank -%}
+              <p class="hero-carousel__subheading">{{ block.settings.subheading }}</p>
+            {%- endif -%}
+            <div class="hero-carousel__ctas">
+              {%- if block.settings.cta_label != blank -%}
+                <a href="{{ block.settings.cta_link }}" class="button button--solid">{{ block.settings.cta_label }}</a>
+              {%- endif -%}
+              {%- if block.settings.cta2_label != blank -%}
+                <a href="{{ block.settings.cta2_link }}" class="button button--white">{{ block.settings.cta2_label }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
   </div>
 
-  <div class="hero-banner__content page-width hero-banner__content--{{ section.settings.content_alignment }}">
-    {%- if section.settings.eyebrow != blank -%}
-      <p class="text-eyebrow animate-on-scroll fade-up">{{ section.settings.eyebrow }}</p>
-    {%- endif -%}
-    {%- if section.settings.heading != blank -%}
-      <h1 class="hero-banner__heading animate-on-scroll fade-up">{{ section.settings.heading }}</h1>
-    {%- endif -%}
-    {%- if section.settings.subheading != blank -%}
-      <p class="hero-banner__subheading animate-on-scroll fade-up">{{ section.settings.subheading }}</p>
-    {%- endif -%}
-    <div class="hero-banner__ctas animate-on-scroll fade-up">
-      {%- if section.settings.cta_label != blank -%}
-        <a href="{{ section.settings.cta_link }}" class="button button--solid">{{ section.settings.cta_label }}</a>
-      {%- endif -%}
-      {%- if section.settings.cta2_label != blank -%}
-        <a href="{{ section.settings.cta2_link }}" class="button button--outline">{{ section.settings.cta2_label }}</a>
-      {%- endif -%}
+  {%- comment -%} Navigation Dots {%- endcomment -%}
+  {%- assign slide_count = 0 -%}
+  {%- for block in section.blocks -%}{%- if block.type == 'slide' -%}{%- assign slide_count = slide_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+  {%- if slide_count > 1 -%}
+    <div class="hero-carousel__dots" data-hero-dots>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'slide' -%}
+          <button class="hero-carousel__dot {% if forloop.first %}is-active{% endif %}" data-hero-dot="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}">
+            <span class="hero-carousel__dot-fill"></span>
+          </button>
+        {%- endif -%}
+      {%- endfor -%}
     </div>
-  </div>
 
-  <div class="hero-banner__scroll-indicator animate-on-scroll fade-up">
+    {%- comment -%} Arrow Navigation {%- endcomment -%}
+    <button class="hero-carousel__arrow hero-carousel__arrow--prev" data-hero-prev aria-label="Previous slide">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="hero-carousel__arrow hero-carousel__arrow--next" data-hero-next aria-label="Next slide">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 6 15 12 9 18"/></svg>
+    </button>
+
+    {%- comment -%} Progress Bar {%- endcomment -%}
+    <div class="hero-carousel__progress">
+      <div class="hero-carousel__progress-bar" data-hero-progress></div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Scroll Indicator {%- endcomment -%}
+  <div class="hero-carousel__scroll-indicator">
     <span></span>
   </div>
 </section>
 
 <style>
-  .hero-banner { position:relative; height:var(--hero-height, 100vh); min-height:600px; display:flex; align-items:flex-end; overflow:hidden; background:#0A0A0A; }
-  .hero-banner__media { position:absolute; inset:0; z-index:0; }
-  .hero-banner__img { width:100%; height:100%; object-fit:cover; }
-  .hero-banner__video { width:100%; height:100%; object-fit:cover; }
-  .hero-banner__placeholder { background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 50%, #0A0A0A 100%); display:flex; align-items:center; justify-content:center; }
-  .hero-placeholder-pattern { width:100%; height:100%; background-image: radial-gradient(circle at 20% 50%, rgba(227,27,35,0.12) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(227,27,35,0.08) 0%, transparent 50%); }
-  .hero-banner__overlay { position:absolute; inset:0; background: rgba(0,0,0,0.55); }
-  .hero-banner__gradient { position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.65) 25%, rgba(0,0,0,0.2) 60%, transparent 100%); z-index: 1; }
-  .hero-banner__content { position:relative; z-index:2; width:100%; padding-bottom: 6rem; }
-  .hero-banner__content--center { text-align:center; }
-  .hero-banner__content--right { text-align:right; }
-  .hero-banner__heading {
-    font-size:clamp(2.5rem,7vw,5.5rem); font-weight:700; line-height:1.05;
-    margin-bottom:1.25rem; color:#fff; letter-spacing:-0.03em;
+  /* ========== Hero Carousel ========== */
+  .hero-carousel {
+    position: relative;
+    height: var(--hero-height, 100vh);
+    min-height: 600px;
+    overflow: hidden;
+    background: #0A0A0A;
   }
-  .hero-banner__subheading {
-    font-size:1rem; max-width:480px; margin-bottom:2.5rem;
-    color:rgba(255,255,255,0.6); line-height:1.7; letter-spacing:0.02em;
-  }
-  .hero-banner__content--center .hero-banner__subheading { margin-inline:auto; }
-  .hero-banner__ctas { display:flex; gap:1rem; flex-wrap:wrap; }
-  .hero-banner__content--center .hero-banner__ctas { justify-content:center; }
-  .hero-banner__content--right .hero-banner__ctas { justify-content:flex-end; }
 
-  .hero-banner__scroll-indicator {
-    position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); z-index:3;
+  /* Track */
+  .hero-carousel__track {
+    position: relative;
+    width: 100%;
+    height: 100%;
   }
-  .hero-banner__scroll-indicator span {
-    display:block; width:1px; height:48px;
+
+  /* Slide */
+  .hero-carousel__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    align-items: flex-end;
+  }
+  .hero-carousel__slide.is-active {
+    opacity: 1;
+    z-index: 1;
+  }
+  .hero-carousel__slide.is-exiting {
+    opacity: 0;
+    z-index: 2;
+  }
+
+  /* Media */
+  .hero-carousel__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-carousel__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 8s linear;
+  }
+  .hero-carousel__slide.is-active .hero-carousel__img {
+    transform: scale(1.05);
+  }
+  .hero-carousel__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-carousel__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,1);
+  }
+  .hero-carousel__gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.65) 25%,
+      rgba(0,0,0,0.2) 60%,
+      transparent 100%
+    );
+    z-index: 1;
+  }
+
+  /* Content */
+  .hero-carousel__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-bottom: 7rem;
+  }
+  .hero-carousel__content--center { text-align: center; }
+  .hero-carousel__content--right { text-align: right; }
+  .hero-carousel__eyebrow {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroContentIn 0.6s 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .hero-carousel__heading {
+    font-size: clamp(2.25rem, 7vw, 5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 1.25rem;
+    color: #fff;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: heroContentIn 0.8s 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .hero-carousel__subheading {
+    font-size: 1rem;
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroContentIn 0.7s 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .hero-carousel__content--center .hero-carousel__subheading { margin-inline: auto; }
+  .hero-carousel__ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroContentIn 0.7s 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .hero-carousel__content--center .hero-carousel__ctas { justify-content: center; }
+  .hero-carousel__content--right .hero-carousel__ctas { justify-content: flex-end; }
+
+  .hero-carousel__slide:not(.is-active) .hero-carousel__eyebrow,
+  .hero-carousel__slide:not(.is-active) .hero-carousel__heading,
+  .hero-carousel__slide:not(.is-active) .hero-carousel__subheading,
+  .hero-carousel__slide:not(.is-active) .hero-carousel__ctas {
+    animation: none;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  @keyframes heroContentIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- Dots ---- */
+  .hero-carousel__dots {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+  }
+  .hero-carousel__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .hero-carousel__dot.is-active {
+    width: 36px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.2);
+  }
+  .hero-carousel__dot-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-accent, #C5A880);
+    transform: scaleX(0);
+    transform-origin: left;
+    border-radius: inherit;
+  }
+  .hero-carousel__dot.is-active .hero-carousel__dot-fill {
+    animation: dotProgress var(--hero-speed, 5s) linear forwards;
+  }
+  @keyframes dotProgress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* ---- Arrows ---- */
+  .hero-carousel__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+  }
+  .hero-carousel:hover .hero-carousel__arrow {
+    opacity: 1;
+  }
+  .hero-carousel__arrow:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-50%) scale(1.1);
+  }
+  .hero-carousel__arrow--prev { left: 1.5rem; }
+  .hero-carousel__arrow--next { right: 1.5rem; }
+
+  /* ---- Progress Bar ---- */
+  .hero-carousel__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    z-index: 10;
+  }
+  .hero-carousel__progress-bar {
+    height: 100%;
+    background: var(--color-accent, #C5A880);
+    width: 0%;
+    animation: heroProgress var(--hero-speed, 5s) linear forwards;
+  }
+  @keyframes heroProgress {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+
+  /* ---- Scroll Indicator ---- */
+  .hero-carousel__scroll-indicator {
+    position: absolute;
+    bottom: 5.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  .hero-carousel__scroll-indicator span {
+    display: block;
+    width: 1px;
+    height: 48px;
     background: linear-gradient(to bottom, var(--color-accent, #C5A880), transparent);
     animation: scrollPulse 2s ease-in-out infinite;
   }
-  @keyframes scrollPulse { 0%,100%{opacity:0.3;transform:scaleY(0.5)} 50%{opacity:1;transform:scaleY(1)} }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
 
-  @media(max-width:749px){
-    .hero-banner { height:85vh; min-height:500px; align-items:flex-end; }
-    .hero-banner__heading { font-size:2.25rem; }
-    .hero-banner__content { padding-bottom:4rem; }
+  /* ---- Responsive ---- */
+  @media(max-width: 749px) {
+    .hero-carousel {
+      height: 85vh;
+      min-height: 500px;
+    }
+    .hero-carousel__heading {
+      font-size: 2rem;
+    }
+    .hero-carousel__content {
+      padding-bottom: 5rem;
+    }
+    .hero-carousel__arrow {
+      display: none;
+    }
+    .hero-carousel__dots {
+      bottom: 2rem;
+    }
+    .hero-carousel__scroll-indicator {
+      bottom: 4rem;
+      display: none;
+    }
   }
 </style>
 
+<script>
+(function(){
+  const carousel = document.querySelector('[data-hero-carousel]');
+  if(!carousel) return;
+
+  const slides = carousel.querySelectorAll('[data-hero-slide]');
+  const dots = carousel.querySelectorAll('[data-hero-dot]');
+  const progress = carousel.querySelector('[data-hero-progress]');
+  const prevBtn = carousel.querySelector('[data-hero-prev]');
+  const nextBtn = carousel.querySelector('[data-hero-next]');
+
+  if(slides.length < 2) return;
+
+  let current = 0;
+  const speed = {{ section.settings.autoplay_speed | default: 5 }} * 1000;
+  let autoplayTimer = null;
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  carousel.style.setProperty('--hero-speed', (speed / 1000) + 's');
+
+  function goToSlide(index, direction) {
+    if(index === current) return;
+    const prev = current;
+    current = index;
+
+    /* Reset content animations */
+    slides.forEach((s, i) => {
+      s.classList.remove('is-active', 'is-exiting');
+      if(i === prev) s.classList.add('is-exiting');
+    });
+    slides[current].classList.add('is-active');
+
+    /* Force re-trigger content animations */
+    const content = slides[current].querySelectorAll('.hero-carousel__eyebrow, .hero-carousel__heading, .hero-carousel__subheading, .hero-carousel__ctas');
+    content.forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight; /* trigger reflow */
+      el.style.animation = '';
+    });
+
+    /* Update dots */
+    dots.forEach((d, i) => {
+      d.classList.toggle('is-active', i === current);
+      const fill = d.querySelector('.hero-carousel__dot-fill');
+      if(fill) {
+        fill.style.animation = 'none';
+        fill.offsetHeight;
+        if(i === current) fill.style.animation = '';
+      }
+    });
+
+    /* Reset progress */
+    if(progress) {
+      progress.style.animation = 'none';
+      progress.offsetHeight;
+      progress.style.animation = '';
+    }
+
+    resetAutoplay();
+  }
+
+  function nextSlide() {
+    goToSlide((current + 1) % slides.length, 'next');
+  }
+  function prevSlide() {
+    goToSlide((current - 1 + slides.length) % slides.length, 'prev');
+  }
+
+  function resetAutoplay() {
+    clearInterval(autoplayTimer);
+    autoplayTimer = setInterval(nextSlide, speed);
+  }
+
+  /* Events */
+  if(prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); });
+  if(nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); });
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => { goToSlide(parseInt(dot.dataset.heroDot)); });
+  });
+
+  /* Touch/Swipe */
+  carousel.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+  carousel.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if(Math.abs(diff) > 50) {
+      diff > 0 ? nextSlide() : prevSlide();
+    }
+  }, { passive: true });
+
+  /* Parallax on scroll */
+  window.addEventListener('scroll', () => {
+    const rect = carousel.getBoundingClientRect();
+    if(rect.bottom > 0) {
+      const scrolled = window.scrollY;
+      const rate = scrolled * 0.3;
+      const activeMedia = slides[current]?.querySelector('.hero-carousel__media');
+      if(activeMedia) {
+        activeMedia.style.transform = `translateY(${rate}px)`;
+      }
+      carousel.style.opacity = Math.max(0, 1 - (scrolled / (carousel.offsetHeight * 0.8)));
+    }
+  }, { passive: true });
+
+  /* Pause on hover */
+  carousel.addEventListener('mouseenter', () => { clearInterval(autoplayTimer); });
+  carousel.addEventListener('mouseleave', () => { resetAutoplay(); });
+
+  /* Start autoplay */
+  resetAutoplay();
+})();
+</script>
+
 {% schema %}
 {
-  "name": "Hero Banner",
+  "name": "Hero Carousel",
   "tag": "section",
-  "class": "section-hero-banner",
+  "class": "section-hero-carousel",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Background image" },
-    { "type": "text", "id": "video_url", "label": "Video URL (.mp4)", "info": "Overrides image if set" },
     { "type": "range", "id": "hero_height", "min": 40, "max": 100, "step": 5, "unit": "vh", "label": "Banner height", "default": 100 },
-    { "type": "select", "id": "content_alignment", "label": "Content alignment", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}], "default": "left" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "Luxury Essentials" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Redefine Your Style" },
-    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Premium fashion crafted for those who dare to stand out. Explore the new collection." },
-    { "type": "text", "id": "cta_label", "label": "Primary button label", "default": "Shop Now" },
-    { "type": "url",  "id": "cta_link",  "label": "Primary button link" },
-    { "type": "text", "id": "cta2_label", "label": "Secondary button label", "default": "Explore Collections" },
-    { "type": "url",  "id": "cta2_link",  "label": "Secondary button link" }
+    { "type": "select", "id": "content_alignment", "label": "Default content alignment", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}], "default": "left" },
+    { "type": "range", "id": "autoplay_speed", "min": 3, "max": 10, "step": 1, "unit": "s", "label": "Auto-play speed", "default": 5 }
   ],
-  "presets": [{ "name": "Hero Banner" }]
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Background image" },
+        { "type": "text", "id": "video_url", "label": "Video URL (.mp4)", "info": "Overrides image if set" },
+        { "type": "color", "id": "bg_color", "label": "Fallback background color", "default": "#0A0A0A" },
+        { "type": "range", "id": "overlay_opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "label": "Overlay darkness", "default": 45 },
+        { "type": "select", "id": "content_alignment", "label": "Content alignment", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}], "default": "left" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "New Collection" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Redefine Your Style" },
+        { "type": "text", "id": "subheading", "label": "Subheading", "default": "Premium fashion crafted for those who dare to stand out." },
+        { "type": "text", "id": "cta_label", "label": "Primary button label", "default": "Shop Now" },
+        { "type": "url", "id": "cta_link", "label": "Primary button link" },
+        { "type": "text", "id": "cta2_label", "label": "Secondary button label" },
+        { "type": "url", "id": "cta2_link", "label": "Secondary button link" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Hero Carousel",
+    "blocks": [
+      { "type": "slide", "settings": { "eyebrow": "Summer '26 Collection", "heading": "Redefine Your Style", "subheading": "Premium fashion crafted for those who dare to stand out. Explore the new collection.", "cta_label": "Shop Now", "cta_link": "/collections/all", "cta2_label": "Explore Collections", "overlay_opacity": 45, "content_alignment": "left" } },
+      { "type": "slide", "settings": { "eyebrow": "Limited Edition", "heading": "Oversized Excellence", "subheading": "Drop-shoulder fits that redefine comfort. Premium cotton, bold graphics.", "cta_label": "Shop Oversized", "cta_link": "/collections/all", "overlay_opacity": 50, "content_alignment": "center" } },
+      { "type": "slide", "settings": { "eyebrow": "New Arrivals", "heading": "Streetwear Drops", "subheading": "Urban aesthetics meets premium quality. Your street, your rules.", "cta_label": "Explore Now", "cta_link": "/collections/all", "overlay_opacity": 45, "content_alignment": "left" } },
+      { "type": "slide", "settings": { "eyebrow": "Best Sellers", "heading": "Anime Collection", "subheading": "Wear your favorite characters. Limited edition anime-inspired designs.", "cta_label": "Shop Anime", "cta_link": "/collections/all", "overlay_opacity": 50, "content_alignment": "right" } }
+    ]
+  }]
 }
 {% endschema %}

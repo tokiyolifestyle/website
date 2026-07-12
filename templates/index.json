@@ -2,16 +2,63 @@
   "sections": {
     "hero-banner": {
       "type": "hero-banner",
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Summer '26 Collection",
+            "heading": "Redefine Your Style",
+            "subheading": "Premium fashion crafted for those who dare to stand out. Explore the new collection.",
+            "cta_label": "Shop Now",
+            "cta_link": "/collections/all",
+            "cta2_label": "Explore Collections",
+            "cta2_link": "/collections",
+            "overlay_opacity": 45,
+            "content_alignment": "left"
+          }
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Limited Edition",
+            "heading": "Oversized Excellence",
+            "subheading": "Drop-shoulder fits that redefine comfort. Premium 240 GSM cotton, bold graphics.",
+            "cta_label": "Shop Oversized",
+            "cta_link": "/collections/all",
+            "overlay_opacity": 50,
+            "content_alignment": "center"
+          }
+        },
+        "slide-3": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "New Arrivals",
+            "heading": "Streetwear Drops",
+            "subheading": "Urban aesthetics meets premium quality. Your street, your rules.",
+            "cta_label": "Explore Now",
+            "cta_link": "/collections/all",
+            "overlay_opacity": 45,
+            "content_alignment": "left"
+          }
+        },
+        "slide-4": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Best Sellers",
+            "heading": "Anime Collection",
+            "subheading": "Wear your favorite characters. Limited edition anime-inspired designs.",
+            "cta_label": "Shop Anime",
+            "cta_link": "/collections/all",
+            "overlay_opacity": 50,
+            "content_alignment": "right"
+          }
+        }
+      },
+      "block_order": ["slide-1", "slide-2", "slide-3", "slide-4"],
       "settings": {
         "hero_height": 100,
         "content_alignment": "left",
-        "eyebrow": "Luxury Essentials",
-        "heading": "Redefine Your Style",
-        "subheading": "Premium fashion crafted for those who dare to stand out. Explore the new collection.",
-        "cta_label": "Shop Now",
-        "cta_link": "/collections/all",
-        "cta2_label": "Explore Collections",
-        "cta2_link": "/collections/all"
+        "autoplay_speed": 5
       }
     },
     "scrolling-text-1": {
@@ -31,32 +78,56 @@
     "category-icons": {
       "type": "category-icons",
       "blocks": {
-        "cat-1": { "type": "category", "settings": { "label": "T-Shirts", "icon": "tshirt", "link": "/collections/all" } },
-        "cat-2": { "type": "category", "settings": { "label": "Oversized", "icon": "oversized", "link": "/collections/all" } },
-        "cat-3": { "type": "category", "settings": { "label": "Hoodies", "icon": "hoodie", "link": "/collections/all" } },
-        "cat-4": { "type": "category", "settings": { "label": "Cargo", "icon": "cargo", "link": "/collections/all" } },
-        "cat-5": { "type": "category", "settings": { "label": "Jackets", "icon": "jacket", "link": "/collections/all" } },
-        "cat-6": { "type": "category", "settings": { "label": "Accessories", "icon": "accessories", "link": "/collections/all" } },
-        "cat-7": { "type": "category", "settings": { "label": "Footwear", "icon": "footwear", "link": "/collections/all" } },
-        "cat-8": { "type": "category", "settings": { "label": "Bags", "icon": "bags", "link": "/collections/all" } },
-        "cat-9": { "type": "category", "settings": { "label": "Winterwear", "icon": "winter", "link": "/collections/all" } }
+        "mc-os-gp": { "type": "category", "settings": { "label": "Graphic Print", "gender": "men", "fit": "oversized" } },
+        "mc-os-an": { "type": "category", "settings": { "label": "Anime", "gender": "men", "fit": "oversized" } },
+        "mc-os-sw": { "type": "category", "settings": { "label": "Streetwear", "gender": "men", "fit": "oversized" } },
+        "mc-os-st": { "type": "category", "settings": { "label": "Story Wear", "gender": "men", "fit": "oversized" } },
+        "mc-os-mn": { "type": "category", "settings": { "label": "Minimal", "gender": "men", "fit": "oversized" } },
+        "mc-os-sb": { "type": "category", "settings": { "label": "Solid Basics", "gender": "men", "fit": "oversized" } },
+        "mc-rg-gp": { "type": "category", "settings": { "label": "Graphic Print", "gender": "men", "fit": "regular" } },
+        "mc-rg-an": { "type": "category", "settings": { "label": "Anime", "gender": "men", "fit": "regular" } },
+        "mc-rg-sw": { "type": "category", "settings": { "label": "Streetwear", "gender": "men", "fit": "regular" } },
+        "mc-rg-st": { "type": "category", "settings": { "label": "Story Wear", "gender": "men", "fit": "regular" } },
+        "mc-rg-mn": { "type": "category", "settings": { "label": "Minimal", "gender": "men", "fit": "regular" } },
+        "mc-rg-sb": { "type": "category", "settings": { "label": "Solid Basics", "gender": "men", "fit": "regular" } },
+        "wc-os-gp": { "type": "category", "settings": { "label": "Graphic Print", "gender": "women", "fit": "oversized" } },
+        "wc-os-an": { "type": "category", "settings": { "label": "Anime", "gender": "women", "fit": "oversized" } },
+        "wc-os-sw": { "type": "category", "settings": { "label": "Streetwear", "gender": "women", "fit": "oversized" } },
+        "wc-os-st": { "type": "category", "settings": { "label": "Story Wear", "gender": "women", "fit": "oversized" } },
+        "wc-os-mn": { "type": "category", "settings": { "label": "Minimal", "gender": "women", "fit": "oversized" } },
+        "wc-os-sb": { "type": "category", "settings": { "label": "Solid Basics", "gender": "women", "fit": "oversized" } },
+        "wc-rg-gp": { "type": "category", "settings": { "label": "Graphic", "gender": "women", "fit": "regular" } },
+        "wc-rg-an": { "type": "category", "settings": { "label": "Anime", "gender": "women", "fit": "regular" } },
+        "wc-rg-sw": { "type": "category", "settings": { "label": "Streetwear", "gender": "women", "fit": "regular" } },
+        "wc-rg-st": { "type": "category", "settings": { "label": "Story Wear", "gender": "women", "fit": "regular" } },
+        "wc-rg-mn": { "type": "category", "settings": { "label": "Minimal", "gender": "women", "fit": "regular" } },
+        "wc-rg-sb": { "type": "category", "settings": { "label": "Solid Basics", "gender": "women", "fit": "regular" } }
       },
-      "block_order": ["cat-1","cat-2","cat-3","cat-4","cat-5","cat-6","cat-7","cat-8","cat-9"]
+      "block_order": [
+        "mc-os-gp","mc-os-an","mc-os-sw","mc-os-st","mc-os-mn","mc-os-sb",
+        "mc-rg-gp","mc-rg-an","mc-rg-sw","mc-rg-st","mc-rg-mn","mc-rg-sb",
+        "wc-os-gp","wc-os-an","wc-os-sw","wc-os-st","wc-os-mn","wc-os-sb",
+        "wc-rg-gp","wc-rg-an","wc-rg-sw","wc-rg-st","wc-rg-mn","wc-rg-sb"
+      ],
+      "settings": {
+        "eyebrow": "Explore",
+        "title": "Shop by Category"
+      }
     },
     "featured-collections": {
       "type": "featured-collections",
       "blocks": {
-        "col-1": { "type": "collection", "settings": { "title": "Men's Essentials" } },
+        "col-1": { "type": "collection", "settings": { "title": "Men's Oversized" } },
         "col-2": { "type": "collection", "settings": { "title": "Women's Edit" } },
-        "col-3": { "type": "collection", "settings": { "title": "Accessories" } },
-        "col-4": { "type": "collection", "settings": { "title": "Footwear" } },
-        "col-5": { "type": "collection", "settings": { "title": "Winterwear" } }
+        "col-3": { "type": "collection", "settings": { "title": "Anime Collection" } },
+        "col-4": { "type": "collection", "settings": { "title": "Streetwear" } },
+        "col-5": { "type": "collection", "settings": { "title": "Solid Basics" } }
       },
       "block_order": ["col-1","col-2","col-3","col-4","col-5"],
       "settings": {
-        "eyebrow": "Explore",
-        "title": "Shop by Category",
-        "subtitle": "Curated collections crafted for the modern lifestyle."
+        "eyebrow": "Collections",
+        "title": "Curated for You",
+        "subtitle": "Handpicked collections for every mood and style."
       }
     },
     "trending-products": {
@@ -73,7 +144,7 @@
     "scrolling-text-2": {
       "type": "scrolling-text",
       "settings": {
-        "text": "Tokiyo Lifestyle | Wear Your Story | Premium Streetwear | Made In India | Elevate Your Wardrobe",
+        "text": "Tokiyo Lifestyle | Wear Your Story | Premium Streetwear | Made In India | Elevate Your Wardrobe | Oversized Tees | Anime Collection",
         "separator": "✦",
         "speed": 40,
         "font_size": 12,
@@ -91,7 +162,7 @@
         "eyebrow": "Our Story",
         "heading": "Crafted for the Bold",
         "body": "<p>At Tokiyo Lifestyle, we believe fashion is more than clothing — it's a statement. Every piece is designed with precision and crafted from premium materials for the modern individual.</p>",
-        "features": "Premium Quality Fabrics|Ethically Sourced Materials|Designed in India|Free Shipping on ₹2999+",
+        "features": "Premium 240 GSM Cotton|Ethically Sourced Materials|Designed in India|Free Shipping on ₹2999+",
         "cta_label": "Discover More",
         "cta_link": "/pages/about-us",
         "background_color": "#0A0A0A",
@@ -102,8 +173,8 @@
       "type": "featured-reviews",
       "blocks": {
         "rev-1": { "type": "review", "settings": { "author": "Arjun M.", "text": "The oversized tee is hands down the best I've owned. Premium cotton, perfect drape, and the packaging was elite. Tokiyo gets it!", "rating": 5, "verified": true } },
-        "rev-2": { "type": "review", "settings": { "author": "Priya S.", "text": "Obsessed with the cargo pants! The quality is unreal for the price. Already ordered two more pieces. Definitely my new go-to brand.", "rating": 5, "verified": true } },
-        "rev-3": { "type": "review", "settings": { "author": "Rahul K.", "text": "Fast shipping, beautiful packaging, and the hoodie fits like a dream. This brand is going places. Highly recommend!", "rating": 5, "verified": true } }
+        "rev-2": { "type": "review", "settings": { "author": "Priya S.", "text": "Obsessed with the anime collection! The print quality is unreal. Already ordered two more pieces. Definitely my new go-to brand.", "rating": 5, "verified": true } },
+        "rev-3": { "type": "review", "settings": { "author": "Rahul K.", "text": "Fast shipping, beautiful packaging, and the streetwear hoodie fits like a dream. This brand is going places. Highly recommend!", "rating": 5, "verified": true } }
       },
       "block_order": ["rev-1","rev-2","rev-3"],
       "settings": {

@@ -1,246 +1,604 @@
-{%- comment -%} Category Icons Strip — Animated horizontal scroll {%- endcomment -%}
+{%- comment -%}
+  Category Grid — Bewakoof / LimeRoad-style tabbed category browser
+  Men's & Women's → Oversized / Regular → 6 subcategories each
+{%- endcomment -%}
 
-<section class="category-icons section-category-icons">
-  <div class="category-icons__inner page-width">
-    <div class="category-icons__track" id="CategoryIconsTrack">
+<section class="category-grid-section" id="CategoryGrid">
+  <div class="page-width">
+    {%- comment -%} Section Header {%- endcomment -%}
+    <div class="catg__header animate-on-scroll fade-up">
+      <p class="text-eyebrow">{{ section.settings.eyebrow | default: 'Explore' }}</p>
+      <h2>{{ section.settings.title | default: 'Shop by Category' }}</h2>
+    </div>
 
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'category' -%}
-          <a href="{{ block.settings.link | default: '/collections/all' }}"
-             class="category-icon-item"
-             style="animation-delay: {{ forloop.index0 | times: 0.08 }}s;"
-             {{ block.shopify_attributes }}>
-            <div class="category-icon-item__circle">
-              {%- case block.settings.icon -%}
-                {%- when 'tshirt' -%}
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 10L14 7C14 7 15.5 12 20 12C24.5 12 26 7 26 7L32 10L29 18H26V33H14V18H11L8 10Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                  </svg>
-                {%- when 'oversized' -%}
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 10L14 7C14 7 16 13 20 13C24 13 26 7 26 7L34 10L30 20H26V34H14V20H10L6 10Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                    <path d="M8 16H11" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                    <path d="M29 16H32" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                  </svg>
-                {%- when 'hoodie' -%}
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 12L15 8C15 8 17 11 20 11C23 11 25 8 25 8L31 12L29 22H26V34H14V22H11L9 12Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                    <path d="M17 8C17 8 18 14 20 14C22 14 23 8 23 8" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                    <path d="M17 14V20M23 14V20" stroke="white" stroke-width="1" fill="none"/>
-                  </svg>
-                {%- when 'cargo' -%}
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13 8H27L30 20L27 35H22L20 28L18 35H13L10 20L13 8Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                    <rect x="13" y="17" width="5" height="4" rx="0.5" stroke="white" stroke-width="1.2" fill="none"/>
-                    <rect x="22" y="17" width="5" height="4" rx="0.5" stroke="white" stroke-width="1.2" fill="none"/>
-                    <line x1="13" y1="8" x2="27" y2="8" stroke="white" stroke-width="1" />
-                  </svg>
-                {%- when 'jacket' -%}
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 13L15 9L18 14L20 12L22 14L25 9L31 13L33 24H27V34H13V24H7L9 13Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                    <line x1="20" y1="12" x2="20" y2="34" stroke="white" stroke-width="1.5"/>
-                    <circle cx="20" cy="18" r="1" fill="white"/>
-                    <circle cx="20" cy="23" r="1" fill="white"/>
-                    <circle cx="20" cy="28" r="1" fill="white"/>
-                  </svg>
-                {%- when 'accessories' -%}
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="20" cy="20" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-                    <circle cx="20" cy="20" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                    <line x1="20" y1="10" x2="20" y2="14" stroke="currentColor" stroke-width="2"/>
-                    <line x1="20" y1="26" x2="20" y2="30" stroke="currentColor" stroke-width="2"/>
-                    <line x1="10" y1="20" x2="14" y2="20" stroke="currentColor" stroke-width="2"/>
-                    <line x1="26" y1="20" x2="30" y2="20" stroke="currentColor" stroke-width="2"/>
-                    <circle cx="20" cy="20" r="2.5" fill="currentColor"/>
-                  </svg>
-                {%- when 'footwear' -%}
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 28C8 28 10 22 16 20L22 16C22 16 25 14 28 17L33 22C33 22 35 24 32 27L28 28H8Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                    <path d="M8 28H32C32 28 33 30 30 31H8C8 31 7 30 8 28Z" fill="currentColor" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M16 20L18 27" stroke="white" stroke-width="1" stroke-linecap="round"/>
-                  </svg>
-                {%- when 'bags' -%}
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="10" y="16" width="20" height="16" rx="1" fill="currentColor" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M15 16V13C15 10.8 17.2 9 20 9C22.8 9 25 10.8 25 13V16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
-                    <line x1="10" y1="22" x2="30" y2="22" stroke="white" stroke-width="1.5"/>
-                    <circle cx="20" cy="27" r="2" fill="white"/>
-                  </svg>
-                {%- when 'winter' -%}
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13 9H27L30 19H27L28 32H12L13 19H10L13 9Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                    <path d="M13 9C13 9 15 13 20 13C25 13 27 9 27 9" stroke="white" stroke-width="1.5" fill="none"/>
-                    <path d="M15 17H25" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                  </svg>
-                {%- when 'women' -%}
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14 8H26L30 22H24L26 34H14L16 22H10L14 8Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                    <path d="M14 8C14 8 17 13 20 13C23 13 26 8 26 8" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                  </svg>
-                {%- else -%}
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 10L14 7C14 7 15.5 12 20 12C24.5 12 26 7 26 7L32 10L29 18H26V33H14V18H11L8 10Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                  </svg>
-              {%- endcase -%}
-            </div>
-            <span class="category-icon-item__label">{{ block.settings.label }}</span>
-          </a>
-        {%- endif -%}
-      {%- endfor -%}
+    {%- comment -%} Gender Tabs {%- endcomment -%}
+    <div class="catg__tabs" role="tablist">
+      <button class="catg__tab is-active" role="tab" aria-selected="true" data-catg-tab="men" id="tab-men" aria-controls="panel-men">
+        <span class="catg__tab-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="4" r="2.5"/><path d="M8 24V14H6l4-8h4l4 8h-2v10"/></svg>
+        </span>
+        MEN
+      </button>
+      <button class="catg__tab" role="tab" aria-selected="false" data-catg-tab="women" id="tab-women" aria-controls="panel-women">
+        <span class="catg__tab-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="4" r="2.5"/><path d="M9 24v-8H7l3-6 2-4 2 4 3 6h-2v8"/></svg>
+        </span>
+        WOMEN
+      </button>
+    </div>
 
+    {%- comment -%} ========== MEN'S PANEL ========== {%- endcomment -%}
+    <div class="catg__panel is-active" id="panel-men" role="tabpanel" aria-labelledby="tab-men" data-catg-panel="men">
+
+      {%- comment -%} Oversized Section {%- endcomment -%}
+      <div class="catg__section">
+        <button class="catg__section-header" data-catg-accordion aria-expanded="true">
+          <div class="catg__section-title">
+            <span class="catg__section-badge">OVERSIZED</span>
+            <span class="catg__section-subtitle">Premium Oversized Fits</span>
+          </div>
+          <svg class="catg__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="catg__section-body is-open">
+          <div class="catg__card-grid stagger-children">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.gender == 'men' and block.settings.fit == 'oversized' -%}
+                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg__card" {{ block.shopify_attributes }}>
+                  <div class="catg__card-media">
+                    {%- if block.settings.image != blank -%}
+                      {{ block.settings.image | image_url: width: 600 | image_tag:
+                        loading: 'lazy',
+                        widths: '300, 450, 600',
+                        sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 20vw',
+                        class: 'catg__card-img',
+                        alt: block.settings.label | escape
+                      }}
+                    {%- else -%}
+                      <div class="catg__card-placeholder">
+                        <span>{{ block.settings.label | slice: 0 }}</span>
+                      </div>
+                    {%- endif -%}
+                    <div class="catg__card-overlay"></div>
+                  </div>
+                  <div class="catg__card-info">
+                    <span class="catg__card-label">{{ block.settings.label }}</span>
+                    <span class="catg__card-arrow">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </span>
+                  </div>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Regular Section {%- endcomment -%}
+      <div class="catg__section">
+        <button class="catg__section-header" data-catg-accordion aria-expanded="true">
+          <div class="catg__section-title">
+            <span class="catg__section-badge">REGULAR</span>
+            <span class="catg__section-subtitle">Classic Fit Collection</span>
+          </div>
+          <svg class="catg__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="catg__section-body is-open">
+          <div class="catg__card-grid stagger-children">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.gender == 'men' and block.settings.fit == 'regular' -%}
+                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg__card" {{ block.shopify_attributes }}>
+                  <div class="catg__card-media">
+                    {%- if block.settings.image != blank -%}
+                      {{ block.settings.image | image_url: width: 600 | image_tag:
+                        loading: 'lazy',
+                        widths: '300, 450, 600',
+                        sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 20vw',
+                        class: 'catg__card-img',
+                        alt: block.settings.label | escape
+                      }}
+                    {%- else -%}
+                      <div class="catg__card-placeholder">
+                        <span>{{ block.settings.label | slice: 0 }}</span>
+                      </div>
+                    {%- endif -%}
+                    <div class="catg__card-overlay"></div>
+                  </div>
+                  <div class="catg__card-info">
+                    <span class="catg__card-label">{{ block.settings.label }}</span>
+                    <span class="catg__card-arrow">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </span>
+                  </div>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} ========== WOMEN'S PANEL ========== {%- endcomment -%}
+    <div class="catg__panel" id="panel-women" role="tabpanel" aria-labelledby="tab-women" data-catg-panel="women" hidden>
+
+      {%- comment -%} Oversized Section {%- endcomment -%}
+      <div class="catg__section">
+        <button class="catg__section-header" data-catg-accordion aria-expanded="true">
+          <div class="catg__section-title">
+            <span class="catg__section-badge">OVERSIZED</span>
+            <span class="catg__section-subtitle">Premium Oversized Fits</span>
+          </div>
+          <svg class="catg__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="catg__section-body is-open">
+          <div class="catg__card-grid stagger-children">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.gender == 'women' and block.settings.fit == 'oversized' -%}
+                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg__card" {{ block.shopify_attributes }}>
+                  <div class="catg__card-media">
+                    {%- if block.settings.image != blank -%}
+                      {{ block.settings.image | image_url: width: 600 | image_tag:
+                        loading: 'lazy',
+                        widths: '300, 450, 600',
+                        sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 20vw',
+                        class: 'catg__card-img',
+                        alt: block.settings.label | escape
+                      }}
+                    {%- else -%}
+                      <div class="catg__card-placeholder">
+                        <span>{{ block.settings.label | slice: 0 }}</span>
+                      </div>
+                    {%- endif -%}
+                    <div class="catg__card-overlay"></div>
+                  </div>
+                  <div class="catg__card-info">
+                    <span class="catg__card-label">{{ block.settings.label }}</span>
+                    <span class="catg__card-arrow">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </span>
+                  </div>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Regular Section {%- endcomment -%}
+      <div class="catg__section">
+        <button class="catg__section-header" data-catg-accordion aria-expanded="true">
+          <div class="catg__section-title">
+            <span class="catg__section-badge">REGULAR</span>
+            <span class="catg__section-subtitle">Classic Fit Collection</span>
+          </div>
+          <svg class="catg__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="catg__section-body is-open">
+          <div class="catg__card-grid stagger-children">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.gender == 'women' and block.settings.fit == 'regular' -%}
+                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg__card" {{ block.shopify_attributes }}>
+                  <div class="catg__card-media">
+                    {%- if block.settings.image != blank -%}
+                      {{ block.settings.image | image_url: width: 600 | image_tag:
+                        loading: 'lazy',
+                        widths: '300, 450, 600',
+                        sizes: '(max-width:600px) 45vw, (max-width:989px) 30vw, 20vw',
+                        class: 'catg__card-img',
+                        alt: block.settings.label | escape
+                      }}
+                    {%- else -%}
+                      <div class="catg__card-placeholder">
+                        <span>{{ block.settings.label | slice: 0 }}</span>
+                      </div>
+                    {%- endif -%}
+                    <div class="catg__card-overlay"></div>
+                  </div>
+                  <div class="catg__card-info">
+                    <span class="catg__card-label">{{ block.settings.label }}</span>
+                    <span class="catg__card-arrow">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </span>
+                  </div>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .category-icons {
+  /* ========== Category Grid Section ========== */
+  .category-grid-section {
+    padding: var(--spacing-sections, 48px) 0;
     background: #FFFFFF;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-    overflow: hidden;
   }
-  .category-icons__inner { position: relative; }
-  .category-icons__track {
-    display: flex;
-    gap: 1.5rem;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    padding: 0.75rem 0.5rem;
-    justify-content: flex-start;
+  .catg__header {
+    text-align: center;
+    margin-bottom: 2rem;
   }
-  .category-icons__track::-webkit-scrollbar { display: none; }
+  .catg__header h2 {
+    margin-bottom: 0.25rem;
+  }
 
-  .category-icon-item {
+  /* ---- Tabs ---- */
+  .catg__tabs {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 2.5rem;
+    border-bottom: 2px solid rgba(0,0,0,0.06);
+    position: relative;
+  }
+  .catg__tab {
+    display: flex;
     align-items: center;
-    gap: 0.6rem;
-    text-decoration: none;
-    flex-shrink: 0;
+    gap: 0.5rem;
+    padding: 1rem 2.5rem;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-muted, #767674);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
     cursor: pointer;
-    animation: categoryFloat 3s ease-in-out infinite;
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+  }
+  .catg__tab::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--color-accent, #C5A880);
+    transform: scaleX(0);
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .catg__tab.is-active {
+    color: var(--color-primary, #0C0C0E);
+  }
+  .catg__tab.is-active::after {
+    transform: scaleX(1);
+  }
+  .catg__tab:hover {
+    color: var(--color-primary, #0C0C0E);
+  }
+  .catg__tab-icon {
+    display: flex;
+    transition: transform 0.3s ease;
+  }
+  .catg__tab:hover .catg__tab-icon {
+    transform: scale(1.15);
   }
 
-  @keyframes categoryFloat {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-4px); }
+  /* ---- Panels ---- */
+  .catg__panel {
+    display: none;
+    animation: catgPanelIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .catg__panel.is-active {
+    display: block;
+  }
+  @keyframes catgPanelIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  .category-icon-item:nth-child(2) { animation-delay: 0.2s; }
-  .category-icon-item:nth-child(3) { animation-delay: 0.4s; }
-  .category-icon-item:nth-child(4) { animation-delay: 0.6s; }
-  .category-icon-item:nth-child(5) { animation-delay: 0.8s; }
-  .category-icon-item:nth-child(6) { animation-delay: 1.0s; }
-  .category-icon-item:nth-child(7) { animation-delay: 1.2s; }
-  .category-icon-item:nth-child(8) { animation-delay: 1.4s; }
-  .category-icon-item:nth-child(9) { animation-delay: 1.6s; }
-  .category-icon-item:nth-child(10) { animation-delay: 1.8s; }
-
-  .category-icon-item:hover { animation-play-state: paused; }
-
-  .category-icon-item__circle {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+  /* ---- Section Accordion ---- */
+  .catg__section {
+    margin-bottom: 2rem;
+  }
+  .catg__section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1.25rem 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .catg__section-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .catg__section-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 1rem;
     background: var(--color-primary, #0C0C0E);
+    color: #FFFFFF;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .catg__section-subtitle {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted, #767674);
+    font-weight: 500;
+  }
+  .catg__chevron {
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    color: var(--color-text-muted, #767674);
+  }
+  .catg__section-header[aria-expanded="false"] .catg__chevron {
+    transform: rotate(-90deg);
+  }
+
+  /* ---- Section Body ---- */
+  .catg__section-body {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease, padding 0.4s ease;
+    padding: 0;
+  }
+  .catg__section-body.is-open {
+    max-height: 1200px;
+    opacity: 1;
+    padding: 1.5rem 0;
+  }
+
+  /* ---- Card Grid ---- */
+  .catg__card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @media(max-width: 600px) {
+    .catg__card-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+  }
+
+  /* ---- Category Card ---- */
+  .catg__card {
+    position: relative;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    aspect-ratio: 4 / 5;
+    background: #F5F5F5;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .catg__card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(12, 12, 14, 0.1);
+  }
+
+  /* Card Media */
+  .catg__card-media {
+    position: absolute;
+    inset: 0;
+  }
+  .catg__card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .catg__card:hover .catg__card-img {
+    transform: scale(1.08);
+  }
+  .catg__card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,0.75) 0%,
+      rgba(0,0,0,0.2) 40%,
+      rgba(0,0,0,0.05) 70%,
+      transparent 100%
+    );
+    transition: background 0.4s ease;
+  }
+  .catg__card:hover .catg__card-overlay {
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,0.85) 0%,
+      rgba(0,0,0,0.35) 45%,
+      rgba(0,0,0,0.1) 75%,
+      transparent 100%
+    );
+  }
+
+  /* Card Placeholder (when no image) */
+  .catg__card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #F0EFED 0%, #E8E6E3 100%);
+    position: relative;
+  }
+  .catg__card-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.015) 10px, rgba(0,0,0,0.015) 20px);
+  }
+  .catg__card-placeholder span {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--color-accent, #C5A880);
+    opacity: 0.2;
+    font-family: var(--font-heading);
+  }
+
+  /* Card Info */
+  .catg__card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+  }
+  .catg__card-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #FFFFFF;
+    line-height: 1.2;
+  }
+  .catg__card-arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
     color: #FFFFFF;
-    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
   }
-  .category-icon-item__circle svg {
-    width: 26px;
-    height: 26px;
-  }
-  .category-icon-item:hover .category-icon-item__circle {
+  .catg__card:hover .catg__card-arrow {
     background: var(--color-accent, #C5A880);
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(197,168,128,0.25);
     color: var(--color-primary, #0C0C0E);
+    transform: translateX(4px);
   }
 
-  .category-icon-item__label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-primary, #0C0C0E);
-    text-align: center;
-    transition: color 0.25s ease;
-    white-space: nowrap;
-    position: relative;
-  }
-  .category-icon-item__label::after {
-    content: '';
-    position: absolute;
-    bottom: -3px;
-    left: 50%;
-    transform: translateX(-50%) scaleX(0);
-    width: 100%;
-    height: 2px;
-    background: var(--color-accent, #C5A880);
-    transition: transform 0.25s ease;
-  }
-  .category-icon-item:hover .category-icon-item__label { color: var(--color-accent, #C5A880); }
-  .category-icon-item:hover .category-icon-item__label::after { transform: translateX(-50%) scaleX(1); }
-
+  /* ---- Mobile Adjustments ---- */
   @media(max-width: 749px) {
-    .category-icon-item__circle { width: 52px; height: 52px; }
-    .category-icon-item__circle svg { width: 22px; height: 22px; }
-    .category-icon-item__label { font-size: 0.6rem; }
-    .category-icons__track { gap: 1.25rem; }
+    .catg__tab {
+      padding: 0.85rem 1.5rem;
+      font-size: 0.75rem;
+    }
+    .catg__card-label {
+      font-size: 0.7rem;
+    }
+    .catg__card-arrow {
+      width: 28px;
+      height: 28px;
+    }
+    .catg__card-info {
+      padding: 0.75rem 1rem;
+    }
+    .catg__section-badge {
+      font-size: 0.6rem;
+      padding: 0.3rem 0.75rem;
+    }
+    .catg__section-subtitle {
+      font-size: 0.7rem;
+    }
   }
 </style>
 
+<script>
+  (function(){
+    /* Tab switching */
+    const tabs = document.querySelectorAll('[data-catg-tab]');
+    const panels = document.querySelectorAll('[data-catg-panel]');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.catgTab;
+        tabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected','false'); });
+        panels.forEach(p => { p.classList.remove('is-active'); p.hidden = true; });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected','true');
+        const panel = document.querySelector(`[data-catg-panel="${target}"]`);
+        if(panel){ panel.classList.add('is-active'); panel.hidden = false; }
+      });
+    });
+    /* Accordion toggle */
+    document.querySelectorAll('[data-catg-accordion]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const body = btn.nextElementSibling;
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        body.classList.toggle('is-open', !isOpen);
+      });
+    });
+  })();
+</script>
+
 {% schema %}
 {
-  "name": "Category Icons",
+  "name": "Category Grid",
   "tag": "section",
-  "class": "section-category-icons",
-  "settings": [],
+  "class": "section-category-grid",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Explore" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Shop by Category" }
+  ],
   "blocks": [
     {
       "type": "category",
-      "name": "Category",
+      "name": "Category Card",
       "settings": [
-        { "type": "text", "id": "label", "label": "Label", "default": "T-Shirts" },
+        { "type": "text", "id": "label", "label": "Category Name", "default": "Graphic Print" },
+        { "type": "image_picker", "id": "image", "label": "Category Image" },
         { "type": "url", "id": "link", "label": "Collection Link" },
         {
           "type": "select",
-          "id": "icon",
-          "label": "Icon",
+          "id": "gender",
+          "label": "Gender",
           "options": [
-            { "value": "tshirt", "label": "T-Shirt" },
-            { "value": "oversized", "label": "Oversized" },
-            { "value": "hoodie", "label": "Hoodie" },
-            { "value": "cargo", "label": "Cargo / Bottoms" },
-            { "value": "jacket", "label": "Jacket" },
-            { "value": "accessories", "label": "Accessories" },
-            { "value": "footwear", "label": "Footwear" },
-            { "value": "bags", "label": "Bags" },
-            { "value": "winter", "label": "Winterwear" },
-            { "value": "women", "label": "Women" }
+            { "value": "men", "label": "Men's" },
+            { "value": "women", "label": "Women's" }
           ],
-          "default": "tshirt"
+          "default": "men"
+        },
+        {
+          "type": "select",
+          "id": "fit",
+          "label": "Fit Type",
+          "options": [
+            { "value": "oversized", "label": "Oversized" },
+            { "value": "regular", "label": "Regular" }
+          ],
+          "default": "oversized"
         }
       ]
     }
   ],
   "presets": [{
-    "name": "Category Icons",
+    "name": "Category Grid",
     "blocks": [
-      { "type": "category", "settings": { "label": "T-Shirts", "icon": "tshirt", "link": "/collections/all" } },
-      { "type": "category", "settings": { "label": "Oversized", "icon": "oversized", "link": "/collections/all" } },
-      { "type": "category", "settings": { "label": "Hoodies", "icon": "hoodie", "link": "/collections/all" } },
-      { "type": "category", "settings": { "label": "Cargo", "icon": "cargo", "link": "/collections/all" } },
-      { "type": "category", "settings": { "label": "Jackets", "icon": "jacket", "link": "/collections/all" } },
-      { "type": "category", "settings": { "label": "Accessories", "icon": "accessories", "link": "/collections/all" } },
-      { "type": "category", "settings": { "label": "Footwear", "icon": "footwear", "link": "/collections/all" } },
-      { "type": "category", "settings": { "label": "Bags", "icon": "bags", "link": "/collections/all" } },
-      { "type": "category", "settings": { "label": "Winterwear", "icon": "winter", "link": "/collections/all" } }
+      { "type": "category", "settings": { "label": "Graphic Print", "gender": "men", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Anime", "gender": "men", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Streetwear", "gender": "men", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Story Wear", "gender": "men", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Minimal", "gender": "men", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Solid Basics", "gender": "men", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Graphic Print", "gender": "men", "fit": "regular" } },
+      { "type": "category", "settings": { "label": "Anime", "gender": "men", "fit": "regular" } },
+      { "type": "category", "settings": { "label": "Streetwear", "gender": "men", "fit": "regular" } },
+      { "type": "category", "settings": { "label": "Story Wear", "gender": "men", "fit": "regular" } },
+      { "type": "category", "settings": { "label": "Minimal", "gender": "men", "fit": "regular" } },
+      { "type": "category", "settings": { "label": "Solid Basics", "gender": "men", "fit": "regular" } },
+      { "type": "category", "settings": { "label": "Graphic Print", "gender": "women", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Anime", "gender": "women", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Streetwear", "gender": "women", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Story Wear", "gender": "women", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Minimal", "gender": "women", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Solid Basics", "gender": "women", "fit": "oversized" } },
+      { "type": "category", "settings": { "label": "Graphic", "gender": "women", "fit": "regular" } },
+      { "type": "category", "settings": { "label": "Anime", "gender": "women", "fit": "regular" } },
+      { "type": "category", "settings": { "label": "Streetwear", "gender": "women", "fit": "regular" } },
+      { "type": "category", "settings": { "label": "Story Wear", "gender": "women", "fit": "regular" } },
+      { "type": "category", "settings": { "label": "Minimal", "gender": "women", "fit": "regular" } },
+      { "type": "category", "settings": { "label": "Solid Basics", "gender": "women", "fit": "regular" } }
     ]
   }]
 }

@@ -80,9 +80,16 @@ class TokiyoCart {
         const doc = new DOMParser().parseFromString(data['cart-drawer'], 'text/html');
         const nb = doc.querySelector('[data-cart-body]');
         const nf = doc.querySelector('[data-cart-footer]');
+        const ns = doc.querySelector('[data-shipping-bar]');
         if (nb) this.bodyEl.innerHTML = nb.innerHTML;
         const footerEl = document.querySelector('[data-cart-footer]');
         if (footerEl && nf) footerEl.innerHTML = nf.innerHTML;
+        else if (nf && !footerEl) {
+          /* If footer didn't exist before (was empty cart), append it */
+          this.drawer?.appendChild(nf.parentElement || nf);
+        }
+        const shippingBar = document.querySelector('[data-shipping-bar]');
+        if (shippingBar && ns) shippingBar.innerHTML = ns.innerHTML;
       }
     } catch(err) { console.error('Drawer refresh failed:', err); }
   }
