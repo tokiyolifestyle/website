@@ -8,11 +8,123 @@
 </div>
 
 <div id="InterceptAbout" style="display: none;">
-  {% section 'main-page-about' %}
+  <div class="about-page page-width">
+    {% render 'breadcrumbs' %}
+    <div class="about-page__hero animate-on-scroll fade-up">
+      <span class="text-eyebrow">Our Story</span>
+      <h1>Redefining Streetwear Culture</h1>
+      <p class="about-page__lead">Tokiyo Lifestyle is a premium apparel label. We design clothing for the modern individual — blending clean typography, subculture references, and bold silhouettes with structural functionality.</p>
+    </div>
+    
+    <div class="about-page__grid">
+      <div class="about-card animate-on-scroll fade-right">
+        <h3>Premium Heavyweight Fabrics</h3>
+        <p>We source only long-staple cotton, custom woven at 240 GSM for our oversized drops. It holds its boxy shape, flows naturally, and offers breathable comfort that lasts for years.</p>
+      </div>
+      <div class="about-card animate-on-scroll fade-left">
+        <h3>Precision Tailoring</h3>
+        <p>Every streetwear template is mapped meticulously. From drop-shoulder seam placement to tight-ribbed collar widths, we obsess over structural details to deliver the perfect fit.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="InterceptB2B" style="display: none;">
-  {% section 'main-page-b2b' %}
+  <div class="b2b-page page-width">
+    {% render 'breadcrumbs' %}
+    <div class="b2b-page__grid">
+      <div class="b2b-page__info animate-on-scroll fade-right">
+        <span class="text-eyebrow">Wholesale & B2B</span>
+        <h1>Bulk Order Inquiries</h1>
+        <p>Partner with Tokiyo Lifestyle. We provide custom manufacturing, bulk supply, and wholesale distribution of premium streetwear and oversized apparel.</p>
+        
+        <div class="b2b-perk">
+          <span class="b2b-perk__icon">✦</span>
+          <div>
+            <strong>Premium Heavyweight Fabrics</strong>
+            <p>Super combed, pre-shrunk heavyweight cotton fabrics built for extreme comfort.</p>
+          </div>
+        </div>
+        <div class="b2b-perk">
+          <span class="b2b-perk__icon">✦</span>
+          <div>
+            <strong>Custom Screen & DTF Printing</strong>
+            <p>High-definition puff prints, neon prints, embroidery, and durable graphics.</p>
+          </div>
+        </div>
+        <div class="b2b-perk">
+          <span class="b2b-perk__icon">✦</span>
+          <div>
+            <strong>Flexible MoQ</strong>
+            <p>Low minimum orders starting from 50 pieces per design style.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="b2b-page__form animate-on-scroll fade-left">
+        {%- form 'contact', id: 'B2BForm' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="form-success">Thank you for your bulk inquiry. Our B2B coordinator will contact you via email/phone within 12 hours.</div>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <div class="form-errors">{{ form.errors | default_errors }}</div>
+          {%- endif -%}
+          
+          <input type="hidden" name="contact[Type]" value="B2B Wholesale Inquiry">
+          
+          <div class="form-row">
+            <div class="form-field">
+              <label for="B2BName">Full Name</label>
+              <input type="text" name="contact[name]" id="B2BName" required placeholder="John Doe">
+            </div>
+            <div class="form-field">
+              <label for="B2BCompany">Company / Brand Name</label>
+              <input type="text" name="contact[company]" id="B2BCompany" required placeholder="Tokiyo Store">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-field">
+              <label for="B2BEmail">Work Email</label>
+              <input type="email" name="contact[email]" id="B2BEmail" required placeholder="john@example.com">
+            </div>
+            <div class="form-field">
+              <label for="B2BPhone">Phone / WhatsApp Number</label>
+              <input type="tel" name="contact[phone]" id="B2BPhone" required placeholder="+91 98765 43210">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-field">
+              <label for="B2BQuantity">Expected Order Quantity</label>
+              <select name="contact[quantity]" id="B2BQuantity" class="form-select">
+                <option value="50-100 Pcs">50 - 100 Pieces</option>
+                <option value="100-500 Pcs">100 - 500 Pieces</option>
+                <option value="500-1000 Pcs">500 - 1000 Pieces</option>
+                <option value="1000+ Pcs">More than 1000 Pieces</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="B2BStyles">Required Styles</label>
+              <select name="contact[styles]" id="B2BStyles" class="form-select">
+                <option value="Oversized T-Shirts">Oversized T-Shirts</option>
+                <option value="Regular T-Shirts">Regular T-Shirts</option>
+                <option value="Hoodies & Sweatshirts">Hoodies & Sweatshirts</option>
+                <option value="Mixed Wholesale Catalog">Mixed Streetwear Catalog</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-field">
+            <label for="B2BMessage">Describe Your Custom Requirements</label>
+            <textarea name="contact[body]" id="B2BMessage" rows="4" required placeholder="Please mention sizes, colors, and printing requirements..."></textarea>
+          </div>
+          
+          <button type="submit" class="button button--solid">Submit Bulk Inquiry</button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -31,10 +143,51 @@
 </script>
 
 <style>
+  /* 404 styles */
   .error-page { text-align:center; padding:6rem 1rem; }
   .error-page__code { font-size:8rem; font-weight:800; color:#e1dbd4; line-height:1; margin-bottom:0; font-family:var(--font-heading,'Poppins',sans-serif); }
   .error-page__content h1 { font-size:2rem; margin-bottom:1rem; }
   .error-page__content p { color:#888; margin-bottom:2rem; }
+
+  /* About page styles */
+  .about-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .about-page__hero { text-align: center; max-width: 800px; margin: 0 auto 4rem; }
+  .about-page__hero h1 { font-size: clamp(2rem, 4vw, 3.25rem); margin: 0.5rem 0 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+  .about-page__lead { font-size: 1.125rem; line-height: 1.8; color: var(--color-text-muted, #767674); }
+  .about-page__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 4rem; }
+  @media(max-width:749px){ .about-page__grid { grid-template-columns: 1fr; } }
+  .about-card { background: #FFFFFF; padding: 3rem; border: 1px solid var(--color-border, rgba(0,0,0,0.06)); border-radius: var(--card-radius, 8px); box-shadow: 0 4px 30px rgba(0,0,0,0.02); }
+  .about-card h3 { font-size: 1.25rem; margin-bottom: 1rem; font-weight: 700; }
+  .about-card p { color: var(--color-text-muted, #767674); line-height: 1.7; font-size: 0.9375rem; }
+
+  /* B2B page styles */
+  .b2b-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .b2b-page__grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: start; }
+  @media(max-width: 989px){ .b2b-page__grid { grid-template-columns: 1fr; gap: 3rem; } }
+  .b2b-page__info h1 { font-size: clamp(1.75rem, 3vw, 2.5rem); margin: 0.5rem 0 1.25rem; font-weight: 700; }
+  .b2b-page__info > p { color: var(--color-text-muted, #767674); line-height: 1.7; margin-bottom: 2.5rem; }
+  .b2b-perk { display: flex; gap: 1.25rem; margin-top: 1.75rem; border-top: 1px solid var(--color-border, rgba(0,0,0,0.06)); padding-top: 1.25rem; }
+  .b2b-perk__icon { color: var(--color-accent, #B89047); font-size: 1.1rem; }
+  .b2b-perk strong { display: block; margin-bottom: 0.25rem; font-size: 0.9375rem; }
+  .b2b-perk p { color: var(--color-text-muted, #767674); font-size: 0.875rem; line-height: 1.5; }
+  
+  .form-select {
+    width: 100%;
+    padding: 0.9rem 1.25rem;
+    border: none;
+    border-bottom: 1px solid var(--color-border, rgba(0,0,0,0.15));
+    background: transparent;
+    font-size: 0.875rem;
+    color: var(--color-primary, #111111);
+    outline: none;
+  }
+  .b2b-page__form {
+    background: #FFFFFF;
+    padding: 2.5rem;
+    border: 1px solid var(--color-border, rgba(0,0,0,0.06));
+    border-radius: var(--card-radius, 8px);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.02);
+  }
 </style>
 
 {% schema %}
