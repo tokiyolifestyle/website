@@ -90,6 +90,10 @@ class TokiyoCart {
         }
         const shippingBar = document.querySelector('[data-shipping-bar]');
         if (shippingBar && ns) shippingBar.innerHTML = ns.innerHTML;
+        
+        if (typeof window.syncCartPayment === 'function') {
+          window.syncCartPayment();
+        }
       }
     } catch(err) { console.error('Drawer refresh failed:', err); }
   }

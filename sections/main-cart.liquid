@@ -95,6 +95,22 @@
             <span>+₹80.00</span>
           </div>
 
+          <!-- --- Estimated GST Included (5% slab under 1000, 12% slab above) --- -->
+          {%- assign total_gst_cents = 0 -%}
+          {%- for item in cart.items -%}
+            {%- assign unit_price_rs = item.final_price | divided_by: 100.0 -%}
+            {%- if unit_price_rs <= 1000.0 -%}
+              {%- assign item_gst_cents = item.final_line_price | times: 5 | divided_by: 105 -%}
+            {%- else -%}
+              {%- assign item_gst_cents = item.final_line_price | times: 12 | divided_by: 112 -%}
+            {%- endif -%}
+            {%- assign total_gst_cents = total_gst_cents | plus: item_gst_cents -%}
+          {%- endfor -%}
+          <div class="cart-page__summary-row" id="CartPageGstRow" style="color: var(--color-text-muted, #767674); font-size: 0.85rem;">
+            <span>Estimated GST (Included)</span>
+            <span id="CartPageGstDisplay">{{ total_gst_cents | money }}</span>
+          </div>
+
           <div class="cart-page__summary-row cart-page__summary-row--shipping">
             <span>Shipping</span>
             <span class="cart-summary__shipping-value">
@@ -113,22 +129,54 @@
           <p class="cart-page__summary-note">Taxes calculated at checkout</p>
 
           <script>
+            window.cartSubtotalCents = {{ cart.total_price }};
+            
             function updateCartPaymentMethod(method) {
               localStorage.setItem('tokiyo_payment_method', method);
+              if (typeof window.syncCartPayment === 'function') {
+                window.syncCartPayment();
+              }
+            }
+
+            // Establish the global sync function if not defined
+            window.syncCartPayment = function() {
+              const method = localStorage.getItem('tokiyo_payment_method') || 'prepaid';
               
-              const prepaidCard = document.getElementById('CartPrepaidOptionCard');
-              const codCard = document.getElementById('CartCodOptionCard');
+              // Sync drawer cards
+              const prepaidCard = document.getElementById('PrepaidOptionCard');
+              const codCard = document.getElementById('CodOptionCard');
+              const prepaidInput = document.querySelector('input[name="payment_method_choice"][value="prepaid"]');
+              const codInput = document.querySelector('input[name="payment_method_choice"][value="cod"]');
               if (prepaidCard && codCard) {
                 if (method === 'prepaid') {
                   prepaidCard.classList.add('active');
                   codCard.classList.remove('active');
+                  if (prepaidInput) prepaidInput.checked = true;
                 } else {
                   prepaidCard.classList.remove('active');
                   codCard.classList.add('active');
+                  if (codInput) codInput.checked = true;
                 }
               }
-              
-              const subtotalCents = {{ cart.total_price }};
+
+              // Sync cart page cards
+              const cartPrepaidCard = document.getElementById('CartPrepaidOptionCard');
+              const cartCodCard = document.getElementById('CartCodOptionCard');
+              const cartPrepaidInput = document.querySelector('input[name="cart_payment_method_choice"][value="prepaid"]');
+              const cartCodInput = document.querySelector('input[name="cart_payment_method_choice"][value="cod"]');
+              if (cartPrepaidCard && cartCodCard) {
+                if (method === 'prepaid') {
+                  cartPrepaidCard.classList.add('active');
+                  cartCodCard.classList.remove('active');
+                  if (cartPrepaidInput) cartPrepaidInput.checked = true;
+                } else {
+                  cartPrepaidCard.classList.remove('active');
+                  cartCodCard.classList.add('active');
+                  if (cartCodInput) cartCodInput.checked = true;
+                }
+              }
+
+              const subtotalCents = window.cartSubtotalCents || 0;
               const subtotalRs = subtotalCents / 100;
               
               let codFee = 0;
@@ -139,21 +187,26 @@
               }
               
               const totalDisplayPrice = subtotalRs + codFee;
-              
-              const totalPriceEl = document.getElementById('CartTotalPriceDisplay');
-              if (totalPriceEl) {
-                totalPriceEl.innerText = '₹' + totalDisplayPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+              const formattedPrice = '₹' + totalDisplayPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+              const subtotalPriceEl = document.getElementById('DrawerTotalPriceDisplay');
+              if (subtotalPriceEl) {
+                subtotalPriceEl.innerText = formattedPrice;
               }
-              
-              const codFeeRow = document.getElementById('CartCodFeeSummaryRow');
+              const codFeeRow = document.getElementById('CartCodFeeRow');
               if (codFeeRow) {
-                if (codFee > 0) {
-                  codFeeRow.style.display = 'flex';
-                } else {
-                  codFeeRow.style.display = 'none';
-                }
+                codFeeRow.style.display = (codFee > 0) ? 'flex' : 'none';
               }
-            }
+
+              const cartTotalPriceEl = document.getElementById('CartTotalPriceDisplay');
+              if (cartTotalPriceEl) {
+                cartTotalPriceEl.innerText = formattedPrice;
+              }
+              const cartCodFeeRow = document.getElementById('CartCodFeeSummaryRow');
+              if (cartCodFeeRow) {
+                cartCodFeeRow.style.display = (codFee > 0) ? 'flex' : 'none';
+              }
+            };
 
             // Recovery execution
             (function() {
@@ -161,7 +214,9 @@
               const radioBtn = document.querySelector(`input[name="cart_payment_method_choice"][value="${savedMethod}"]`);
               if (radioBtn) {
                 radioBtn.checked = true;
-                setTimeout(() => updateCartPaymentMethod(savedMethod), 50);
+              }
+              if (typeof window.syncCartPayment === 'function') {
+                setTimeout(window.syncCartPayment, 20);
               }
             })();
           </script>
