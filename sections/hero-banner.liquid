@@ -14,15 +14,27 @@
                 <source src="{{ block.settings.video_url }}" type="video/mp4">
               </video>
             {%- elsif block.settings.image != blank -%}
-              {{ block.settings.image | image_url: width: 1920 | image_tag:
-                loading: 'eager',
-                fetchpriority: 'high',
-                widths: '750, 1100, 1440, 1920',
-                sizes: '100vw',
-                class: 'hero-carousel__img',
-                data-parallax-img: '',
-                alt: block.settings.image.alt | default: block.settings.heading | escape
-              }}
+              {%- if forloop.first -%}
+                {{ block.settings.image | image_url: width: 1920 | image_tag:
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  widths: '750, 1100, 1440, 1920',
+                  sizes: '100vw',
+                  class: 'hero-carousel__img',
+                  data-parallax-img: '',
+                  alt: block.settings.image.alt | default: block.settings.heading | escape
+                }}
+              {%- else -%}
+                {{ block.settings.image | image_url: width: 1920 | image_tag:
+                  loading: 'lazy',
+                  fetchpriority: 'low',
+                  widths: '750, 1100, 1440, 1920',
+                  sizes: '100vw',
+                  class: 'hero-carousel__img',
+                  data-parallax-img: '',
+                  alt: block.settings.image.alt | default: block.settings.heading | escape
+                }}
+              {%- endif -%}
             {%- else -%}
               {%- assign main_col = collections['men-oversized'] -%}
               {%- assign fallback_hero_img = blank -%}
@@ -34,14 +46,25 @@
                 {%- assign fallback_hero_img = product_for_hero.featured_image -%}
               {%- endif -%}
               {%- if fallback_hero_img != blank -%}
-                {{ fallback_hero_img | image_url: width: 1920 | image_tag:
-                  loading: 'eager',
-                  fetchpriority: 'high',
-                  widths: '750, 1100, 1440, 1920',
-                  sizes: '100vw',
-                  class: 'hero-carousel__img',
-                  alt: block.settings.heading | escape
-                }}
+                {%- if forloop.first -%}
+                  {{ fallback_hero_img | image_url: width: 1920 | image_tag:
+                    loading: 'eager',
+                    fetchpriority: 'high',
+                    widths: '750, 1100, 1440, 1920',
+                    sizes: '100vw',
+                    class: 'hero-carousel__img',
+                    alt: block.settings.heading | escape
+                  }}
+                {%- else -%}
+                  {{ fallback_hero_img | image_url: width: 1920 | image_tag:
+                    loading: 'lazy',
+                    fetchpriority: 'low',
+                    widths: '750, 1100, 1440, 1920',
+                    sizes: '100vw',
+                    class: 'hero-carousel__img',
+                    alt: block.settings.heading | escape
+                  }}
+                {%- endif -%}
               {%- else -%}
                 <div class="hero-carousel__img hero-carousel__placeholder" style="background: linear-gradient(135deg, {{ block.settings.bg_color | default: '#0A0A0A' }} 0%, #1a1a1a 50%, {{ block.settings.bg_color | default: '#0A0A0A' }} 100%);"></div>
               {%- endif -%}
