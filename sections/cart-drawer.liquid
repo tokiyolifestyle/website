@@ -59,7 +59,94 @@
 
   {%- if cart.item_count > 0 -%}
     <div class="cart-drawer__footer" data-cart-footer>
-      <div class="cart-drawer__subtotal"><span>{{ 'sections.cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
+      
+      <!-- --- Payment Option Selector --- -->
+      <div class="cart-payment-methods">
+        <label class="payment-methods-title">Select Payment Method</label>
+        <div class="payment-options-grid">
+          <label class="payment-option-card active" id="PrepaidOptionCard">
+            <input type="radio" name="payment_method_choice" value="prepaid" checked onchange="updatePaymentMethod(this.value)">
+            <span class="option-indicator"></span>
+            <div class="option-details">
+              <strong>Prepaid (Online)</strong>
+              <p>UPI/Card/Netbanking — Free Shipping</p>
+            </div>
+          </label>
+          <label class="payment-option-card" id="CodOptionCard">
+            <input type="radio" name="payment_method_choice" value="cod" onchange="updatePaymentMethod(this.value)">
+            <span class="option-indicator"></span>
+            <div class="option-details">
+              <strong>Cash on Delivery (COD)</strong>
+              <p>Extra ₹80 (Free above ₹1499)</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="cart-drawer__subtotal" id="CartCodFeeRow" style="display: none; margin-bottom: 0.5rem; color: #C62828; font-size: 0.85rem;">
+        <span>COD Shipping Fee</span>
+        <span>+₹80.00</span>
+      </div>
+
+      <div class="cart-drawer__subtotal">
+        <span>{{ 'sections.cart.subtotal' | t }}</span>
+        <span id="DrawerTotalPriceDisplay">{{ cart.total_price | money }}</span>
+      </div>
+
+      <script>
+        function updatePaymentMethod(method) {
+          localStorage.setItem('tokiyo_payment_method', method);
+          
+          const prepaidCard = document.getElementById('PrepaidOptionCard');
+          const codCard = document.getElementById('CodOptionCard');
+          if (prepaidCard && codCard) {
+            if (method === 'prepaid') {
+              prepaidCard.classList.add('active');
+              codCard.classList.remove('active');
+            } else {
+              prepaidCard.classList.remove('active');
+              codCard.classList.add('active');
+            }
+          }
+          
+          const subtotalCents = {{ cart.total_price }};
+          const subtotalRs = subtotalCents / 100;
+          
+          let codFee = 0;
+          if (method === 'cod') {
+            if (subtotalRs < 1499) {
+              codFee = 80;
+            }
+          }
+          
+          const totalDisplayPrice = subtotalRs + codFee;
+          
+          const subtotalPriceEl = document.getElementById('DrawerTotalPriceDisplay');
+          if (subtotalPriceEl) {
+            subtotalPriceEl.innerText = '₹' + totalDisplayPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          }
+          
+          const codFeeRow = document.getElementById('CartCodFeeRow');
+          if (codFeeRow) {
+            if (codFee > 0) {
+              codFeeRow.style.display = 'flex';
+            } else {
+              codFeeRow.style.display = 'none';
+            }
+          }
+        }
+
+        // Run recovery check
+        (function() {
+          const savedMethod = localStorage.getItem('tokiyo_payment_method') || 'prepaid';
+          const radioBtn = document.querySelector(`input[name="payment_method_choice"][value="${savedMethod}"]`);
+          if (radioBtn) {
+            radioBtn.checked = true;
+            setTimeout(() => updatePaymentMethod(savedMethod), 50);
+          }
+        })();
+      </script>
+
       {%- if settings.cart_show_gift_note -%}
         <div class="cart-drawer__note">
           <label for="CartNote" class="visually-hidden">{{ 'sections.cart.gift_note' | t }}</label>

@@ -277,6 +277,19 @@
   </div>
 </div>
 
+<div id="InterceptWishlist" style="display: none;">
+  <div class="wishlist-page page-width">
+    {% render 'breadcrumbs' %}
+    <div class="wishlist-page__header">
+      <span class="text-eyebrow">Your Selection</span>
+      <h1>My Wishlist</h1>
+    </div>
+    <div class="wishlist-grid-wrapper">
+      <div class="wishlist-grid" data-wishlist-grid></div>
+    </div>
+  </div>
+</div>
+
 <script>
   (function() {
     const handleRoute = () => {
@@ -286,6 +299,7 @@
       const b2b = document.getElementById('InterceptB2B');
       const careers = document.getElementById('InterceptCareers');
       const franchise = document.getElementById('InterceptFranchise');
+      const wishlist = document.getElementById('InterceptWishlist');
       
       if (path.includes('about')) {
         if (def404) def404.style.display = 'none';
@@ -303,6 +317,16 @@
         if (def404) def404.style.display = 'none';
         if (franchise) franchise.style.display = 'block';
         document.title = "Franchise Partnership | Tokiyo Lifestyle";
+      } else if (path.includes('wishlist')) {
+        if (def404) def404.style.display = 'none';
+        if (wishlist) wishlist.style.display = 'block';
+        document.title = "My Wishlist | Tokiyo Lifestyle";
+        
+        // Render wishlist products using standard function if wishlist.js is loaded
+        const grid = document.querySelector('[data-wishlist-grid]');
+        if (grid && typeof renderWishlistPage === 'function') {
+          renderWishlistPage(grid);
+        }
       }
     };
 
@@ -393,6 +417,17 @@
   .franchise-perk p { color: var(--color-text-muted, #767674); font-size: 0.875rem; line-height: 1.5; }
   .franchise-page__form { background: #FFFFFF; padding: 2.5rem; border: 1px solid var(--color-border, rgba(0,0,0,0.06)); border-radius: var(--card-radius, 8px); box-shadow: 0 4px 30px rgba(0,0,0,0.02); }
   .franchise-page__form h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+
+  /* Wishlist styles */
+  .wishlist-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .wishlist-page__header { text-align: center; margin-bottom: 3rem; }
+  .wishlist-page__header h1 { font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 800; letter-spacing: -0.02em; margin-top: 0.5rem; }
+  .wishlist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+  .wishlist-empty { text-align: center; font-size: 1.125rem; color: var(--color-text-muted, #767674); padding: 4rem 1rem; width: 100%; grid-column: 1 / -1; }
+  .wishlist-empty a { color: var(--color-accent, #C5A880); font-weight: 700; text-decoration: underline; margin-left: 0.5rem; }
+  .wishlist-item { background: #FFFFFF; padding: 1.5rem; border: 1px solid var(--color-border, rgba(0,0,0,0.06)); border-radius: var(--card-radius, 8px); text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.01); }
+  .wishlist-item a { font-weight: 700; color: var(--color-primary, #111111); text-decoration: none; font-size: 0.9rem; }
+  .wishlist-item a:hover { color: var(--color-accent, #C5A880); }
 </style>
 
 {% schema %}

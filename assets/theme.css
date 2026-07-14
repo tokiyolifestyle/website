@@ -913,3 +913,21 @@ section[class*="section-"] {
 #shopify-section-inaugural-offer-banner .inaugural-banner {
   margin-top: 0 !important;
 }
+
+/* --- Stacking Context Drawer Overrides --- */
+#shopify-section-header-group,
+.shopify-section-group-header-group {
+  position: relative;
+  z-index: 999 !important;
+}
+#shopify-section-cart-drawer,
+.shopify-section-cart-drawer,
+#shopify-section-search-drawer,
+.shopify-section-search-drawer,
+.cart-drawer-overlay,
+.cart-drawer,
+.search-drawer-overlay,
+.search-drawer {
+  position: relative;
+  z-index: 1000000 !important;
+}
