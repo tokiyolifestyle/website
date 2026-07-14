@@ -1,0 +1,11 @@
+# Shopify API credentials
+.env
+
+# Large data sheets / catalog imports
+tokyo_consolidated_skus.csv
+
+# Diagnostic / temp scripts
+scripts/introspect.js
+scripts/list_collections_and_publications.js
+scripts/publish_and_verify.js
+scripts/delete_products.js

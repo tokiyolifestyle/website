@@ -24,7 +24,14 @@
       <div class="catg-quickstrip__track">
         {%- for block in section.blocks -%}
           {%- if block.settings.show_in_strip -%}
-            <a href="{{ block.settings.link | default: '#' }}" class="catg-quickstrip__item" data-quickstrip-item>
+            {%- assign gender_part = block.settings.gender | downcase -%}
+            {%- assign fit_part = block.settings.fit | downcase -%}
+            {%- assign label_part = block.settings.label | downcase | replace: ' ', '-' -%}
+            {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
+            {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
+            {%- assign block_link = '/collections/' | append: constructed_handle -%}
+            {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
+            <a href="{{ block_link }}" class="catg-quickstrip__item" data-quickstrip-item>
               <div class="catg-quickstrip__circle">
                 {%- if block.settings.strip_image != blank -%}
                   {{ block.settings.strip_image | image_url: width: 120 | image_tag:
@@ -79,7 +86,14 @@
           <div class="catg-universe__grid">
             {%- for block in section.blocks -%}
               {%- if block.settings.gender == 'men' and block.settings.fit == 'oversized' -%}
-                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
+                {%- assign gender_part = block.settings.gender | downcase -%}
+                {%- assign fit_part = block.settings.fit | downcase -%}
+                {%- assign label_part = block.settings.label | downcase | replace: ' ', '-' -%}
+                {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
+                {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
+                {%- assign block_link = '/collections/' | append: constructed_handle -%}
+                {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
+                <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
                     <div class="catg-card-3d__glow-border"></div>
                     <div class="catg-card-3d__media">
@@ -135,7 +149,14 @@
           <div class="catg-universe__grid">
             {%- for block in section.blocks -%}
               {%- if block.settings.gender == 'men' and block.settings.fit == 'regular' -%}
-                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
+                {%- assign gender_part = block.settings.gender | downcase -%}
+                {%- assign fit_part = block.settings.fit | downcase -%}
+                {%- assign label_part = block.settings.label | downcase | replace: ' ', '-' -%}
+                {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
+                {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
+                {%- assign block_link = '/collections/' | append: constructed_handle -%}
+                {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
+                <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
                     <div class="catg-card-3d__glow-border"></div>
                     <div class="catg-card-3d__media">
@@ -194,7 +215,14 @@
           <div class="catg-universe__grid">
             {%- for block in section.blocks -%}
               {%- if block.settings.gender == 'women' and block.settings.fit == 'oversized' -%}
-                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
+                {%- assign gender_part = block.settings.gender | downcase -%}
+                {%- assign fit_part = block.settings.fit | downcase -%}
+                {%- assign label_part = block.settings.label | downcase | replace: ' ', '-' -%}
+                {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
+                {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
+                {%- assign block_link = '/collections/' | append: constructed_handle -%}
+                {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
+                <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
                     <div class="catg-card-3d__glow-border"></div>
                     <div class="catg-card-3d__media">
@@ -249,7 +277,14 @@
           <div class="catg-universe__grid">
             {%- for block in section.blocks -%}
               {%- if block.settings.gender == 'women' and block.settings.fit == 'regular' -%}
-                <a href="{{ block.settings.link | default: '/collections/all' }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
+                {%- assign gender_part = block.settings.gender | downcase -%}
+                {%- assign fit_part = block.settings.fit | downcase -%}
+                {%- assign label_part = block.settings.label | downcase | replace: ' ', '-' -%}
+                {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
+                {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
+                {%- assign block_link = '/collections/' | append: constructed_handle -%}
+                {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
+                <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
                     <div class="catg-card-3d__glow-border"></div>
                     <div class="catg-card-3d__media">

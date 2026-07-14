@@ -117,11 +117,11 @@
     "featured-collections": {
       "type": "featured-collections",
       "blocks": {
-        "col-1": { "type": "collection", "settings": { "title": "Men's Oversized" } },
-        "col-2": { "type": "collection", "settings": { "title": "Women's Edit" } },
-        "col-3": { "type": "collection", "settings": { "title": "Anime Collection" } },
-        "col-4": { "type": "collection", "settings": { "title": "Streetwear" } },
-        "col-5": { "type": "collection", "settings": { "title": "Solid Basics" } }
+        "col-1": { "type": "collection", "settings": { "title": "Men's Oversized", "link": "/collections/men-oversized" } },
+        "col-2": { "type": "collection", "settings": { "title": "Women's Edit", "link": "/collections/women-oversized" } },
+        "col-3": { "type": "collection", "settings": { "title": "Anime Collection", "link": "/collections/men-oversized-anime" } },
+        "col-4": { "type": "collection", "settings": { "title": "Streetwear", "link": "/collections/men-oversized-streetwear" } },
+        "col-5": { "type": "collection", "settings": { "title": "Solid Basics", "link": "/collections/men-oversized-solid-basics" } }
       },
       "block_order": ["col-1","col-2","col-3","col-4","col-5"],
       "settings": {
