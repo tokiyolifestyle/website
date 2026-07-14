@@ -70,6 +70,9 @@
 
   {{ settings.custom_css }}
   {% render 'seo' %}
+  {%- if template == 'list-collections' -%}
+    <script>window.location.href = '/collections/all';</script>
+  {%- endif -%}
 </head>
 
 <body class="template-{{ request.page_type | handle }}">
