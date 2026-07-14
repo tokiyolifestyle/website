@@ -3,7 +3,8 @@
   Accepts: product, section (optional), lazy (optional, default: true), class_modifier
 {%- endcomment -%}
 
-{%- assign lazy_load = lazy | default: true -%}
+{%- assign loading_attr = 'lazy' -%}
+{%- if lazy == false -%}{%- assign loading_attr = 'eager' -%}{%- endif -%}
 {%- assign card_class = 'product-card' -%}
 {%- if class_modifier != blank -%}{%- assign card_class = card_class | append: ' ' | append: class_modifier -%}{%- endif -%}
 
@@ -18,7 +19,7 @@
 
       {%- if product.featured_media -%}
         {{ product.featured_media | image_url: width: 600 | image_tag:
-          loading: lazy_load,
+          loading: loading_attr,
           widths: '300, 400, 600',
           sizes: '(max-width:749px) 50vw, 25vw',
           class: 'product-card__image product-card__image--primary',

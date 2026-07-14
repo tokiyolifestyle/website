@@ -78,31 +78,115 @@ function initVariantPicker() {
 function initGallery() {
   const gallery    = document.querySelector('[data-product-gallery]');
   const thumbs     = document.querySelector('[data-gallery-thumbs]');
-  const mainImg    = document.querySelector('[data-gallery-main-img]');
+  const track      = document.querySelector('[data-gallery-track]');
   const zoomBtn    = document.querySelector('[data-zoom-toggle]');
   const zoomModal  = document.querySelector('[data-zoom-modal]');
-  if (!gallery) return;
+  if (!gallery || !track) return;
 
+  const slides = [...track.querySelectorAll('.product-gallery__slide')];
   const allThumbs = thumbs ? [...thumbs.querySelectorAll('[data-thumb]')] : [];
+  let currentIndex = 0;
+  let autoPlayTimer = null;
 
+  function goToSlide(index) {
+    if (index < 0) index = slides.length - 1;
+    if (index >= slides.length) index = 0;
+    
+    currentIndex = index;
+    
+    // Shift track
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    
+    // Update active slide class
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('is-active', i === currentIndex);
+    });
+
+    // Update active thumbnail class
+    allThumbs.forEach((thumb, i) => {
+      thumb.classList.toggle('is-active', i === currentIndex);
+    });
+
+    // Scroll active thumbnail into view
+    if (allThumbs[currentIndex]) {
+      allThumbs[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }
+
+  // Thumb clicks
   allThumbs.forEach((thumb, i) => {
     thumb.addEventListener('click', () => {
-      allThumbs.forEach(t => t.classList.remove('is-active'));
-      thumb.classList.add('is-active');
-      if (mainImg) {
-        mainImg.src = thumb.dataset.thumb;
-        mainImg.srcset = '';
-      }
+      resetTimer();
+      goToSlide(i);
     });
   });
 
+  // Swipe events
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  gallery.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  
+  gallery.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    if (touchStartX - touchEndX > swipeThreshold) {
+      // Swiped left -> next slide
+      resetTimer();
+      goToSlide(currentIndex + 1);
+    } else if (touchEndX - touchStartX > swipeThreshold) {
+      // Swiped right -> prev slide
+      resetTimer();
+      goToSlide(currentIndex - 1);
+    }
+  }
+
+  // Autoplay
+  function startTimer() {
+    autoPlayTimer = setInterval(() => {
+      goToSlide(currentIndex + 1);
+    }, 3000); // 3 seconds interval
+  }
+
+  function resetTimer() {
+    if (autoPlayTimer) {
+      clearInterval(autoPlayTimer);
+      startTimer();
+    }
+  }
+
+  startTimer();
+
+  // Zoom Modal integration
   if (zoomBtn && zoomModal) {
-    zoomBtn.addEventListener('click', () => { zoomModal.classList.add('is-open'); document.body.style.overflow = 'hidden'; });
-    zoomModal.addEventListener('click', e => {
-      if (!e.target.closest('[data-zoom-image]')) { zoomModal.classList.remove('is-open'); document.body.style.overflow = ''; }
+    zoomBtn.addEventListener('click', () => {
+      const activeImg = slides[currentIndex]?.querySelector('img');
+      const zoomImg = zoomModal.querySelector('img');
+      if (activeImg && zoomImg) {
+        zoomImg.src = activeImg.src;
+      }
+      zoomModal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
     });
+    
+    zoomModal.addEventListener('click', e => {
+      if (!e.target.closest('[data-zoom-image]')) {
+        zoomModal.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+    });
+    
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') { zoomModal.classList.remove('is-open'); document.body.style.overflow = ''; }
+      if (e.key === 'Escape') {
+        zoomModal.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
     });
   }
 }
