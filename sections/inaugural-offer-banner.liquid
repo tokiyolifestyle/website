@@ -5,8 +5,11 @@
       <span class="inaugural-banner__badge-text">Inaugural Offer</span>
     </div>
     <div class="inaugural-banner__content">
-      Get <strong class="highlight-text" style="color: var(--color-accent, #C5A880);">10% OFF</strong> on your first order! | Use code: 
-      <span class="promo-code-box" id="PromoCodeBox" onclick="copyPromoCode(this)" style="cursor: pointer;" title="Click to copy">TOKIYO10</span>
+      Get <strong class="highlight-text" style="color: var(--color-accent, #C5A880);">10% OFF</strong> on your first order! 
+      <span class="banner-divider">|</span>
+      <span class="promo-code-wrap">
+        Use code: <span class="promo-code-box" id="PromoCodeBox" onclick="copyPromoCode(this)" style="cursor: pointer;" title="Click to copy">TOKIYO10</span>
+      </span>
     </div>
     <div class="inaugural-banner__right">
       Limited Time Offer
@@ -45,12 +48,29 @@
     gap: 1.5rem;
     flex-wrap: wrap;
   }
+  .banner-divider {
+    margin: 0 0.5rem;
+    opacity: 0.5;
+  }
+  .promo-code-wrap {
+    display: inline-block;
+  }
   @media(max-width: 749px) {
     .inaugural-banner__inner {
       flex-direction: column;
       justify-content: center;
       text-align: center;
       gap: 0.75rem;
+    }
+    .banner-divider {
+      display: none;
+    }
+    .promo-code-wrap {
+      display: block;
+      margin-top: 0.25rem;
+    }
+    .promo-code-box {
+      margin-left: 0.25rem;
     }
   }
   .inaugural-banner__badge {
