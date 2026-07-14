@@ -281,7 +281,7 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
   display: block;
   max-height: 70px;
   width: auto;
-  mix-blend-mode: multiply;
+  mix-blend-mode: multiply !important;
 }
 .logo-pagoda-svg {
   height: 100px;
@@ -684,6 +684,9 @@ section[class*="section-"] {
 }
 .template-index .site-header:not(.is-scrolled) {
   position: absolute !important;
+  left: 0;
+  right: 0;
+  width: 100%;
 }
 
 /* --- Footer Logo Contrast and Spacing Fixes --- */
@@ -740,38 +743,52 @@ section[class*="section-"] {
   z-index: 9999;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
   background: #25D366;
   color: #FFFFFF;
-  padding: 0.65rem 1.15rem;
-  border-radius: 50px;
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
   text-decoration: none;
-  font-weight: 700;
-  font-size: 0.875rem;
-  font-family: var(--font-body), sans-serif;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
 }
 .whatsapp-widget:hover {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.45);
+  transform: translateY(-4px) scale(1.06);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.5);
+  background: #20BA5A;
 }
 .whatsapp-widget__icon svg {
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
   fill: currentColor;
   display: block;
-}
-.whatsapp-widget__text {
-  letter-spacing: 0.03em;
 }
 @media (max-width: 749px) {
   .whatsapp-widget {
     bottom: 16px;
     right: 16px;
-    padding: 0.65rem;
+    width: 48px;
+    height: 48px;
   }
-  .whatsapp-widget__text {
-    display: none;
+  .whatsapp-widget__icon svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* --- Mobile / Tablet Optimization Overrides --- */
+@media (max-width: 989px) {
+  .site-header__logo-link img,
+  .header__logo-img {
+    max-height: 50px !important;
+  }
+  .site-header {
+    position: sticky !important;
+    background: var(--color-background, #FAFAF9) !important;
+    border-bottom: 1px solid var(--color-border) !important;
+  }
+  .template-index .site-header:not(.is-scrolled) {
+    position: sticky !important;
   }
 }
