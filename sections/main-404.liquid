@@ -127,6 +127,156 @@
   </div>
 </div>
 
+<div id="InterceptCareers" style="display: none;">
+  <div class="careers-page page-width">
+    {% render 'breadcrumbs' %}
+    <div class="careers-page__hero animate-on-scroll fade-up">
+      <span class="text-eyebrow">Work with Us</span>
+      <h1>Join the Collective</h1>
+      <p class="careers-page__lead">At Tokiyo Lifestyle, we do not just design apparel; we construct cultural identifiers. We are a collective of designers, dreamers, and drop-culture obsessives. Our environment is fast-paced, collaborative, and hyper-focused on premium craftsmanship.</p>
+    </div>
+
+    <div class="careers-page__grid">
+      <div class="careers-section animate-on-scroll fade-right">
+        <h2>Our Culture</h2>
+        <div class="culture-card">
+          <h4>Obsession with Detail</h4>
+          <p>From drop-shoulder seam placement to heavy ribbing collars, we inspect every millimeter. We take pride in creating streetwear that holds its shape and stands out.</p>
+        </div>
+        <div class="culture-card">
+          <h4>Creative Freedom</h4>
+          <p>We encourage wild ideas, experimental prints, and subculture graphic collections. We value original expression and bold art statements.</p>
+        </div>
+      </div>
+
+      <div class="careers-jobs animate-on-scroll fade-left">
+        <h2>Open Positions</h2>
+        
+        <div class="job-card">
+          <div class="job-header">
+            <h3>Fashion Designer</h3>
+            <span class="job-tag">Full-time</span>
+          </div>
+          <p class="job-location">Delhi NCR / Hybrid</p>
+          <div class="job-details">
+            <p><strong>Responsibilities:</strong> Sketch and draft oversized silhouettes, tech pack development, color board mapping, and overseeing sampling quality for 240+ GSM heavyweight fabrics.</p>
+            <p><strong>To Apply:</strong> Send your portfolio and resume to <a href="mailto:info@tokiyolifestyle.com">info@tokiyolifestyle.com</a> with subject "Application: Fashion Designer".</p>
+          </div>
+        </div>
+
+        <div class="job-card">
+          <div class="job-header">
+            <h3>Graphic Designer (Streetwear)</h3>
+            <span class="job-tag">Full-time / Contract</span>
+          </div>
+          <p class="job-location">Remote / Delhi NCR</p>
+          <div class="job-details">
+            <p><strong>Responsibilities:</strong> Create original graphic illustrations, custom fonts, high-density puff print files, and color separations for monthly collection drops.</p>
+            <p><strong>To Apply:</strong> Send your Behance/portfolio link and resume to <a href="mailto:info@tokiyolifestyle.com">info@tokiyolifestyle.com</a> with subject "Application: Graphic Designer".</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="InterceptFranchise" style="display: none;">
+  <div class="franchise-page page-width">
+    {% render 'breadcrumbs' %}
+    <div class="franchise-page__grid">
+      <div class="franchise-page__info animate-on-scroll fade-right">
+        <span class="text-eyebrow">Franchise & Retail Partnership</span>
+        <h1>Partner with Tokiyo</h1>
+        <p>Take part in our retail expansion. Tokiyo Lifestyle is expanding its footprint. Apply now to open an Exclusive Brand Outlet (EBO) in your city.</p>
+        
+        <div class="franchise-perk">
+          <span class="franchise-perk__icon">✦</span>
+          <div>
+            <strong>High Brand Appeal</strong>
+            <p>Highly engaged streetwear community, with strong organic viral traffic and loyal fan base.</p>
+          </div>
+        </div>
+        <div class="franchise-perk">
+          <span class="franchise-perk__icon">✦</span>
+          <div>
+            <strong>End-to-End Support</strong>
+            <p>We provide architectural layout plans, inventory management systems, and local launch marketing campaigns.</p>
+          </div>
+        </div>
+        <div class="franchise-perk">
+          <span class="franchise-perk__icon">✦</span>
+          <div>
+            <strong>High Return Margin</strong>
+            <p>Competitive franchise profit sharing structure with fast break-even targets.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="franchise-page__form animate-on-scroll fade-left">
+        <h3>Franchise Application Form</h3>
+        {%- form 'contact', id: 'FranchiseForm' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="form-success">Thank you for your franchise application. Our expansion head will review your details and connect with you within 24 hours.</div>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <div class="form-errors">{{ form.errors | default_errors }}</div>
+          {%- endif -%}
+          
+          <input type="hidden" name="contact[Type]" value="Franchise Partnership Application">
+          
+          <div class="form-row">
+            <div class="form-field">
+              <label for="FranName">Applicant Full Name</label>
+              <input type="text" name="contact[name]" id="FranName" required placeholder="John Doe">
+            </div>
+            <div class="form-field">
+              <label for="FranPhone">Phone / WhatsApp Number</label>
+              <input type="tel" name="contact[phone]" id="FranPhone" required placeholder="+91 98765 43210">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-field">
+              <label for="FranEmail">Email Address</label>
+              <input type="email" name="contact[email]" id="FranEmail" required placeholder="john@example.com">
+            </div>
+            <div class="form-field">
+              <label for="FranCity">Proposed Outlet City / Location</label>
+              <input type="text" name="contact[city]" id="FranCity" required placeholder="Mumbai, Maharashtra">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-field">
+              <label for="FranInvestment">Proposed Investment Range</label>
+              <select name="contact[investment]" id="FranInvestment" class="form-select">
+                <option value="15-25 Lakhs">₹15 Lakhs - ₹25 Lakhs</option>
+                <option value="25-50 Lakhs">₹25 Lakhs - ₹50 Lakhs</option>
+                <option value="50 Lakhs+">₹50 Lakhs - ₹75 Lakhs+</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="FranSpace">Commercial Property Available?</label>
+              <select name="contact[space_available]" id="FranSpace" class="form-select">
+                <option value="Yes - Rented">Yes, Rented Property</option>
+                <option value="Yes - Owned">Yes, Owned Property</option>
+                <option value="No - Searching">No, still searching for property</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-field">
+            <label for="FranExperience">Prior Retail / Business Experience</label>
+            <textarea name="contact[experience]" id="FranExperience" rows="3" required placeholder="Please describe any apparel, retail, or business management background..."></textarea>
+          </div>
+          
+          <button type="submit" class="button button--solid">Submit Application</button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   (function() {
     const handleRoute = () => {
@@ -134,6 +284,8 @@
       const def404 = document.getElementById('Default404');
       const about = document.getElementById('InterceptAbout');
       const b2b = document.getElementById('InterceptB2B');
+      const careers = document.getElementById('InterceptCareers');
+      const franchise = document.getElementById('InterceptFranchise');
       
       if (path.includes('about')) {
         if (def404) def404.style.display = 'none';
@@ -143,6 +295,14 @@
         if (def404) def404.style.display = 'none';
         if (b2b) b2b.style.display = 'block';
         document.title = "Bulk Order & B2B | Tokiyo Lifestyle";
+      } else if (path.includes('career')) {
+        if (def404) def404.style.display = 'none';
+        if (careers) careers.style.display = 'block';
+        document.title = "Careers | Tokiyo Lifestyle";
+      } else if (path.includes('franchise')) {
+        if (def404) def404.style.display = 'none';
+        if (franchise) franchise.style.display = 'block';
+        document.title = "Franchise Partnership | Tokiyo Lifestyle";
       }
     };
 
@@ -200,6 +360,39 @@
     border-radius: var(--card-radius, 8px);
     box-shadow: 0 4px 30px rgba(0,0,0,0.02);
   }
+
+  /* Careers styles */
+  .careers-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .careers-page__hero { text-align: center; max-width: 800px; margin: 0 auto 4rem; }
+  .careers-page__hero h1 { font-size: clamp(2rem, 4vw, 3.25rem); margin: 0.5rem 0 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+  .careers-page__lead { font-size: 1.125rem; line-height: 1.8; color: var(--color-text-muted, #767674); }
+  .careers-page__grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: start; }
+  @media(max-width: 989px){ .careers-page__grid { grid-template-columns: 1fr; gap: 3rem; } }
+  .careers-section h2, .careers-jobs h2 { font-size: 1.5rem; margin-bottom: 2rem; font-weight: 700; border-bottom: 1px solid var(--color-border, rgba(0,0,0,0.06)); padding-bottom: 0.75rem; }
+  .culture-card { background: #FFFFFF; padding: 2rem; border: 1px solid var(--color-border, rgba(0,0,0,0.06)); border-radius: var(--card-radius, 8px); margin-bottom: 1.5rem; }
+  .culture-card h4 { font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 700; }
+  .culture-card p { color: var(--color-text-muted, #767674); font-size: 0.875rem; line-height: 1.6; }
+  .job-card { background: #FFFFFF; padding: 2.5rem; border: 1px solid var(--color-border, rgba(0,0,0,0.06)); border-radius: var(--card-radius, 8px); margin-bottom: 2rem; box-shadow: 0 4px 30px rgba(0,0,0,0.01); }
+  .job-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.25rem; }
+  .job-header h3 { font-size: 1.25rem; font-weight: 700; margin: 0; }
+  .job-tag { background: rgba(197,168,128,0.12); color: var(--color-accent, #C5A880); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.05em; }
+  .job-location { color: var(--color-text-muted, #767674); font-size: 0.85rem; margin-bottom: 1.25rem; font-weight: 500; }
+  .job-details p { font-size: 0.9rem; line-height: 1.6; color: var(--color-primary, #111111); margin-bottom: 1rem; }
+  .job-details p strong { color: var(--color-primary, #111111); }
+  .job-details a { color: var(--color-accent, #C5A880); font-weight: 600; text-decoration: underline; }
+
+  /* Franchise styles */
+  .franchise-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .franchise-page__grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: start; }
+  @media(max-width: 989px){ .franchise-page__grid { grid-template-columns: 1fr; gap: 3rem; } }
+  .franchise-page__info h1 { font-size: clamp(1.75rem, 3vw, 2.5rem); margin: 0.5rem 0 1.25rem; font-weight: 700; }
+  .franchise-page__info > p { color: var(--color-text-muted, #767674); line-height: 1.7; margin-bottom: 2.5rem; }
+  .franchise-perk { display: flex; gap: 1.25rem; margin-top: 1.75rem; border-top: 1px solid var(--color-border, rgba(0,0,0,0.06)); padding-top: 1.25rem; }
+  .franchise-perk__icon { color: var(--color-accent, #B89047); font-size: 1.1rem; }
+  .franchise-perk strong { display: block; margin-bottom: 0.25rem; font-size: 0.9375rem; }
+  .franchise-perk p { color: var(--color-text-muted, #767674); font-size: 0.875rem; line-height: 1.5; }
+  .franchise-page__form { background: #FFFFFF; padding: 2.5rem; border: 1px solid var(--color-border, rgba(0,0,0,0.06)); border-radius: var(--card-radius, 8px); box-shadow: 0 4px 30px rgba(0,0,0,0.02); }
+  .franchise-page__form h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
 </style>
 
 {% schema %}
