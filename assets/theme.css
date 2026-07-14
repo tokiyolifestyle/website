@@ -348,32 +348,46 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 .site-header__nav-item { position: relative; }
 .site-header__nav-link {
   display: flex; align-items: center; gap: 4px;
-  font-weight: 600; padding: 0.5rem 0;
+  font-weight: 700; padding: 0.5rem 0;
   font-size: 0.75rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(17, 17, 17, 0.85);
-  transition: color 0.25s ease;
-}
-.site-header__nav-link {
+  transition: color 0.3s ease, transform 0.3s ease;
   position: relative;
 }
 .site-header__nav-link::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   width: 100%;
   height: 2px;
-  background: var(--color-accent, #C5A880);
+  background: linear-gradient(90deg, var(--color-accent, #C5A880), #FFFFFF, var(--color-accent, #C5A880));
+  background-size: 200% auto;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.25s ease;
+  transition: transform 0.3s ease;
 }
-.site-header__nav-link:hover,
-.site-header__nav-link.is-active { color: var(--color-accent, #C5A880); }
-.site-header__nav-link:hover::after,
-.site-header__nav-link.is-active::after { transform: scaleX(1); }
+.site-header__nav-link:hover {
+  background: linear-gradient(90deg, var(--color-accent, #C5A880), #FFFFFF, var(--color-accent, #C5A880));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textGradientShift 2s linear infinite;
+  transform: translateY(-1px);
+}
+.site-header__nav-link.is-active {
+  color: var(--color-accent, #C5A880);
+}
+.site-header__nav-link:hover::after {
+  transform: scaleX(1);
+  animation: lineShimmer 2s linear infinite;
+}
+.site-header__nav-link.is-active::after {
+  transform: scaleX(1);
+}
 .site-header__icons { display: flex; align-items: center; gap: 1.25rem; }
 .site-header__icon-btn {
   position: relative; display: flex; align-items: center; justify-content: center; padding: 4px;

@@ -119,5 +119,167 @@
     </span>
   </a>
 
+  <!-- --- Animated Streetwear Chibi Mascot Wandering Widget --- -->
+  <div id="TokiyoMascot" class="tokiyo-mascot" aria-hidden="true" style="display: none;">
+    <div class="tokiyo-mascot__bubble" id="MascotBubble">Tap me! ⚡</div>
+    <img src="{{ 'tokiyo-mascot.png' | asset_url }}" alt="Tokiyo Chibi Mascot" id="MascotImg" loading="lazy">
+  </div>
+
+  <style>
+    .tokiyo-mascot {
+      position: fixed;
+      bottom: 120px;
+      left: 30px;
+      width: 70px;
+      height: auto;
+      z-index: 9998;
+      pointer-events: auto;
+      cursor: pointer;
+      transition: left 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s ease;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+      user-select: none;
+    }
+    .tokiyo-mascot img {
+      width: 100%;
+      height: auto;
+      display: block;
+      animation: mascotBob 1.5s ease-in-out infinite alternate;
+      transition: transform 0.3s ease;
+    }
+    .tokiyo-mascot:hover {
+      transform: scale(1.15);
+    }
+    .tokiyo-mascot__bubble {
+      position: absolute;
+      bottom: 105%;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      background: #0A0A0A;
+      color: #FFFFFF;
+      border: 1px solid var(--color-accent, #C5A880);
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      margin-bottom: 8px;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .tokiyo-mascot__bubble::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #0A0A0A;
+    }
+    .tokiyo-mascot.has-bubble .tokiyo-mascot__bubble {
+      transform: translateX(-50%) scale(1);
+    }
+    @keyframes mascotBob {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+    @media (max-width: 749px) {
+      .tokiyo-mascot {
+        width: 50px;
+        bottom: 140px;
+      }
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const mascot = document.getElementById('TokiyoMascot');
+      const bubble = document.getElementById('MascotBubble');
+      const img = document.getElementById('MascotImg');
+      
+      if (!mascot) return;
+
+      // Position mascot initially after resource load
+      let lastX = 30;
+      let lastY = window.innerHeight - 200;
+      
+      mascot.style.left = lastX + 'px';
+      mascot.style.top = lastY + 'px';
+      mascot.style.display = 'block';
+
+      const quotes = [
+        "Use code TOKIYO10 for 10% OFF! 🎫",
+        "Check out our new Anime drop! ⚡",
+        "Crafted with premium 240 GSM cotton! 👕",
+        "Stay bold. Stay comfortable. ✦",
+        "Streetwear engineered for comfort! 🔥",
+        "Welcome to Tokiyo Lifestyle! 🇯🇵",
+        "Just strolling around... 👀"
+      ];
+
+      function showBubble(text, duration = 3000) {
+        bubble.innerText = text;
+        mascot.classList.add('has-bubble');
+        setTimeout(() => {
+          mascot.classList.remove('has-bubble');
+        }, duration);
+      }
+
+      // Initial quote
+      setTimeout(() => {
+        showBubble("Welcome to Tokiyo! ✦");
+      }, 2500);
+
+      // Random wander pacing loop
+      function wander() {
+        // Skip if hovered
+        if (mascot.matches(':hover')) return;
+
+        const padding = 100;
+        const maxX = window.innerWidth - padding;
+        const maxY = window.innerHeight - padding;
+        
+        // Randomly pick spots, leaning toward bottom edge
+        const nextX = Math.max(30, Math.random() * maxX);
+        const nextY = Math.max(window.innerHeight - 280, Math.random() * (window.innerHeight - 100));
+
+        // Flip to face direction
+        if (nextX < lastX) {
+          img.style.transform = 'scaleX(-1)';
+        } else {
+          img.style.transform = 'scaleX(1)';
+        }
+
+        mascot.style.left = nextX + 'px';
+        mascot.style.top = nextY + 'px';
+
+        lastX = nextX;
+        lastY = nextY;
+
+        // Occasional chat
+        if (Math.random() < 0.3) {
+          const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+          setTimeout(() => showBubble(randomQuote), 1200);
+        }
+      }
+
+      // Wander every 8.5 seconds
+      setInterval(wander, 8500);
+
+      // Interactive Click events
+      mascot.addEventListener('click', () => {
+        // 360 Spin trigger
+        img.style.transform = img.style.transform.includes('scaleX(-1)') ? 'scaleX(-1) rotate(360deg)' : 'scaleX(1) rotate(360deg)';
+        
+        // Dynamic immediate quote
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        showBubble(randomQuote);
+
+        // Immediate relocation hop
+        setTimeout(wander, 1500);
+      });
+    });
+  </script>
+
 </body>
 </html>
