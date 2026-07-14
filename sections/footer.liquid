@@ -74,21 +74,28 @@
           <div class="site-footer__column" {{ block.shopify_attributes }}>
             <h3>{{ block.settings.title }}</h3>
             <ul role="list">
-              {%- if block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
-                {%- for link in block.settings.menu.links -%}
-                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-                {%- endfor -%}
+              {%- assign col_title_down = block.settings.title | downcase -%}
+              {%- if col_title_down contains 'shop' -%}
+                <li><a href="/collections/men-oversized">Men's Oversized</a></li>
+                <li><a href="/collections/women-oversized">Women's Edit</a></li>
+                <li><a href="/collections/men-oversized-anime">Anime Collection</a></li>
+                <li><a href="/collections/men-oversized-streetwear">Streetwear Tees</a></li>
+                <li><a href="/collections/men-oversized-solid-basics">Solid Basics</a></li>
+                <li><a href="/collections/all">Shop All Products</a></li>
+              {%- elsif col_title_down contains 'help' or col_title_down contains 'info' or col_title_down contains 'company' -%}
+                <li><a href="/pages/about-us">About Us</a></li>
+                <li><a href="/pages/bulk-order">Bulk Order / B2B</a></li>
+                <li><a href="/pages/contact">Contact Us</a></li>
+                <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/policies/terms-of-service">Terms of Service</a></li>
+                <li><a href="/policies/refund-policy">Refund Policy</a></li>
               {%- else -%}
-                {%- if block.settings.title contains 'Shop' -%}
-                  <li><a href="/collections/all">New Arrivals</a></li>
-                  <li><a href="/collections/all">Bestsellers</a></li>
-                  <li><a href="/collections/all">Clothing</a></li>
-                  <li><a href="/collections/all">Accessories</a></li>
+                {%- if block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
+                  {%- for link in block.settings.menu.links -%}
+                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                  {%- endfor -%}
                 {%- else -%}
-                  <li><a href="/pages/about-us">About Us</a></li>
-                  <li><a href="/pages/contact">Contact Us</a></li>
-                  <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
-                  <li><a href="/pages/terms-of-service">Terms of Service</a></li>
+                  <li><a href="/collections/all">Search</a></li>
                 {%- endif -%}
               {%- endif -%}
             </ul>

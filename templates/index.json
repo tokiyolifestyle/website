@@ -178,9 +178,12 @@
       "blocks": {
         "rev-1": { "type": "review", "settings": { "author": "Arjun M.", "text": "The oversized tee is hands down the best I've owned. Premium cotton, perfect drape, and the packaging was elite. Tokiyo gets it!", "rating": 5, "verified": true } },
         "rev-2": { "type": "review", "settings": { "author": "Priya S.", "text": "Obsessed with the anime collection! The print quality is unreal. Already ordered two more pieces. Definitely my new go-to brand.", "rating": 5, "verified": true } },
-        "rev-3": { "type": "review", "settings": { "author": "Rahul K.", "text": "Fast shipping, beautiful packaging, and the streetwear hoodie fits like a dream. This brand is going places. Highly recommend!", "rating": 5, "verified": true } }
+        "rev-3": { "type": "review", "settings": { "author": "Rahul K.", "text": "Fast shipping, beautiful packaging, and the streetwear hoodie fits like a dream. This brand is going places. Highly recommend!", "rating": 5, "verified": true } },
+        "rev-4": { "type": "review", "settings": { "author": "Aarav Sh.", "text": "Absolutely love the premium weight of the tees. The 240 GSM is perfect for everyday wear, feels super breathable yet heavy. 10/10.", "rating": 5, "verified": true } },
+        "rev-5": { "type": "review", "settings": { "author": "Neha G.", "text": "The custom box packaging is so unique! It makes unboxing feel like a luxury experience. The print survived multiple washes perfectly.", "rating": 5, "verified": true } },
+        "rev-6": { "type": "review", "settings": { "author": "Kabir S.", "text": "Streetwear fit is spot on. Drop shoulders drape perfectly and look super clean. Will definitely cop the upcoming drops!", "rating": 5, "verified": true } }
       },
-      "block_order": ["rev-1","rev-2","rev-3"],
+      "block_order": ["rev-1","rev-2","rev-3","rev-4","rev-5","rev-6"],
       "settings": {
         "eyebrow": "Reviews",
         "title": "What Our Customers Say",

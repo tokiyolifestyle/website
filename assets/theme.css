@@ -1,7 +1,22 @@
-/* ==========================================================================
-   TOKIYO LIFESTYLE — theme.css
-   Premium Clean Minimalist — Typography, buttons, cards, header, footer, grid
-   ========================================================================== */
+/* ---- Sticky Footer Flex Layout ---- */
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+#MainContent {
+  flex: 1 0 auto;
+}
+.shopify-section-group-header-group,
+.shopify-section-group-footer-group {
+  flex-shrink: 0;
+}
+.shopify-section-group-footer-group {
+  margin-top: auto !important;
+}
 
 /* ---- Typography Scale ---- */
 h1, .h1 { font-size: clamp(2rem, 5vw, 3.25rem); letter-spacing: -0.01em; line-height: 1.15; color: var(--color-primary, #111111); }
