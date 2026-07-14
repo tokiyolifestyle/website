@@ -17,7 +17,7 @@
           <span class="filter-count-badge">{{ results.active_filters.size }}</span>
         {%- endif -%}
       </button>
-      <span class="collection-toolbar__count">{{ collection.products_count }} {{ 'sections.collection.products_count' | t }}</span>
+      <span class="collection-toolbar__count">{{ 'sections.collection.products_count' | t: count: collection.products_count }}</span>
     </div>
 
     <div class="collection-toolbar__right">
@@ -319,11 +319,21 @@
 
     /* Apply filters */
     document.querySelector('[data-filter-apply]')?.addEventListener('click', () => {
-      const url = new URL(window.location);
+      const url = new URL(window.location.pathname, window.location.origin);
+      const currentUrl = new URL(window.location);
+      if (currentUrl.searchParams.has('sort_by')) {
+        url.searchParams.set('sort_by', currentUrl.searchParams.get('sort_by'));
+      }
       document.querySelectorAll('[data-filter-input]').forEach(input => {
         if (input.type === 'checkbox') {
-          if (input.checked) url.searchParams.append(input.name, input.value);
-          else url.searchParams.delete(input.name);
+          if (input.checked) {
+            url.searchParams.append(input.name, input.value);
+          }
+        }
+      });
+      document.querySelectorAll('.filter-price-inputs input').forEach(input => {
+        if (input.value && input.value !== '') {
+          url.searchParams.set(input.name, input.value);
         }
       });
       window.location = url.toString();

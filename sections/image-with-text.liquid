@@ -4,8 +4,12 @@
   <div class="page-width">
     <div class="iwt__grid iwt__grid--{{ section.settings.layout }}">
       <div class="iwt__media animate-on-scroll {% if section.settings.layout == 'image-right' %}fade-left{% else %}fade-right{% endif %}">
-        {%- if section.settings.image != blank -%}
-          {{ section.settings.image | image_url: width: 900 | image_tag:
+        {%- assign iwt_image = section.settings.image -%}
+        {%- if iwt_image == blank and collections['men-oversized'] != blank and collections['men-oversized'].products.first != blank -%}
+          {%- assign iwt_image = collections['men-oversized'].products.first.featured_image -%}
+        {%- endif -%}
+        {%- if iwt_image != blank -%}
+          {{ iwt_image | image_url: width: 900 | image_tag:
             loading: 'lazy',
             widths: '450, 700, 900',
             sizes: '(max-width:749px) 100vw, 50vw',

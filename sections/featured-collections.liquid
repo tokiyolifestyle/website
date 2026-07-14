@@ -10,10 +10,16 @@
 
     <div class="fc-grid stagger-children">
       {%- for block in section.blocks -%}
+        {%- assign handle_part = block.settings.link | split: '/collections/' | last -%}
+        {%- assign col = collections[handle_part] -%}
+        {%- assign col_image = block.settings.image -%}
+        {%- if col_image == blank and col != blank and col.products.first != blank -%}
+          {%- assign col_image = col.products.first.featured_image -%}
+        {%- endif -%}
         <a href="{{ block.settings.link | default: '#' }}" class="fc-card" {{ block.shopify_attributes }}>
           <div class="fc-card__media">
-            {%- if block.settings.image != blank -%}
-              {{ block.settings.image | image_url: width: 800 | image_tag:
+            {%- if col_image != blank -%}
+              {{ col_image | image_url: width: 800 | image_tag:
                 loading: 'lazy',
                 widths: '400, 600, 800',
                 sizes: '(max-width:749px) 50vw, 20vw',

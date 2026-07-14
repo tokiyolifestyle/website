@@ -570,7 +570,42 @@ section[class*="section-"] {
               transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* ---- Auto-hiding header transition ---- */
 .site-header {
   transition: background-color 0.4s ease, box-shadow 0.4s ease, transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* --- Global Breadcrumbs --- */
+.breadcrumbs {
+  padding: 1.5rem 0 0.5rem;
+}
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 0.5rem;
+  align-items: center;
+}
+.breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted, #767674);
+}
+.breadcrumbs li a {
+  color: var(--color-text-muted, #767674);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.breadcrumbs li a:hover {
+  color: var(--color-primary, #111);
+}
+.breadcrumbs li:not(:last-child)::after {
+  content: '/';
+  color: var(--color-border, rgba(0,0,0,0.12));
+  margin-left: 0.5rem;
 }

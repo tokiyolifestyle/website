@@ -7,9 +7,13 @@
       <h2>{{ section.settings.title | default: 'Bestsellers' }}</h2>
     </div>
 
-    {%- if section.settings.collection != blank and section.settings.collection.products.size > 0 -%}
+    {%- assign featured_collection = section.settings.collection -%}
+    {%- if featured_collection == blank -%}
+      {%- assign featured_collection = collections['men-oversized'] -%}
+    {%- endif -%}
+    {%- if featured_collection != blank and featured_collection.products.size > 0 -%}
       <div class="product-grid product-grid--{{ section.settings.columns }} stagger-children">
-        {%- for product in section.settings.collection.products limit: section.settings.limit -%}
+        {%- for product in featured_collection.products limit: section.settings.limit -%}
           {% render 'product-card', product: product, lazy: true %}
         {%- endfor -%}
       </div>
