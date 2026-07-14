@@ -279,7 +279,7 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 .site-header__logo-link img,
 .header__logo-img {
   display: block;
-  max-height: 120px;
+  max-height: 70px;
   width: auto;
   mix-blend-mode: multiply;
 }
@@ -667,4 +667,111 @@ section[class*="section-"] {
 .announcement-bar a {
   color: inherit !important;
   text-decoration: none !important;
+}
+
+/* --- Sticky Header Enable on Scroll (All Pages) --- */
+.site-header {
+  position: sticky !important;
+  top: 0;
+  z-index: 999;
+  background: var(--color-background, #FAFAF9);
+  transition: all 0.3s ease;
+  border-bottom: 1px solid var(--color-border);
+}
+.site-header.is-scrolled {
+  background: rgba(250, 250, 249, 0.96) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+}
+.template-index .site-header:not(.is-scrolled) {
+  position: absolute !important;
+}
+
+/* --- Footer Logo Contrast and Spacing Fixes --- */
+.site-footer__logo-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+}
+.site-footer__logo-link img {
+  filter: invert(1) brightness(2); /* Makes logo white on dark background */
+  mix-blend-mode: normal !important;
+}
+.logo-pagoda-white .bg-fill {
+  stroke: #FFFFFF !important;
+  fill: #FFFFFF !important;
+}
+.logo-pagoda-white .window-fill {
+  fill: #111111 !important;
+}
+.site-footer__brand-desc {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.5) !important;
+  margin-bottom: 1.75rem;
+}
+.site-footer__social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #FFFFFF !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.site-footer__social a:hover {
+  background: #FFFFFF;
+  color: #111111 !important;
+  border-color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+/* --- Floating WhatsApp Widget --- */
+.whatsapp-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #25D366;
+  color: #FFFFFF;
+  padding: 0.65rem 1.15rem;
+  border-radius: 50px;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.875rem;
+  font-family: var(--font-body), sans-serif;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+.whatsapp-widget:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.45);
+}
+.whatsapp-widget__icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  display: block;
+}
+.whatsapp-widget__text {
+  letter-spacing: 0.03em;
+}
+@media (max-width: 749px) {
+  .whatsapp-widget {
+    bottom: 16px;
+    right: 16px;
+    padding: 0.65rem;
+  }
+  .whatsapp-widget__text {
+    display: none;
+  }
 }

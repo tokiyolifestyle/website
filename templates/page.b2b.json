@@ -1,8 +1,8 @@
 {
-  "name": "About Us Page",
+  "name": "B2B Inquiry Page",
   "sections": {
     "main": {
-      "type": "main-page-about",
+      "type": "main-page-b2b",
       "settings": {}
     }
   },

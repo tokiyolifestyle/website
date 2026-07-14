@@ -1,0 +1,95 @@
+<div class="inaugural-banner" style="background: linear-gradient(135deg, #D3545A 0%, #B23B40 100%);">
+  <div class="inaugural-banner__inner page-width">
+    <div class="inaugural-banner__badge">
+      <span class="inaugural-banner__badge-icon">🎉</span>
+      <span class="inaugural-banner__badge-text">Inaugural Offer</span>
+    </div>
+    <div class="inaugural-banner__content">
+      Get <strong class="highlight-text">10% OFF</strong> on your first order! | Use code: 
+      <span class="promo-code-box">TOFAAH10</span>
+    </div>
+    <div class="inaugural-banner__right">
+      Limited Time Offer
+    </div>
+  </div>
+</div>
+
+<style>
+  .inaugural-banner {
+    padding: 0.85rem 0;
+    color: #FFFFFF;
+    font-family: var(--font-body), sans-serif;
+    border-top: 1px dashed rgba(255,255,255,0.25);
+    border-bottom: 1px dashed rgba(255,255,255,0.25);
+    overflow: hidden;
+  }
+  .inaugural-banner__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  @media(max-width: 749px) {
+    .inaugural-banner__inner {
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+  }
+  .inaugural-banner__badge {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .inaugural-banner__content {
+    font-size: 0.875rem;
+    letter-spacing: 0.03em;
+    font-weight: 500;
+  }
+  .highlight-text {
+    font-weight: 800;
+  }
+  .promo-code-box {
+    display: inline-block;
+    border: 2px dashed #FFFFFF;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-left: 0.5rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9rem;
+  }
+  .inaugural-banner__right {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Inaugural Offer Banner",
+  "tag": "section",
+  "class": "section-inaugural-banner",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Inaugural Offer Banner"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,31 @@
+<div class="about-page page-width">
+  {% render 'breadcrumbs' %}
+  <div class="about-page__hero animate-on-scroll fade-up">
+    <span class="text-eyebrow">Our Story</span>
+    <h1>Redefining Streetwear Culture</h1>
+    <p class="about-page__lead">Tokiyo Lifestyle is a premium apparel label. We design clothing for the modern individual — blending clean typography, subculture references, and bold silhouettes with structural functionality.</p>
+  </div>
+  
+  <div class="about-page__grid">
+    <div class="about-card animate-on-scroll fade-right">
+      <h3>Premium Heavyweight Fabrics</h3>
+      <p>We source only long-staple cotton, custom woven at 240 GSM for our oversized drops. It holds its boxy shape, flows naturally, and offers breathable comfort that lasts for years.</p>
+    </div>
+    <div class="about-card animate-on-scroll fade-left">
+      <h3>Precision Tailoring</h3>
+      <p>Every streetwear template is mapped meticulously. From drop-shoulder seam placement to tight-ribbed collar widths, we obsess over structural details to deliver the perfect fit.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .about-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .about-page__hero { text-align: center; max-width: 800px; margin: 0 auto 4rem; }
+  .about-page__hero h1 { font-size: clamp(2rem, 4vw, 3.25rem); margin: 0.5rem 0 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+  .about-page__lead { font-size: 1.125rem; line-height: 1.8; color: var(--color-text-muted, #767674); }
+  .about-page__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 4rem; }
+  @media(max-width:749px){ .about-page__grid { grid-template-columns: 1fr; } }
+  .about-card { background: #FFFFFF; padding: 3rem; border: 1px solid var(--color-border, rgba(0,0,0,0.06)); border-radius: var(--card-radius, 8px); box-shadow: 0 4px 30px rgba(0,0,0,0.02); }
+  .about-card h3 { font-size: 1.25rem; margin-bottom: 1rem; font-weight: 700; }
+  .about-card p { color: var(--color-text-muted, #767674); line-height: 1.7; font-size: 0.9375rem; }
+</style>

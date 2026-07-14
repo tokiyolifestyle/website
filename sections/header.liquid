@@ -53,6 +53,13 @@
             {%- endif -%}
           </li>
         {%- endfor -%}
+        
+        <li class="site-header__nav-item">
+          <a href="/pages/about-us" class="site-header__nav-link{% if request.path == '/pages/about-us' %} is-active{% endif %}">About Us</a>
+        </li>
+        <li class="site-header__nav-item">
+          <a href="/pages/bulk-order" class="site-header__nav-link{% if request.path == '/pages/bulk-order' %} is-active{% endif %}">Bulk Order</a>
+        </li>
       </ul>
     </nav>
 
@@ -105,6 +112,13 @@
         {%- endif -%}
       </li>
     {%- endfor -%}
+    
+    <li class="mobile-nav__item">
+      <a href="/pages/about-us" class="mobile-nav__link">About Us</a>
+    </li>
+    <li class="mobile-nav__item">
+      <a href="/pages/bulk-order" class="mobile-nav__link">Bulk Order</a>
+    </li>
   </ul>
 </div>
 <div class="mobile-nav__overlay" data-mobile-nav-overlay></div>
