@@ -255,13 +255,13 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   transition: padding-top 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding-bottom 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .site-header.is-scrolled .site-header__inner {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
 }
 .site-header__mobile-toggle { display: none; color: var(--color-primary, #111111); }
 @media (max-width: 989px) {
@@ -279,7 +279,7 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 .site-header__logo-link img,
 .header__logo-img {
   display: block;
-  max-height: 70px;
+  max-height: 50px;
   width: auto;
   mix-blend-mode: multiply !important;
 }
@@ -822,7 +822,7 @@ section[class*="section-"] {
 @media (max-width: 989px) {
   .site-header__logo-link img,
   .header__logo-img {
-    max-height: 50px !important;
+    max-height: 40px !important;
   }
   .site-header {
     position: sticky !important;
@@ -832,6 +832,26 @@ section[class*="section-"] {
   .template-index .site-header:not(.is-scrolled) {
     position: sticky !important;
   }
+}
+
+/* --- Layout Spacing Alignments & Header Overlay --- */
+.template-index .shopify-section-group-header-group {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+.template-index #shopify-section-header-group {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+.template-index #MainContent {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 /* --- Global Spacing Tightening Override --- */
