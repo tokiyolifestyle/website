@@ -833,3 +833,19 @@ section[class*="section-"] {
     position: sticky !important;
   }
 }
+
+/* --- Global Spacing Tightening Override --- */
+.shopify-section:not(.section-hero-banner),
+.catg-universe,
+.section-category-icons,
+.featured-collections,
+.trending-products,
+.image-with-text,
+.featured-reviews,
+.newsletter,
+.inaugural-banner {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
