@@ -87,7 +87,13 @@
   {% sections 'header-group' %}
 
   <main id="MainContent" class="content-for-layout" role="main" tabindex="-1">
-    {{ content_for_layout }}
+    {%- if request.path == '/pages/bulk-order' or request.path == '/pages/bulk-orders' -%}
+      {% section 'main-page-b2b' %}
+    {%- elsif request.path == '/pages/about-us' or request.path == '/pages/about' -%}
+      {% section 'main-page-about' %}
+    {%- else -%}
+      {{ content_for_layout }}
+    {%- endif -%}
   </main>
 
   {% sections 'footer-group' %}

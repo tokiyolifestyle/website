@@ -450,24 +450,34 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 .announcement-bar__item p { margin: 0; }
 .announcement-bar__sep { margin: 0 1.5rem; opacity: 0.4; }
 
-/* ---- Footer (Clean Dark Minimal) ---- */
-.site-footer { background: #111111; color: rgba(255,255,255,0.65); margin-top: 0; border-top: 1px solid rgba(255,255,255,0.06); }
-.site-footer__newsletter { background: #1A1A1A; color: #FFFFFF; padding: 4rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+/* ---- Footer (Clean Light Premium) ---- */
+.site-footer {
+  background: #FAFAF9;
+  color: #767674;
+  margin-top: 0;
+  border-top: 1px solid rgba(12, 12, 14, 0.08);
+}
+.site-footer__newsletter {
+  background: #FFFFFF;
+  color: #111111;
+  padding: 4rem 0;
+  border-bottom: 1px solid rgba(12, 12, 14, 0.06);
+}
 .site-footer__newsletter-inner { display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
-.site-footer__newsletter h2 { margin-bottom: 0.25rem; color: #FFFFFF; }
-.site-footer__newsletter p { color: rgba(255,255,255,0.5); }
+.site-footer__newsletter h2 { margin-bottom: 0.25rem; color: #111111; }
+.site-footer__newsletter p { color: #767674; }
 .newsletter-form__row { display: flex; gap: 0; min-width: 320px; }
 .newsletter-form__row input {
   flex: 1; padding: 0.9rem 1.25rem;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.05);
-  color: #FFFFFF;
+  border: 1px solid rgba(12, 12, 14, 0.15);
+  background: #FAFAF9;
+  color: #111111;
   font-size: 0.875rem;
 }
-.newsletter-form__row input::placeholder { color: rgba(255,255,255,0.4); }
+.newsletter-form__row input::placeholder { color: rgba(12, 12, 14, 0.4); }
 .newsletter-form__row input:focus { outline: none; border-color: var(--color-accent, #B89047); }
-.newsletter-form__row .button { border-radius: 0; background: var(--color-accent, #B89047); color: #111111; }
-.newsletter-form__row .button:hover { background: #FFFFFF; color: #111111; }
+.newsletter-form__row .button { border-radius: 0; background: #111111; color: #FFFFFF; }
+.newsletter-form__row .button:hover { background: var(--color-accent, #B89047); color: #111111; }
 .site-footer__main { padding-block: 4.5rem 2.5rem; }
 .site-footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 3rem; }
 @media (max-width: 989px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } }
@@ -689,7 +699,7 @@ section[class*="section-"] {
   width: 100%;
 }
 
-/* --- Footer Logo Contrast and Spacing Fixes --- */
+/* --- Footer Logo and Spacing Fixes (Light Theme) --- */
 .site-footer__logo-link {
   display: flex;
   align-items: center;
@@ -698,20 +708,21 @@ section[class*="section-"] {
   text-decoration: none;
 }
 .site-footer__logo-link img {
-  filter: invert(1) brightness(2); /* Makes logo white on dark background */
-  mix-blend-mode: normal !important;
+  mix-blend-mode: multiply !important;
+  max-height: 70px;
+  width: auto;
 }
 .logo-pagoda-white .bg-fill {
-  stroke: #FFFFFF !important;
-  fill: #FFFFFF !important;
+  stroke: #111111 !important;
+  fill: #111111 !important;
 }
 .logo-pagoda-white .window-fill {
-  fill: #111111 !important;
+  fill: #FFFFFF !important;
 }
 .site-footer__brand-desc {
   font-size: 0.875rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.5) !important;
+  color: #767674 !important;
   margin-bottom: 1.75rem;
 }
 .site-footer__social a {
@@ -721,18 +732,48 @@ section[class*="section-"] {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.15);
-  color: #FFFFFF !important;
+  border: 1px solid rgba(12,12,14,0.15);
+  color: #111111 !important;
   font-size: 0.75rem;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.2s ease;
 }
 .site-footer__social a:hover {
-  background: #FFFFFF;
-  color: #111111 !important;
-  border-color: #FFFFFF;
+  background: #111111;
+  color: #FFFFFF !important;
+  border-color: #111111;
   transform: translateY(-2px);
+}
+.site-footer__column h3 {
+  color: #111111 !important;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.5rem;
+}
+.site-footer__column ul li a {
+  color: #767674 !important;
+}
+.site-footer__column ul li a:hover {
+  color: var(--color-accent, #B89047) !important;
+}
+.site-footer__contact p a {
+  color: #111111 !important;
+}
+.site-footer__contact p a:hover {
+  color: var(--color-accent, #B89047) !important;
+}
+.site-footer__bottom {
+  border-top: 1px solid rgba(12, 12, 14, 0.08) !important;
+  color: #767674 !important;
+}
+.site-footer__legal a {
+  color: #767674 !important;
+}
+.site-footer__legal a:hover {
+  color: var(--color-accent, #B89047) !important;
 }
 
 /* --- Floating WhatsApp Widget --- */
