@@ -129,15 +129,27 @@
 
 <script>
   (function() {
-    const path = window.location.pathname.toLowerCase();
-    if (path.includes('about')) {
-      document.getElementById('Default404').style.display = 'none';
-      document.getElementById('InterceptAbout').style.display = 'block';
-      document.title = "About Us | Tokiyo Lifestyle";
-    } else if (path.includes('bulk-order') || path.includes('b2b')) {
-      document.getElementById('Default404').style.display = 'none';
-      document.getElementById('InterceptB2B').style.display = 'block';
-      document.title = "Bulk Order & B2B | Tokiyo Lifestyle";
+    const handleRoute = () => {
+      const path = window.location.pathname.toLowerCase();
+      const def404 = document.getElementById('Default404');
+      const about = document.getElementById('InterceptAbout');
+      const b2b = document.getElementById('InterceptB2B');
+      
+      if (path.includes('about')) {
+        if (def404) def404.style.display = 'none';
+        if (about) about.style.display = 'block';
+        document.title = "About Us | Tokiyo Lifestyle";
+      } else if (path.includes('bulk-order') || path.includes('b2b')) {
+        if (def404) def404.style.display = 'none';
+        if (b2b) b2b.style.display = 'block';
+        document.title = "Bulk Order & B2B | Tokiyo Lifestyle";
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', handleRoute);
+    } else {
+      handleRoute();
     }
   })();
 </script>
