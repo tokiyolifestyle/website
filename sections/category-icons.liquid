@@ -45,8 +45,12 @@
               {%- else -%}
                 {%- assign fallback_handle = block.settings.gender | append: '-oversized' -%}
                 {%- assign fallback_collection = collections[fallback_handle] -%}
-                {%- if fallback_collection != blank and fallback_collection.products.first != blank -%}
-                  {%- assign card_image = fallback_collection.products.first.featured_image -%}
+                {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
+                  {%- assign fallback_collection = collections['men-oversized'] -%}
+                {%- endif -%}
+                {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                  {%- assign img_idx = forloop.index0 | modulo: fallback_collection.products.size -%}
+                  {%- assign card_image = fallback_collection.products[img_idx].featured_image -%}
                 {%- endif -%}
               {%- endif -%}
             {%- endif -%}
@@ -124,8 +128,12 @@
                   {%- else -%}
                     {%- assign fallback_handle = 'men-oversized' -%}
                     {%- assign fallback_collection = collections[fallback_handle] -%}
-                    {%- if fallback_collection != blank and fallback_collection.products.first != blank -%}
-                      {%- assign card_image = fallback_collection.products.first.featured_image -%}
+                    {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
+                      {%- assign fallback_collection = collections['men-oversized'] -%}
+                    {%- endif -%}
+                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                      {%- assign img_idx = forloop.index0 | modulo: fallback_collection.products.size -%}
+                      {%- assign card_image = fallback_collection.products[img_idx].featured_image -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
@@ -203,8 +211,12 @@
                   {%- else -%}
                     {%- assign fallback_handle = 'men-oversized' -%}
                     {%- assign fallback_collection = collections[fallback_handle] -%}
-                    {%- if fallback_collection != blank and fallback_collection.products.first != blank -%}
-                      {%- assign card_image = fallback_collection.products.first.featured_image -%}
+                    {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
+                      {%- assign fallback_collection = collections['men-oversized'] -%}
+                    {%- endif -%}
+                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                      {%- assign img_idx = forloop.index0 | modulo: fallback_collection.products.size -%}
+                      {%- assign card_image = fallback_collection.products[img_idx].featured_image -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
@@ -285,8 +297,12 @@
                   {%- else -%}
                     {%- assign fallback_handle = 'women-oversized' -%}
                     {%- assign fallback_collection = collections[fallback_handle] -%}
-                    {%- if fallback_collection != blank and fallback_collection.products.first != blank -%}
-                      {%- assign card_image = fallback_collection.products.first.featured_image -%}
+                    {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
+                      {%- assign fallback_collection = collections['men-oversized'] -%}
+                    {%- endif -%}
+                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                      {%- assign img_idx = forloop.index0 | modulo: fallback_collection.products.size -%}
+                      {%- assign card_image = fallback_collection.products[img_idx].featured_image -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
@@ -363,8 +379,12 @@
                   {%- else -%}
                     {%- assign fallback_handle = 'women-oversized' -%}
                     {%- assign fallback_collection = collections[fallback_handle] -%}
-                    {%- if fallback_collection != blank and fallback_collection.products.first != blank -%}
-                      {%- assign card_image = fallback_collection.products.first.featured_image -%}
+                    {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
+                      {%- assign fallback_collection = collections['men-oversized'] -%}
+                    {%- endif -%}
+                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                      {%- assign img_idx = forloop.index0 | modulo: fallback_collection.products.size -%}
+                      {%- assign card_image = fallback_collection.products[img_idx].featured_image -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}

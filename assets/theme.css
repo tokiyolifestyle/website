@@ -278,7 +278,7 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
   mix-blend-mode: multiply;
 }
 .logo-pagoda-svg {
-  height: 38px;
+  height: 100px;
   width: auto;
   display: block;
 }
@@ -290,7 +290,7 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 }
 .logo-tokiyo {
   font-family: 'Playfair Display', 'Didot', 'Georgia', serif;
-  font-size: 1.4rem;
+  font-size: 2.2rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   color: #111111;
@@ -305,7 +305,7 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
   align-items: center;
   justify-content: center;
   font-family: 'Inter', sans-serif;
-  font-size: 0.48rem;
+  font-size: 0.85rem;
   letter-spacing: 0.32em;
   font-weight: 700;
   color: #111111;
@@ -316,11 +316,11 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 .logo-lifestyle::after {
   content: "";
   display: inline-block;
-  width: 10px;
+  width: 20px;
   height: 1px;
   background-color: #111111;
   vertical-align: middle;
-  margin: 0 6px;
+  margin: 0 12px;
   opacity: 0.7;
 }
 .site-header__nav-list { display: flex; gap: 2.25rem; }
@@ -349,8 +349,10 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
   transform-origin: left;
   transition: transform 0.25s ease;
 }
-.site-header__nav-link:hover { color: var(--color-accent, #C5A880); }
-.site-header__nav-link:hover::after { transform: scaleX(1); }
+.site-header__nav-link:hover,
+.site-header__nav-link.is-active { color: var(--color-accent, #C5A880); }
+.site-header__nav-link:hover::after,
+.site-header__nav-link.is-active::after { transform: scaleX(1); }
 .site-header__icons { display: flex; align-items: center; gap: 1.25rem; }
 .site-header__icon-btn {
   position: relative; display: flex; align-items: center; justify-content: center; padding: 4px;

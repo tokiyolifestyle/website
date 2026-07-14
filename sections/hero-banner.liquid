@@ -24,7 +24,27 @@
                 alt: block.settings.image.alt | default: block.settings.heading | escape
               }}
             {%- else -%}
-              <div class="hero-carousel__img hero-carousel__placeholder" style="background: linear-gradient(135deg, {{ block.settings.bg_color | default: '#0A0A0A' }} 0%, #1a1a1a 50%, {{ block.settings.bg_color | default: '#0A0A0A' }} 100%);"></div>
+              {%- assign main_col = collections['men-oversized'] -%}
+              {%- assign fallback_hero_img = blank -%}
+              {%- if main_col != blank and main_col.products.size > 0 -%}
+                {%- assign fallback_indices = "0,10,20,30" | split: "," -%}
+                {%- assign loop_idx = forloop.index0 | modulo: 4 -%}
+                {%- assign index_str = fallback_indices[loop_idx] | plus: 0 -%}
+                {%- assign product_for_hero = main_col.products[index_str] | default: main_col.products.first -%}
+                {%- assign fallback_hero_img = product_for_hero.featured_image -%}
+              {%- endif -%}
+              {%- if fallback_hero_img != blank -%}
+                {{ fallback_hero_img | image_url: width: 1920 | image_tag:
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  widths: '750, 1100, 1440, 1920',
+                  sizes: '100vw',
+                  class: 'hero-carousel__img',
+                  alt: block.settings.heading | escape
+                }}
+              {%- else -%}
+                <div class="hero-carousel__img hero-carousel__placeholder" style="background: linear-gradient(135deg, {{ block.settings.bg_color | default: '#0A0A0A' }} 0%, #1a1a1a 50%, {{ block.settings.bg_color | default: '#0A0A0A' }} 100%);"></div>
+              {%- endif -%}
             {%- endif -%}
             <div class="hero-carousel__overlay" style="opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};"></div>
             <div class="hero-carousel__gradient"></div>

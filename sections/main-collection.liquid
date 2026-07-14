@@ -64,52 +64,181 @@
         </div>
       {%- endif -%}
 
-      {%- for filter in results.filters -%}
-        <div class="filter-group" data-filter-group>
-          <button class="filter-group__title" data-accordion-trigger data-accordion-group="filters" aria-expanded="true" aria-controls="Filter-{{ filter.param_name | handleize }}">
-            {{ filter.label }}
-            {% render 'icon-chevron-down' %}
-          </button>
-          <div class="filter-group__options" id="Filter-{{ filter.param_name | handleize }}">
-            {%- if filter.type == 'price_range' -%}
-              <div class="filter-price-range">
-                {%- assign max_price_float = filter.range_max | divided_by: 100.0 -%}
-                <div class="filter-price-inputs">
-                  <div class="filter-price-input">
-                    <label for="Filter-{{ filter.param_name }}-GTE">Min ₹</label>
-                    <input type="number" id="Filter-{{ filter.param_name }}-GTE" name="{{ filter.min_value.param_name }}" min="0" max="{{ max_price_float }}" value="{{ filter.min_value.value | divided_by: 100 }}">
-                  </div>
-                  <div class="filter-price-input">
-                    <label for="Filter-{{ filter.param_name }}-LTE">Max ₹</label>
-                    <input type="number" id="Filter-{{ filter.param_name }}-LTE" name="{{ filter.max_value.param_name }}" min="0" max="{{ max_price_float }}" value="{{ filter.max_value.value | divided_by: 100 | default: max_price_float }}">
-                  </div>
-                </div>
+      {%- assign decoded_query = canonical_url | split: '?' | last | replace: '%20', ' ' | replace: '%3A', ':' | replace: '%2F', '/' | replace: '%2C', ',' | replace: '+', ' ' -%}
+
+      {%- assign in_stock_checked = '' -%}
+      {%- if decoded_query contains 'filter.v.availability=1' -%}{%- assign in_stock_checked = 'checked' -%}{%- endif -%}
+
+      {%- assign out_stock_checked = '' -%}
+      {%- if decoded_query contains 'filter.v.availability=0' -%}{%- assign out_stock_checked = 'checked' -%}{%- endif -%}
+
+      {%- assign price_gte = '' -%}
+      {%- if decoded_query contains 'filter.v.price.gte=' -%}
+        {%- assign price_gte = decoded_query | split: 'filter.v.price.gte=' | last | split: '&' | first -%}
+      {%- endif -%}
+
+      {%- assign price_lte = '' -%}
+      {%- if decoded_query contains 'filter.v.price.lte=' -%}
+        {%- assign price_lte = decoded_query | split: 'filter.v.price.lte=' | last | split: '&' | first -%}
+      {%- endif -%}
+
+      {%- assign size_options = "XS,S,M,L,XL,XXL" | split: "," -%}
+      {%- assign color_options = "Black,White,Beige,Pista,Airforce,Peach,Lavender,Mustard,Onion Pink" | split: "," -%}
+      {%- assign fabric_options = "100% Cotton,French Terry,Heavyweight Cotton" | split: "," -%}
+      {%- assign brand_options = "Tokiyo Lifestyle,Tokiyo Originals" | split: "," -%}
+
+      {%- comment -%} 1. Availability Filter {%- endcomment -%}
+      <div class="filter-group" data-filter-group>
+        <button class="filter-group__title" data-accordion-trigger data-accordion-group="filters" aria-expanded="true" aria-controls="Filter-Availability">
+          Availability
+          {% render 'icon-chevron-down' %}
+        </button>
+        <div class="filter-group__options" id="Filter-Availability">
+          <ul class="filter-list">
+            <li class="filter-list__item">
+              <label class="filter-checkbox">
+                <input type="checkbox" name="filter.v.availability" value="1" {{ in_stock_checked }} data-filter-input>
+                <span>In Stock</span>
+              </label>
+            </li>
+            <li class="filter-list__item">
+              <label class="filter-checkbox">
+                <input type="checkbox" name="filter.v.availability" value="0" {{ out_stock_checked }} data-filter-input>
+                <span>Out of Stock</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {%- comment -%} 2. Price Filter {%- endcomment -%}
+      <div class="filter-group" data-filter-group>
+        <button class="filter-group__title" data-accordion-trigger data-accordion-group="filters" aria-expanded="true" aria-controls="Filter-Price">
+          Price (₹)
+          {% render 'icon-chevron-down' %}
+        </button>
+        <div class="filter-group__options" id="Filter-Price">
+          <div class="filter-price-range">
+            <div class="filter-price-inputs">
+              <div class="filter-price-input">
+                <label for="Filter-Price-GTE">Min ₹</label>
+                <input type="number" id="Filter-Price-GTE" name="filter.v.price.gte" min="0" placeholder="0" value="{{ price_gte }}">
               </div>
-            {%- else -%}
-              <ul class="filter-list">
-                {%- for value in filter.values -%}
-                  <li class="filter-list__item">
-                    <label class="filter-checkbox">
-                      <input
-                        type="checkbox"
-                        name="{{ value.param_name }}"
-                        value="{{ value.value }}"
-                        {% if value.active %}checked{% endif %}
-                        {% if value.count == 0 and value.active == false %}disabled{% endif %}
-                        data-filter-input>
-                      {%- if filter.label == 'Color' or filter.label == 'Colour' -%}
-                        <span class="swatch swatch--sm" style="background-color:{{ value.value | handle | replace: '-', '' }};"></span>
-                      {%- endif -%}
-                      <span>{{ value.label }}</span>
-                      <span class="filter-count">({{ value.count }})</span>
-                    </label>
-                  </li>
-                {%- endfor -%}
-              </ul>
-            {%- endif -%}
+              <div class="filter-price-input">
+                <label for="Filter-Price-LTE">Max ₹</label>
+                <input type="number" id="Filter-Price-LTE" name="filter.v.price.lte" min="0" placeholder="5000" value="{{ price_lte }}">
+              </div>
+            </div>
           </div>
         </div>
-      {%- endfor -%}
+      </div>
+
+      {%- comment -%} 3. Size Filter {%- endcomment -%}
+      <div class="filter-group" data-filter-group>
+        <button class="filter-group__title" data-accordion-trigger data-accordion-group="filters" aria-expanded="true" aria-controls="Filter-Size">
+          Size
+          {% render 'icon-chevron-down' %}
+        </button>
+        <div class="filter-group__options" id="Filter-Size">
+          <ul class="filter-list">
+            {%- for size in size_options -%}
+              {%- assign is_checked = '' -%}
+              {%- assign size_query = 'filter.v.option.size=' | append: size -%}
+              {%- if decoded_query contains size_query -%}{%- assign is_checked = 'checked' -%}{%- endif -%}
+              <li class="filter-list__item">
+                <label class="filter-checkbox">
+                  <input type="checkbox" name="filter.v.option.size" value="{{ size }}" {{ is_checked }} data-filter-input>
+                  <span>{{ size }}</span>
+                </label>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+
+      {%- comment -%} 4. Color Filter {%- endcomment -%}
+      <div class="filter-group" data-filter-group>
+        <button class="filter-group__title" data-accordion-trigger data-accordion-group="filters" aria-expanded="true" aria-controls="Filter-Color">
+          Color
+          {% render 'icon-chevron-down' %}
+        </button>
+        <div class="filter-group__options" id="Filter-Color">
+          <ul class="filter-list">
+            {%- for color in color_options -%}
+              {%- assign is_checked = '' -%}
+              {%- assign color_query = 'filter.v.option.color=' | append: color -%}
+              {%- if decoded_query contains color_query -%}{%- assign is_checked = 'checked' -%}{%- endif -%}
+              
+              {%- comment -%} Map color names to Hex colors for swatches {%- endcomment -%}
+              {%- assign hex_color = '#111' -%}
+              {%- if color == 'White' -%}{%- assign hex_color = '#FFFFFF' -%}
+              {%- elsif color == 'Beige' -%}{%- assign hex_color = '#E4D5B7' -%}
+              {%- elsif color == 'Pista' -%}{%- assign hex_color = '#C1F8C2' -%}
+              {%- elsif color == 'Airforce' -%}{%- assign hex_color = '#5F8A96' -%}
+              {%- elsif color == 'Peach' -%}{%- assign hex_color = '#FFE5B4' -%}
+              {%- elsif color == 'Lavender' -%}{%- assign hex_color = '#E6E6FA' -%}
+              {%- elsif color == 'Mustard' -%}{%- assign hex_color = '#E1AD01' -%}
+              {%- elsif color == 'Onion Pink' -%}{%- assign hex_color = '#D1A3A4' -%}
+              {%- elsif color == 'Black' -%}{%- assign hex_color = '#111111' -%}
+              {%- endif -%}
+
+              <li class="filter-list__item">
+                <label class="filter-checkbox">
+                  <input type="checkbox" name="filter.v.option.color" value="{{ color }}" {{ is_checked }} data-filter-input>
+                  <span class="swatch swatch--sm" style="background-color:{{ hex_color }}; border: 1px solid rgba(0,0,0,0.12);"></span>
+                  <span>{{ color }}</span>
+                </label>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+
+      {%- comment -%} 5. Fabric Filter {%- endcomment -%}
+      <div class="filter-group" data-filter-group>
+        <button class="filter-group__title" data-accordion-trigger data-accordion-group="filters" aria-expanded="true" aria-controls="Filter-Fabric">
+          Fabric / Material
+          {% render 'icon-chevron-down' %}
+        </button>
+        <div class="filter-group__options" id="Filter-Fabric">
+          <ul class="filter-list">
+            {%- for fabric in fabric_options -%}
+              {%- assign is_checked = '' -%}
+              {%- assign fabric_query = 'filter.p.tag=' | append: fabric -%}
+              {%- if decoded_query contains fabric_query -%}{%- assign is_checked = 'checked' -%}{%- endif -%}
+              <li class="filter-list__item">
+                <label class="filter-checkbox">
+                  <input type="checkbox" name="filter.p.tag" value="{{ fabric }}" {{ is_checked }} data-filter-input>
+                  <span>{{ fabric }}</span>
+                </label>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+
+      {%- comment -%} 6. Brand Filter {%- endcomment -%}
+      <div class="filter-group" data-filter-group>
+        <button class="filter-group__title" data-accordion-trigger data-accordion-group="filters" aria-expanded="true" aria-controls="Filter-Brand">
+          Brand
+          {% render 'icon-chevron-down' %}
+        </button>
+        <div class="filter-group__options" id="Filter-Brand">
+          <ul class="filter-list">
+            {%- for brand in brand_options -%}
+              {%- assign is_checked = '' -%}
+              {%- assign brand_query = 'filter.p.vendor=' | append: brand -%}
+              {%- if decoded_query contains brand_query -%}{%- assign is_checked = 'checked' -%}{%- endif -%}
+              <li class="filter-list__item">
+                <label class="filter-checkbox">
+                  <input type="checkbox" name="filter.p.vendor" value="{{ brand }}" {{ is_checked }} data-filter-input>
+                  <span>{{ brand }}</span>
+                </label>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
 
       <div class="collection-filters__footer">
         <button class="button button--solid button--full" data-filter-apply>{{ 'sections.collection.apply' | t }}</button>
