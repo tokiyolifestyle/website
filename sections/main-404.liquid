@@ -1,4 +1,4 @@
-<div class="error-page page-width">
+<div class="error-page page-width" id="Default404">
   <div class="error-page__content animate-on-scroll fade-up">
     <p class="error-page__code">404</p>
     <h1>{{ 'templates.404.title' | t }}</h1>
@@ -6,12 +6,37 @@
     <a href="{{ routes.root_url }}" class="button button--solid">{{ 'templates.404.back_to_home' | t }}</a>
   </div>
 </div>
+
+<div id="InterceptAbout" style="display: none;">
+  {% section 'main-page-about' %}
+</div>
+
+<div id="InterceptB2B" style="display: none;">
+  {% section 'main-page-b2b' %}
+</div>
+
+<script>
+  (function() {
+    const path = window.location.pathname.toLowerCase();
+    if (path.includes('about')) {
+      document.getElementById('Default404').style.display = 'none';
+      document.getElementById('InterceptAbout').style.display = 'block';
+      document.title = "About Us | Tokiyo Lifestyle";
+    } else if (path.includes('bulk-order') || path.includes('b2b')) {
+      document.getElementById('Default404').style.display = 'none';
+      document.getElementById('InterceptB2B').style.display = 'block';
+      document.title = "Bulk Order & B2B | Tokiyo Lifestyle";
+    }
+  })();
+</script>
+
 <style>
   .error-page { text-align:center; padding:6rem 1rem; }
-  .error-page__code { font-size:8rem; font-weight:800; color:#f0f0f0; line-height:1; margin-bottom:0; font-family:var(--font-heading,'Poppins',sans-serif); }
+  .error-page__code { font-size:8rem; font-weight:800; color:#e1dbd4; line-height:1; margin-bottom:0; font-family:var(--font-heading,'Poppins',sans-serif); }
   .error-page__content h1 { font-size:2rem; margin-bottom:1rem; }
   .error-page__content p { color:#888; margin-bottom:2rem; }
 </style>
+
 {% schema %}
 { "name": "404 Page", "tag": "section", "class": "section-404" }
 {% endschema %}
