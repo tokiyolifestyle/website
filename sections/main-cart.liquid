@@ -126,7 +126,7 @@
             <span>Total</span>
             <span id="CartTotalPriceDisplay">{{ cart.total_price | money }}</span>
           </div>
-          <p class="cart-page__summary-note">Taxes calculated at checkout</p>
+          <p class="cart-page__summary-note">Price is inclusive of GST.</p>
 
           <script>
             window.cartSubtotalCents = {{ cart.total_price }};
@@ -245,7 +245,7 @@
             </div>
             <div class="cart-trust-badge">
               {% render 'icon-truck' %}
-              <span>Free Delivery ₹2999+</span>
+              <span>Free Delivery ₹899+</span>
             </div>
             <div class="cart-trust-badge">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>

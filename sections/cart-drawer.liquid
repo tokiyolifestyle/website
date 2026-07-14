@@ -208,7 +208,7 @@
           <textarea id="CartNote" name="note" data-cart-note placeholder="{{ 'sections.cart.gift_note' | t }}..." rows="2">{{ cart.note }}</textarea>
         </div>
       {%- endif -%}
-      <p class="cart-drawer__taxes-note">{{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}</p>
+      <p class="cart-drawer__taxes-note">Shipping calculated at checkout. Price is inclusive of GST.</p>
       <div class="cart-drawer__checkout">
         <a href="{{ routes.checkout_url }}" class="button button--solid button--full">{{ 'sections.cart.checkout' | t }}</a>
         <a href="/cart" class="button button--outline button--full">{{ 'sections.cart.view_cart' | t }}</a>

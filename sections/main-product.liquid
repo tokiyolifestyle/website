@@ -84,6 +84,7 @@
           {%- assign save_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
           <span class="badge badge--sale">{{ 'sections.product.save_amount' | t: amount: save_pct | append: '%' }}</span>
         {%- endif -%}
+        <div class="product-info__tax-label">Inclusive of all taxes</div>
       </div>
 
       {%- comment -%} Stock Indicator {%- endcomment -%}
@@ -350,6 +351,7 @@
   .option-btn { display:block; padding:.45rem 1rem; border:1.5px solid #ddd; border-radius:6px; font-size:.875rem; cursor:pointer; transition:all .2s; min-width:44px; text-align:center; }
   .option-btn:hover { border-color:var(--color-primary,#111); }
   .size-guide-panel { padding:1.25rem 0; }
+  .product-info__tax-label { display: block; font-size: 0.72rem; font-weight: 600; color: var(--color-success, #2E7D32); margin-top: 0.35rem; letter-spacing: 0.05em; text-transform: uppercase; }
 
   /* Actions */
   .product-info__actions { display:flex; gap:.75rem; margin:1.5rem 0 .75rem; }
