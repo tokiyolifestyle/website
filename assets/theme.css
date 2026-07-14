@@ -107,7 +107,7 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 .section-header-block {
   text-align: center;
   max-width: 600px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 1.25rem;
 }
 .section-header-block h2 { margin-bottom: 0.5rem; }
 .section-header-block p { color: var(--color-text-muted, #767674); font-size: 0.9375rem; }
@@ -450,27 +450,27 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 .announcement-bar__item p { margin: 0; }
 .announcement-bar__sep { margin: 0 1.5rem; opacity: 0.4; }
 
-/* ---- Footer (Clean Light Premium) ---- */
+/* ---- Footer (Muted Stone Japanese Minimal) ---- */
 .site-footer {
-  background: #FAFAF9;
-  color: #767674;
+  background: #EAE6DF;
+  color: #555552;
   margin-top: 0;
-  border-top: 1px solid rgba(12, 12, 14, 0.08);
+  border-top: 1px solid rgba(12, 12, 14, 0.06);
 }
 .site-footer__newsletter {
-  background: #FFFFFF;
+  background: #E0DBD4;
   color: #111111;
-  padding: 4rem 0;
-  border-bottom: 1px solid rgba(12, 12, 14, 0.06);
+  padding: 2.5rem 0;
+  border-bottom: 1px solid rgba(12, 12, 14, 0.05);
 }
 .site-footer__newsletter-inner { display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
 .site-footer__newsletter h2 { margin-bottom: 0.25rem; color: #111111; }
-.site-footer__newsletter p { color: #767674; }
+.site-footer__newsletter p { color: #555552; }
 .newsletter-form__row { display: flex; gap: 0; min-width: 320px; }
 .newsletter-form__row input {
   flex: 1; padding: 0.9rem 1.25rem;
-  border: 1px solid rgba(12, 12, 14, 0.15);
-  background: #FAFAF9;
+  border: 1px solid rgba(12, 12, 14, 0.12);
+  background: #EAE6DF;
   color: #111111;
   font-size: 0.875rem;
 }
@@ -864,8 +864,23 @@ section[class*="section-"] {
 .featured-reviews,
 .newsletter,
 .inaugural-banner {
-  padding-top: 1.5rem !important;
-  padding-bottom: 1.5rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+}
+
+/* --- Ticker & Promo Banner Flush Join --- */
+#shopify-section-scrolling-text-1 {
+  padding-bottom: 0 !important;
+}
+#shopify-section-inaugural-offer-banner {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+#shopify-section-scrolling-text-1 .scrolling-text {
+  margin-bottom: 0 !important;
+}
+#shopify-section-inaugural-offer-banner .inaugural-banner {
+  margin-top: 0 !important;
 }

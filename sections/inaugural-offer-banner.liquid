@@ -6,13 +6,28 @@
     </div>
     <div class="inaugural-banner__content">
       Get <strong class="highlight-text" style="color: var(--color-accent, #C5A880);">10% OFF</strong> on your first order! | Use code: 
-      <span class="promo-code-box">TOKIYO10</span>
+      <span class="promo-code-box" id="PromoCodeBox" onclick="copyPromoCode(this)" style="cursor: pointer;" title="Click to copy">TOKIYO10</span>
     </div>
     <div class="inaugural-banner__right">
       Limited Time Offer
     </div>
   </div>
 </div>
+
+<script>
+  function copyPromoCode(el) {
+    navigator.clipboard.writeText('TOKIYO10');
+    const originalText = el.innerText;
+    el.innerText = 'COPIED!';
+    el.style.borderColor = '#25D366';
+    el.style.color = '#25D366';
+    setTimeout(() => {
+      el.innerText = originalText;
+      el.style.borderColor = '';
+      el.style.color = '';
+    }, 1500);
+  }
+</script>
 
 <style>
   .inaugural-banner {
