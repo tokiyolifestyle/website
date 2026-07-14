@@ -56,7 +56,7 @@
       },
       "block_order": ["slide-1", "slide-2", "slide-3", "slide-4"],
       "settings": {
-        "hero_height": 100,
+        "hero_height": 70,
         "content_alignment": "left",
         "autoplay_speed": 5
       }
