@@ -618,3 +618,53 @@ section[class*="section-"] {
   color: var(--color-border, rgba(0,0,0,0.12));
   margin-left: 0.5rem;
 }
+
+/* --- Transparent Overlay Header for Homepage --- */
+@media (min-width: 990px) {
+  .template-index .section-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+  }
+  .template-index .site-header {
+    background: transparent !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+  /* Keep header white text and icons when not scrolled */
+  .template-index .site-header:not(.is-scrolled) .site-header__nav-link,
+  .template-index .site-header:not(.is-scrolled) .site-header__icon-btn,
+  .template-index .site-header:not(.is-scrolled) .logo-tokiyo,
+  .template-index .site-header:not(.is-scrolled) .logo-lifestyle {
+    color: #FFFFFF !important;
+  }
+  .template-index .site-header:not(.is-scrolled) .logo-lifestyle::before,
+  .template-index .site-header:not(.is-scrolled) .logo-lifestyle::after {
+    background-color: #FFFFFF !important;
+  }
+  .template-index .site-header:not(.is-scrolled) .bg-fill {
+    fill: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+  }
+  .template-index .site-header:not(.is-scrolled) .window-fill {
+    fill: #111111 !important;
+  }
+  /* Scrolled sticky header */
+  .template-index .site-header.is-scrolled {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(250, 250, 249, 0.95) !important;
+    border-bottom: 1px solid rgba(12, 12, 14, 0.04) !important;
+    box-shadow: 0 8px 30px rgba(12, 12, 14, 0.04) !important;
+  }
+}
+
+/* Visibility fix for announcement bar links */
+.announcement-bar a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
