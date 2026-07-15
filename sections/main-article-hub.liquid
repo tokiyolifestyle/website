@@ -1,0 +1,794 @@
+{%- comment -%}
+  ═══════════════════════════════════════════════════════════
+  TOKIYO BLOG ARTICLE HUB
+  Self-contained article content — routes by page handle.
+  No Shopify articles required. Full SEO content included.
+  ═══════════════════════════════════════════════════════════
+{%- endcomment -%}
+
+{%- assign ph = page.handle -%}
+
+<div class="article-hub page-width">
+
+  {%- comment -%} BREADCRUMB {%- endcomment -%}
+  <nav class="article-hub__breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> <span>/</span>
+    <a href="/blogs/news">Blogs</a> <span>/</span>
+    <span>{{ page.title }}</span>
+  </nav>
+
+  {%- comment -%} ══════════════════════════════════════════
+     BRAND & STORIES
+  ══════════════════════════════════════════ {%- endcomment -%}
+
+  {%- if ph == 'blog-about-tokiyo-lifestyle' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Brand &amp; Stories</span>
+      <h1>About Tokiyo Lifestyle</h1>
+      <p class="article-hub__meta">By Tokiyo Lifestyle Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-1.png' | asset_url }}" alt="Tokiyo Lifestyle Brand Story" loading="eager"></div>
+    <div class="article-hub__body">
+      <p><strong>Tokiyo Lifestyle</strong> was born at the crossroads of Japanese minimalism and Indian street culture — a brand built not just to sell clothing, but to tell a story with every thread. Founded with the belief that premium quality should be accessible to every ambitious young Indian, Tokiyo brings together oversized silhouettes, bold graphic storytelling, and heavyweight 240 GSM cotton into one identity.</p>
+      <h2>Our Philosophy</h2>
+      <p>We believe clothes are more than fabric. They are declarations. When you wear a Tokiyo piece, you are choosing a garment that was designed with intention — from the weight of the cotton to the precision of the print, every detail is deliberate.</p>
+      <h2>The Name: Tokiyo</h2>
+      <p>Tokiyo (トキーヨ) draws inspiration from the word <em>tokiyo</em> in Japanese philosophy — a concept of living fully in the present moment while building towards the future. This dual energy — grounded yet ambitious — is what we embed into every collection.</p>
+      <h2>Made for India, Inspired by the World</h2>
+      <p>From the neon-lit streets of Tokyo to the chai stalls of Mumbai, our aesthetic blends global and local. We create streetwear that feels at home whether you are at a college campus in Delhi or an airport lounge in Bangalore. Our garments are built for movement, for life, for expression.</p>
+      <h2>Our Commitment</h2>
+      <ul>
+        <li>Premium 240 GSM super-combed cotton for every piece</li>
+        <li>Drop-shoulder engineered construction for perfect drape</li>
+        <li>DTF and puff printing for graphics that last</li>
+        <li>Custom luxury packaging — because the unboxing is part of the experience</li>
+      </ul>
+      <p>We are more than a clothing brand. We are a lifestyle. Welcome to Tokiyo.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-story-behind-every-design' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Brand &amp; Stories</span>
+      <h1>The Story Behind Every Design</h1>
+      <p class="article-hub__meta">By Tokiyo Creative Studio · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-2.png' | asset_url }}" alt="Story Behind Tokiyo Designs" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Every graphic on a Tokiyo tee starts as a hand-drawn sketch. Our in-house design studio in India works with a blend of Japanese calligraphy influences, anime-inspired line art, and bold typographic expressions to create graphics that feel both timeless and culturally resonant.</p>
+      <h2>From Concept to Cloth</h2>
+      <p>The process begins with a mood board — sourced from everything from Shinjuku street photography to vintage Bollywood poster art. Our designers then translate these references into original vector illustrations, refined over multiple rounds of feedback before they ever touch a t-shirt.</p>
+      <h2>Why We Choose DTF Printing</h2>
+      <p>Direct-to-film (DTF) printing allows us to achieve photographic detail and unlimited colour depth — something traditional screen printing cannot match for complex artwork. Our prints are heat-cured at precise temperatures to ensure they survive hundreds of wash cycles without cracking or fading.</p>
+      <h2>Limited Drops, Intentional Stories</h2>
+      <p>We do not mass produce. Each Tokiyo collection is a limited drop — typically 200–500 units per design. This scarcity is intentional. We want every customer to own something rare, something with meaning. When a drop sells out, it stays sold out.</p>
+      <p>The next time you look at a graphic on your Tokiyo tee, know that it took weeks of creative work — and a team of passionate people — to get it there.</p>
+    </div>
+  </article>
+
+  {%- comment -%} ══════════════════════════════════════════
+     FASHION & STYLING
+  ══════════════════════════════════════════ {%- endcomment -%}
+
+  {%- elsif ph == 'blog-streetwear-trends-india' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Streetwear Trends in India: Street Culture &amp; Devotion Within</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-4.png' | asset_url }}" alt="Streetwear Trends India" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Indian streetwear has arrived. What began as a niche import culture — kids in Mumbai and Delhi wearing Supreme and Off-White replicas — has evolved into a fully-formed domestic ecosystem of brands, drops, and cultural references uniquely Indian in character.</p>
+      <h2>The Rise of Desi Streetwear</h2>
+      <p>Brands like Tokiyo Lifestyle are part of a new wave redefining what Indian street fashion looks like. Instead of copying Western aesthetics wholesale, we are drawing on local iconography — temple architecture, Devanagari script, classical paintings, chai culture — and remixing them through an oversized, drop-shoulder lens.</p>
+      <h2>Key Trends for 2026</h2>
+      <ul>
+        <li><strong>Oversized Silhouettes:</strong> Drop-shoulder fits with a boxy chest are the dominant aesthetic. Think chest width 2–3 inches wider than a traditional tee.</li>
+        <li><strong>Graphic Storytelling:</strong> Bold front graphics are back — but now with cultural commentary. Indian mythology meets Japanese anime in the most unexpected collisions.</li>
+        <li><strong>Heavyweight Cotton:</strong> The shift from 180 GSM to 240 GSM is visible everywhere. Customers want a tee that holds its structure and drapes richly.</li>
+        <li><strong>Monochrome Palette:</strong> Black, white, beige, and pista dominate — with red as the single accent colour.</li>
+      </ul>
+      <h2>Devotion Within</h2>
+      <p>One of the defining concepts in new Indian streetwear is "devotion within" — the idea that personal style is a form of self-expression and self-respect. You wear what you believe in. The streets are your runway. Tokiyo was built on this philosophy.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-seasonal-fashion-guide' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Seasonal Fashion Guide: How to Style Streetwear Year-Round</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-3.png' | asset_url }}" alt="Seasonal Fashion Guide" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>India has four distinct seasons — and each one calls for a different approach to streetwear. Here is your complete guide to styling Tokiyo pieces across every season.</p>
+      <h2>Summer (March – June)</h2>
+      <p>240 GSM cotton breathes well despite its weight. In summer, pair an oversized graphic tee with jogger shorts and white sneakers. Stick to lighter colours — pista, beige, white — to reflect heat. Opt for loose fits to allow airflow.</p>
+      <h2>Monsoon (July – September)</h2>
+      <p>Monochrome is your monsoon friend. A black oversized tee with dark joggers handles rain speckles invisibly. Avoid white in the rain. Carry a compact rain shell over your tee for the complete look.</p>
+      <h2>Autumn/Post-Monsoon (October – November)</h2>
+      <p>The best season for layering. A Tokiyo heavyweight tee under an open overshirt or denim jacket creates dimension. This is when graphic tees with bold prints really pop against cooler air.</p>
+      <h2>Winter (December – February)</h2>
+      <p>Layer your oversized tee under a fleece or bomber jacket. The boxy silhouette of a Tokiyo oversized tee naturally accommodates layering without bunching. Stick to darker palettes — black, navy, charcoal — for a sleek winter aesthetic.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-fashion-college-students' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Fashion for College Students: Building a Streetwear Wardrobe on a Budget</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-5.jpg' | asset_url }}" alt="College Streetwear Fashion" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>College is the ultimate streetwear laboratory. No dress code, maximum self-expression. Here is how to build a capsule wardrobe that takes you from lecture hall to hang spot without missing a beat.</p>
+      <h2>The 5-Piece Capsule</h2>
+      <ul>
+        <li>2 oversized graphic tees (Tokiyo drop-shoulder fit)</li>
+        <li>1 solid heavyweight tee in black or white</li>
+        <li>1 pair of wide-leg joggers or cargo pants</li>
+        <li>1 quality sneaker in a neutral colour</li>
+      </ul>
+      <h2>Smart Investment, Not Fast Fashion</h2>
+      <p>One Tokiyo 240 GSM tee will outlast three cheap fast-fashion alternatives. The fabric holds colour, shape, and print quality through dozens of washes. Think cost-per-wear, not cost-per-purchase.</p>
+      <h2>Styling Tips for Campus</h2>
+      <p>Roll your sleeves once for a casual look. Tuck the front of an oversized tee half-in for a fashion-forward silhouette. Pair with track pants for a relaxed fit, or with slim jeans to contrast the boxy top.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-travel-outfit-ideas' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Travel Outfit Ideas: Comfort Meets Street Style on the Go</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-6.png' | asset_url }}" alt="Travel Outfit Ideas" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Great travel style is built on three pillars: comfort, versatility, and visual impact. An oversized tee hits all three. Here are the best travel outfit formulas featuring Tokiyo pieces.</p>
+      <h2>The Airport Formula</h2>
+      <p>Oversized black graphic tee + wide cargo pants + chunky sneakers + minimal backpack. Comfortable enough for 10-hour flights, stylish enough to look intentional at any destination.</p>
+      <h2>The Road Trip Formula</h2>
+      <p>Beige oversized tee + olive green jogger shorts + slide sandals. Laid back, breathable, and camera-ready at every scenic stop.</p>
+      <h2>The Beach Destination Formula</h2>
+      <p>White oversized tee + swim shorts (wear the tee as a beach cover-up). The boxy cut doubles as an off-the-shoulder look. Pack light, style heavy.</p>
+      <h2>Packing Pro Tip</h2>
+      <p>Three Tokiyo tees in different colours can create 9+ outfit combinations when paired with two bottoms. Invest in quality pieces that travel well — heavyweight cotton resists wrinkles better than lightweight alternatives.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-airport-looks' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Airport Looks: Elevate Your Transit Style</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-2.png' | asset_url }}" alt="Airport Style Looks" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>The airport is the world's most public runway. Everyone is watching, nobody is judging — and the best dressed travellers know it. Here is how to nail airport style with Tokiyo.</p>
+      <h2>The Golden Rule: Comfort is Not the Enemy of Style</h2>
+      <p>The best airport looks are ones where you feel equally good in the security queue and the lounge. An oversized heavyweight tee achieves this naturally — it is relaxed without looking sloppy.</p>
+      <h2>Outfit Formula 1: Classic Airport Black</h2>
+      <p>Black oversized graphic tee + black cargo pants + white chunky sneakers + black cap. Monochrome creates an effortlessly sharp look with zero coordination effort.</p>
+      <h2>Outfit Formula 2: Neutral Luxe</h2>
+      <p>Beige oversized tee + cream wide-leg trousers + tan sneakers + minimal tote. Looks expensive, costs less. The key is sticking to a tight colour palette.</p>
+      <h2>The Tokiyo Advantage</h2>
+      <p>Our 240 GSM cotton naturally drapes and holds shape — meaning even after a 3-hour layover, your tee still looks fresh and structured. No wrinkles, no shapeless fabric, just clean streetwear.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-weekend-outfit-inspiration' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Weekend Outfit Inspiration: Your Off-Duty Style Guide</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-1.png' | asset_url }}" alt="Weekend Outfit Inspiration" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Weekends are for living. Here are five complete weekend outfit ideas built around Tokiyo pieces for every kind of Saturday or Sunday you have planned.</p>
+      <h2>The Café Morning</h2>
+      <p>White oversized tee + beige linen trousers + white sneakers. Add a coffee in hand and you are officially the most stylish person in the café.</p>
+      <h2>The Mall Run</h2>
+      <p>Black graphic tee + dark jeans + colourful sneakers. The contrast of a bold graphic tee against clean denim is a timeless combination.</p>
+      <h2>The Gym-to-Brunch</h2>
+      <p>Pista green oversized tee + athletic shorts + slides. Fresh out of the gym, fresh into the day — no outfit change required.</p>
+      <h2>The Night Out</h2>
+      <p>Black oversized tee with a loud graphic + black slim trousers + dressy sneakers or boots. The boldness of the graphic does all the talking.</p>
+      <h2>The Road Trip Day</h2>
+      <p>Airforce blue tee + cargo shorts + trail runners. Comfortable for hours in the car, cool enough for roadside photo stops.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-cafe-date-outfit' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Café Date Outfit Ideas: Stylish, Casual, Effortless</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-3.png' | asset_url }}" alt="Cafe Date Outfits" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>First dates at cafés require a very specific energy: relaxed enough to seem laid-back, put-together enough to show you made an effort. Oversized streetwear — done right — nails this balance perfectly.</p>
+      <h2>For Him: The Clean Café Look</h2>
+      <p>A beige or white Tokiyo oversized tee paired with slim-fit chinos or tapered joggers and clean white sneakers. Add a minimal watch for a touch of polish. The key is contrast — boxy top, fitted bottom.</p>
+      <h2>For Her: The Effortless Chic Look</h2>
+      <p>An oversized graphic tee tucked slightly at the front into high-waisted trousers, with mule heels or platform sneakers. A simple gold necklace or chain elevates the look instantly.</p>
+      <h2>Colour Direction</h2>
+      <p>Stick to neutrals for café dates — beige, white, black, pista green. These colours photograph well (important in the age of Instagram café culture) and feel warm and approachable rather than aggressive.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-beach-outfit' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Beach Style: Streetwear That Flows by the Shore</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-4.png' | asset_url }}" alt="Beach Streetwear Outfits" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>The beach is one of the most creative style environments on earth. The key is blending the practicality of beachwear with the visual boldness of streetwear. Here is how to do it with Tokiyo.</p>
+      <h2>The Oversized Tee as a Beach Layer</h2>
+      <p>A white or beige Tokiyo oversized tee makes the perfect beach cover-up. Wear it over swim shorts as you arrive, ditch it for the water, and throw it back on for golden hour photos. Lightweight cotton dries quickly in the sea breeze.</p>
+      <h2>Colour Palette for Beach Days</h2>
+      <p>Bright tropical colours clash with the beach setting — choose white, beige, or ocean-adjacent tones like airforce blue. These reflect the environment and look incredible in photography.</p>
+      <h2>Accessories That Complete the Look</h2>
+      <ul>
+        <li>Bucket hat or wide-brim cap</li>
+        <li>Simple chain necklace (waterproof metal preferred)</li>
+        <li>Slide sandals or bare feet</li>
+        <li>Minimal tote or drawstring bag</li>
+      </ul>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-mall-inspiration' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Mall Inspiration: Turning Every Store Visit Into a Style Statement</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-5.jpg' | asset_url }}" alt="Mall Inspiration Outfits" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>The mall is where Indian youth culture plays out in real time. It is a social arena, a fashion showcase, and a photography location all in one. Here is how to show up to the mall with complete style confidence.</p>
+      <h2>The Signature Mall Look</h2>
+      <p>Black oversized graphic tee + dark cargo pants + chunky white sneakers. Versatile enough to walk through every store, impactful enough to turn heads in the food court.</p>
+      <h2>Make Your Graphic Work for You</h2>
+      <p>In the mall, people will actually read and appreciate your graphic. Choose a design that represents something you genuinely believe in — a cultural reference, a visual statement, an artistic concept. Tokiyo's limited drops are perfect for this: nobody else in the mall will be wearing the same print.</p>
+      <h2>Footwear Matters More Than You Think</h2>
+      <p>The mall involves a lot of walking. Choose footwear that is both stylish and comfortable. Thick-soled sneakers (Jordans, New Balances, Chunky Vans) hit both criteria perfectly with an oversized tee.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-gym-wear' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Gym Wear: Performance Meets Street Style</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-6.png' | asset_url }}" alt="Gym Wear Streetwear" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Gym culture and streetwear culture have been merging for years. Today's most stylish gym-goers are building looks that work both inside and outside the weight room.</p>
+      <h2>Why Oversized Tees at the Gym Work</h2>
+      <p>The drop-shoulder construction of Tokiyo tees allows complete freedom of movement — no sleeve tightness, no shoulder restriction. The 240 GSM weight provides structure without stiffness. Many gym regulars prefer them over technical athletic tees for casual training days.</p>
+      <h2>The Gym-to-Street Formula</h2>
+      <p>Black or dark-coloured oversized tee + athletic shorts or joggers + performance sneakers. You can walk out of the gym directly into the rest of your day without a wardrobe change.</p>
+      <h2>Care After Gym Sessions</h2>
+      <p>Wash inside-out in cold water immediately after intense workouts. This prevents sweat from degrading print quality. Our DTF prints are designed to survive frequent washing — but following care instructions extends their life significantly.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-road-trip-style' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Road Trip Style: Looking Good at Every Kilometre</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-2.png' | asset_url }}" alt="Road Trip Style" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Road trips demand clothes that are comfortable enough for hours in a car and stylish enough for every unexpected stop. Oversized streetwear was practically invented for this scenario.</p>
+      <h2>The Road Trip Pack List</h2>
+      <ul>
+        <li>2 Tokiyo oversized tees (one graphic, one solid)</li>
+        <li>1 pair of cargo pants (multiple pockets = practical)</li>
+        <li>1 pair of shorts for warmer destinations</li>
+        <li>Trail runners or comfortable chunky sneakers</li>
+        <li>A cap for sun protection</li>
+      </ul>
+      <h2>Why Heavyweight Cotton Wins on Road Trips</h2>
+      <p>Lightweight tees wrinkle and look slept-in after hours in a car seat. 240 GSM heavyweight cotton resists wrinkles and maintains its shape through long journeys. You arrive looking as fresh as you departed.</p>
+      <h2>Photography at Every Stop</h2>
+      <p>A bold graphic tee looks incredible in roadside landscapes. Solid backgrounds — mountains, deserts, open fields — make graphic tee photography especially striking. Tokiyo's limited prints were designed to be conversation starters wherever you go.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-night-out-style' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fashion &amp; Styling</span>
+      <h1>Night Out Style: Streetwear After Dark</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-1.png' | asset_url }}" alt="Night Out Streetwear" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>A night out does not always mean dressing up. The most stylish night-out looks in 2026 are built around elevated streetwear — pieces that have visual impact without the stiffness of formal wear.</p>
+      <h2>The Night Out Streetwear Formula</h2>
+      <p>A bold-print Tokiyo graphic tee (dark background, high-contrast graphic) + slim black trousers or sleek cargo pants + dressy sneakers or clean leather boots. Add a minimal chain and you are ready.</p>
+      <h2>Why Dark Works After 8PM</h2>
+      <p>After dark, high-contrast graphics pop. A white or red graphic on a black tee looks electric under nightclub lighting. The visual impact of your tee does the heavy lifting — your accessories and bottoms can stay understated.</p>
+      <h2>Avoid Overdressing</h2>
+      <p>The biggest mistake on a night out is trying too hard. Confidence is the best accessory. An oversized Tokiyo tee worn with intention always reads more stylish than a forced formal outfit worn with uncertainty.</p>
+    </div>
+  </article>
+
+  {%- comment -%} ══════════════════════════════════════════
+     FABRIC & QUALITY
+  ══════════════════════════════════════════ {%- endcomment -%}
+
+  {%- elsif ph == 'blog-why-fabric-quality-matters' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fabric &amp; Quality</span>
+      <h1>Why Fabric Quality Matters: The Truth About GSM &amp; Cotton</h1>
+      <p class="article-hub__meta">By Tokiyo Quality Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-3.png' | asset_url }}" alt="Fabric Quality Matters" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>If you have ever held two T-shirts side-by-side and immediately felt the difference in quality, you already understand GSM. Grams per square metre is the weight of fabric per unit area — and it is the single most important number in evaluating a T-shirt's quality.</p>
+      <h2>Understanding GSM</h2>
+      <ul>
+        <li><strong>120–150 GSM:</strong> Very thin, transparent, budget fast-fashion territory</li>
+        <li><strong>160–180 GSM:</strong> Standard mass-market T-shirt weight — acceptable but unremarkable</li>
+        <li><strong>200–220 GSM:</strong> Mid-weight, good for casual wear</li>
+        <li><strong>240 GSM+:</strong> Premium heavyweight — structured drape, superior durability, exceptional print quality</li>
+      </ul>
+      <h2>Why Tokiyo Uses 240 GSM</h2>
+      <p>At 240 GSM, the fabric is heavy enough to hold its shape even when oversized — the drop-shoulder silhouette drapes cleanly rather than collapsing. It also creates the perfect surface for DTF printing: thick, tightly woven cotton holds ink at a molecular level, resulting in prints that last hundreds of wash cycles.</p>
+      <h2>100% Cotton vs Cotton Blend</h2>
+      <p>Polyester blends are cheaper but they pill, retain odour, and feel synthetic against skin. 100% super-combed cotton is breathable, skin-friendly, and develops a beautiful soft hand-feel over time. We never compromise on cotton purity.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-dtf-printing-vs-screen-printing' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fabric &amp; Quality</span>
+      <h1>DTF Printing vs Screen Printing: Which is Better?</h1>
+      <p class="article-hub__meta">By Tokiyo Quality Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-4.png' | asset_url }}" alt="DTF vs Screen Printing" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>There are two dominant printing technologies in premium garment production today: Direct-to-Film (DTF) and traditional screen printing. Understanding the difference helps you appreciate the quality of the clothing you invest in.</p>
+      <h2>Screen Printing</h2>
+      <p>Screen printing pushes ink through a mesh stencil onto fabric. It produces vibrant, durable prints for simple designs with flat colours. However, it is expensive for complex multi-colour graphics, impractical for photographic detail, and requires minimum print quantities of several hundred units.</p>
+      <h2>DTF Printing</h2>
+      <p>DTF (Direct-to-Film) printing transfers a design from a film sheet to fabric using heat. It can reproduce photographic complexity, unlimited colours, and fine detail without minimum order quantities. The resulting print is soft, flexible, and highly wash-resistant.</p>
+      <h2>Why Tokiyo Uses DTF</h2>
+      <p>Our limited-edition drops involve complex original artwork — Japanese calligraphy, gradient elements, anime-influenced illustrations. DTF is the only technology that faithfully reproduces this level of detail. Our prints are cured at precisely controlled temperatures for maximum durability and are rated to survive 200+ washes without significant colour loss.</p>
+      <h2>Puff Print</h2>
+      <p>We also use puff print for select designs — a raised ink technique that adds tactile texture and three-dimensional depth to graphics. Puff prints are particularly striking on solid-colour tees where the raised graphic creates a sculptural effect.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-embroidery-vs-printed' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Fabric &amp; Quality</span>
+      <h1>Embroidery vs Printed Designs: Choosing the Right Technique</h1>
+      <p class="article-hub__meta">By Tokiyo Quality Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-5.jpg' | asset_url }}" alt="Embroidery vs Printed Designs" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Two distinct visual languages exist in garment decoration: the tactile permanence of embroidery and the photographic flexibility of printing. Each has its place in a premium wardrobe.</p>
+      <h2>Embroidery</h2>
+      <p>Embroidery uses thread stitched directly into fabric, creating a raised, textured effect. It is virtually permanent — unlike prints, embroidery does not fade. It works beautifully for logos, monograms, and simple graphic elements. However, it is expensive for complex full-colour designs and adds weight to the garment.</p>
+      <h2>DTF Print</h2>
+      <p>Printing allows photographic reproduction at any size. A DTF print can recreate an entire painting on a T-shirt back — something embroidery could never achieve at any price point. Modern DTF printing is as durable as high-quality embroidery when properly cared for.</p>
+      <h2>Our Approach at Tokiyo</h2>
+      <p>We select the technique based on the design intent. Small chest logos — like the Tokiyo brand mark — work beautifully as puff print or embroidery. Large back graphics and full-front artwork are always executed in DTF for maximum detail and visual impact. The result is a garment where every element is optimised for its specific role.</p>
+    </div>
+  </article>
+
+  {%- comment -%} ══════════════════════════════════════════
+     CARE GUIDES
+  ══════════════════════════════════════════ {%- endcomment -%}
+
+  {%- elsif ph == 'blog-how-to-wash-printed-tshirts' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Care Guides</span>
+      <h1>How to Wash Printed T-Shirts and Prevent Fading</h1>
+      <p class="article-hub__meta">By Tokiyo Care Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-1.png' | asset_url }}" alt="How to Wash Printed T-Shirts" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>The most common cause of graphic tee degradation is improper washing. Follow these guidelines to keep your Tokiyo prints looking fresh for years.</p>
+      <h2>The Golden Rules</h2>
+      <ol>
+        <li><strong>Turn inside-out before washing.</strong> This is the single most important step. It protects the print from abrasion against other garments and the machine drum.</li>
+        <li><strong>Use cold water only.</strong> Hot water degrades print adhesion and shrinks cotton fibres. Always wash at 30°C or below.</li>
+        <li><strong>Use a gentle cycle.</strong> High-speed agitation stresses both fabric and print. Choose the delicate or gentle programme.</li>
+        <li><strong>Use mild detergent.</strong> Avoid detergents with bleach or optical brighteners — they strip colour from both fabric and prints.</li>
+        <li><strong>Do not tumble dry.</strong> Heat is the enemy of graphic prints. Always air dry, preferably inside-out in indirect light.</li>
+      </ol>
+      <h2>What to Avoid</h2>
+      <ul>
+        <li>Never iron directly on a print — always iron inside-out</li>
+        <li>Avoid dry cleaning</li>
+        <li>Do not wring the garment</li>
+        <li>Keep away from direct sunlight while drying</li>
+      </ul>
+      <h2>Our Quality Promise</h2>
+      <p>Tokiyo DTF prints are rated for 200+ washes when following our care instructions. The adhesive layer is heat-cured at a specific temperature during production to maximise longevity. With proper care, your Tokiyo graphic will remain vibrant for years.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-tshirt-care-tips' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Care Guides</span>
+      <h1>Complete T-Shirt Care Tips: Keep Your Tokiyo Looking New</h1>
+      <p class="article-hub__meta">By Tokiyo Care Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-2.png' | asset_url }}" alt="T-Shirt Care Tips" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>A well-cared-for heavyweight cotton T-shirt can last a decade or more. Here is the complete guide to maintaining the fabric, print, and fit of your Tokiyo pieces.</p>
+      <h2>Storage</h2>
+      <p>Fold oversized tees instead of hanging them. Hanging a heavy cotton tee on a narrow hanger stretches the neckline and shoulder seams over time. Store in a cool, dry drawer or shelf.</p>
+      <h2>Washing Frequency</h2>
+      <p>240 GSM cotton does not need to be washed after every wear unless there is visible sweat or staining. Over-washing shortens the lifespan of any garment. A light air-out after casual wear extends the freshness significantly.</p>
+      <h2>Removing Stains</h2>
+      <p>Address stains immediately — the longer they sit, the harder they are to remove. Dab (do not rub) cold water onto the stain, apply a tiny amount of liquid soap, and rinse gently. Never scrub near the printed area.</p>
+      <h2>Maintaining the Oversized Fit</h2>
+      <p>Cotton does not stretch back easily once deformed. Always lay oversized tees flat to dry after washing to preserve the original silhouette. Avoid machine drying at any temperature.</p>
+      <h2>Neckline Care</h2>
+      <p>To maintain the round-neck or ribbed collar shape, dry the garment with the neck smoothed into shape by hand. If the neckline stretches slightly over time, a careful damp hand-reshape followed by air drying usually restores it.</p>
+    </div>
+  </article>
+
+  {%- comment -%} ══════════════════════════════════════════
+     BUYING GUIDES
+  ══════════════════════════════════════════ {%- endcomment -%}
+
+  {%- elsif ph == 'blog-how-to-choose-oversized-fit' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Buying Guides</span>
+      <h1>How to Choose the Perfect Oversized Fit</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-2.png' | asset_url }}" alt="How to Choose Oversized Fit" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Oversized does not mean shapeless. The best oversized tees are carefully engineered — their silhouette is intentional, not accidental. Here is how to identify a well-designed oversized fit and choose your perfect size.</p>
+      <h2>Key Measurements to Know</h2>
+      <ul>
+        <li><strong>Chest Width:</strong> Measure across your chest — a well-fitting oversized tee should be 4–6 inches wider than this measurement</li>
+        <li><strong>Shoulder Drop:</strong> The seam should sit 2–3 inches below your natural shoulder point for authentic drop-shoulder styling</li>
+        <li><strong>Length:</strong> Should hit at or just below the hip bone — long enough to tuck partially or layer over other items</li>
+        <li><strong>Sleeve Length:</strong> Mid-bicep for a relaxed oversized look, not too short to look fitted</li>
+      </ul>
+      <h2>The Tokiyo Fit Guide</h2>
+      <table>
+        <thead><tr><th>Size</th><th>Chest (inches)</th><th>Length (inches)</th><th>Shoulder (inches)</th></tr></thead>
+        <tbody>
+          <tr><td>S</td><td>21</td><td>28</td><td>20</td></tr>
+          <tr><td>M</td><td>22.5</td><td>29</td><td>21</td></tr>
+          <tr><td>L</td><td>24</td><td>30</td><td>22</td></tr>
+          <tr><td>XL</td><td>25.5</td><td>31</td><td>23</td></tr>
+          <tr><td>XXL</td><td>27</td><td>32</td><td>24</td></tr>
+        </tbody>
+      </table>
+      <h2>Common Mistakes</h2>
+      <p><strong>Going too big:</strong> Oversized does not mean three sizes up. The ideal is 1–2 sizes above your true size. Beyond that, the garment loses structure and looks sloppy rather than intentional.</p>
+      <p><strong>Ignoring the drop-shoulder seam:</strong> This is the defining feature of true oversized construction. If the shoulder seam sits at your natural shoulder point, it is a regular loose-fit tee — not an oversized cut.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-size-guide' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Buying Guides</span>
+      <h1>T-Shirt Size Guide: Finding Your Perfect Tokiyo Fit</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-3.png' | asset_url }}" alt="T-Shirt Size Guide" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Sizing varies significantly between brands. Here is the complete Tokiyo size guide with detailed measurements and instructions for getting your measurements correctly.</p>
+      <h2>How to Measure Yourself</h2>
+      <ol>
+        <li><strong>Chest:</strong> Measure around the fullest part of your chest, keeping the tape horizontal</li>
+        <li><strong>Shoulder:</strong> Measure from the edge of one shoulder to the other across the back</li>
+        <li><strong>Length:</strong> Measure from the highest point of the shoulder down to where you want the hem</li>
+      </ol>
+      <h2>Tokiyo Size Chart (Oversized Fit)</h2>
+      <table>
+        <thead><tr><th>Size</th><th>Chest Width</th><th>Body Length</th><th>Shoulder Width</th><th>Sleeve Length</th></tr></thead>
+        <tbody>
+          <tr><td>S</td><td>21"</td><td>28"</td><td>20"</td><td>9"</td></tr>
+          <tr><td>M</td><td>22.5"</td><td>29"</td><td>21"</td><td>9.5"</td></tr>
+          <tr><td>L</td><td>24"</td><td>30"</td><td>22"</td><td>10"</td></tr>
+          <tr><td>XL</td><td>25.5"</td><td>31"</td><td>23"</td><td>10.5"</td></tr>
+          <tr><td>XXL</td><td>27"</td><td>32"</td><td>24"</td><td>11"</td></tr>
+        </tbody>
+      </table>
+      <h2>Which Size Should I Order?</h2>
+      <p>For the classic Tokiyo oversized silhouette: order your true size (the Tokiyo cut is already 3–4" wider than a regular tee at every size). For an extra baggy look, go up one size. If you are between sizes, choose the larger one.</p>
+      <h2>Fit Notes</h2>
+      <p>All Tokiyo tees have a drop-shoulder construction. The shoulder seam naturally falls 2–3" below your actual shoulder. This is intentional and is the defining feature of our silhouette — not a defect.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-best-tshirt-colors-for-skin-tone' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Buying Guides</span>
+      <h1>Best T-Shirt Colours for Every Skin Tone</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-4.png' | asset_url }}" alt="T-Shirt Colors for Skin Tone" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Colour theory is simple once you understand undertones. Here is a practical guide to which Tokiyo colours work best for different Indian skin tones.</p>
+      <h2>Fair Skin (Cool Undertones)</h2>
+      <p>Black, deep navy, and bold reds create beautiful contrast against fair skin. Avoid very pale pastels that can wash you out. Pista green and airforce blue work beautifully. White is universally flattering at every skin tone.</p>
+      <h2>Medium / Wheatish Skin (Neutral to Warm Undertones)</h2>
+      <p>The broadest range works here. Beige, camel, mustard, and warm earth tones enhance natural warmth. Black creates striking contrast. Whites look especially clean. Avoid very pale yellow-adjacent pastels that can look muddy.</p>
+      <h2>Darker Skin (Warm Undertones)</h2>
+      <p>Vibrant colours pop beautifully — bold reds, bright whites, deep blacks all look incredible. Beige and mustard complement warm undertones. Lavender and soft pastels provide beautiful contrast. Avoid muted, chalky versions of any colour.</p>
+      <h2>The Universal Rule: Confidence</h2>
+      <p>Skin tone is a starting point for colour guidance, not a restriction. The most important factor in any outfit is confidence. Wear what you love. The right colour is always the one you feel best in.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-beginners-streetwear-guide' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Buying Guides</span>
+      <h1>Beginner's Streetwear Guide: Building Your First Capsule Wardrobe</h1>
+      <p class="article-hub__meta">By Tokiyo Style Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-6.png' | asset_url }}" alt="Beginners Streetwear Guide" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Streetwear can look complicated from the outside. In reality, it is one of the most accessible fashion aesthetics — built on comfort, authenticity, and a few quality pieces. Here is how to start.</p>
+      <h2>The 3 Pillars of Streetwear</h2>
+      <ol>
+        <li><strong>Oversized Silhouette:</strong> Clothes that are intentionally larger than a fitted cut. Drop-shoulder tees, wide trousers, boxy hoodies.</li>
+        <li><strong>Graphic Identity:</strong> Your tee communicates something about you — a cultural reference, an aesthetic, a brand loyalty. Choose prints you genuinely connect with.</li>
+        <li><strong>Quality Foundation:</strong> Cheap streetwear looks cheap. One well-made 240 GSM tee outperforms five fast-fashion alternatives in every way.</li>
+      </ol>
+      <h2>Your First 5 Pieces</h2>
+      <ul>
+        <li>Black oversized graphic tee (your statement piece)</li>
+        <li>White oversized solid tee (your neutral base)</li>
+        <li>Black or dark cargo pants (versatile bottom)</li>
+        <li>Quality white sneakers (works with everything)</li>
+        <li>A minimal cap or beanie (the finishing touch)</li>
+      </ul>
+      <h2>Where to Start with Tokiyo</h2>
+      <p>Begin with our classic oversized fit in black or white. These are the most versatile and photograph-ready pieces in our collection. Once you have a base, explore our limited graphic drops to add personality and identity to your wardrobe.</p>
+    </div>
+  </article>
+
+  {%- comment -%} ══════════════════════════════════════════
+     COMPANY UPDATES
+  ══════════════════════════════════════════ {%- endcomment -%}
+
+  {%- elsif ph == 'blog-new-collection-launches' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Company Updates</span>
+      <h1>New Collection Launches: What's Coming Next at Tokiyo</h1>
+      <p class="article-hub__meta">By Tokiyo Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-1.png' | asset_url }}" alt="New Tokiyo Collection" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Tokiyo drops new collections in limited quantities. Here is a look at our launch philosophy and what to expect from upcoming releases.</p>
+      <h2>How Drops Work at Tokiyo</h2>
+      <p>Each collection is carefully designed over 6–8 weeks before a single garment is produced. We launch in small batches of 200–500 units per design. Once a design sells out, it does not come back. This is not artificial scarcity — it is a commitment to exclusivity and intentional consumption.</p>
+      <h2>Upcoming Collection Themes</h2>
+      <ul>
+        <li><strong>Archive Series:</strong> Designs inspired by Japanese woodblock printing (ukiyo-e) reinterpreted through modern streetwear aesthetics</li>
+        <li><strong>Devotion Series:</strong> Spiritual motifs from Indian and East Asian traditions — temple architecture, sacred geometry, devotional iconography</li>
+        <li><strong>Collabs:</strong> Partnerships with independent Indian artists to produce co-created limited drops</li>
+      </ul>
+      <h2>Stay Notified</h2>
+      <p>Subscribe to our newsletter to receive early access notifications. Tokiyo newsletter subscribers get 24-hour advance access to every new drop before it goes public.</p>
+      <p>Use code <strong>TOKIYO100</strong> for 10% off your first order.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-behind-the-scenes' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Company Updates</span>
+      <h1>Behind the Scenes: How a Tokiyo T-Shirt is Made</h1>
+      <p class="article-hub__meta">By Tokiyo Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-3.png' | asset_url }}" alt="Behind the Scenes Tokiyo" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Every Tokiyo T-shirt goes through a multi-stage production process designed to ensure the highest possible quality at each step. Here is what happens before your tee reaches your door.</p>
+      <h2>Step 1: Design Concepting (Weeks 1–2)</h2>
+      <p>Our in-house design team creates mood boards, explores cultural references, and produces initial sketches. Each design goes through 3–5 revision rounds before being approved for production.</p>
+      <h2>Step 2: Fabric Sourcing (Week 3)</h2>
+      <p>We source 240 GSM 100% super-combed cotton from audited suppliers. Every fabric batch undergoes a colour-fastness and shrinkage test before being accepted.</p>
+      <h2>Step 3: Garment Construction (Weeks 3–4)</h2>
+      <p>Pattern cutting, stitching, and finishing are done by experienced craftspeople. Each seam is double-stitched for durability. The drop-shoulder construction requires precision to achieve the correct proportions at every size.</p>
+      <h2>Step 4: Print Production (Week 4)</h2>
+      <p>Approved artwork files are processed for DTF printing. Films are printed, adhesive powder is applied and cured, then transferred to the garment under precise heat and pressure conditions. Each print is inspected before the garment moves to QC.</p>
+      <h2>Step 5: Quality Control &amp; Packaging (Week 5)</h2>
+      <p>Every piece is individually inspected for print quality, seam integrity, and measurements. Approved pieces are folded and placed in our custom luxury packaging — the unboxing experience is part of the product.</p>
+    </div>
+  </article>
+
+  {%- elsif ph == 'blog-customer-stories' -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Company Updates</span>
+      <h1>Customer Stories: Real People, Real Tokiyo Moments</h1>
+      <p class="article-hub__meta">By Tokiyo Team · July 2026</p>
+    </header>
+    <div class="article-hub__image"><img src="{{ 'hero-slide-5.jpg' | asset_url }}" alt="Tokiyo Customer Stories" loading="eager"></div>
+    <div class="article-hub__body">
+      <p>Tokiyo is built by the people who wear it. Here are real stories from our community — moments where a Tokiyo tee became part of a memory, a look, or a statement.</p>
+      <blockquote>
+        <p>"I wore my Tokiyo oversized tee on my first flight to Tokyo. The irony of wearing Tokiyo in Tokyo was not lost on me. Got three compliments at the airport."</p>
+        <cite>— Arjun M., Delhi</cite>
+      </blockquote>
+      <blockquote>
+        <p>"The print quality is unlike anything I've owned. Six months and probably 40 washes later — still looks like day one."</p>
+        <cite>— Priya S., Mumbai</cite>
+      </blockquote>
+      <blockquote>
+        <p>"The packaging alone made me feel like I was unboxing something premium. Then the tee itself absolutely delivered."</p>
+        <cite>— Rahul K., Bangalore</cite>
+      </blockquote>
+      <h2>Share Your Story</h2>
+      <p>Tag us on Instagram <strong>@tokiyolifestyle</strong> and use <strong>#TokiyoMoment</strong> to be featured on our social channels and potentially in our next customer story blog post.</p>
+      <h2>Our Community</h2>
+      <p>The Tokiyo community spans college campuses, corporate offices, gyms, airports, beaches, and everything in between. Every person who chooses Tokiyo is choosing quality, choosing authenticity, and choosing a brand that puts intention into every stitch.</p>
+    </div>
+  </article>
+
+  {%- else -%}
+  {%- comment -%} Fallback for any unmatched page handles {%- endcomment -%}
+  <article class="article-hub__article">
+    <header class="article-hub__header">
+      <span class="text-eyebrow">Tokiyo Journal</span>
+      <h1>{{ page.title }}</h1>
+      <p class="article-hub__meta">By Tokiyo Lifestyle Team · 2026</p>
+    </header>
+    <div class="article-hub__body">
+      {{ page.content }}
+      {%- if page.content == blank -%}
+        <p>This article is coming soon. Check back shortly for full content, or <a href="/blogs/news">explore all our latest articles</a>.</p>
+      {%- endif -%}
+    </div>
+  </article>
+  {%- endif -%}
+
+  {%- comment -%} Related / Back navigation {%- endcomment -%}
+  <div class="article-hub__footer">
+    <a href="/blogs/news" class="button button--outline">← Back to All Articles</a>
+  </div>
+
+</div>
+
+<style>
+  .article-hub {
+    padding-block: 2rem 5rem;
+    max-width: 820px;
+  }
+  .article-hub__breadcrumb {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted, #767674);
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .article-hub__breadcrumb a { color: var(--color-text-muted); text-decoration: none; }
+  .article-hub__breadcrumb a:hover { color: var(--color-accent, #ff0000); }
+  .article-hub__breadcrumb span { opacity: 0.5; }
+  .article-hub__article {}
+  .article-hub__header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .article-hub__header h1 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    margin: 0.75rem 0 1rem;
+    line-height: 1.2;
+  }
+  .article-hub__meta {
+    font-size: 0.875rem;
+    color: var(--color-text-muted, #767674);
+  }
+  .article-hub__image {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    aspect-ratio: 16/9;
+  }
+  .article-hub__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .article-hub__body {
+    line-height: 1.85;
+    color: #3a3a3a;
+    font-size: 1rem;
+  }
+  .article-hub__body h2 {
+    font-size: 1.35rem;
+    margin: 2.25rem 0 0.75rem;
+    font-weight: 700;
+    color: var(--color-primary, #111);
+  }
+  .article-hub__body p { margin-bottom: 1.25rem; }
+  .article-hub__body ul,
+  .article-hub__body ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .article-hub__body li { margin-bottom: 0.5rem; }
+  .article-hub__body blockquote {
+    border-left: 4px solid var(--color-accent, #ff0000);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: #f9f9f9;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+  }
+  .article-hub__body blockquote cite {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    font-style: normal;
+  }
+  .article-hub__body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.9375rem;
+  }
+  .article-hub__body table th {
+    background: var(--color-primary, #111);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.8125rem;
+    letter-spacing: 0.05em;
+  }
+  .article-hub__body table td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .article-hub__body table tr:hover td { background: #f9f9f9; }
+  .article-hub__footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  @media (max-width: 749px) {
+    .article-hub { padding-block: 1.5rem 3rem; }
+    .article-hub__body table { font-size: 0.8125rem; }
+    .article-hub__body table th,
+    .article-hub__body table td { padding: 0.5rem 0.6rem; }
+  }
+</style>
+
+{% schema %}
+{ "name": "Article Hub", "tag": "section", "class": "section-article-hub" }
+{% endschema %}
