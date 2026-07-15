@@ -93,77 +93,7 @@
       --grid-gutter: {{ settings.grid_gutter | default: 24 }}px;
     }
   </style>
-
-  {{ settings.custom_css }}
-  {% render 'seo' %}
-  {%- if template == 'list-collections' -%}
-    <script>window.location.href = '/collections/all';</script>
-  {%- endif -%}
-</head>
-
-<body class="template-{{ request.page_type | handle }}">
-
-  {%- comment -%} Scroll Progress Bar {%- endcomment -%}
-  <div data-scroll-progress style="width:0%;"></div>
-
-  <a class="skip-to-content-link visually-hidden" href="#MainContent">
-    {{ 'accessibility.skip_to_content' | t }}
-  </a>
-
-  {% sections 'header-group' %}
-
-  <main id="MainContent" class="content-for-layout" role="main" tabindex="-1">
-    {%- if request.path contains 'bulk-order' or request.path contains 'b2b' -%}
-      {% section 'main-page-b2b' %}
-    {%- elsif request.path contains 'about-us' or request.path contains 'about' -%}
-      {% section 'main-page-about' %}
-    {%- else -%}
-      {{ content_for_layout }}
-    {%- endif -%}
-  </main>
-
-  {% sections 'footer-group' %}
-
-  {% section 'cart-drawer' %}
-  {% section 'search-drawer' %}
-  {% section 'quick-view-modal' %}
-  {% section 'popup-newsletter' %}
-
-  <button id="BackToTop" class="back-to-top" aria-label="{{ 'accessibility.back_to_top' | t }}">
-    {% render 'icon-arrow-up' %}
-  </button>
-
-  <div id="LoadingOverlay" class="loading-overlay" aria-hidden="true">
-    <div class="loading-spinner"></div>
-  </div>
-
-  <a href="https://wa.me/917788847469" class="whatsapp-widget" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
-    <span class="whatsapp-widget__icon">
-  </script>
-
-  <style>
-    :root{
-      --color-primary: {{ settings.color_primary | default: '#000000' }};
-      --color-secondary: {{ settings.color_secondary | default: '#FFFFFF' }};
-      --color-accent: {{ settings.color_accent | default: '#ff0000' }};
-      --color-background: {{ settings.color_background | default: '#FFFFFF' }};
-      --color-success: {{ settings.color_success | default: '#2E7D32' }};
-      --color-error: {{ settings.color_error | default: '#C62828' }};
-      --color-surface: #FFFFFF;
-      --color-surface-raised: #FFFFFF;
-      --color-border: rgba(0,0,0,0.08);
-      --color-text-muted: #767674;
-      --font-heading: {% if settings.type_header_font == 'playfair_display' %}'Playfair Display', serif{% elsif settings.type_header_font == 'outfit' %}'Outfit', sans-serif{% else %}'Poppins', sans-serif{% endif %};
-      --font-body: {% if settings.type_body_font == 'plus_jakarta_sans' %}'Plus Jakarta Sans', sans-serif{% else %}'Inter', sans-serif{% endif %};
-      --card-radius: {{ settings.card_border_radius | default: 0 }}px;
-      --button-radius: {{ settings.button_border_radius | default: 0 }}px;
-      --page-width: {{ settings.page_width | default: 1400 }}px;
-      --spacing-sections: {{ settings.spacing_sections | default: 64 }}px;
-      --grid-gutter: {{ settings.grid_gutter | default: 24 }}px;
-    }
-  </style>
-
-  {{ settings.custom_css }}
+  {{ settings.custom_css }}
   {% render 'seo' %}
   {%- if template == 'list-collections' -%}
     <script>window.location.href = '/collections/all';</script>
