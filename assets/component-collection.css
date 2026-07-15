@@ -33,7 +33,7 @@
     transform: translateX(-100%); transition: transform 0.3s ease, visibility 0.3s;
     visibility: hidden;
   }
-  .filter-sidebar.is-open { transform: translateX(0); visibility: visible; }
+  .filter-sidebar.is-open { transform: translateX(0) !important; visibility: visible !important; }
 }
 .filter-group { border-bottom: 1px solid #eee; padding-block: 1.1rem; }
 .filter-group__title { display: flex; justify-content: space-between; font-weight: 600; cursor: pointer; }

@@ -1,6 +1,6 @@
 <div class="cart-drawer-overlay" data-cart-overlay></div>
 
-<div class="cart-drawer" data-cart-drawer id="CartDrawer" aria-label="Cart" role="dialog" aria-modal="true">
+<div class="cart-drawer" data-cart-drawer id="CartDrawer" aria-label="Cart" role="dialog" aria-modal="true" style="transform: translateX(100%); visibility: hidden;">
   <div class="cart-drawer__header">
     <h2 class="cart-drawer__title">{{ 'sections.cart.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)</h2>
     <button class="cart-drawer__close" data-cart-drawer-close aria-label="{{ 'accessibility.close' | t }}">{% render 'icon-close' %}</button>

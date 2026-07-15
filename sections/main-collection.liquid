@@ -46,7 +46,7 @@
 
   <div class="collection-page__body">
     {%- comment -%} Filters sidebar {%- endcomment -%}
-    <aside class="collection-filters" id="CollectionFilters" data-filters aria-hidden="true">
+    <aside class="collection-filters" id="CollectionFilters" data-filters aria-hidden="true" style="transform: translateX(-100%); visibility: hidden;">
       <div class="collection-filters__header">
         <h2>{{ 'sections.collection.filter_by' | t }}</h2>
         <button class="collection-filters__close" data-filter-close aria-label="{{ 'accessibility.close' | t }}">{% render 'icon-close' %}</button>
@@ -357,7 +357,7 @@
       border-right: none;
       box-shadow: 10px 0 30px rgba(0,0,0,0.05);
     }
-    .collection-filters.is-open { transform: translateX(0); visibility: visible; }
+    .collection-filters.is-open { transform: translateX(0) !important; visibility: visible !important; }
     .collection-filters__overlay { position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 55; opacity: 0; visibility: hidden; transition: opacity .3s; backdrop-filter: blur(2px); }
     .collection-filters__overlay.is-open { opacity: 1; visibility: visible; }
   }

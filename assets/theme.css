@@ -440,7 +440,7 @@ section[class*="section-"] { padding-block: 0; }
   visibility: hidden;
   overflow-y: auto;
 }
-.mobile-nav.is-open { transform: translateX(0); visibility: visible; }
+.mobile-nav.is-open { transform: translateX(0) !important; visibility: visible !important; }
 .mobile-nav__list { list-style: none; padding: 0; margin: 0; }
 .mobile-nav__header { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; border-bottom: 1px solid var(--color-border); color: var(--color-primary); }
 .mobile-nav__title { color: var(--color-primary); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 1.1rem; }
