@@ -82,9 +82,11 @@
 
     {%- comment -%}====== RIGHT: Product Info ======{%- endcomment -%}
     <div class="product-info" data-sticky-sentinel>
-      {%- if product.vendor != blank -%}
-        <p class="product-info__vendor text-eyebrow">{{ product.vendor }}</p>
+      {%- assign display_vendor = product.vendor -%}
+      {%- if display_vendor == blank or display_vendor contains 'tokiyo' or display_vendor contains 'theme' or display_vendor contains 'shopify' -%}
+        {%- assign display_vendor = 'TOKIYO LIFESTYLE' -%}
       {%- endif -%}
+      <p class="product-info__vendor text-eyebrow">{{ display_vendor }}</p>
 
       <h1 class="product-info__title" itemprop="name">{{ product.title }}</h1>
 

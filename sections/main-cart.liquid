@@ -30,7 +30,11 @@
                 {%- endif -%}
               </div>
               <div class="cart-item__details">
-                <p class="cart-item__vendor">{{ item.product.vendor }}</p>
+                {%- assign display_vendor = item.product.vendor -%}
+                {%- if display_vendor == blank or display_vendor contains 'tokiyo' or display_vendor contains 'theme' or display_vendor contains 'shopify' -%}
+                  {%- assign display_vendor = 'TOKIYO LIFESTYLE' -%}
+                {%- endif -%}
+                <p class="cart-item__vendor">{{ display_vendor }}</p>
                 <p class="cart-item__title"><a href="{{ item.url }}">{{ item.product.title }}</a></p>
                 {%- unless item.product.has_only_default_variant -%}<p class="cart-item__variant">{{ item.variant.title }}</p>{%- endunless -%}
                 <div class="cart-item__price-wrap">

@@ -22,6 +22,15 @@
     {% if section.settings.uppercase %}text-transform:uppercase;letter-spacing:.15em;{% endif %}
   }
   .marquee-sep { color:var(--color-accent, #ff0000); margin:0 .5rem; opacity:0.8; }
+  @media (max-width: 749px) {
+    .scrolling-text {
+      padding-block: 8px !important;
+    }
+    .marquee-item {
+      font-size: 11px !important;
+      padding: 0 0.75rem !important;
+    }
+  }
 </style>
 
 {% schema %}

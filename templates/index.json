@@ -52,9 +52,33 @@
             "overlay_opacity": 50,
             "content_alignment": "right"
           }
+        },
+        "slide-5": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Care & Comfort",
+            "heading": "Premium 240 GSM Combed Cotton",
+            "subheading": "Every tee is built to retain its shape and drape through endless wash cycles.",
+            "cta_label": "Shop Basics",
+            "cta_link": "/collections/all",
+            "overlay_opacity": 45,
+            "content_alignment": "left"
+          }
+        },
+        "slide-6": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Designed in India",
+            "heading": "Streetwear Redefined",
+            "subheading": "Clean aesthetics, boxy fits, and bold graphics. Made for those who stand out.",
+            "cta_label": "Explore Drops",
+            "cta_link": "/collections/all",
+            "overlay_opacity": 50,
+            "content_alignment": "center"
+          }
         }
       },
-      "block_order": ["slide-1", "slide-2", "slide-3", "slide-4"],
+      "block_order": ["slide-1", "slide-2", "slide-3", "slide-4", "slide-5", "slide-6"],
       "settings": {
         "hero_height": 70,
         "content_alignment": "left",

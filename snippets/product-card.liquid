@@ -89,7 +89,11 @@
 
   <div class="product-card__info">
     {%- if settings.show_vendor -%}
-      <p class="product-card__vendor">{{ product.vendor }}</p>
+      {%- assign display_vendor = product.vendor -%}
+      {%- if display_vendor == blank or display_vendor contains 'tokiyo' or display_vendor contains 'theme' or display_vendor contains 'shopify' -%}
+        {%- assign display_vendor = 'TOKIYO LIFESTYLE' -%}
+      {%- endif -%}
+      <p class="product-card__vendor">{{ display_vendor }}</p>
     {%- endif -%}
     <h3 class="product-card__title">
       <a href="{{ product.url }}">{{ product.title }}</a>

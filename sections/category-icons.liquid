@@ -433,9 +433,14 @@
   /* ═══ Universe Container ═══ */
   .catg-universe {
     position: relative;
-    padding: clamp(3rem, 6vw, 5rem) 0;
+    padding: 1rem 0 2rem 0;
     background: #FFFFFF;
     overflow: hidden;
+  }
+  @media (max-width: 749px) {
+    .catg-universe {
+      padding: 0.25rem 0 1rem 0 !important;
+    }
   }
   .catg-universe__particles {
     position: absolute;
