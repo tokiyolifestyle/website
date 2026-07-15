@@ -12,15 +12,15 @@
   <div class="page-width">
     {%- comment -%} Section Header with animated line {%- endcomment -%}
     <div class="catg-universe__header">
-      <p class="text-eyebrow animate-on-scroll fade-up">{{ section.settings.eyebrow | default: 'Explore' }}</p>
-      <h2 class="catg-universe__title animate-on-scroll fade-up">
+      <p class="text-eyebrow">{{ section.settings.eyebrow | default: 'Explore' }}</p>
+      <h2 class="catg-universe__title">
         <span class="catg-universe__title-line" data-split-text>{{ section.settings.title | default: 'Shop by Category' }}</span>
       </h2>
-      <div class="catg-universe__title-underline animate-on-scroll fade-up"></div>
+      <div class="catg-universe__title-underline"></div>
     </div>
 
     {%- comment -%} ═══ Quick Icon Strip (LimeRoad style) ═══ {%- endcomment -%}
-    <div class="catg-quickstrip animate-on-scroll fade-up" data-quickstrip>
+    <div class="catg-quickstrip" data-quickstrip>
       <div class="catg-quickstrip__track">
         {%- for block in section.blocks -%}
           {%- if block.settings.show_in_strip -%}
@@ -76,7 +76,7 @@
     </div>
  
     {%- comment -%} ═══ Gender Tabs — Futuristic pill style ═══ {%- endcomment -%}
-    <div class="catg-universe__tabs animate-on-scroll fade-up" role="tablist">
+    <div class="catg-universe__tabs" role="tablist">
       <div class="catg-universe__tabs-bg" data-tab-slider></div>
       <button class="catg-universe__tab is-active" role="tab" aria-selected="true" data-catg-tab="men" id="utab-men">
         <span class="catg-universe__tab-text">MEN'S</span>

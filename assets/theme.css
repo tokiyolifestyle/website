@@ -28,8 +28,8 @@ body, p, li, label, input, textarea, select { font-size: 0.9375rem; color: var(-
   margin-bottom: 0.75rem;
 }
 
-/* ---- Section Spacing ---- */
-section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
+/* ---- Section Spacing — default 0, each section controls its own padding ---- */
+section[class*="section-"] { padding-block: 0; }
 
 /* ---- Buttons (Zara / Snitch Clean Style) ---- */
 .button {
@@ -241,30 +241,32 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
   .product-grid--3, .product-grid--4, .product-grid--5 { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ---- Site Header (Clean White Glass) ---- */
+/* ---- Site Header (Clean White, Compact) ---- */
 .site-header {
-  background: rgba(250, 250, 249, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #FFFFFF;
   position: relative;
   z-index: 30;
-  border-bottom: 1px solid rgba(12, 12, 14, 0.04);
+  border-bottom: 1px solid rgba(12, 12, 14, 0.08);
   transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  /* Hard cap on header height */
+  max-height: 70px;
 }
 .site-header--sticky { position: sticky; top: 0; }
 .site-header.is-hidden { transform: translateY(-100%); pointer-events: none; }
 .site-header.is-scrolled {
-  background: rgba(250, 250, 249, 0.92);
-  box-shadow: 0 8px 30px rgba(12, 12, 14, 0.04);
+  background: #FFFFFF;
+  box-shadow: 0 4px 20px rgba(12, 12, 14, 0.06);
 }
 .site-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  transition: padding-top 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding-bottom 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding-top: 0.4rem !important;
+  padding-bottom: 0.4rem !important;
+  min-height: 0 !important;
+  max-height: 68px !important;
+  overflow: hidden;
 }
 .site-header.is-scrolled .site-header__inner {
   padding-top: 0.3rem;
@@ -286,14 +288,15 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 .site-header__logo-link img,
 .header__logo-img {
   display: block;
-  max-height: 65px;
+  max-height: 52px !important;  /* Compact — was 65px */
   width: auto;
-  mix-blend-mode: multiply !important;
+  mix-blend-mode: multiply;
 }
 .logo-pagoda-svg {
-  height: 100px;
-  width: auto;
-  display: block;
+  height: 0;          /* Hidden — use JPG logo only */
+  width: 0;
+  display: none !important;
+  overflow: hidden;
 }
 .site-header__logo-text {
   display: flex;
@@ -860,9 +863,31 @@ section[class*="section-"] {
   z-index: 1000000 !important;
 }
 
+/* ---- CRITICAL: Announcement bar section wrapper — kill default Shopify padding ---- */
+#shopify-section-announcement-bar,
+.shopify-section-group-header-group .shopify-section:first-child {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+/* Hard-cap the entire header group height */
+.shopify-section-group-header-group {
+  line-height: 0;
+}
+.shopify-section-group-header-group .shopify-section {
+  line-height: normal;
+}
+/* Announcement bar section tag itself */
+.section-announcement {
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block;
+  line-height: 1;
+}
+
 /* ================================================================
    COMPREHENSIVE OPTIMIZATION — FINAL VERSION
    ================================================================ */
+
 
 /* ══════════════════════════════════════════════════
    1. KILL ALL INTER-SECTION GAPS

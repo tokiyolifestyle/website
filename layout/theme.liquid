@@ -210,7 +210,25 @@
     }
     @media (max-width: 749px) {
       .tokiyo-mascot {
-        display: none !important;
+        /* Mobile: fixed at bottom-left, smaller size, no wandering */
+        width: 56px !important;
+        bottom: 80px !important;
+        left: 14px !important;
+        top: auto !important;
+        display: block !important;
+        position: fixed !important;
+      }
+      .tokiyo-mascot__bubble {
+        font-size: 9px !important;
+        padding: 4px 8px !important;
+        white-space: normal !important;
+        max-width: 120px !important;
+        text-align: center !important;
+        left: 50% !important;
+        transform: translateX(-50%) scale(0) !important;
+      }
+      .tokiyo-mascot.has-bubble .tokiyo-mascot__bubble {
+        transform: translateX(-50%) scale(1) !important;
       }
     }
   </style>
@@ -227,7 +245,9 @@
       let lastY = window.innerHeight - 200;
       
       mascot.style.left = lastX + 'px';
-      mascot.style.top = lastY + 'px';
+      if (window.innerWidth >= 750) {
+        mascot.style.top = lastY + 'px';
+      }
       mascot.style.display = 'block';
 
       const quotes = [
@@ -253,7 +273,7 @@
       }, 2500);
 
       function wander() {
-        if (window.innerWidth < 750) return;
+        if (window.innerWidth < 750) return; /* Mobile: stays fixed, no wander */
         if (mascot.matches(':hover')) return;
 
         const padding = 100;
