@@ -337,7 +337,12 @@
     border: none;
     border-right: 1px solid var(--color-border, rgba(0,0,0,0.06));
     padding-right: 2rem;
-    overflow: hidden;
+  }
+  @media(min-width: 990px) {
+    .collection-filters {
+      transform: none !important;
+      visibility: visible !important;
+    }
   }
   @media(max-width: 989px){
     .collection-filters {
@@ -351,9 +356,11 @@
       transition: transform .3s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility .3s;
       visibility: hidden;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       border-radius: 0;
       background: #FFFFFF;
       padding: 1.5rem;
+      padding-bottom: 6rem;
       border-right: none;
       box-shadow: 10px 0 30px rgba(0,0,0,0.05);
     }
