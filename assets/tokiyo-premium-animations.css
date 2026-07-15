@@ -211,7 +211,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="search"]:focus,
 /* MASCOT */
 .tokiyo-mascot {
   filter: drop-shadow(0 8px 16px rgba(0,0,0,0.18)) drop-shadow(0 0 8px rgba(255,0,0,0.1)) !important;
-  transition: filter 0.3s ease !important;
+  transition: left 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s ease, filter 0.3s ease !important;
 }
 .tokiyo-mascot:hover { filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25)) drop-shadow(0 0 16px rgba(255,0,0,0.3)) !important; }
 
