@@ -831,19 +831,27 @@ section[class*="section-"] {
 }
 
 /* --- Ticker & Promo Banner Flush Join --- */
-#shopify-section-scrolling-text-1 {
-  padding-bottom: 0 !important;
+#shopify-section-scrolling-text-1,
+#shopify-section-inaugural-offer-banner,
+.section-scrolling-text,
+.section-inaugural-offer-banner {
+  padding: 0 !important;
+  margin: 0 !important;
+  background-color: #0A0A0A !important;
 }
-#shopify-section-inaugural-offer-banner {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-#shopify-section-scrolling-text-1 .scrolling-text {
-  margin-bottom: 0 !important;
-}
+#shopify-section-scrolling-text-1 .scrolling-text,
 #shopify-section-inaugural-offer-banner .inaugural-banner {
-  margin-top: 0 !important;
+  margin: 0 !important;
+  border: none !important;
 }
+#shopify-section-announcement-bar:not(:has(.announcement-bar)),
+.section-announcement:not(:has(.announcement-bar)) {
+  display: none !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 
 /* --- Stacking Context Drawer Overrides --- */
 #shopify-section-header-group,
@@ -1383,7 +1391,7 @@ html, body { padding-bottom: 0 !important; }
     font-size: 0.65rem !important;
   }
   .catg-universe__tabs {
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1rem !important;
   }
   .catg-card-3d__title {
     font-size: 0.75rem !important;
