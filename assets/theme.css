@@ -454,22 +454,29 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 }
 .mobile-nav__overlay.is-open { opacity: 1; visibility: visible; }
 
-/* ---- Announcement Bar ---- */
+/* ---- Announcement Bar (Slim Top Ticker) ---- */
 .announcement-bar {
   background: var(--color-primary, #111111); color: #FFFFFF;
-  font-size: 0.75rem; font-weight: 600;
+  font-size: 0.7rem; font-weight: 600;
   letter-spacing: 0.08em; text-transform: uppercase;
-  overflow: hidden; padding: 0.6rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  overflow: hidden;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  line-height: 1;
+  /* Critical: prevent it from being huge */
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 36px !important;
 }
 .announcement-bar__track {
   display: flex; width: max-content;
-  animation: marquee 80s linear infinite;
+  animation: marquee 60s linear infinite;
+  align-items: center;
 }
 .announcement-bar__track:hover { animation-play-state: paused; }
-.announcement-bar__item { display: inline-flex; align-items: center; white-space: nowrap; padding: 0 3rem; }
-.announcement-bar__item p { margin: 0; }
-.announcement-bar__sep { margin: 0 1.5rem; opacity: 0.4; }
+.announcement-bar__item { display: inline-flex; align-items: center; white-space: nowrap; padding: 0 2rem; }
+.announcement-bar__item p { margin: 0; line-height: 1; }
+.announcement-bar__sep { margin: 0 1rem; opacity: 0.4; }
 
 /* ---- Footer (Premium Black — Brand Colors: Black/White/Red) ---- */
 .site-footer {
@@ -543,6 +550,16 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 .site-footer__legal { display: flex; gap: 1rem; }
 .site-footer__legal a { color: rgba(255,255,255,0.25); }
 .site-footer__legal a:hover { color: var(--color-accent, #ff0000); }
+.site-footer__address {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.78rem;
+  margin-top: 0.65rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  line-height: 1.5;
+}
+
 
 /* ---- Misc Utility ---- */
 .glass {

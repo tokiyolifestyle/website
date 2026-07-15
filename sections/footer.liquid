@@ -84,6 +84,7 @@
         {%- endif -%}
       {%- endfor -%}
 
+
       <div class="site-footer__column site-footer__contact">
         <h3>{{ section.settings.contact_title | default: 'Get in Touch' }}</h3>
         {%- if section.settings.contact_email != blank -%}
@@ -92,6 +93,11 @@
         {%- if section.settings.contact_phone != blank -%}
           <p><a href="tel:{{ section.settings.contact_phone }}">{{ section.settings.contact_phone }}</a></p>
         {%- endif -%}
+
+        <p class="site-footer__address">
+          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:4px;opacity:0.6;flex-shrink:0;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Head Office: Bhubaneswar, Odisha, India
+        </p>
 
         {%- if settings.enable_currency_selector or settings.enable_language_selector -%}
           <div class="site-footer__localization">
@@ -117,6 +123,7 @@
           </div>
         {%- endif -%}
       </div>
+
     </div>
 
     {%- if section.settings.show_payment_icons -%}
