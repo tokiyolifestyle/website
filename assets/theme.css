@@ -436,10 +436,11 @@ section[class*="section-"] { padding-block: 0; }
   width: min(340px, 85vw); height: 100%;
   background: #FFFFFF; z-index: 100000 !important;
   transform: translateX(-100%);
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility 0.3s;
+  visibility: hidden;
   overflow-y: auto;
 }
-.mobile-nav.is-open { transform: translateX(0); }
+.mobile-nav.is-open { transform: translateX(0); visibility: visible; }
 .mobile-nav__list { list-style: none; padding: 0; margin: 0; }
 .mobile-nav__header { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; border-bottom: 1px solid var(--color-border); color: var(--color-primary); }
 .mobile-nav__title { color: var(--color-primary); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 1.1rem; }
