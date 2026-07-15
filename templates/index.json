@@ -228,10 +228,10 @@
     }
   },
   "order": [
+    "hero-banner",
+    "category-icons",
     "scrolling-text-1",
     "inaugural-offer-banner",
-    "category-icons",
-    "hero-banner",
     "featured-collections",
     "trending-products",
     "scrolling-text-2",
@@ -240,3 +240,4 @@
     "newsletter"
   ]
 }
+

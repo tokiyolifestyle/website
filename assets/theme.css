@@ -1,21 +1,13 @@
-/* ---- Sticky Footer Flex Layout ---- */
+/* ---- Layout: No white gap, flush footer ---- */
 html, body {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 body {
-  display: flex;
-  flex-direction: column;
+  display: block; /* was flex - caused white gap via margin-top:auto on footer */
   min-height: 100vh;
-}
-#MainContent {
-  flex: 1 0 auto;
-}
-.shopify-section-group-header-group,
-.shopify-section-group-footer-group {
-  flex-shrink: 0;
-}
-.shopify-section-group-footer-group {
-  margin-top: auto !important;
+  overflow-x: hidden;
 }
 
 /* ---- Typography Scale ---- */
@@ -479,114 +471,77 @@ section[class*="section-"] { padding-block: var(--spacing-sections, 64px); }
 .announcement-bar__item p { margin: 0; }
 .announcement-bar__sep { margin: 0 1.5rem; opacity: 0.4; }
 
-/* ---- Footer (Muted Stone Japanese Minimal) ---- */
+/* ---- Footer (Premium Black — Brand Colors: Black/White/Red) ---- */
 .site-footer {
-  background: #EAE6DF;
-  color: #555552;
+  background: #0A0A0A;
+  color: rgba(255,255,255,0.6);
   margin-top: 0;
-  border-top: 1px solid rgba(12, 12, 14, 0.06);
+  border-top: 2px solid var(--color-accent, #ff0000);
 }
 .site-footer__newsletter {
-  background: #E0DBD4;
-  color: #111111;
-  padding: 2.5rem 0;
-  border-bottom: 1px solid rgba(12, 12, 14, 0.05);
+  background: #111111;
+  color: #FFFFFF;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(255,0,0,0.2);
 }
 .site-footer__newsletter-inner { display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
-.site-footer__newsletter h2 { margin-bottom: 0.25rem; color: #111111; }
-.site-footer__newsletter p { color: #555552; }
+.site-footer__newsletter h2 { margin-bottom: 0.25rem; color: #FFFFFF; font-size: clamp(1rem, 2vw, 1.35rem); }
+.site-footer__newsletter p { color: rgba(255,255,255,0.55); font-size: 0.875rem; }
 .newsletter-form__row { display: flex; gap: 0; min-width: 320px; }
 .newsletter-form__row input {
-  flex: 1; padding: 0.9rem 1.25rem;
-  border: 1px solid rgba(12, 12, 14, 0.12);
-  background: #EAE6DF;
-  color: #111111;
+  flex: 1; padding: 0.75rem 1.1rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.05);
+  color: #FFFFFF;
   font-size: 0.875rem;
 }
-.newsletter-form__row input::placeholder { color: rgba(12, 12, 14, 0.4); }
+.newsletter-form__row input::placeholder { color: rgba(255,255,255,0.3); }
 .newsletter-form__row input:focus { outline: none; border-color: var(--color-accent, #ff0000); }
-.newsletter-form__row .button { border-radius: 0; background: #111111; color: #FFFFFF; }
-.newsletter-form__row .button:hover { background: var(--color-accent, #ff0000); color: #111111; }
-.site-footer__main { padding-block: 4.5rem 2.5rem; }
-.site-footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 3rem; }
-@media (max-width: 989px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 600px) { .site-footer__grid { grid-template-columns: 1fr; } }
-.site-footer__column h3 { color: #FFFFFF; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.5rem; font-weight: 700; }
-.site-footer__column li { margin-bottom: 0.75rem; }
-.site-footer__column a { color: rgba(255,255,255,0.5); transition: color 0.25s ease; font-size: 0.875rem; }
+.newsletter-form__row .button { border-radius: 0; background: var(--color-accent, #ff0000); color: #FFFFFF; font-weight: 700; }
+.newsletter-form__row .button:hover { background: #FFFFFF; color: #000000; }
+.site-footer__main { padding-block: 2.5rem 1.5rem; }
+.site-footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 2rem; }
+@media (max-width: 989px) { .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; } }
+@media (max-width: 600px) { .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 1rem; } }
+.site-footer__column h3 { color: #FFFFFF; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.85rem; font-weight: 700; }
+.site-footer__column li { margin-bottom: 0.5rem; }
+.site-footer__column a { color: rgba(255,255,255,0.45); transition: color 0.25s ease; font-size: 0.8rem; }
 .site-footer__column a:hover { color: var(--color-accent, #ff0000); }
-.site-footer__brand-desc { color: rgba(255,255,255,0.45); font-size: 0.875rem; margin: 1.25rem 0; line-height: 1.8; }
+.site-footer__brand-desc { color: rgba(255,255,255,0.4); font-size: 0.8rem; margin: 0.75rem 0; line-height: 1.7; }
 .site-footer__logo-link {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
 }
-.site-footer__logo-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  line-height: 1.1;
-}
-.site-footer__logo-text .logo-tokiyo {
-  color: #FFFFFF !important;
-  font-family: 'Playfair Display', 'Didot', 'Georgia', serif;
-  font-size: 1.4rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.site-footer__logo-text .logo-tokiyo .red-o {
-  color: var(--color-accent, #ff0000) !important;
-}
-.site-footer__logo-text .logo-lifestyle {
-  color: rgba(255,255,255,0.7) !important;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.48rem;
-  letter-spacing: 0.32em;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-top: 1px;
-}
-.site-footer__logo-text .logo-lifestyle::before,
-.site-footer__logo-text .logo-lifestyle::after {
-  content: "";
-  display: inline-block;
-  width: 10px;
-  height: 1px;
-  background-color: rgba(255,255,255,0.5) !important;
-  vertical-align: middle;
-  margin: 0 6px;
-  opacity: 0.7;
-}
-.site-footer .bg-fill { fill: #FFFFFF !important; stroke: #FFFFFF !important; }
-.site-footer .window-fill { fill: #111111 !important; }
-.site-footer .logo-pagoda-svg {
-  height: 38px;
+.site-footer .header__logo-img {
+  max-height: 55px !important;
   width: auto;
-  display: block;
-  margin-bottom: 2px;
+  mix-blend-mode: normal !important; /* white logo on black bg — no multiply */
+  filter: brightness(0) invert(1); /* Make logo white on dark bg */
 }
-.site-footer__social { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+.site-footer__social { display: flex; gap: 0.5rem; margin-top: 1rem; }
 .site-footer__social a {
-  width: 36px; height: 36px;
-  border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center;
-  font-size: 0.65rem; font-weight: 700; color: rgba(255,255,255,0.6);
+  width: 32px; height: 32px;
+  border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; font-weight: 700; color: rgba(255,255,255,0.5);
   transition: all 0.3s ease;
+  text-decoration: none;
 }
-.site-footer__social a:hover { background: var(--color-accent, #ff0000); border-color: var(--color-accent, #ff0000); color: var(--color-primary, #0C0C0E); }
+.site-footer__social a:hover { background: var(--color-accent, #ff0000); border-color: var(--color-accent, #ff0000); color: #FFFFFF; }
 .site-footer__localization { display: flex; gap: 0.75rem; margin-top: 1rem; }
 .site-footer__localization select { background: rgba(255,255,255,0.05); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.1); padding: 0.5rem; }
-.site-footer__payment { display: flex; gap: 0.75rem; flex-wrap: wrap; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 2rem; }
-.payment-icon { height: 22px; width: auto; opacity: 0.5; }
+.site-footer__payment { display: flex; gap: 0.5rem; flex-wrap: wrap; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 1rem; }
+.payment-icon { height: 20px; width: auto; opacity: 0.45; }
 .site-footer__bottom {
   display: flex; justify-content: space-between; align-items: center;
-  padding-top: 2rem; flex-wrap: wrap; gap: 1rem;
-  font-size: 0.75rem; color: rgba(255,255,255,0.35);
-  border-top: 1px solid rgba(255,255,255,0.08);
-  margin-top: 2rem;
+  padding-top: 1rem; flex-wrap: wrap; gap: 0.5rem;
+  font-size: 0.7rem; color: rgba(255,255,255,0.25);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: 1rem;
 }
-.site-footer__legal { display: flex; gap: 1.25rem; }
+.site-footer__legal { display: flex; gap: 1rem; }
+.site-footer__legal a { color: rgba(255,255,255,0.25); }
 .site-footer__legal a:hover { color: var(--color-accent, #ff0000); }
 
 /* ---- Misc Utility ---- */
@@ -889,8 +844,291 @@ section[class*="section-"] {
 }
 
 /* ================================================================
-   COMPREHENSIVE MOBILE & DESKTOP OPTIMISATION FIX
+   COMPREHENSIVE OPTIMIZATION — FINAL VERSION
    ================================================================ */
+
+/* ══════════════════════════════════════════════════
+   1. KILL ALL INTER-SECTION GAPS
+   ══════════════════════════════════════════════════ */
+.shopify-section,
+.shopify-section > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+section[class*="section-"] {
+  padding-block: 0 !important;   /* Kill Shopify default section padding */
+}
+/* Individual sections get only their own internal padding — no extra gaps */
+.section-hero-banner { padding: 0 !important; }
+.section-scrolling-text { padding: 0 !important; }
+.section-announcement-bar { padding: 0 !important; }
+
+/* ══════════════════════════════════════════════════
+   2. ANIMATE-ON-SCROLL — Force visible above fold
+   ══════════════════════════════════════════════════ */
+#shopify-section-category-icons .animate-on-scroll,
+#shopify-section-category-icons .stagger-children,
+#shopify-section-hero-banner .animate-on-scroll,
+#shopify-section-scrolling-text-1 .animate-on-scroll,
+#shopify-section-inaugural-offer-banner .animate-on-scroll {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  clip-path: none !important;
+}
+#shopify-section-category-icons .stagger-children > * {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ══════════════════════════════════════════════════
+   3. WHITE GAP FIX
+   ══════════════════════════════════════════════════ */
+.shopify-section-group-footer-group { margin-top: 0 !important; }
+.site-footer { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+
+/* ══════════════════════════════════════════════════
+   4. HERO BANNER — Good proportions on all screens
+   ══════════════════════════════════════════════════ */
+/* Desktop: natural 65vh (set by section setting) */
+@media (min-width: 990px) {
+  .hero-carousel {
+    height: var(--hero-height, 65vh) !important;
+    min-height: 420px !important;
+    max-height: 90vh !important;
+  }
+}
+/* Tablet */
+@media (min-width: 750px) and (max-width: 989px) {
+  .hero-carousel {
+    height: 55vw !important;
+    min-height: 340px !important;
+    max-height: 520px !important;
+  }
+  .hero-carousel__img {
+    object-position: center top !important;
+  }
+}
+/* Mobile */
+@media (max-width: 749px) {
+  .hero-carousel {
+    height: 60vw !important;
+    min-height: 260px !important;
+    max-height: 400px !important;
+  }
+  .hero-carousel__img {
+    object-fit: cover !important;
+    object-position: center top !important;
+  }
+  .hero-carousel__heading {
+    font-size: clamp(1.3rem, 5.5vw, 2rem) !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .hero-carousel__subheading {
+    font-size: 0.8rem !important;
+    margin-bottom: 1rem !important;
+    -webkit-line-clamp: 2 !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+  .hero-carousel__content {
+    padding-bottom: 1.25rem !important;
+  }
+  .hero-carousel__ctas .button {
+    padding: 0.6rem 1rem !important;
+    font-size: 0.6rem !important;
+    letter-spacing: 0.1em !important;
+  }
+  /* Dots smaller */
+  .hero-carousel__dot {
+    width: 8px !important;
+    height: 8px !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   5. MOBILE HEADER — Compact & functional
+   ══════════════════════════════════════════════════ */
+@media (max-width: 749px) {
+  .site-header__inner {
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+    gap: 0.4rem !important;
+    min-height: 52px !important;
+  }
+  /* Logo centered */
+  .site-header__logo {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .site-header__logo-link img,
+  .header__logo-img {
+    max-height: 42px !important;
+    width: auto !important;
+  }
+  /* Hide pagoda SVG and text-based logo on mobile — jpg logo only */
+  .logo-pagoda-svg,
+  .site-header__logo-text { display: none !important; }
+
+  /* Hamburger button — tappable area */
+  .site-header__mobile-toggle {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    padding: 8px !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+    z-index: 10 !important;
+    cursor: pointer !important;
+  }
+  .site-header__mobile-toggle svg {
+    width: 22px !important;
+    height: 22px !important;
+    pointer-events: none !important;
+  }
+
+  /* Right icons area */
+  .site-header__icons {
+    gap: 0.25rem !important;
+    flex-shrink: 0 !important;
+  }
+  .site-header__icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    padding: 4px !important;
+  }
+
+  /* Mobile nav drawer — highest z-index */
+  .mobile-nav {
+    z-index: 999999 !important;
+    top: 0 !important;
+  }
+  .mobile-nav__overlay {
+    z-index: 999998 !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   6. MOBILE FOOTER — Compact 2-column
+   ══════════════════════════════════════════════════ */
+@media (max-width: 749px) {
+  .site-footer__main {
+    padding-block: 1.75rem 1.25rem !important;
+  }
+  .site-footer__grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1rem !important;
+  }
+  .site-footer__brand {
+    grid-column: 1 / -1; /* Brand + logo spans full width */
+  }
+  .site-footer__column h3 {
+    font-size: 0.65rem !important;
+    margin-bottom: 0.6rem !important;
+    letter-spacing: 0.12em !important;
+  }
+  .site-footer__column li { margin-bottom: 0.3rem !important; }
+  .site-footer__column a { font-size: 0.75rem !important; }
+  .site-footer__brand-desc {
+    font-size: 0.75rem !important;
+    margin: 0.5rem 0 !important;
+    line-height: 1.5 !important;
+  }
+  .site-footer__social { margin-top: 0.6rem !important; gap: 0.4rem !important; }
+  .site-footer__social a { width: 28px !important; height: 28px !important; font-size: 0.55rem !important; }
+  .site-footer__bottom {
+    flex-direction: column !important;
+    gap: 0.4rem !important;
+    text-align: center !important;
+    padding-top: 0.75rem !important;
+    margin-top: 0.75rem !important;
+    font-size: 0.65rem !important;
+  }
+  .site-footer__legal { justify-content: center !important; flex-wrap: wrap !important; gap: 0.75rem !important; }
+  .site-footer__newsletter {
+    padding: 1.25rem 0 !important;
+  }
+  .site-footer__newsletter-inner {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+  .newsletter-form__row { min-width: 0 !important; width: 100% !important; }
+  .site-footer__payment { padding-top: 0.75rem !important; margin-top: 0.75rem !important; }
+}
+
+/* Desktop footer tighten */
+@media (min-width: 750px) {
+  .site-footer__main { padding-block: 2.5rem 1.5rem !important; }
+  .site-footer__grid { gap: 1.75rem !important; }
+  .site-footer__bottom { padding-top: 1rem !important; margin-top: 1rem !important; }
+}
+
+/* ══════════════════════════════════════════════════
+   7. CATEGORY ICONS — Compact on mobile
+   ══════════════════════════════════════════════════ */
+@media (max-width: 749px) {
+  .catg-universe { padding: 0.75rem 0 1rem !important; }
+  .catg-universe__header { margin-bottom: 0.75rem !important; }
+  .catg-universe__header h2 { font-size: 1.1rem !important; }
+  .catg-quickstrip__circle { width: 48px !important; height: 48px !important; }
+  .catg-quickstrip__label { font-size: 0.5rem !important; }
+  .catg-universe__tabs { margin-bottom: 1rem !important; gap: 0.4rem !important; }
+  .catg-universe__tab { padding: 0.5rem 0.9rem !important; font-size: 0.6rem !important; }
+  .catg-card-3d__title { font-size: 0.7rem !important; }
+}
+
+/* ══════════════════════════════════════════════════
+   8. SCROLLING TICKER & OFFER BANNER — Compact
+   ══════════════════════════════════════════════════ */
+.scrolling-text,
+.section-scrolling-text > .scrolling-text {
+  padding-block: 0 !important;
+  margin: 0 !important;
+}
+.inaugural-banner,
+.section-inaugural-offer-banner > .inaugural-banner {
+  margin: 0 !important;
+}
+@media (max-width: 749px) {
+  .announcement-bar { padding: 0.35rem 0 !important; font-size: 0.6rem !important; }
+  .scrolling-text { padding: 0 !important; }
+}
+
+/* ══════════════════════════════════════════════════
+   9. UTILITIES
+   ══════════════════════════════════════════════════ */
+@media (max-width: 749px) {
+  .hide-mobile { display: none !important; }
+}
+@media (min-width: 750px) {
+  .hide-desktop { display: none !important; }
+}
+
+/* ══════════════════════════════════════════════════
+   10. COLLECTION PAGE PERFORMANCE
+   ══════════════════════════════════════════════════ */
+.product-card__media img {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 300px;
+}
+.collection-filters { contain: layout style; }
+
+/* ══════════════════════════════════════════════════
+   11. WHATSAPP WIDGET
+   ══════════════════════════════════════════════════ */
+@media (max-width: 749px) {
+  .whatsapp-widget {
+    bottom: 16px !important;
+    right: 14px !important;
+    width: 46px !important;
+    height: 46px !important;
+  }
+}
+
 
 /* --- Fix: animate-on-scroll elements above the fold always visible --- */
 /* Category icons + promo banners + scrolling text are at the TOP of page now,
