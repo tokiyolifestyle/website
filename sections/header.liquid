@@ -7,20 +7,11 @@
 
     <div class="site-header__logo">
       <a href="{{ routes.root_url }}" class="site-header__logo-link">
-        {%- if settings.logo != blank -%}
-          {{ settings.logo | image_url: width: settings.logo_width | image_tag:
-            loading: 'eager',
-            alt: shop.name,
-            width: settings.logo_width,
-            class: 'header__logo-img'
-          }}
-        {%- else -%}
           <img src="{{ 'tokiyo-logo.jpeg' | asset_url }}" 
                loading="eager" 
                alt="{{ shop.name }}" 
                width="{{ settings.logo_width | default: 180 }}" 
                class="header__logo-img">
-        {%- endif -%}
       </a>
     </div>
 
@@ -44,6 +35,9 @@
         <li class="site-header__nav-item">
           <a href="/pages/bulk-order" class="site-header__nav-link{% if request.path == '/pages/bulk-order' %} is-active{% endif %}">Bulk Order</a>
         </li>
+        <li class="site-header__nav-item">
+          <a href="/blogs/news" class="site-header__nav-link{% if request.path contains '/blogs/' %} is-active{% endif %}">Blogs</a>
+        </li>
       </ul>
     </nav>
 
@@ -54,12 +48,12 @@
         </button>
       {%- endif -%}
 
-      <a href="{{ routes.account_url }}" class="site-header__icon-btn" aria-label="{{ 'sections.header.account' | t }}">
+      <a href="{{ routes.account_url }}" class="site-header__icon-btn hide-mobile" aria-label="{{ 'sections.header.account' | t }}">
         {% render 'icon-account' %}
       </a>
 
       {%- if settings.enable_wishlist -%}
-        <a href="{{ routes.root_url }}pages/wishlist" class="site-header__icon-btn" data-wishlist-link aria-label="{{ 'sections.header.wishlist' | t }}">
+        <a href="{{ routes.root_url }}pages/wishlist" class="site-header__icon-btn hide-mobile" data-wishlist-link aria-label="{{ 'sections.header.wishlist' | t }}">
           {% render 'icon-heart' %}
           <span class="site-header__icon-count" data-wishlist-count>0</span>
         </a>
@@ -103,6 +97,17 @@
     <li class="mobile-nav__item">
       <a href="/pages/bulk-order" class="mobile-nav__link">Bulk Order</a>
     </li>
+    <li class="mobile-nav__item">
+      <a href="/blogs/news" class="mobile-nav__link">Blogs</a>
+    </li>
+    <li class="mobile-nav__item">
+      <a href="{{ routes.account_url }}" class="mobile-nav__link">My Account</a>
+    </li>
+    {%- if settings.enable_wishlist -%}
+      <li class="mobile-nav__item">
+        <a href="{{ routes.root_url }}pages/wishlist" class="mobile-nav__link">My Wishlist</a>
+      </li>
+    {%- endif -%}
   </ul>
 </div>
 <div class="mobile-nav__overlay" data-mobile-nav-overlay></div>

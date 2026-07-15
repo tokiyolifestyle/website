@@ -851,7 +851,15 @@ section[class*="section-"] {
 @media (max-width: 989px) {
   .site-header__logo-link img,
   .header__logo-img {
-    max-height: 50px !important;
+    max-height: 70px !important;
+  }
+  .site-header__logo {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
+  .hide-mobile {
+    display: none !important;
   }
   .site-header {
     position: sticky !important;

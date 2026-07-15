@@ -139,6 +139,75 @@
 
   <a href="https://wa.me/917788847469" class="whatsapp-widget" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
     <span class="whatsapp-widget__icon">
+  </script>
+
+  <style>
+    :root{
+      --color-primary: {{ settings.color_primary | default: '#000000' }};
+      --color-secondary: {{ settings.color_secondary | default: '#FFFFFF' }};
+      --color-accent: {{ settings.color_accent | default: '#ff0000' }};
+      --color-background: {{ settings.color_background | default: '#FFFFFF' }};
+      --color-success: {{ settings.color_success | default: '#2E7D32' }};
+      --color-error: {{ settings.color_error | default: '#C62828' }};
+      --color-surface: #FFFFFF;
+      --color-surface-raised: #FFFFFF;
+      --color-border: rgba(0,0,0,0.08);
+      --color-text-muted: #767674;
+      --font-heading: {% if settings.type_header_font == 'playfair_display' %}'Playfair Display', serif{% elsif settings.type_header_font == 'outfit' %}'Outfit', sans-serif{% else %}'Poppins', sans-serif{% endif %};
+      --font-body: {% if settings.type_body_font == 'plus_jakarta_sans' %}'Plus Jakarta Sans', sans-serif{% else %}'Inter', sans-serif{% endif %};
+      --card-radius: {{ settings.card_border_radius | default: 0 }}px;
+      --button-radius: {{ settings.button_border_radius | default: 0 }}px;
+      --page-width: {{ settings.page_width | default: 1400 }}px;
+      --spacing-sections: {{ settings.spacing_sections | default: 64 }}px;
+      --grid-gutter: {{ settings.grid_gutter | default: 24 }}px;
+    }
+  </style>
+
+  {{ settings.custom_css }}
+  {% render 'seo' %}
+  {%- if template == 'list-collections' -%}
+    <script>window.location.href = '/collections/all';</script>
+  {%- endif -%}
+</head>
+
+<body class="template-{{ request.page_type | handle }}">
+
+  {%- comment -%} Scroll Progress Bar {%- endcomment -%}
+  <div data-scroll-progress style="width:0%;"></div>
+
+  <a class="skip-to-content-link visually-hidden" href="#MainContent">
+    {{ 'accessibility.skip_to_content' | t }}
+  </a>
+
+  {% sections 'header-group' %}
+
+  <main id="MainContent" class="content-for-layout" role="main" tabindex="-1">
+    {%- if request.path contains 'bulk-order' or request.path contains 'b2b' -%}
+      {% section 'main-page-b2b' %}
+    {%- elsif request.path contains 'about-us' or request.path contains 'about' -%}
+      {% section 'main-page-about' %}
+    {%- else -%}
+      {{ content_for_layout }}
+    {%- endif -%}
+  </main>
+
+  {% sections 'footer-group' %}
+
+  {% section 'cart-drawer' %}
+  {% section 'search-drawer' %}
+  {% section 'quick-view-modal' %}
+  {% section 'popup-newsletter' %}
+
+  <button id="BackToTop" class="back-to-top" aria-label="{{ 'accessibility.back_to_top' | t }}">
+    {% render 'icon-arrow-up' %}
+  </button>
+
+  <div id="LoadingOverlay" class="loading-overlay" aria-hidden="true">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <a href="https://wa.me/917788847469" class="whatsapp-widget" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+    <span class="whatsapp-widget__icon">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 30px; height: 30px; fill: #FFFFFF; display: block;">
         <path d="M19.005 4.908A9.836 9.836 0 0 0 12.002 2c-5.46 0-9.902 4.45-9.905 9.92a9.905 9.905 0 0 0 1.5 5.214L2 22l5.002-1.317a9.882 9.882 0 0 0 4.996 1.336h.004c5.46 0 9.902-4.45 9.905-9.922a9.866 9.866 0 0 0-2.902-7.189zm-7.003 15.39a8.163 8.163 0 0 1-4.177-1.154l-.3-.178-3.109.817.828-3.036-.195-.312a8.188 8.188 0 0 1-1.258-4.321c.003-4.52 3.678-8.2 8.21-8.2a8.14 8.14 0 0 1 5.804 2.405 8.188 8.188 0 0 1 2.399 5.806c-.004 4.52-3.679 8.2-8.212 8.2zm4.51-6.177c-.247-.124-1.462-.722-1.688-.805-.226-.082-.39-.124-.553.124-.164.247-.635.805-.779.969-.144.164-.288.185-.535.062a6.74 6.74 0 0 1-1.986-1.226 7.42 7.42 0 0 1-1.374-1.714c-.144-.247-.015-.38.109-.503.112-.11.247-.288.37-.432.124-.144.164-.247.247-.412.083-.165.041-.31-.02-.433-.062-.124-.553-1.339-.757-1.833-.2-.48-.4-.412-.553-.412h-.473c-.165 0-.433.062-.66.309-.226.247-.864.845-.864 2.06 0 1.216.885 2.39 1.009 2.555.124.165 1.741 2.657 4.218 3.727.589.255 1.05.407 1.408.521.593.189 1.134.162 1.56.098.475-.072 1.462-.598 1.668-1.175.206-.577.206-1.072.144-1.175-.061-.103-.226-.165-.473-.288z"/>
       </svg>
@@ -211,8 +280,7 @@
     }
     @media (max-width: 749px) {
       .tokiyo-mascot {
-        width: 50px;
-        bottom: 140px;
+        display: none !important;
       }
     }
   </style>
@@ -225,7 +293,6 @@
       
       if (!mascot) return;
 
-      // Position mascot initially after resource load
       let lastX = 30;
       let lastY = window.innerHeight - 200;
       
@@ -251,30 +318,20 @@
         }, duration);
       }
 
-      // Initial quote
       setTimeout(() => {
         showBubble("Welcome to Tokiyo! ✦");
       }, 2500);
 
-      // Random wander pacing loop
       function wander() {
-        // Skip if hovered
+        if (window.innerWidth < 750) return;
         if (mascot.matches(':hover')) return;
 
         const padding = 100;
         const maxX = window.innerWidth - padding;
-        const maxY = window.innerHeight - padding;
-        
-        // Randomly pick spots, leaning toward bottom edge
         const nextX = Math.max(30, Math.random() * maxX);
         const nextY = Math.max(window.innerHeight - 280, Math.random() * (window.innerHeight - 100));
 
-        // Flip to face direction
-        if (nextX < lastX) {
-          img.style.transform = 'scaleX(-1)';
-        } else {
-          img.style.transform = 'scaleX(1)';
-        }
+        img.style.transform = (nextX < lastX) ? 'scaleX(-1)' : 'scaleX(1)';
 
         mascot.style.left = nextX + 'px';
         mascot.style.top = nextY + 'px';
@@ -282,26 +339,18 @@
         lastX = nextX;
         lastY = nextY;
 
-        // Occasional chat
         if (Math.random() < 0.3) {
           const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
           setTimeout(() => showBubble(randomQuote), 1200);
         }
       }
 
-      // Wander every 8.5 seconds
       setInterval(wander, 8500);
 
-      // Interactive Click events
       mascot.addEventListener('click', () => {
-        // 360 Spin trigger
         img.style.transform = img.style.transform.includes('scaleX(-1)') ? 'scaleX(-1) rotate(360deg)' : 'scaleX(1) rotate(360deg)';
-        
-        // Dynamic immediate quote
         const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
         showBubble(randomQuote);
-
-        // Immediate relocation hop
         setTimeout(wander, 1500);
       });
     });

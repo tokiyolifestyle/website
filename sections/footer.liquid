@@ -26,11 +26,6 @@
   <div class="site-footer__main page-width">
     <div class="site-footer__grid">
       <div class="site-footer__brand">
-        {%- if settings.logo != blank -%}
-          <a href="{{ routes.root_url }}" class="site-footer__logo-link">
-            {{ settings.logo | image_url: width: 160 | image_tag: loading: 'lazy', alt: shop.name, class: 'header__logo-img' }}
-          </a>
-        {%- else -%}
           <a href="{{ routes.root_url }}" class="site-footer__logo-link">
             <img src="{{ 'tokiyo-logo.jpeg' | asset_url }}" 
                  loading="lazy" 
@@ -38,7 +33,6 @@
                  width="160" 
                  class="header__logo-img">
           </a>
-        {%- endif -%}
         {%- if section.settings.brand_description != blank -%}
           <p class="site-footer__brand-desc">{{ section.settings.brand_description }}</p>
         {%- endif -%}
@@ -69,6 +63,7 @@
               {%- elsif col_title_down contains 'help' or col_title_down contains 'info' or col_title_down contains 'company' -%}
                 <li><a href="/pages/about-us">About Us</a></li>
                 <li><a href="/pages/bulk-order">Bulk Order / B2B</a></li>
+                <li><a href="/blogs/news">Blogs</a></li>
                 <li><a href="/pages/careers">Careers</a></li>
                 <li><a href="/pages/franchise">Franchise Opportunities</a></li>
                 <li><a href="/pages/contact">Contact Us</a></li>
