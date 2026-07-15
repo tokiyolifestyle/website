@@ -240,24 +240,21 @@
 
       const isMobile = () => window.innerWidth < 750;
 
-      /* Starting position */
       let lastX = 30;
       let lastY = window.innerHeight - 200;
 
-      mascot.style.left = lastX + 'px';
-      mascot.style.top  = lastY + 'px';
-      mascot.style.display = 'block';
-
-      /* On mobile remove CSS bottom/left overrides so JS can control freely */
+      /* Setup initial position */
       if (isMobile()) {
         mascot.style.bottom = 'auto';
-        mascot.style.left   = '20px';
-        mascot.style.top    = (window.innerHeight - 160) + 'px';
+        mascot.style.left = '20px';
+        mascot.style.top = (window.innerHeight - 160) + 'px';
         lastX = 20;
         lastY = window.innerHeight - 160;
-        /* Slow, smooth glide transition matching desktop */
-        mascot.style.transition = 'left 3.5s cubic-bezier(0.25,0.46,0.45,0.94), top 3.5s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.3s ease';
+      } else {
+        mascot.style.left = lastX + 'px';
+        mascot.style.top  = lastY + 'px';
       }
+      mascot.style.display = 'block';
 
       const quotes = [
         "Use code TOKIYO100 for 10% OFF! 🎫",
@@ -280,7 +277,6 @@
       setTimeout(() => { showBubble("Welcome to Tokiyo! ✦"); }, 2500);
 
       function wander() {
-        /* No hover check on mobile (no hover on touch), only on desktop */
         if (!isMobile() && mascot.matches(':hover')) return;
 
         const W = window.innerWidth;
@@ -288,7 +284,6 @@
         const mascotW = isMobile() ? 56 : 70;
         const padding = isMobile() ? 16 : 80;
 
-        /* On mobile: wander only in bottom 35% of screen to avoid blocking content */
         const minY = isMobile() ? H * 0.65 : H - 280;
         const maxY = isMobile() ? H - 90  : H - 100;
         const maxX = W - mascotW - padding;
@@ -296,7 +291,6 @@
         const nextX = Math.max(padding, Math.random() * maxX);
         const nextY = minY + Math.random() * (maxY - minY);
 
-        /* Flip character to face direction of travel */
         img.style.transform = (nextX < lastX) ? 'scaleX(-1)' : 'scaleX(1)';
 
         mascot.style.left = nextX + 'px';
@@ -305,16 +299,15 @@
         lastX = nextX;
         lastY = nextY;
 
-        if (Math.random() < 0.35) {
+        if (Math.random() < 0.3) {
           const q = quotes[Math.floor(Math.random() * quotes.length)];
-          setTimeout(() => showBubble(q), 1000);
+          setTimeout(() => showBubble(q), 1200);
         }
       }
 
-      /* Mobile wanders every 4s (faster, more alive); desktop every 8.5s */
-      setInterval(wander, isMobile() ? 4000 : 8500);
+      /* Slow, natural pace for both mobile and desktop (8.5s walk interval) */
+      setInterval(wander, 8500);
 
-      /* Tap / click = spin + quote */
       mascot.addEventListener('click', () => {
         const current = img.style.transform || '';
         img.style.transform = current.includes('scaleX(-1)')
@@ -323,17 +316,6 @@
         const q = quotes[Math.floor(Math.random() * quotes.length)];
         showBubble(q);
         setTimeout(wander, 1200);
-      });
-
-      /* Recalculate on resize */
-      window.addEventListener('resize', () => {
-        lastX = parseFloat(mascot.style.left) || 30;
-        lastY = parseFloat(mascot.style.top)  || window.innerHeight - 200;
-        if (isMobile()) {
-          mascot.style.transition = 'left 3.5s cubic-bezier(0.25,0.46,0.45,0.94), top 3.5s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.3s ease';
-        } else {
-          mascot.style.transition = 'left 3.5s cubic-bezier(0.25,0.46,0.45,0.94), top 3.5s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.3s ease';
-        }
       });
     });
   </script>
