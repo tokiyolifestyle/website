@@ -5,10 +5,10 @@
       <span class="inaugural-banner__badge-text">Inaugural Offer</span>
     </div>
     <div class="inaugural-banner__content">
-      Get <strong class="highlight-text" style="color: var(--color-accent, #C5A880);">10% OFF</strong> on your first order! 
+      Get <strong class="highlight-text" style="color: var(--color-accent, #ff0000);">10% OFF</strong> on your first order! 
       <span class="banner-divider">|</span>
       <span class="promo-code-wrap">
-        Use code: <span class="promo-code-box" id="PromoCodeBox" onclick="copyPromoCode(this)" style="cursor: pointer;" title="Click to copy">TOKIYO10</span>
+        Use code: <span class="promo-code-box" id="PromoCodeBox" onclick="copyPromoCode(this)" style="cursor: pointer;" title="Click to copy">TOKIYO100</span>
       </span>
     </div>
     <div class="inaugural-banner__right">
@@ -19,7 +19,7 @@
 
 <script>
   function copyPromoCode(el) {
-    navigator.clipboard.writeText('TOKIYO10');
+    navigator.clipboard.writeText('TOKIYO100');
     const originalText = el.innerText;
     el.innerText = 'COPIED!';
     el.style.borderColor = '#25D366';
@@ -85,7 +85,7 @@
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-accent, #C5A880);
+    color: var(--color-accent, #ff0000);
   }
   .inaugural-banner__content {
     font-size: 0.875rem;
@@ -97,9 +97,9 @@
   }
   .promo-code-box {
     display: inline-block;
-    border: 2px dashed var(--color-accent, #C5A880);
+    border: 2px dashed var(--color-accent, #ff0000);
     background: rgba(197, 168, 128, 0.08);
-    color: var(--color-accent, #C5A880);
+    color: var(--color-accent, #ff0000);
     padding: 0.25rem 0.75rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -113,7 +113,7 @@
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 0.08em;
-    color: var(--color-accent, #C5A880);
+    color: var(--color-accent, #ff0000);
     opacity: 0.95;
   }
 </style>

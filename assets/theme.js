@@ -178,6 +178,7 @@ function initMagneticButtons() {
 
 /* ========== Smooth Page Transitions ========== */
 function initPageTransitions() {
+  if (!window.themeSettings?.enablePageTransitions) return;
   /* Fade in on page load */
   document.body.style.opacity = '0';
   document.body.style.transition = 'opacity 0.35s ease';
@@ -287,7 +288,7 @@ function initCursorDot() {
   dot.className = 'cursor-dot';
   dot.style.cssText = `
     position:fixed; width:8px; height:8px; border-radius:50%;
-    background:var(--color-accent, #C5A880); pointer-events:none;
+    background:var(--color-accent, #ff0000); pointer-events:none;
     z-index:9999; mix-blend-mode:difference; opacity:0;
     transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease, transform 0.15s ease;
     transform:translate(-50%,-50%);

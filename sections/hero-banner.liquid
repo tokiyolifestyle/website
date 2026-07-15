@@ -14,60 +14,49 @@
                 <source src="{{ block.settings.video_url }}" type="video/mp4">
               </video>
             {%- elsif block.settings.image != blank -%}
-              {%- if forloop.first -%}
-                {{ block.settings.image | image_url: width: 1920 | image_tag:
-                  loading: 'eager',
-                  fetchpriority: 'high',
-                  widths: '750, 1100, 1440, 1920',
-                  sizes: '100vw',
-                  class: 'hero-carousel__img',
-                  data-parallax-img: '',
-                  alt: block.settings.image.alt | default: block.settings.heading | escape
-                }}
-              {%- else -%}
-                {{ block.settings.image | image_url: width: 1920 | image_tag:
-                  loading: 'lazy',
-                  fetchpriority: 'low',
-                  widths: '750, 1100, 1440, 1920',
-                  sizes: '100vw',
-                  class: 'hero-carousel__img',
-                  data-parallax-img: '',
-                  alt: block.settings.image.alt | default: block.settings.heading | escape
-                }}
-              {%- endif -%}
-            {%- else -%}
-              {%- assign main_col = collections['men-oversized'] -%}
-              {%- assign fallback_hero_img = blank -%}
-              {%- if main_col != blank and main_col.products.size > 0 -%}
-                {%- assign fallback_indices = "0,10,20,30" | split: "," -%}
-                {%- assign loop_idx = forloop.index0 | modulo: 4 -%}
-                {%- assign index_str = fallback_indices[loop_idx] | plus: 0 -%}
-                {%- assign product_for_hero = main_col.products[index_str] | default: main_col.products.first -%}
-                {%- assign fallback_hero_img = product_for_hero.featured_image -%}
-              {%- endif -%}
-              {%- if fallback_hero_img != blank -%}
+              <picture>
+                {%- if block.settings.image_mobile != blank -%}
+                  <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 750 }}">
+                {%- endif -%}
                 {%- if forloop.first -%}
-                  {{ fallback_hero_img | image_url: width: 1920 | image_tag:
+                  {{ block.settings.image | image_url: width: 1920 | image_tag:
                     loading: 'eager',
                     fetchpriority: 'high',
                     widths: '750, 1100, 1440, 1920',
                     sizes: '100vw',
                     class: 'hero-carousel__img',
-                    alt: block.settings.heading | escape
+                    data-parallax-img: '',
+                    alt: block.settings.image.alt | default: block.settings.heading | escape
                   }}
                 {%- else -%}
-                  {{ fallback_hero_img | image_url: width: 1920 | image_tag:
+                  {{ block.settings.image | image_url: width: 1920 | image_tag:
                     loading: 'lazy',
                     fetchpriority: 'low',
                     widths: '750, 1100, 1440, 1920',
                     sizes: '100vw',
                     class: 'hero-carousel__img',
-                    alt: block.settings.heading | escape
+                    data-parallax-img: '',
+                    alt: block.settings.image.alt | default: block.settings.heading | escape
                   }}
                 {%- endif -%}
-              {%- else -%}
-                <div class="hero-carousel__img hero-carousel__placeholder" style="background: linear-gradient(135deg, {{ block.settings.bg_color | default: '#0A0A0A' }} 0%, #1a1a1a 50%, {{ block.settings.bg_color | default: '#0A0A0A' }} 100%);"></div>
-              {%- endif -%}
+              </picture>
+            {%- else -%}
+              {%- assign slide_index = forloop.index0 | modulo: 6 | plus: 1 -%}
+              {%- case slide_index -%}
+                {%- when 1 -%}
+                  {%- assign fallback_image_url = 'hero-slide-1.png' | asset_url -%}
+                {%- when 2 -%}
+                  {%- assign fallback_image_url = 'hero-slide-2.png' | asset_url -%}
+                {%- when 3 -%}
+                  {%- assign fallback_image_url = 'hero-slide-3.png' | asset_url -%}
+                {%- when 4 -%}
+                  {%- assign fallback_image_url = 'hero-slide-4.png' | asset_url -%}
+                {%- when 5 -%}
+                  {%- assign fallback_image_url = 'hero-slide-5.jpg' | asset_url -%}
+                {%- when 6 -%}
+                  {%- assign fallback_image_url = 'hero-slide-6.png' | asset_url -%}
+              {%- endcase -%}
+              <img src="{{ fallback_image_url }}" class="hero-carousel__img" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" alt="{{ block.settings.heading | escape }}">
             {%- endif -%}
             <div class="hero-carousel__overlay" style="opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};"></div>
             <div class="hero-carousel__gradient"></div>
@@ -135,8 +124,8 @@
   /* ========== Hero Carousel ========== */
   .hero-carousel {
     position: relative;
-    height: var(--hero-height, 100vh);
-    min-height: 600px;
+    height: var(--hero-height, 65vh);
+    min-height: 380px;
     overflow: hidden;
     background: #0A0A0A;
   }
@@ -210,7 +199,7 @@
     position: relative;
     z-index: 2;
     width: 100%;
-    padding-bottom: 7rem;
+    padding-bottom: 3.5rem;
   }
   .hero-carousel__content--center { text-align: center; }
   .hero-carousel__content--right { text-align: right; }
@@ -296,7 +285,7 @@
   .hero-carousel__dot-fill {
     position: absolute;
     inset: 0;
-    background: var(--color-accent, #C5A880);
+    background: var(--color-accent, #ff0000);
     transform: scaleX(0);
     transform-origin: left;
     border-radius: inherit;
@@ -352,7 +341,7 @@
   }
   .hero-carousel__progress-bar {
     height: 100%;
-    background: var(--color-accent, #C5A880);
+    background: var(--color-accent, #ff0000);
     width: 0%;
     animation: heroProgress var(--hero-speed, 5s) linear forwards;
   }
@@ -373,7 +362,7 @@
     display: block;
     width: 1px;
     height: 48px;
-    background: linear-gradient(to bottom, var(--color-accent, #C5A880), transparent);
+    background: linear-gradient(to bottom, var(--color-accent, #ff0000), transparent);
     animation: scrollPulse 2s ease-in-out infinite;
   }
   @keyframes scrollPulse {
@@ -384,14 +373,14 @@
   /* ---- Responsive ---- */
   @media(max-width: 749px) {
     .hero-carousel {
-      height: 85vh;
-      min-height: 500px;
+      height: 48vh;
+      min-height: 260px;
     }
     .hero-carousel__heading {
       font-size: 2rem;
     }
     .hero-carousel__content {
-      padding-bottom: 5rem;
+      padding-bottom: 2rem;
     }
     .hero-carousel__arrow {
       display: none;
@@ -526,7 +515,7 @@
   "tag": "section",
   "class": "section-hero-carousel",
   "settings": [
-    { "type": "range", "id": "hero_height", "min": 40, "max": 100, "step": 5, "unit": "vh", "label": "Banner height", "default": 100 },
+    { "type": "range", "id": "hero_height", "min": 40, "max": 100, "step": 5, "unit": "vh", "label": "Banner height", "default": 65 },
     { "type": "select", "id": "content_alignment", "label": "Default content alignment", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}], "default": "left" },
     { "type": "range", "id": "autoplay_speed", "min": 3, "max": 10, "step": 1, "unit": "s", "label": "Auto-play speed", "default": 5 }
   ],
@@ -536,6 +525,7 @@
       "name": "Slide",
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Background image" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile background image (Optional)" },
         { "type": "text", "id": "video_url", "label": "Video URL (.mp4)", "info": "Overrides image if set" },
         { "type": "color", "id": "bg_color", "label": "Fallback background color", "default": "#0A0A0A" },
         { "type": "range", "id": "overlay_opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "label": "Overlay darkness", "default": 45 },

@@ -1,40 +1,200 @@
 <div class="blog-page page-width">
   {% render 'breadcrumbs' %}
-  <h1 class="animate-on-scroll fade-up">{{ blog.title }}</h1>
-  <div class="blog-grid stagger-children">
-    {%- for article in blog.articles -%}
-      <a href="{{ article.url }}" class="article-card hover-lift">
-        {%- if article.image -%}
-          <div class="article-card__image hover-zoom">
-            {{ article.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: article.title | escape }}
-          </div>
-        {%- endif -%}
-        <div class="article-card__info">
-          <p class="article-card__date">{{ article.published_at | date: '%B %d, %Y' }}</p>
-          <h2>{{ article.title }}</h2>
-          <p>{{ article.excerpt | strip_html | truncatewords: 20 }}</p>
-          <span class="article-card__read-more">Read More</span>
-        </div>
-      </a>
+  
+  <div class="blog-header animate-on-scroll fade-up">
+    <span class="text-eyebrow">Tokiyo Journal</span>
+    <h1>{{ blog.title }}</h1>
+    <p>Insights, guides, and stories from the intersection of design, subculture, and premium streetwear.</p>
+  </div>
+
+  <!-- --- Category tag filters --- -->
+  <div class="blog-categories animate-on-scroll fade-up">
+    <a href="{{ blog.url }}" class="blog-category-link {% if current_tags == blank %}is-active{% endif %}">All Articles</a>
+    {%- assign blog_categories = "Brand & Stories,Fashion & Styling,Fabric & Quality,Care Guides,Storage Guide,Buying Guides,Company Updates" | split: "," -%}
+    {%- for cat in blog_categories -%}
+      {%- assign cat_handle = cat | handle -%}
+      {%- comment -%} Check if this category matches current tag handle {%- endcomment -%}
+      {%- assign active_cat = false -%}
+      {%- for tag in current_tags -%}
+        {%- assign tag_handle = tag | handle -%}
+        {%- if tag_handle == cat_handle -%}
+          {%- assign active_cat = true -%}
+        {%- endif -%}-
+      {%- endfor -%}
+      <a href="{{ blog.url }}/tagged/{{ cat_handle }}" class="blog-category-link {% if active_cat %}is-active{% endif %}">{{ cat }}</a>
     {%- endfor -%}
   </div>
-  {%- paginate blog.articles by 9 -%}{% render 'pagination', paginate: paginate %}{%- endpaginate -%}
+
+  <div class="blog-grid stagger-children">
+    {%- if blog.articles.size > 0 -%}
+      {%- for article in blog.articles -%}
+        <a href="{{ article.url }}" class="article-card hover-lift">
+          {%- if article.image -%}
+            <div class="article-card__image hover-zoom">
+              {{ article.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: article.title | escape }}
+            </div>
+          {%- endif -%}
+          <div class="article-card__info">
+            <span class="article-card__category">
+              {%- if article.tags.size > 0 -%}{{ article.tags | first }}{%- else -%}News{%- endif -%}
+            </span>
+            <p class="article-card__date">{{ article.published_at | date: '%B %d, %Y' }}</p>
+            <h2>{{ article.title }}</h2>
+            <p>{{ article.excerpt | strip_html | truncatewords: 20 }}</p>
+            <span class="article-card__read-more">Read Entry →</span>
+          </div>
+        </a>
+      {%- endfor -%}
+    {%- else -%}
+      {%- comment -%} Seed fallback SEO optimized articles matching the user's categories {%- endcomment -%}
+      
+      {%- assign filter_tag = current_tags | first | handle -%}
+      
+      <!-- Article 1: Fabric & Quality -->
+      {%- if filter_tag == blank or filter_tag == 'fabric-quality' -%}
+        <a href="/blogs/news/why-fabric-quality-matters" class="article-card hover-lift">
+          <div class="article-card__image hover-zoom">
+            <img src="{{ 'hero-slide-3.png' | asset_url }}" alt="Why Fabric Quality Matters" loading="lazy">
+          </div>
+          <div class="article-card__info">
+            <span class="article-card__category">Fabric & Quality</span>
+            <p class="article-card__date">July 15, 2026</p>
+            <h2>Why Fabric Quality Matters: Cotton vs Cotton Blend</h2>
+            <p>Understand the structural differences between 100% super-combed cotton and poly-blends, and why weight (GSM) determines the perfect streetwear drape.</p>
+            <span class="article-card__read-more">Read Entry →</span>
+          </div>
+        </a>
+      {%- endif -%}
+
+      <!-- Article 2: Buying Guides -->
+      {%- if filter_tag == blank or filter_tag == 'buying-guides' -%}
+        <a href="/blogs/news/how-to-choose-the-perfect-oversized-fit" class="article-card hover-lift">
+          <div class="article-card__image hover-zoom">
+            <img src="{{ 'hero-slide-2.png' | asset_url }}" alt="How to Choose the Perfect Oversized Fit" loading="lazy">
+          </div>
+          <div class="article-card__info">
+            <span class="article-card__category">Buying Guides</span>
+            <p class="article-card__date">July 14, 2026</p>
+            <h2>How to Choose the Perfect Oversized Fit: A Streetwear Guide</h2>
+            <p>Oversized doesn't mean baggy. Learn how drop-shoulder seams, chest width, and collar ribbing work together to create the perfect boxy silhouette.</p>
+            <span class="article-card__read-more">Read Entry →</span>
+          </div>
+        </a>
+      {%- endif -%}
+
+      <!-- Article 3: Care Guides -->
+      {%- if filter_tag == blank or filter_tag == 'care-guides' -%}
+        <a href="/blogs/news/how-to-wash-printed-t-shirts" class="article-card hover-lift">
+          <div class="article-card__image hover-zoom">
+            <img src="{{ 'hero-slide-1.png' | asset_url }}" alt="How to Wash Printed T-Shirts" loading="lazy">
+          </div>
+          <div class="article-card__info">
+            <span class="article-card__category">Care Guides</span>
+            <p class="article-card__date">July 12, 2026</p>
+            <h2>How to Wash Printed T-Shirts and Prevent Fading</h2>
+            <p>Protect your graphic tees. From inside-out cold washes to avoiding the tumble dryer, here are the essential care tips for DTF and puff prints.</p>
+            <span class="article-card__read-more">Read Entry →</span>
+          </div>
+        </a>
+      {%- endif -%}
+
+      <!-- Article 4: Fashion & Styling -->
+      {%- if filter_tag == blank or filter_tag == 'fashion-styling' -%}
+        <a href="/blogs/news/streetwear-trends-in-india" class="article-card hover-lift">
+          <div class="article-card__image hover-zoom">
+            <img src="{{ 'hero-slide-4.png' | asset_url }}" alt="Streetwear Trends in India" loading="lazy">
+          </div>
+          <div class="article-card__info">
+            <span class="article-card__category">Fashion & Styling</span>
+            <p class="article-card__date">July 10, 2026</p>
+            <h2>Streetwear Trends in India: Street Culture & Devotion Within</h2>
+            <p>How local subcultures and traditional graphics are merging with global oversized fits to redefine modern Indian youth style.</p>
+            <span class="article-card__read-more">Read Entry →</span>
+          </div>
+        </a>
+      {%- endif -%}
+
+    {%- endif -%}
+  </div>
+
+  {%- if blog.articles.size > 0 -%}
+    {%- paginate blog.articles by 9 -%}{% render 'pagination', paginate: paginate %}{%- endpaginate -%}
+  {%- endif -%}
 </div>
+
 <style>
-  .blog-page { padding-block:2.5rem var(--spacing-sections,64px); }
-  .blog-page h1 { margin-bottom:2rem; }
-  .blog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; }
-  @media(max-width:989px){ .blog-grid { grid-template-columns:repeat(2,1fr); } }
-  @media(max-width:600px){ .blog-grid { grid-template-columns:1fr; } }
-  .article-card { border-radius:var(--card-radius,12px); overflow:hidden; background:#fff; box-shadow:0 4px 18px rgba(17,17,17,.05); display:block; }
-  .article-card__image { aspect-ratio:16/9; overflow:hidden; }
-  .article-card__image img { width:100%; height:100%; object-fit:cover; }
-  .article-card__info { padding:1.25rem; }
-  .article-card__date { font-size:.8rem; color:#aaa; margin-bottom:.4rem; }
-  .article-card__info h2 { font-size:1.1rem; margin-bottom:.5rem; }
-  .article-card__info p { font-size:.875rem; color:#666; margin-bottom:.75rem; }
-  .article-card__read-more { font-size:.8125rem; font-weight:600; color:var(--color-accent,#C9A86A); }
+  .blog-page { padding-block: 2.5rem var(--spacing-sections, 64px); }
+  .blog-header { text-align: center; max-width: 700px; margin: 0 auto 3rem; }
+  .blog-header h1 { font-size: clamp(2rem, 4vw, 3.25rem); margin: 0.5rem 0 1.25rem; font-weight: 800; }
+  .blog-header p { color: var(--color-text-muted, #767674); font-size: 1.05rem; line-height: 1.6; }
+  
+  .blog-categories {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 3.5rem;
+    border-bottom: 1px solid var(--color-border, rgba(0,0,0,0.06));
+    padding-bottom: 1.5rem;
+  }
+  .blog-category-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted, #767674);
+    padding: 0.6rem 1.25rem;
+    border-radius: 50px;
+    border: 1px solid var(--color-border, rgba(0,0,0,0.08));
+    background: #FFFFFF;
+    transition: all 0.25s ease;
+    text-decoration: none;
+  }
+  .blog-category-link:hover {
+    color: var(--color-primary, #000000);
+    border-color: var(--color-primary, #000000);
+  }
+  .blog-category-link.is-active {
+    background: var(--color-accent, #ff0000);
+    color: #FFFFFF;
+    border-color: var(--color-accent, #ff0000);
+  }
+
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+  @media(max-width: 989px){ .blog-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; } }
+  @media(max-width: 600px){ .blog-grid { grid-template-columns: 1fr; } }
+  
+  .article-card {
+    border-radius: var(--card-radius, 8px);
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border, rgba(0,0,0,0.06));
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: var(--color-primary, #000000);
+  }
+  .article-card__image { aspect-ratio: 16/10; overflow: hidden; position: relative; background: #000000; }
+  .article-card__image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  .article-card:hover .article-card__image img { transform: scale(1.05); }
+  
+  .article-card__info { padding: 2rem; display: flex; flex-direction: column; flex-grow: 1; }
+  .article-card__category {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent, #ff0000);
+    margin-bottom: 0.5rem;
+  }
+  .article-card__date { font-size: 0.8rem; color: var(--color-text-muted, #767674); margin-bottom: 1rem; }
+  .article-card__info h2 { font-size: 1.35rem; margin-bottom: 0.75rem; font-weight: 700; line-height: 1.3; }
+  .article-card__info p { font-size: 0.92rem; color: var(--color-text-muted, #767674); line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1; }
+  .article-card__read-more { font-size: 0.85rem; font-weight: 700; color: var(--color-primary, #000000); text-transform: uppercase; letter-spacing: 0.05em; display: inline-flex; align-items: center; border-bottom: 1px solid var(--color-primary, #000000); width: fit-content; padding-bottom: 2px; }
+  .article-card:hover .article-card__read-more { color: var(--color-accent, #ff0000); border-color: var(--color-accent, #ff0000); }
 </style>
+
 {% schema %}
 { "name": "Blog Posts", "tag": "section", "class": "section-blog" }
 {% endschema %}

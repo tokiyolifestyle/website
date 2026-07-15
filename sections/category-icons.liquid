@@ -434,7 +434,7 @@
   .catg-universe {
     position: relative;
     padding: clamp(3rem, 6vw, 5rem) 0;
-    background: #FAFAF9;
+    background: #FFFFFF;
     overflow: hidden;
   }
   .catg-universe__particles {
@@ -449,7 +449,7 @@
   .catg-universe__header { text-align: center; margin-bottom: 2rem; }
   .catg-universe__title { position: relative; display: inline-block; }
   .catg-universe__title-line {
-    background: linear-gradient(135deg, var(--color-primary, #0C0C0E) 0%, var(--color-accent, #C5A880) 50%, var(--color-primary, #0C0C0E) 100%);
+    background: linear-gradient(135deg, var(--color-primary, #0C0C0E) 0%, var(--color-accent, #ff0000) 50%, var(--color-primary, #0C0C0E) 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -464,7 +464,7 @@
     width: 60px;
     height: 3px;
     margin: 0.75rem auto 0;
-    background: linear-gradient(90deg, transparent, var(--color-accent, #C5A880), transparent);
+    background: linear-gradient(90deg, transparent, var(--color-accent, #ff0000), transparent);
     border-radius: 2px;
     animation: lineShimmer 3s ease-in-out infinite;
   }
@@ -487,8 +487,8 @@
     z-index: 2;
     pointer-events: none;
   }
-  .catg-quickstrip::before { left: 0; background: linear-gradient(to right, #FAFAF9, transparent); }
-  .catg-quickstrip::after { right: 0; background: linear-gradient(to left, #FAFAF9, transparent); }
+  .catg-quickstrip::before { left: 0; background: linear-gradient(to right, #FFFFFF, transparent); }
+  .catg-quickstrip::after { right: 0; background: linear-gradient(to left, #FFFFFF, transparent); }
   .catg-quickstrip__track {
     display: flex;
     gap: 1.5rem;
@@ -521,14 +521,14 @@
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
   .catg-quickstrip__item:hover .catg-quickstrip__circle {
-    border-color: var(--color-accent, #C5A880);
+    border-color: var(--color-accent, #ff0000);
     box-shadow: 0 0 20px rgba(197, 168, 128, 0.3), 0 4px 12px rgba(0,0,0,0.1);
   }
   .catg-quickstrip__glow {
     position: absolute;
     inset: -2px;
     border-radius: 50%;
-    background: conic-gradient(from 0deg, var(--color-accent, #C5A880), transparent, var(--color-accent, #C5A880));
+    background: conic-gradient(from 0deg, var(--color-accent, #ff0000), transparent, var(--color-accent, #ff0000));
     opacity: 0;
     transition: opacity 0.4s ease;
     z-index: -1;
@@ -541,7 +541,7 @@
     display: flex; align-items: center; justify-content: center;
     width: 100%; height: 100%;
     font-size: 1.25rem; font-weight: 800;
-    color: var(--color-accent, #C5A880);
+    color: var(--color-accent, #ff0000);
     font-family: var(--font-heading);
   }
   .catg-quickstrip__label {
@@ -553,7 +553,7 @@
     white-space: nowrap;
     transition: color 0.3s ease;
   }
-  .catg-quickstrip__item:hover .catg-quickstrip__label { color: var(--color-accent, #C5A880); }
+  .catg-quickstrip__item:hover .catg-quickstrip__label { color: var(--color-accent, #ff0000); }
 
   /* ═══ Gender Tabs — Futuristic Pill ═══ */
   .catg-universe__tabs {
@@ -644,7 +644,7 @@
     border-radius: 10px;
     background: linear-gradient(135deg, var(--color-primary, #0C0C0E), #1a1a1a);
     display: flex; align-items: center; justify-content: center;
-    color: var(--color-accent, #C5A880);
+    color: var(--color-accent, #ff0000);
     flex-shrink: 0;
     transition: transform 0.3s ease;
   }
@@ -722,10 +722,10 @@
     z-index: -1;
     background: conic-gradient(
       from var(--glow-angle, 0deg),
-      var(--color-accent, #C5A880),
+      var(--color-accent, #ff0000),
       transparent 25%,
       transparent 50%,
-      var(--color-accent, #C5A880) 75%,
+      var(--color-accent, #ff0000) 75%,
       transparent
     );
     opacity: 0;
@@ -739,7 +739,7 @@
   /* Fallback for browsers that don't support @property */
   @supports not (background: conic-gradient(from 0deg, red, blue)) {
     .catg-card-3d__glow-border {
-      background: linear-gradient(135deg, var(--color-accent, #C5A880), transparent, var(--color-accent, #C5A880));
+      background: linear-gradient(135deg, var(--color-accent, #ff0000), transparent, var(--color-accent, #ff0000));
     }
   }
 
@@ -816,7 +816,7 @@
   }
   .catg-card-3d__placeholder-letter {
     font-size: 2.5rem; font-weight: 900;
-    color: var(--color-accent, #C5A880); opacity: 0.15;
+    color: var(--color-accent, #ff0000); opacity: 0.15;
     font-family: var(--font-heading);
     text-transform: uppercase;
     z-index: 1;
@@ -835,7 +835,7 @@
     font-size: 0.5rem;
     font-weight: 800;
     letter-spacing: 0.15em;
-    color: var(--color-accent, #C5A880);
+    color: var(--color-accent, #ff0000);
     background: rgba(197, 168, 128, 0.15);
     backdrop-filter: blur(4px);
     border-radius: 3px;
@@ -864,7 +864,7 @@
     display: flex; align-items: center; gap: 0.35rem;
     font-size: 0.65rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--color-accent, #C5A880);
+    color: var(--color-accent, #ff0000);
     margin-top: 0.5rem;
     opacity: 0; transform: translateY(12px);
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;

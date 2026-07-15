@@ -290,6 +290,27 @@
   </div>
 </div>
 
+<div id="InterceptArticle" style="display: none;">
+  <article class="article-page page-width" itemscope itemtype="https://schema.org/Article" style="padding-block:2.5rem var(--spacing-sections,64px); max-width:820px; margin:0 auto;">
+    {% render 'breadcrumbs' %}
+    <header class="article-page__header" style="margin-bottom:2rem; text-align:center;">
+      <p class="text-eyebrow" id="ArticleCategoryDisplay" style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--color-accent,#ff0000); letter-spacing:0.1em; margin-bottom:0.5rem;">Category</p>
+      <h1 itemprop="headline" id="ArticleTitleDisplay" style="font-size:clamp(1.75rem,3vw,2.75rem); margin-bottom:1rem; color:#000000; font-weight:700;">Article Title</h1>
+      <div class="article-page__meta" style="font-size:.875rem; color:#888; display:flex; gap:.5rem; justify-content:center;">
+        <span>Tokiyo Lifestyle Editorial Team</span>
+        <span>·</span>
+        <time id="ArticleDateDisplay">July 15, 2026</time>
+      </div>
+    </header>
+    <div class="article-page__image" style="border-radius:var(--card-radius,8px); overflow:hidden; margin-bottom:2.5rem; aspect-ratio:16/9; background:#000;">
+      <img id="ArticleImageDisplay" src="" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+    <div class="article-page__body rte" itemprop="articleBody" id="ArticleBodyDisplay" style="line-height:1.8; color:#333; font-size:1.05rem; text-align:left;">
+      <!-- Article Content will be dynamically inserted here -->
+    </div>
+  </article>
+</div>
+
 <script>
   (function() {
     const handleRoute = () => {
@@ -301,6 +322,89 @@
       const franchise = document.getElementById('InterceptFranchise');
       const wishlist = document.getElementById('InterceptWishlist');
       
+      const articles = {
+        'why-fabric-quality-matters': {
+          title: "Why Fabric Quality Matters: Cotton vs Cotton Blend",
+          category: "Fabric & Quality",
+          date: "July 15, 2026",
+          image: "{{ 'hero-slide-3.png' | asset_url }}",
+          body: `
+            <p>Streetwear isn't just about graphics; it's about structure, drape, and longevity. The fabric you wear defines how the design moves, how it breathes, and how it holds up after wash cycles.</p>
+            <h2 style="font-size: 1.75rem; margin-top: 2rem; margin-bottom: 1rem; color: #000000; font-weight:700;">The Weight of Style: Why 240 GSM Matters</h2>
+            <p>GSM (Grams per Square Meter) is the metric standard for fabric weight. Ordinary tees fall between 140-180 GSM. Streetwear requires heavy draping, which is why Tokiyo Lifestyle uses premium 240 GSM combed cotton. This ensures a thick, boxy drape that resists creasing and retains its premium silhouette throughout the day.</p>
+            <blockquote style="border-left: 3px solid var(--color-accent, #ff0000); padding-left: 1.5rem; margin: 1.5rem 0; font-style: italic; color: #555;">"The fabric determines the silhouette. An oversized tee in thin fabric clings; in 240 GSM cotton, it drapes."</blockquote>
+            <h2 style="font-size: 1.75rem; margin-top: 2rem; margin-bottom: 1rem; color: #000000; font-weight:700;">Cotton vs Cotton Blends: The Pure Advantage</h2>
+            <p>While poly-blends are cheaper to produce, pure combed cotton offers unparalleled breathability and comfort. Cotton fibers are combed to remove short fibers and impurities, resulting in a super-soft, durable surface that is perfect for DTF (Direct to Film) and puff printing. Cotton blends often trap heat and develop lint (pilling) over time, losing that clean look.</p>
+            <p>At Tokiyo, our commitment is simple: 100% premium super-combed cotton, processed with bio-wash for ultimate softness, making it the perfect choice for everyday wear in all seasons.</p>
+          `
+        },
+        'how-to-choose-the-perfect-oversized-fit': {
+          title: "How to Choose the Perfect Oversized Fit: A Streetwear Guide",
+          category: "Buying Guides",
+          date: "July 14, 2026",
+          image: "{{ 'hero-slide-2.png' | asset_url }}",
+          body: `
+            <p>The term "oversized" is often misunderstood. Many believe it simply means buying two sizes larger than usual. However, buying standard-cut shirts in larger sizes results in long hemlines and loose collars, rather than a clean streetwear aesthetic.</p>
+            <h2 style="font-size: 1.75rem; margin-top: 2rem; margin-bottom: 1rem; color: #000000; font-weight:700;">The Anatomy of a Streetwear Fit</h2>
+            <p>A true oversized tee is engineered from the ground up:
+              <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: disc;">
+                <li style="margin-bottom: 0.5rem;"><strong>Drop-Shoulder Seams:</strong> The shoulder seams are designed to sit lower, creating a relaxed, boxy feel without excess bulk.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Boxy Silhouette:</strong> The chest and waist widths are increased while keeping the length balanced, so the shirt doesn't look like a dress.</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Snug Ribbed Collar:</strong> Even with a wider body, the collar is kept snug to frame the neck properly and prevent a sloppy look.</li>
+              </ul>
+            </p>
+            <h2 style="font-size: 1.75rem; margin-top: 2rem; margin-bottom: 1rem; color: #000000; font-weight:700;">Finding Your Perfect Size</h2>
+            <p>For a standard, premium oversized look, we recommend ordering your true size. Our patterns are designed to naturally sit drop-shoulder and boxy. If you prefer an extra-exaggerated drape, size up once. If you prefer a slightly trimmer fit that still maintains the streetwear aesthetic, size down once.</p>
+          `
+        },
+        'how-to-wash-printed-t-shirts': {
+          title: "How to Wash Printed T-Shirts and Prevent Fading",
+          category: "Care Guides",
+          date: "July 12, 2026",
+          image: "{{ 'hero-slide-1.png' | asset_url }}",
+          body: `
+            <p>You've invested in premium graphic streetwear. To ensure your prints remain vibrant and crack-free, proper laundering care is essential. Follow our laundry guide to keep your wardrobe looking fresh.</p>
+            <h2 style="font-size: 1.75rem; margin-top: 2rem; margin-bottom: 1rem; color: #000000; font-weight:700;">The Golden Rules of Graphic Tee Care</h2>
+            <p style="margin-bottom: 0.75rem;"><strong>1. Turn it Inside Out:</strong> Always turn your garments inside out before placing them in the washing machine. This protects the print surface from friction against other clothes.</p>
+            <p style="margin-bottom: 0.75rem;"><strong>2. Use Cold Water:</strong> Warm water can loosen the adhesive bonds of prints and cause cotton fibers to shrink. Always wash in cold water (30°C or below).</p>
+            <p style="margin-bottom: 0.75rem;"><strong>3. Mild Detergent Only:</strong> Avoid bleach or harsh chemical fabric softeners. Use a mild liquid detergent to clean gently.</p>
+            <p style="margin-bottom: 0.75rem;"><strong>4. Air Dry (Never Tumble Dry):</strong> Heat is the ultimate enemy of prints. Tumble dryers cause graphic cracking and shrinkage. Instead, dry your shirts flat or hang them in the shade.</p>
+            <blockquote style="border-left: 3px solid var(--color-accent, #ff0000); padding-left: 1.5rem; margin: 1.5rem 0; font-style: italic; color: #555;">"Proper care preserves both print and fabric. A well-cared-for Tokiyo tee can last for years without fading."</blockquote>
+          `
+        },
+        'streetwear-trends-in-india': {
+          title: "Streetwear Trends in India: Street Culture & Devotion Within",
+          category: "Fashion & Styling",
+          date: "July 10, 2026",
+          image: "{{ 'hero-slide-4.png' | asset_url }}",
+          body: `
+            <p>India is undergoing a massive style transition. Streetwear has evolved from a niche global import into a full-fledged cultural movement, mixing local values, anime devotion, and bold styling.</p>
+            <h2 style="font-size: 1.75rem; margin-top: 2rem; margin-bottom: 1rem; color: #000000; font-weight:700;">The Fusion of Indian Art and Global Aesthetics</h2>
+            <p>Modern Indian streetwear designers are blending traditional icons and devotions with heavy boxy fits. Graphics featuring regional typography, mythic designs, and urban scenes are resonating with a generation that wants to wear their roots proudly.</p>
+            <h2 style="font-size: 1.75rem; margin-top: 2rem; margin-bottom: 1rem; color: #000000; font-weight:700;">Anime Culture Meets Premium Apparel</h2>
+            <p>Anime is no longer a subculture; it's a mainstream phenomenon. Graphic prints featuring iconic anime characters, streetwear-adapted color blocks, and epic quotes are now the most sought-after drops. The key to styling them is pairing them with solid cargo pants and sneakers, letting the heavy graphic tee stand as the center of the outfit.</p>
+            <p>At Tokiyo Lifestyle, we are at the center of this movement — creating premium streetwear that respects quality and speaks to the bold, creative soul of modern India.</p>
+          `
+        }
+      };
+
+      const articleMatch = Object.keys(articles).find(key => path.includes(key));
+      if (articleMatch) {
+        const article = articles[articleMatch];
+        if (def404) def404.style.display = 'none';
+        if (interceptArticle) {
+          interceptArticle.style.display = 'block';
+          document.getElementById('ArticleCategoryDisplay').innerText = article.category;
+          document.getElementById('ArticleTitleDisplay').innerText = article.title;
+          document.getElementById('ArticleDateDisplay').innerText = article.date;
+          document.getElementById('ArticleImageDisplay').src = article.image;
+          document.getElementById('ArticleImageDisplay').alt = article.title;
+          document.getElementById('ArticleBodyDisplay').innerHTML = article.body;
+        }
+        document.title = article.title + " | Tokiyo Lifestyle";
+        return;
+      }
+
       if (path.includes('about')) {
         if (def404) def404.style.display = 'none';
         if (about) about.style.display = 'block';
@@ -346,7 +450,7 @@
   .error-page__content p { color:#888; margin-bottom:2rem; }
 
   /* About page styles */
-  .about-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .about-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FFFFFF); }
   .about-page__hero { text-align: center; max-width: 800px; margin: 0 auto 4rem; }
   .about-page__hero h1 { font-size: clamp(2rem, 4vw, 3.25rem); margin: 0.5rem 0 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
   .about-page__lead { font-size: 1.125rem; line-height: 1.8; color: var(--color-text-muted, #767674); }
@@ -357,13 +461,13 @@
   .about-card p { color: var(--color-text-muted, #767674); line-height: 1.7; font-size: 0.9375rem; }
 
   /* B2B page styles */
-  .b2b-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .b2b-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FFFFFF); }
   .b2b-page__grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: start; }
   @media(max-width: 989px){ .b2b-page__grid { grid-template-columns: 1fr; gap: 3rem; } }
   .b2b-page__info h1 { font-size: clamp(1.75rem, 3vw, 2.5rem); margin: 0.5rem 0 1.25rem; font-weight: 700; }
   .b2b-page__info > p { color: var(--color-text-muted, #767674); line-height: 1.7; margin-bottom: 2.5rem; }
   .b2b-perk { display: flex; gap: 1.25rem; margin-top: 1.75rem; border-top: 1px solid var(--color-border, rgba(0,0,0,0.06)); padding-top: 1.25rem; }
-  .b2b-perk__icon { color: var(--color-accent, #B89047); font-size: 1.1rem; }
+  .b2b-perk__icon { color: var(--color-accent, #ff0000); font-size: 1.1rem; }
   .b2b-perk strong { display: block; margin-bottom: 0.25rem; font-size: 0.9375rem; }
   .b2b-perk p { color: var(--color-text-muted, #767674); font-size: 0.875rem; line-height: 1.5; }
   
@@ -386,7 +490,7 @@
   }
 
   /* Careers styles */
-  .careers-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .careers-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FFFFFF); }
   .careers-page__hero { text-align: center; max-width: 800px; margin: 0 auto 4rem; }
   .careers-page__hero h1 { font-size: clamp(2rem, 4vw, 3.25rem); margin: 0.5rem 0 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
   .careers-page__lead { font-size: 1.125rem; line-height: 1.8; color: var(--color-text-muted, #767674); }
@@ -399,35 +503,35 @@
   .job-card { background: #FFFFFF; padding: 2.5rem; border: 1px solid var(--color-border, rgba(0,0,0,0.06)); border-radius: var(--card-radius, 8px); margin-bottom: 2rem; box-shadow: 0 4px 30px rgba(0,0,0,0.01); }
   .job-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.25rem; }
   .job-header h3 { font-size: 1.25rem; font-weight: 700; margin: 0; }
-  .job-tag { background: rgba(197,168,128,0.12); color: var(--color-accent, #C5A880); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.05em; }
+  .job-tag { background: rgba(197,168,128,0.12); color: var(--color-accent, #ff0000); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.05em; }
   .job-location { color: var(--color-text-muted, #767674); font-size: 0.85rem; margin-bottom: 1.25rem; font-weight: 500; }
   .job-details p { font-size: 0.9rem; line-height: 1.6; color: var(--color-primary, #111111); margin-bottom: 1rem; }
   .job-details p strong { color: var(--color-primary, #111111); }
-  .job-details a { color: var(--color-accent, #C5A880); font-weight: 600; text-decoration: underline; }
+  .job-details a { color: var(--color-accent, #ff0000); font-weight: 600; text-decoration: underline; }
 
   /* Franchise styles */
-  .franchise-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .franchise-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FFFFFF); }
   .franchise-page__grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: start; }
   @media(max-width: 989px){ .franchise-page__grid { grid-template-columns: 1fr; gap: 3rem; } }
   .franchise-page__info h1 { font-size: clamp(1.75rem, 3vw, 2.5rem); margin: 0.5rem 0 1.25rem; font-weight: 700; }
   .franchise-page__info > p { color: var(--color-text-muted, #767674); line-height: 1.7; margin-bottom: 2.5rem; }
   .franchise-perk { display: flex; gap: 1.25rem; margin-top: 1.75rem; border-top: 1px solid var(--color-border, rgba(0,0,0,0.06)); padding-top: 1.25rem; }
-  .franchise-perk__icon { color: var(--color-accent, #B89047); font-size: 1.1rem; }
+  .franchise-perk__icon { color: var(--color-accent, #ff0000); font-size: 1.1rem; }
   .franchise-perk strong { display: block; margin-bottom: 0.25rem; font-size: 0.9375rem; }
   .franchise-perk p { color: var(--color-text-muted, #767674); font-size: 0.875rem; line-height: 1.5; }
   .franchise-page__form { background: #FFFFFF; padding: 2.5rem; border: 1px solid var(--color-border, rgba(0,0,0,0.06)); border-radius: var(--card-radius, 8px); box-shadow: 0 4px 30px rgba(0,0,0,0.02); }
   .franchise-page__form h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
 
   /* Wishlist styles */
-  .wishlist-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FAFAF9); }
+  .wishlist-page { padding-block: 3.5rem 5rem; background: var(--color-background, #FFFFFF); }
   .wishlist-page__header { text-align: center; margin-bottom: 3rem; }
   .wishlist-page__header h1 { font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 800; letter-spacing: -0.02em; margin-top: 0.5rem; }
   .wishlist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
   .wishlist-empty { text-align: center; font-size: 1.125rem; color: var(--color-text-muted, #767674); padding: 4rem 1rem; width: 100%; grid-column: 1 / -1; }
-  .wishlist-empty a { color: var(--color-accent, #C5A880); font-weight: 700; text-decoration: underline; margin-left: 0.5rem; }
+  .wishlist-empty a { color: var(--color-accent, #ff0000); font-weight: 700; text-decoration: underline; margin-left: 0.5rem; }
   .wishlist-item { background: #FFFFFF; padding: 1.5rem; border: 1px solid var(--color-border, rgba(0,0,0,0.06)); border-radius: var(--card-radius, 8px); text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.01); }
   .wishlist-item a { font-weight: 700; color: var(--color-primary, #111111); text-decoration: none; font-size: 0.9rem; }
-  .wishlist-item a:hover { color: var(--color-accent, #C5A880); }
+  .wishlist-item a:hover { color: var(--color-accent, #ff0000); }
 </style>
 
 {% schema %}

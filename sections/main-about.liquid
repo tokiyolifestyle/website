@@ -119,13 +119,13 @@
   .about-story__img-placeholder { width: 100%; aspect-ratio: 4/5; background: linear-gradient(135deg, #F0EFED, #E8E6E3); border-radius: 12px; }
 
   /* Values */
-  .about-values { padding: var(--spacing-sections, 64px) 0; background: var(--color-background, #FAFAF9); }
+  .about-values { padding: var(--spacing-sections, 64px) 0; background: var(--color-background, #FFFFFF); }
   .about-values__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
   @media(max-width:989px) { .about-values__grid { grid-template-columns: repeat(2, 1fr); } }
   @media(max-width:600px) { .about-values__grid { grid-template-columns: 1fr; } }
   .about-value-card { padding: 2rem; background: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); transition: transform 0.3s ease, box-shadow 0.3s ease; }
   .about-value-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.06); }
-  .about-value-card__number { font-size: 2rem; font-weight: 800; color: var(--color-accent, #C5A880); opacity: 0.3; font-family: var(--font-heading); margin-bottom: 0.5rem; }
+  .about-value-card__number { font-size: 2rem; font-weight: 800; color: var(--color-accent, #ff0000); opacity: 0.3; font-family: var(--font-heading); margin-bottom: 0.5rem; }
   .about-value-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
   .about-value-card p { font-size: 0.875rem; color: var(--color-text-muted, #767674); line-height: 1.6; }
 
@@ -133,7 +133,7 @@
   .about-stats { padding: var(--spacing-sections, 64px) 0; background: var(--color-primary, #0C0C0E); }
   .about-stats__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
   @media(max-width:749px) { .about-stats__grid { grid-template-columns: repeat(2, 1fr); } }
-  .about-stat__number { display: block; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--color-accent, #C5A880); font-family: var(--font-heading); margin-bottom: 0.25rem; }
+  .about-stat__number { display: block; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--color-accent, #ff0000); font-family: var(--font-heading); margin-bottom: 0.25rem; }
   .about-stat__label { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
 
   /* CTA */
@@ -143,7 +143,7 @@
   .about-cta__inner p { color: rgba(255,255,255,0.5); margin-bottom: 2rem; }
   .about-cta__buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
   .about-cta__buttons .button--outline { color: #FFFFFF; border-color: rgba(255,255,255,0.25); }
-  .about-cta__buttons .button--outline:hover { background: var(--color-accent, #C5A880); color: var(--color-primary, #0C0C0E); border-color: var(--color-accent, #C5A880); }
+  .about-cta__buttons .button--outline:hover { background: var(--color-accent, #ff0000); color: var(--color-primary, #0C0C0E); border-color: var(--color-accent, #ff0000); }
 </style>
 
 {% schema %}

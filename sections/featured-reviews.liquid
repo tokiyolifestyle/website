@@ -47,7 +47,7 @@
     margin-bottom: 0.5rem;
   }
   .reviews .text-eyebrow {
-    color: var(--color-accent, #C5A880) !important;
+    color: var(--color-accent, #ff0000) !important;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -87,11 +87,11 @@
     }
   }
   .review-card:hover {
-    border-color: var(--color-accent, #C5A880) !important;
+    border-color: var(--color-accent, #ff0000) !important;
     background: rgba(255, 255, 255, 0.06) !important;
     transform: translateY(-4px);
   }
-  .review-card__stars { display:flex; gap:2px; color:var(--color-accent, #C5A880); margin-bottom:1rem; }
+  .review-card__stars { display:flex; gap:2px; color:var(--color-accent, #ff0000); margin-bottom:1rem; }
   .review-card__text {
     font-size:0.95rem; line-height:1.7;
     color: rgba(255, 255, 255, 0.85); margin-bottom:1.5rem;
@@ -100,13 +100,13 @@
   .review-card__author { display:flex; align-items:center; gap:0.75rem; margin-top: auto; }
   .review-card__avatar {
     width:36px; height:36px;
-    background: var(--color-accent, #C5A880); color: #000000;
+    background: var(--color-accent, #ff0000); color: #000000;
     display:flex; align-items:center; justify-content:center;
     font-weight:800; font-size:0.875rem;
     text-transform:uppercase;
   }
   .review-card__author strong { color: #FFFFFF !important; font-size:0.8125rem; display:block; }
-  .review-card__verified { font-size:0.6875rem; color:var(--color-accent, #C5A880); display:block; margin-top:2px; }
+  .review-card__verified { font-size:0.6875rem; color:var(--color-accent, #ff0000); display:block; margin-top:2px; }
 </style>
 
 {% schema %}
@@ -117,7 +117,7 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Reviews" },
     { "type": "text", "id": "title", "label": "Heading", "default": "What Our Customers Say" },
-    { "type": "color", "id": "background", "label": "Background", "default": "#FAFAF9" }
+    { "type": "color", "id": "background", "label": "Background", "default": "#FFFFFF" }
   ],
   "blocks": [
     {

@@ -10,7 +10,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: 
 body {
   margin: 0;
   font-family: var(--font-body, 'Inter', sans-serif);
-  background: var(--color-background, #FAFAF9);
+  background: var(--color-background, #FFFFFF);
   color: var(--color-primary, #111111);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -63,7 +63,7 @@ input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: var(--color-accent, #B89047);
+  border-color: var(--color-accent, #ff0000);
   box-shadow: none;
 }
 
@@ -79,7 +79,7 @@ input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid var(--color-accent, #B89047);
+  outline: 2px solid var(--color-accent, #ff0000);
   outline-offset: 2px;
 }
 
@@ -149,7 +149,7 @@ textarea:focus-visible,
 .loading-spinner {
   width: 40px; height: 40px;
   border: 2px solid rgba(184,144,71,0.2);
-  border-top-color: var(--color-accent, #B89047);
+  border-top-color: var(--color-accent, #ff0000);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -175,7 +175,7 @@ textarea:focus-visible,
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .back-to-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
-.back-to-top:hover { background: var(--color-accent, #B89047); color: #FFFFFF; }
+.back-to-top:hover { background: var(--color-accent, #ff0000); color: #FFFFFF; }
 
 @media (max-width: 749px) {
   .back-to-top {
@@ -188,4 +188,4 @@ textarea:focus-visible,
 /* Responsive images */
 .responsive-image { width: 100%; height: auto; }
 
-::selection { background: var(--color-accent, #B89047); color: #FFFFFF; }
+::selection { background: var(--color-accent, #ff0000); color: #FFFFFF; }

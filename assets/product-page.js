@@ -86,7 +86,6 @@ function initGallery() {
   const slides = [...track.querySelectorAll('.product-gallery__slide')];
   const allThumbs = thumbs ? [...thumbs.querySelectorAll('[data-thumb]')] : [];
   let currentIndex = 0;
-  let autoPlayTimer = null;
 
   function goToSlide(index) {
     if (index < 0) index = slides.length - 1;
@@ -116,7 +115,6 @@ function initGallery() {
   // Thumb clicks
   allThumbs.forEach((thumb, i) => {
     thumb.addEventListener('click', () => {
-      resetTimer();
       goToSlide(i);
     });
   });
@@ -138,30 +136,12 @@ function initGallery() {
     const swipeThreshold = 50;
     if (touchStartX - touchEndX > swipeThreshold) {
       // Swiped left -> next slide
-      resetTimer();
       goToSlide(currentIndex + 1);
     } else if (touchEndX - touchStartX > swipeThreshold) {
       // Swiped right -> prev slide
-      resetTimer();
       goToSlide(currentIndex - 1);
     }
   }
-
-  // Autoplay
-  function startTimer() {
-    autoPlayTimer = setInterval(() => {
-      goToSlide(currentIndex + 1);
-    }, 3000); // 3 seconds interval
-  }
-
-  function resetTimer() {
-    if (autoPlayTimer) {
-      clearInterval(autoPlayTimer);
-      startTimer();
-    }
-  }
-
-  startTimer();
 
   // Zoom Modal integration
   if (zoomBtn && zoomModal) {

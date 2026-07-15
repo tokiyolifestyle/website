@@ -72,7 +72,7 @@
         "uppercase": true,
         "padding_vertical": 16,
         "background": "#0A0A0A",
-        "text_color": "#C5A880"
+        "text_color": "#ff0000"
       }
     },
     "inaugural-offer-banner": {
