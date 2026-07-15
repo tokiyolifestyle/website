@@ -255,8 +255,8 @@
         mascot.style.top    = (window.innerHeight - 160) + 'px';
         lastX = 20;
         lastY = window.innerHeight - 160;
-        /* Faster transition on mobile = more lively */
-        mascot.style.transition = 'left 2s cubic-bezier(0.25,0.46,0.45,0.94), top 2s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.3s ease';
+        /* Slow, smooth glide transition matching desktop */
+        mascot.style.transition = 'left 3.5s cubic-bezier(0.25,0.46,0.45,0.94), top 3.5s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.3s ease';
       }
 
       const quotes = [
@@ -330,7 +330,7 @@
         lastX = parseFloat(mascot.style.left) || 30;
         lastY = parseFloat(mascot.style.top)  || window.innerHeight - 200;
         if (isMobile()) {
-          mascot.style.transition = 'left 2s cubic-bezier(0.25,0.46,0.45,0.94), top 2s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.3s ease';
+          mascot.style.transition = 'left 3.5s cubic-bezier(0.25,0.46,0.45,0.94), top 3.5s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.3s ease';
         } else {
           mascot.style.transition = 'left 3.5s cubic-bezier(0.25,0.46,0.45,0.94), top 3.5s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.3s ease';
         }
