@@ -103,7 +103,7 @@
         </div>
       {%- endif -%}
 
-      {%- assign decoded_query = canonical_url | split: '?' | last | replace: '%20', ' ' | replace: '%3A', ':' | replace: '%2F', '/' | replace: '%2C', ',' | replace: '+', ' ' -%}
+      {%- assign decoded_query = request.fullpath | split: '?' | last | replace: '%20', ' ' | replace: '%3A', ':' | replace: '%2F', '/' | replace: '%2C', ',' | replace: '+', ' ' -%}
 
       {%- assign gender_options = "Men,Women" | split: "," -%}
       {%- assign style_options = "Oversized,Regular" | split: "," -%}
@@ -127,6 +127,79 @@
       {%- assign price_lte = '' -%}
       {%- if decoded_query contains 'filter.v.price.lte=' -%}
         {%- assign price_lte = decoded_query | split: 'filter.v.price.lte=' | last | split: '&' | first -%}
+      {%- endif -%}
+
+      {%- comment -%} Parse selected filter parameters for custom Liquid-side filtering {%- endcomment -%}
+      {%- assign selected_genders = "" -%}
+      {%- if decoded_query contains "filter.p.tag=Men" or decoded_query contains "filter.p.tag=men" -%}
+        {%- assign selected_genders = selected_genders | append: "men," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=Women" or decoded_query contains "filter.p.tag=women" -%}
+        {%- assign selected_genders = selected_genders | append: "women," -%}
+      {%- endif -%}
+
+      {%- assign selected_fits = "" -%}
+      {%- if decoded_query contains "filter.p.tag=Oversized" or decoded_query contains "filter.p.tag=oversized" -%}
+        {%- assign selected_fits = selected_fits | append: "oversized," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=Regular" or decoded_query contains "filter.p.tag=regular" -%}
+        {%- assign selected_fits = selected_fits | append: "regular," -%}
+      {%- endif -%}
+
+      {%- assign selected_categories = "" -%}
+      {%- if decoded_query contains "filter.p.tag=graphic-print" -%}
+        {%- assign selected_categories = selected_categories | append: "graphic-print," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=anime" -%}
+        {%- assign selected_categories = selected_categories | append: "anime," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=streetwear" -%}
+        {%- assign selected_categories = selected_categories | append: "streetwear," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=story-wear" -%}
+        {%- assign selected_categories = selected_categories | append: "story-wear," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=minimal" -%}
+        {%- assign selected_categories = selected_categories | append: "minimal," -%}
+      {%- endif -%}
+
+      {%- assign selected_colors = "" -%}
+      {%- for color in color_options -%}
+        {%- assign color_query = "filter.v.option.color=" | append: color -%}
+        {%- if decoded_query contains color_query -%}
+          {%- assign selected_colors = selected_colors | append: color | append: "," -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- assign selected_sizes = "" -%}
+      {%- for size in size_options -%}
+        {%- assign size_query = "filter.v.option.size=" | append: size -%}
+        {%- if decoded_query contains size_query -%}
+          {%- assign selected_sizes = selected_sizes | append: size | append: "," -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- assign selected_fabrics = "" -%}
+      {%- for fabric in fabric_options -%}
+        {%- assign fabric_query = "filter.p.tag=" | append: fabric -%}
+        {%- if decoded_query contains fabric_query -%}
+          {%- assign selected_fabrics = selected_fabrics | append: fabric | append: "," -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- assign selected_brands = "" -%}
+      {%- for brand in brand_options -%}
+        {%- assign brand_query = "filter.p.vendor=" | append: brand -%}
+        {%- if decoded_query contains brand_query -%}
+          {%- assign selected_brands = selected_brands | append: brand | append: "," -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- assign filter_avail = "" -%}
+      {%- if decoded_query contains "filter.v.availability=1" -%}
+        {%- assign filter_avail = "1" -%}
+      {%- elsif decoded_query contains "filter.v.availability=0" -%}
+        {%- assign filter_avail = "0" -%}
       {%- endif -%}
 
       {%- comment -%} 0.1 Gender Filter {%- endcomment -%}
@@ -359,25 +432,84 @@
 
     {%- comment -%} Product grid {%- endcomment -%}
     <div class="collection-grid-wrap">
-      {%- paginate collection.products by section.settings.products_per_page -%}
+      {%- paginate collection.products by 250 -%}
         {%- if collection.products.size > 0 -%}
           <div id="ProductGrid" class="product-grid product-grid--{{ section.settings.columns }}" data-product-grid>
             {%- for product in collection.products -%}
               {%- if product.handle == 'cod-fee' -%}{%- continue -%}{%- endif -%}
-              {% render 'product-card', product: product, lazy: true %}
+              {%- assign p_tags_lower = '' -%}
+              {%- for tag in product.tags -%}
+                {%- assign tag_down = tag | downcase | replace: ' ', '-' -%}
+                {%- if p_tags_lower == '' -%}
+                  {%- assign p_tags_lower = tag_down -%}
+                {%- else -%}
+                  {%- assign p_tags_lower = p_tags_lower | append: ',' | append: tag_down -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- assign p_colors = '' -%}
+              {%- assign p_sizes = '' -%}
+              {%- for variant in product.variants -%}
+                {%- for option in variant.options -%}
+                  {%- if p_colors == '' or p_colors contains option -%}
+                  {%- else -%}
+                    {%- if p_colors == '' -%}
+                      {%- assign p_colors = option -%}
+                    {%- else -%}
+                      {%- assign p_colors = p_colors | append: ',' | append: option -%}
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endfor -%}
+              {%- comment -%} Build color and size lists from option values {%- endcomment -%}
+              {%- assign p_colors = '' -%}
+              {%- assign p_sizes = '' -%}
+              {%- if product.options_with_values.size > 0 -%}
+                {%- for product_option in product.options_with_values -%}
+                  {%- assign opt_name_down = product_option.name | downcase -%}
+                  {%- if opt_name_down == 'color' or opt_name_down == 'colour' -%}
+                    {%- for val in product_option.values -%}
+                      {%- if p_colors == '' -%}
+                        {%- assign p_colors = val -%}
+                      {%- else -%}
+                        {%- unless p_colors contains val -%}
+                          {%- assign p_colors = p_colors | append: ',' | append: val -%}
+                        {%- endunless -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- elsif opt_name_down == 'size' -%}
+                    {%- for val in product_option.values -%}
+                      {%- if p_sizes == '' -%}
+                        {%- assign p_sizes = val -%}
+                      {%- else -%}
+                        {%- unless p_sizes contains val -%}
+                          {%- assign p_sizes = p_sizes | append: ',' | append: val -%}
+                        {%- endunless -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+              <div class="product-card-filter-wrap" data-filter-card
+                data-tags="{{ p_tags_lower }}"
+                data-colors="{{ p_colors }}"
+                data-sizes="{{ p_sizes }}"
+                data-vendor="{{ product.vendor }}"
+                data-price="{{ product.price | money_without_currency | strip }}"
+                data-price-cents="{{ product.price }}"
+                data-available="{{ product.available }}">
+                {% render 'product-card', product: product, lazy: true %}
+              </div>
             {%- endfor -%}
           </div>
 
-          {%- if paginate.pages > 1 -%}
-            {% render 'pagination', paginate: paginate %}
-          {%- endif -%}
+          <div class="collection-empty" id="FilterEmptyState" style="display:none;">
+            <p>{{ 'sections.collection.no_products' | t }}</p>
+            <p>{{ 'sections.collection.use_fewer_filters' | t }}</p>
+            <a href="{{ collection.url }}" class="button button--outline">{{ 'sections.collection.clear_all' | t }}</a>
+          </div>
         {%- else -%}
           <div class="collection-empty">
             <p>{{ 'sections.collection.no_products' | t }}</p>
-            {%- if results.active_filters.size > 0 -%}
-              <p>{{ 'sections.collection.use_fewer_filters' | t }}</p>
-              <a href="{{ collection.url }}" class="button button--outline">{{ 'sections.collection.clear_all' | t }}</a>
-            {%- endif -%}
           </div>
         {%- endif -%}
       {%- endpaginate -%}
@@ -667,18 +799,126 @@
     document.querySelector('[data-filter-close]')?.addEventListener('click', closeFilters);
     filterOverlay && filterOverlay.addEventListener('click', closeFilters);
 
-    /* Apply filters */
+    /* ──── Client-side product filtering ──── */
+    function applyClientFilters() {
+      const params = new URLSearchParams(window.location.search);
+      const cards = document.querySelectorAll('[data-filter-card]');
+      const emptyState = document.getElementById('FilterEmptyState');
+      if (!cards.length) return;
+
+      /* Collect active filter values from URL */
+      const tagFilters = params.getAll('filter.p.tag').map(v => v.toLowerCase().replace(/\s+/g, '-'));
+      const colorFilters = params.getAll('filter.v.option.color');
+      const sizeFilters = params.getAll('filter.v.option.size');
+      const vendorFilters = params.getAll('filter.p.vendor');
+      const availFilters = params.getAll('filter.v.availability');
+      const priceGte = params.get('filter.v.price.gte');
+      const priceLte = params.get('filter.v.price.lte');
+
+      const hasFilters = tagFilters.length || colorFilters.length || sizeFilters.length ||
+                         vendorFilters.length || availFilters.length || priceGte || priceLte;
+
+      if (!hasFilters) {
+        /* No filters active — show all */
+        cards.forEach(c => c.style.display = '');
+        if (emptyState) emptyState.style.display = 'none';
+        return;
+      }
+
+      /* Separate tag filters into groups */
+      const genderTags = tagFilters.filter(t => t === 'men' || t === 'women');
+      const fitTags = tagFilters.filter(t => t === 'oversized' || t === 'regular');
+      const categoryTags = tagFilters.filter(t =>
+        ['graphic-print', 'anime', 'streetwear', 'story-wear', 'minimal'].includes(t)
+      );
+      /* Remaining tags that don't fit known groups (fabric etc.) */
+      const otherTags = tagFilters.filter(t =>
+        !['men', 'women', 'oversized', 'regular', 'graphic-print', 'anime', 'streetwear', 'story-wear', 'minimal'].includes(t)
+      );
+
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cardTags = (card.dataset.tags || '').split(',').map(s => s.trim()).filter(Boolean);
+        const cardColors = (card.dataset.colors || '').split(',').map(s => s.trim()).filter(Boolean);
+        const cardSizes = (card.dataset.sizes || '').split(',').map(s => s.trim()).filter(Boolean);
+        const cardVendor = card.dataset.vendor || '';
+        const cardPriceCents = parseInt(card.dataset.priceCents || '0', 10);
+        const cardAvailable = card.dataset.available === 'true';
+
+        let match = true;
+
+        /* Gender: OR within group, AND across groups */
+        if (genderTags.length && !genderTags.some(g => cardTags.includes(g))) match = false;
+        if (fitTags.length && !fitTags.some(f => cardTags.includes(f))) match = false;
+        if (categoryTags.length && !categoryTags.some(c => cardTags.includes(c))) match = false;
+        if (otherTags.length && !otherTags.some(t => cardTags.includes(t))) match = false;
+
+        /* Color filter (OR logic) */
+        if (colorFilters.length && !colorFilters.some(c => cardColors.includes(c))) match = false;
+
+        /* Size filter (OR logic) */
+        if (sizeFilters.length && !sizeFilters.some(s => cardSizes.includes(s))) match = false;
+
+        /* Vendor filter (OR logic) */
+        if (vendorFilters.length && !vendorFilters.includes(cardVendor)) match = false;
+
+        /* Availability */
+        if (availFilters.length) {
+          if (availFilters.includes('1') && !availFilters.includes('0') && !cardAvailable) match = false;
+          if (availFilters.includes('0') && !availFilters.includes('1') && cardAvailable) match = false;
+        }
+
+        /* Price range (in cents) */
+        if (priceGte && cardPriceCents < parseInt(priceGte, 10) * 100) match = false;
+        if (priceLte && cardPriceCents > parseInt(priceLte, 10) * 100) match = false;
+
+        card.style.display = match ? '' : 'none';
+        if (match) visibleCount++;
+      });
+
+      /* Show/hide empty state */
+      if (emptyState) {
+        emptyState.style.display = visibleCount === 0 ? '' : 'none';
+      }
+    }
+
+    /* Restore checked state from URL on page load */
+    function restoreCheckboxes() {
+      const params = new URLSearchParams(window.location.search);
+      document.querySelectorAll('[data-filter-input]').forEach(input => {
+        if (input.type === 'checkbox') {
+          const vals = params.getAll(input.name);
+          input.checked = vals.includes(input.value);
+        }
+      });
+      /* Restore price inputs */
+      const priceGte = params.get('filter.v.price.gte');
+      const priceLte = params.get('filter.v.price.lte');
+      document.querySelectorAll('.filter-price-inputs input').forEach(input => {
+        if (input.name === 'filter.v.price.gte' && priceGte) input.value = priceGte;
+        if (input.name === 'filter.v.price.lte' && priceLte) input.value = priceLte;
+      });
+    }
+
+    /* Run on page load */
+    restoreCheckboxes();
+    applyClientFilters();
+
+    /* Apply filters button — update URL without full reload for speed */
     document.querySelector('[data-filter-apply]')?.addEventListener('click', () => {
       const url = new URL(window.location.pathname, window.location.origin);
       const currentUrl = new URL(window.location);
+      /* Preserve preview_theme_id for development */
+      if (currentUrl.searchParams.has('preview_theme_id')) {
+        url.searchParams.set('preview_theme_id', currentUrl.searchParams.get('preview_theme_id'));
+      }
       if (currentUrl.searchParams.has('sort_by')) {
         url.searchParams.set('sort_by', currentUrl.searchParams.get('sort_by'));
       }
       document.querySelectorAll('[data-filter-input]').forEach(input => {
-        if (input.type === 'checkbox') {
-          if (input.checked) {
-            url.searchParams.append(input.name, input.value);
-          }
+        if (input.type === 'checkbox' && input.checked) {
+          url.searchParams.append(input.name, input.value);
         }
       });
       document.querySelectorAll('.filter-price-inputs input').forEach(input => {
@@ -686,7 +926,16 @@
           url.searchParams.set(input.name, input.value);
         }
       });
-      window.location = url.toString();
+      /* Update URL without reload, then filter client-side */
+      window.history.pushState({}, '', url.toString());
+      applyClientFilters();
+      closeFilters();
+    });
+
+    /* Handle browser back/forward */
+    window.addEventListener('popstate', () => {
+      restoreCheckboxes();
+      applyClientFilters();
     });
   })();
 </script>
