@@ -1,31 +1,31 @@
 <div class="cart-drawer-overlay" data-cart-overlay></div>
 
 <div class="cart-drawer" data-cart-drawer id="CartDrawer" aria-label="Cart" role="dialog" aria-modal="true" style="transform: translateX(100%); visibility: hidden;">
-  <div class="cart-drawer__header">
-    <h2 class="cart-drawer__title">{{ 'sections.cart.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)</h2>
-    <button class="cart-drawer__close" data-cart-drawer-close aria-label="{{ 'accessibility.close' | t }}">{% render 'icon-close' %}</button>
-  </div>
-
-  {%- if settings.cart_free_shipping_bar -%}
-    {%- assign threshold = settings.cart_free_shipping_threshold | plus: 0 -%}
-    <div class="cart-drawer__shipping-bar" data-shipping-bar data-free-shipping-threshold="{{ threshold }}">
-      <p data-shipping-message>
-        {%- assign threshold_cents = threshold | times: 100 -%}
-        {%- if cart.total_price >= threshold_cents -%}
-          {{ 'sections.cart.free_shipping_achieved' | t }}
-        {%- else -%}
-          {%- assign remaining = threshold_cents | minus: cart.total_price | divided_by: 100.0 -%}
-          Add ₹{{ remaining | floor }} more for FREE shipping!
-        {%- endif -%}
-      </p>
-      <div class="cart-drawer__progress">
-        {%- assign progress_pct = cart.total_price | times: 100 | divided_by: threshold_cents | at_most: 100 -%}
-        <div class="cart-drawer__progress-bar" data-shipping-progress style="width:{{ progress_pct }}%;"></div>
-      </div>
+  <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm" style="display: flex; flex-direction: column; height: 100%; width: 100%; overflow: hidden; margin: 0;">
+    <div class="cart-drawer__header">
+      <h2 class="cart-drawer__title">{{ 'sections.cart.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)</h2>
+      <button class="cart-drawer__close" data-cart-drawer-close type="button" aria-label="{{ 'accessibility.close' | t }}">{% render 'icon-close' %}</button>
     </div>
-  {%- endif -%}
 
-  <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm" style="display: flex; flex-direction: column; flex: 1; min-height: 0; width: 100%;">
+    {%- if settings.cart_free_shipping_bar -%}
+      {%- assign threshold = settings.cart_free_shipping_threshold | plus: 0 -%}
+      <div class="cart-drawer__shipping-bar" data-shipping-bar data-free-shipping-threshold="{{ threshold }}">
+        <p data-shipping-message>
+          {%- assign threshold_cents = threshold | times: 100 -%}
+          {%- if cart.total_price >= threshold_cents -%}
+            {{ 'sections.cart.free_shipping_achieved' | t }}
+          {%- else -%}
+            {%- assign remaining = threshold_cents | minus: cart.total_price | divided_by: 100.0 -%}
+            Add ₹{{ remaining | floor }} more for FREE shipping!
+          {%- endif -%}
+        </p>
+        <div class="cart-drawer__progress">
+          {%- assign progress_pct = cart.total_price | times: 100 | divided_by: threshold_cents | at_most: 100 -%}
+          <div class="cart-drawer__progress-bar" data-shipping-progress style="width:{{ progress_pct }}%;"></div>
+        </div>
+      </div>
+    {%- endif -%}
+
     <div class="cart-drawer__body" data-cart-body>
       {%- if cart.item_count > 0 -%}
         {%- for item in cart.items -%}
@@ -51,18 +51,8 @@
             </div>
           </div>
         {%- endfor -%}
-      {%- else -%}
-        <div class="cart-drawer__empty">
-          <p>{{ 'sections.cart.empty' | t }}</p>
-          <a href="/collections/all" class="button button--solid">{{ 'sections.cart.start_shopping' | t }}</a>
-        </div>
-      {%- endif -%}
-    </div>
 
-    {%- if cart.item_count > 0 -%}
-      <div class="cart-drawer__footer" data-cart-footer>
-        
-        <!-- --- Payment Option Selector --- -->
+        <!-- --- Payment Option Selector inside body (scrollable) --- -->
         <div class="cart-payment-methods">
           <label class="payment-methods-title">Select Payment Method</label>
           <div class="payment-options-grid">
@@ -91,6 +81,16 @@
           </div>
         </div>
 
+      {%- else -%}
+        <div class="cart-drawer__empty">
+          <p>{{ 'sections.cart.empty' | t }}</p>
+          <a href="/collections/all" class="button button--solid">{{ 'sections.cart.start_shopping' | t }}</a>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if cart.item_count > 0 -%}
+      <div class="cart-drawer__footer" data-cart-footer>
         <div class="cart-drawer__subtotal" id="CartCodFeeRow" style="display: none; margin-bottom: 0.5rem; color: #C62828; font-size: 0.85rem;">
           <span>COD Shipping Fee</span>
           <span>+₹80.00</span>
@@ -111,11 +111,9 @@
             }
           }
 
-          // Establish the global sync function
           window.syncCartPayment = function() {
             const method = localStorage.getItem('tokiyo_payment_method') || 'prepaid';
             
-            // Sync drawer cards
             const prepaidCard = document.getElementById('PrepaidOptionCard');
             const codCard = document.getElementById('CodOptionCard');
             const prepaidInput = document.querySelector('input[name="payment_method_choice"][value="prepaid"]');
@@ -180,7 +178,6 @@
               cartCodFeeRow.style.display = (codFee > 0) ? 'flex' : 'none';
             }
 
-            // Sync notice banners
             const prepaidNotice = document.getElementById('PaymentPrepaidNotice');
             const codNotice = document.getElementById('PaymentCodNotice');
             if (prepaidNotice && codNotice) {
@@ -189,11 +186,10 @@
                 codNotice.style.display = 'none';
               } else {
                 prepaidNotice.style.display = 'none';
-                codNotice.style.display = (subtotalRs < 999) ? 'block' : 'none'; // Only show warning if fee is actually added
+                codNotice.style.display = (subtotalRs < 999) ? 'block' : 'none';
               }
             }
 
-            // Dynamic Shipping bar updates based on payment method
             const shippingMessageEl = document.querySelector('[data-shipping-message]');
             const shippingProgressEl = document.querySelector('[data-shipping-progress]');
             if (shippingMessageEl && shippingProgressEl) {
@@ -201,7 +197,6 @@
                 shippingMessageEl.innerHTML = 'Prepaid Order: <strong>FREE Shipping</strong> applied! 🎁';
                 shippingProgressEl.style.width = '100%';
               } else {
-                // COD
                 if (subtotalRs >= 999) {
                   shippingMessageEl.innerHTML = '<strong>FREE Shipping (COD)</strong> achieved! 🎉';
                   shippingProgressEl.style.width = '100%';
@@ -215,7 +210,6 @@
             }
           };
 
-          // Run recovery check
           (function() {
             const savedMethod = localStorage.getItem('tokiyo_payment_method') || 'prepaid';
             const radioBtn = document.querySelector(`input[name="payment_method_choice"][value="${savedMethod}"]`);

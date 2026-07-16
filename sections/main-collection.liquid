@@ -338,6 +338,7 @@
         {%- if collection.products.size > 0 -%}
           <div id="ProductGrid" class="product-grid product-grid--{{ section.settings.columns }}" data-product-grid>
             {%- for product in collection.products -%}
+              {%- if product.handle == 'cod-fee' -%}{%- continue -%}{%- endif -%}
               {% render 'product-card', product: product, lazy: true %}
             {%- endfor -%}
           </div>

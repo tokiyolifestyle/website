@@ -62,14 +62,15 @@
     background-image: radial-gradient(circle at 30% 40%, rgba(201,168,106,0.08) 0%, transparent 50%);
   }
   .iwt__content h2 { margin-bottom:1rem; }
-  .iwt__body { margin-bottom:1.5rem; line-height:1.8; color:rgba(255,255,255,0.5); }
-  .iwt__body p { margin-bottom:0.75rem; }
+  .iwt__body { margin-bottom:1.5rem; line-height:1.8; color:rgba(255,255,255,0.6); }
+  .iwt__body p, .iwt__body span, .iwt__body strong, .iwt__body a, .iwt__body font { color: inherit !important; }
   .iwt__features { margin:1.5rem 0 2rem; }
   .iwt__features li {
     display:flex; align-items:center; gap:0.75rem;
-    padding:0.5rem 0; color:rgba(255,255,255,0.7);
+    padding:0.5rem 0; color:rgba(255,255,255,0.7) !important;
     font-size:0.9375rem;
   }
+  .iwt__features li * { color: inherit !important; }
   .iwt__check { color:var(--color-accent, #ff0000); font-size:0.75rem; }
   @media(max-width:749px){
     .iwt__grid { grid-template-columns:1fr; gap:2rem; }

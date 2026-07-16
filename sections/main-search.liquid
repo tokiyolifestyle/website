@@ -15,6 +15,7 @@
       <p class="search-page__count">{{ search.results_count }} results for "{{ search.terms }}"</p>
       <div class="product-grid product-grid--4 stagger-children">
         {%- for item in search.results -%}
+          {%- if item.handle == 'cod-fee' -%}{%- continue -%}{%- endif -%}
           {%- if item.object_type == 'product' -%}
             {% render 'product-card', product: item, lazy: true %}
           {%- endif -%}
