@@ -791,10 +791,29 @@
   /* ═══ 3D Card Grid ═══ */
   .catg-universe__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 16px;
   }
-  @media(max-width:600px) { .catg-universe__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+  @media(max-width: 767px) {
+    .catg-universe__grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      padding-bottom: 1rem;
+      padding-inline: 1.5rem;
+      margin-inline: -1.5rem;
+      gap: 12px;
+    }
+    .catg-universe__grid::-webkit-scrollbar {
+      display: none;
+    }
+    .catg-card-3d {
+      width: 200px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+    }
+  }
 
   /* ═══ 3D Tilt Card — THE STAR ═══ */
   .catg-card-3d {
