@@ -9,6 +9,7 @@ class TokiyoCart {
     this.threshold = parseFloat(document.querySelector('[data-free-shipping-threshold]')?.dataset.freeShippingThreshold || '0') * 100;
     this.codFeeVariantId = 48862017716468;
     this.bindEvents();
+    this.syncCodFeeInCart();
   }
   bindEvents() {
     document.addEventListener('click', e => {
@@ -82,7 +83,16 @@ class TokiyoCart {
   updateCount(count) { this.countEls.forEach(el => el.textContent = count); }
   
   async syncCodFeeInCart() {
+    const checkoutBtns = document.querySelectorAll('button[name="checkout"], .cart-checkout-btn');
     try {
+      checkoutBtns.forEach(btn => {
+        btn.disabled = true;
+        if (!btn.dataset.originalText) {
+          btn.dataset.originalText = btn.innerHTML;
+        }
+        btn.innerHTML = 'Syncing payment...';
+      });
+
       const cart = await this.getCart();
       const method = localStorage.getItem('tokiyo_payment_method') || 'prepaid';
       
@@ -90,7 +100,7 @@ class TokiyoCart {
       let hasCodFee = false;
       
       cart.items.forEach(item => {
-        if (item.variant_id === this.codFeeVariantId) {
+        if (Number(item.variant_id) === Number(this.codFeeVariantId)) {
           hasCodFee = true;
         } else {
           subtotalCents += item.final_line_price;
@@ -123,6 +133,13 @@ class TokiyoCart {
       }
     } catch(err) {
       console.error('COD Fee sync failed:', err);
+    } finally {
+      checkoutBtns.forEach(btn => {
+        btn.disabled = false;
+        if (btn.dataset.originalText) {
+          btn.innerHTML = btn.dataset.originalText;
+        }
+      });
     }
   }
 
