@@ -313,7 +313,7 @@
         "type": "text",
         "id": "cart_free_shipping_threshold",
         "label": "Free shipping threshold (in your currency, numeric only)",
-        "default": "899"
+        "default": "0"
       },
       {
         "type": "checkbox",

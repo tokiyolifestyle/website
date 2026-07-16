@@ -35,18 +35,20 @@
         {%- assign col_image = block.settings.image -%}
         
         {%- if col_image == blank -%}
-          {%- if col != blank and col.products.first != blank -%}
-            {%- assign col_image = col.products.first.featured_image -%}
+          {%- assign title_lower = block.settings.title | downcase -%}
+          {%- if title_lower contains 'anime' -%}
+            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm004'].featured_image -%}
+          {%- elsif title_lower contains 'streetwear' -%}
+            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm003'].featured_image -%}
+          {%- elsif title_lower contains 'minimal' -%}
+            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm009'].featured_image -%}
+          {%- elsif title_lower contains 'men' -%}
+            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm008'].featured_image -%}
+          {%- elsif title_lower contains 'women' -%}
+            {%- assign col_image = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo006'].featured_image -%}
           {%- else -%}
-            {%- comment -%} Fall back to mixed unique products based on block title/index {%- endcomment -%}
-            {%- assign title_lower = block.settings.title | downcase -%}
-            {%- if title_lower contains 'women' -%}
-              {%- assign col_image = all_products[women_array[0]].featured_image -%}
-            {%- else -%}
-              {%- comment -%} Use unique index from men list (offset to avoid exact same products) {%- endcomment -%}
-              {%- assign fallback_idx = forloop.index0 | times: 3 | modulo: men_array.size -%}
-              {%- assign fallback_handle = men_array[fallback_idx] -%}
-              {%- assign col_image = all_products[fallback_handle].featured_image -%}
+            {%- if col != blank and col.products.first != blank -%}
+              {%- assign col_image = col.products.first.featured_image -%}
             {%- endif -%}
           {%- endif -%}
         {%- endif -%}

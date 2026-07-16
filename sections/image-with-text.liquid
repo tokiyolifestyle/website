@@ -1,4 +1,4 @@
-﻿{%- comment -%} Image with Text â€” Dark Premium {%- endcomment -%}
+{%- comment -%} Image with Text — Dark Premium {%- endcomment -%}
 
 <section class="iwt section-iwt" style="background:{{ section.settings.background_color | default: '#0A0A0A' }};">
   <div class="page-width">
@@ -34,7 +34,7 @@
             {%- assign features = section.settings.features | split: '|' -%}
             {%- for feature in features -%}
               <li>
-                <span class="iwt__check">âœ¦</span>
+                <span class="iwt__check">✦</span>
                 {{ feature | strip }}
               </li>
             {%- endfor -%}
@@ -89,8 +89,8 @@
     { "type": "select", "id": "layout", "label": "Layout", "options": [{"value":"image-left","label":"Image left"},{"value":"image-right","label":"Image right"}], "default": "image-left" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our Story" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Crafted for the Bold" },
-    { "type": "richtext", "id": "body", "label": "Body text", "default": "<p>At Tokiyo Lifestyle, we believe fashion is more than clothing â€” it's a statement. Every piece is designed with precision and crafted from premium materials for the modern individual.</p>" },
-    { "type": "text", "id": "features", "label": "Features (separate with |)", "default": "Premium Quality Fabrics|Ethically Sourced Materials|Designed in India|Free Shipping on â‚¹899+" },
+    { "type": "richtext", "id": "body", "label": "Body text", "default": "<p>At Tokiyo Lifestyle, we believe fashion is more than clothing — it's a statement. Every piece is designed with precision and crafted from premium materials for the modern individual.</p>" },
+    { "type": "text", "id": "features", "label": "Features (separate with |)", "default": "Premium Quality Fabrics|Ethically Sourced Materials|Designed in India|Free Shipping on Prepaid Orders" },
     { "type": "text", "id": "cta_label", "label": "Button label", "default": "Discover More" },
     { "type": "url", "id": "cta_link", "label": "Button link" },
     { "type": "color", "id": "background_color", "label": "Background", "default": "#0A0A0A" },

@@ -17,7 +17,7 @@
             {{ 'sections.cart.free_shipping_achieved' | t }}
           {%- else -%}
             {%- assign remaining = threshold_cents | minus: cart.total_price | divided_by: 100.0 -%}
-            Add â‚¹{{ remaining | floor }} more for FREE shipping!
+            Add ₹{{ remaining | floor }} more for FREE shipping!
           {%- endif -%}
         </p>
         <div class="cart-drawer__progress">
@@ -62,7 +62,7 @@
               <span class="option-indicator"></span>
               <div class="option-details">
                 <strong>Prepaid (Online)</strong>
-                <p>UPI/Card/Netbanking â€” Free Shipping</p>
+                <p>UPI/Card/Netbanking — Free Shipping</p>
               </div>
             </label>
             <label class="payment-option-card" id="CodOptionCard">
@@ -70,15 +70,15 @@
               <span class="option-indicator"></span>
               <div class="option-details">
                 <strong>Cash on Delivery (COD)</strong>
-                <p>Extra â‚¹80 (Free above â‚¹1199)</p>
+                <p>Extra ₹80 (Free above ₹1199)</p>
               </div>
             </label>
           </div>
           <div class="payment-methods-notice" id="PaymentPrepaidNotice" style="margin-top: 0.75rem; font-size: 0.7rem; color: #555; line-height: 1.3;">
-             âœ“ Prepaid orders get <strong>FREE shipping</strong>! ðŸŽ
+             ✓ Prepaid orders get <strong>FREE shipping</strong>! 🎁
           </div>
           <div class="payment-methods-notice" id="PaymentCodNotice" style="margin-top: 0.75rem; font-size: 0.72rem; color: #b71c1c; line-height: 1.4; display: none; background: rgba(183, 28, 28, 0.04); border-left: 2px solid #b71c1c; padding: 0.4rem 0.6rem;">
-             âš ï¸ <strong>Switching to Razorpay at checkout?</strong> Please change your selection to 'Prepaid' here first to remove the â‚¹80 COD fee.
+             ⚠️ <strong>Switching to Razorpay at checkout?</strong> Please change your selection to 'Prepaid' here first to remove the ₹80 COD fee.
           </div>
         </div>
 
@@ -94,7 +94,7 @@
       <div class="cart-drawer__footer" data-cart-footer>
         <div class="cart-drawer__subtotal" id="CartCodFeeRow" style="display: none; margin-bottom: 0.5rem; color: #C62828; font-size: 0.85rem;">
           <span>COD Shipping Fee</span>
-          <span>+â‚¹80.00</span>
+          <span>+₹80.00</span>
         </div>
 
         <div class="cart-drawer__subtotal">
@@ -159,7 +159,7 @@
             }
             
             const totalDisplayPrice = subtotalRs + codFee;
-            const formattedPrice = 'â‚¹' + totalDisplayPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const formattedPrice = '₹' + totalDisplayPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
             const subtotalPriceEl = document.getElementById('DrawerTotalPriceDisplay');
             if (subtotalPriceEl) {
@@ -191,21 +191,21 @@
               }
             }
 
-            const shippingMessageEls = document.querySelectorAll('[data-shipping-message]');
-            const shippingProgressEls = document.querySelectorAll('[data-shipping-progress]');
-            if (shippingMessageEls.length && shippingProgressEls.length) {
+            const shippingMessageEl = document.querySelector('[data-shipping-message]');
+            const shippingProgressEl = document.querySelector('[data-shipping-progress]');
+            if (shippingMessageEl && shippingProgressEl) {
               if (method === 'prepaid') {
-                shippingMessageEls.forEach(el => el.innerHTML = 'Prepaid Order: <strong>FREE Shipping</strong> applied! 🎁');
-                shippingProgressEls.forEach(el => el.style.width = '100%');
+                shippingMessageEl.innerHTML = 'Prepaid Order: <strong>FREE Shipping</strong> applied! 🎁';
+                shippingProgressEl.style.width = '100%';
               } else {
                 if (subtotalRs >= 1199) {
-                  shippingMessageEls.forEach(el => el.innerHTML = '<strong>FREE Shipping (COD)</strong> achieved! 🎉');
-                  shippingProgressEls.forEach(el => el.style.width = '100%');
+                  shippingMessageEl.innerHTML = '<strong>FREE Shipping (COD)</strong> achieved! 🎉';
+                  shippingProgressEl.style.width = '100%';
                 } else {
                   const remaining = 1199 - subtotalRs;
-                  shippingMessageEls.forEach(el => el.innerHTML = 'Add <strong>₹' + Math.ceil(remaining) + '</strong> more for FREE Shipping (COD)!');
+                  shippingMessageEl.innerHTML = 'Add <strong>₹' + Math.ceil(remaining) + '</strong> more for FREE Shipping (COD)!';
                   const progressPct = Math.min(100, (subtotalRs / 1199) * 100);
-                  shippingProgressEls.forEach(el => el.style.width = progressPct + '%');
+                  shippingProgressEl.style.width = progressPct + '%';
                 }
               }
             }
