@@ -8,6 +8,90 @@ const clientSecret = process.env.SHOPIFY_CLIENT_SECRET;
 
 const dryRun = process.argv.includes('--dry-run');
 
+// Helper to determine product variant prices based on screenshots
+function getScreenshotPrices(designCode, size) {
+  const normalizedCode = designCode.toUpperCase().replace('TOVWO', 'TOTWO');
+  
+  const mensOversized = {
+    TOTM001: { sml: 849, xlxxl: 899, mrp: 1499 },
+    TOTM002: { sml: 649, xlxxl: 699, mrp: 999 },
+    TOTM003: { sml: 649, xlxxl: 699, mrp: 999 },
+    TOTM004: { sml: 649, xlxxl: 699, mrp: 999 },
+    TOTM005: { sml: 649, xlxxl: 699, mrp: 999 },
+    TOTM006: { sml: 649, xlxxl: 669, mrp: 999 },
+    TOTM007: { sml: 649, xlxxl: 699, mrp: 999 },
+    TOTM008: { sml: 649, xlxxl: 699, mrp: 999 },
+    TOTM009: { sml: 649, xlxxl: 699, mrp: 999 },
+    TOTM010: { sml: 649, xlxxl: 699, mrp: 999 },
+    TOTM011: { sml: 699, xlxxl: 749, mrp: 1099 }
+  };
+
+  const mensRegular = {
+    TRTM001: { sml: 599, xlxxl: 649, mrp: 899 },
+    TRTM002: { sml: 649, xlxxl: 669, mrp: 999 },
+    TRTM003: { sml: 649, xlxxl: 669, mrp: 999 },
+    TRTM004: { sml: 599, xlxxl: 649, mrp: 899 },
+    TRTM005: { sml: 599, xlxxl: 649, mrp: 899 },
+    TRTM006: { sml: 599, xlxxl: 649, mrp: 899 },
+    TRTM007: { sml: 549, xlxxl: 599, mrp: 799 },
+    TRTM008: { sml: 649, xlxxl: 699, mrp: 999 },
+    TRTM009: { sml: 599, xlxxl: 649, mrp: 899 },
+    TRTM010: { sml: 599, xlxxl: 649, mrp: 899 }
+  };
+
+  const womensOversized = {
+    TOTWO001: { sml: 599, xlxxl: 649, mrp: 999 },
+    TOTWO002: { sml: 749, xlxxl: 799, mrp: 1299 },
+    TOTWO003: { sml: 749, xlxxl: 799, mrp: 1299 },
+    TOTWO004: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO005: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO006: { sml: 599, xlxxl: 649, mrp: 999 },
+    TOTWO007: { sml: 549, xlxxl: 599, mrp: 999 },
+    TOTWO008: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO009: { sml: 699, xlxxl: 749, mrp: 1299 },
+    TOTWO010: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO011: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO012: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO013: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO014: { sml: 599, xlxxl: 649, mrp: 599 },
+    TOTWO015: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO016: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO017: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO018: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO019: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO020: { sml: 599, xlxxl: 649, mrp: 1299 },
+    TOTWO021: { sml: 599, xlxxl: 649, mrp: 899 },
+    TOTWO022: { sml: 599, xlxxl: 649, mrp: 899 },
+    TOTWO023: { sml: 599, xlxxl: 649, mrp: 999 },
+    TOTWO024: { sml: 599, xlxxl: 649, mrp: 999 },
+    TOTWO025: { sml: 649, xlxxl: 699, mrp: 1299 }
+  };
+
+  let pricing = null;
+  if (normalizedCode.startsWith('TOTM')) {
+    pricing = mensOversized[normalizedCode];
+  } else if (normalizedCode.startsWith('TRTM')) {
+    pricing = mensRegular[normalizedCode];
+  } else if (normalizedCode.startsWith('TOTWO')) {
+    pricing = womensOversized[normalizedCode];
+  }
+
+  if (!pricing) {
+    return { price: "599.00", compareAtPrice: "999.00" };
+  }
+
+  const sizeUpper = size.toUpperCase().trim();
+  let price = pricing.sml;
+  if (sizeUpper === 'XL' || sizeUpper === 'XXL' || sizeUpper === '3XL' || sizeUpper === 'XXXL' || sizeUpper === '2XL') {
+    price = pricing.xlxxl;
+  }
+  
+  return {
+    price: price.toFixed(2),
+    compareAtPrice: pricing.mrp.toFixed(2)
+  };
+}
+
 // Helper to retrieve token using Client Credentials Grant if needed
 async function getOAuthToken() {
   if (token && !token.includes('PASTE_YOUR_ADMIN') && token.startsWith('shpat_')) {
@@ -418,16 +502,20 @@ function parseProductsCSV() {
 
         const isDuplicate = currentProduct.variants.some(v => v.color === colorName && v.size === (optionValue || size));
         if (!isDuplicate) {
+          const pricing = getScreenshotPrices(designCode, optionValue || size);
+          const isBlack = colorName.toLowerCase() === 'black';
+          const finalInventory = isBlack ? (row[30] ? parseInt(row[30], 10) : 10) : 0;
+
           currentProduct.variants.push({
             sku: sku,
             size: optionValue || size,
             color: colorName,
-            price: "699.00",
-            compareAtPrice: "1099.00",
+            price: pricing.price,
+            compareAtPrice: pricing.compareAtPrice,
             cost: row[22],
             weight: row[32] ? parseFloat(row[32]) : 250,
             weightUnit: row[33] || 'g',
-            inventory: row[30] ? parseInt(row[30], 10) : 10,
+            inventory: finalInventory,
             variantImageUrl: variantImageUrl
           });
         }
@@ -573,8 +661,47 @@ async function uploadProducts(products, locationId) {
       console.error(`- Failed to create options:`, err.message);
     }
 
-    // 3. Create variants in bulk
+    // 3. Create product media gallery first and map images to media IDs
+    const mediaIdMap = {};
+    if (prod.images.length > 0) {
+      const mediaInput = prod.images.map(img => ({
+        originalSource: img.url,
+        mediaContentType: "IMAGE",
+        alt: img.alt
+      }));
+
+      try {
+        const mediaResult = await shopifyQuery(mediaCreateMutation, { productId, media: mediaInput });
+        const mediaErrors = mediaResult.productCreateMedia.userErrors;
+        if (mediaErrors.length > 0) {
+          console.error(`- Error creating media gallery:`, mediaErrors);
+        } else {
+          const createdMedia = mediaResult.productCreateMedia.media;
+          console.log(`- Initiated upload for ${createdMedia.length} product images.`);
+          for (let i = 0; i < prod.images.length; i++) {
+            if (createdMedia[i]) {
+              mediaIdMap[prod.images[i].url] = createdMedia[i].id;
+            }
+          }
+        }
+      } catch (err) {
+        console.error(`- Failed to add media gallery:`, err.message);
+      }
+    }
+
+    // 4. Create variants in bulk, linking to pre-created media IDs
     const variantsInput = prod.variants.map(v => {
+      let matchingMediaId = null;
+      if (prod.images.length > 0) {
+        const matchingImg = prod.images.find(img => {
+          if (!img.alt) return false;
+          return img.alt.toLowerCase().includes(v.color.toLowerCase());
+        });
+        if (matchingImg && mediaIdMap[matchingImg.url]) {
+          matchingMediaId = mediaIdMap[matchingImg.url];
+        }
+      }
+
       const vInput = {
         price: v.price,
         compareAtPrice: v.compareAtPrice,
@@ -593,20 +720,8 @@ async function uploadProducts(products, locationId) {
         }]
       };
       
-      // Associate variant image directly by matching color name in product images alt text
-      let assignedImageUrl = v.variantImageUrl;
-      if (!assignedImageUrl && prod.images.length > 0) {
-        const matchingImg = prod.images.find(img => {
-          if (!img.alt) return false;
-          return img.alt.toLowerCase().includes(v.color.toLowerCase());
-        });
-        if (matchingImg) {
-          assignedImageUrl = matchingImg.url;
-        }
-      }
-
-      if (assignedImageUrl) {
-        vInput.mediaSrc = [assignedImageUrl];
+      if (matchingMediaId) {
+        vInput.mediaId = matchingMediaId;
       }
       return vInput;
     });
@@ -622,27 +737,6 @@ async function uploadProducts(products, locationId) {
       }
     } catch (err) {
       console.error(`- Failed bulk variants creation:`, err.message);
-    }
-
-    // 4. Create product media gallery
-    if (prod.images.length > 0) {
-      const mediaInput = prod.images.map(img => ({
-        originalSource: img.url,
-        mediaContentType: "IMAGE",
-        alt: img.alt
-      }));
-
-      try {
-        const mediaResult = await shopifyQuery(mediaCreateMutation, { productId, media: mediaInput });
-        const mediaErrors = mediaResult.productCreateMedia.userErrors;
-        if (mediaErrors.length > 0) {
-          console.error(`- Error creating media gallery:`, mediaErrors);
-        } else {
-          console.log(`- Initiated upload for ${prod.images.length} product images.`);
-        }
-      } catch (err) {
-        console.error(`- Failed to add media gallery:`, err.message);
-      }
     }
 
     // Delay to prevent throttling
