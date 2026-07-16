@@ -415,18 +415,21 @@ function parseProductsCSV() {
         }
         currentProduct = productsMap[designCode];
 
-        currentProduct.variants.push({
-          sku: sku,
-          size: optionValue || size,
-          color: colorName,
-          price: row[20],
-          compareAtPrice: row[21],
-          cost: row[22],
-          weight: row[32] ? parseFloat(row[32]) : 250,
-          weightUnit: row[33] || 'g',
-          inventory: row[30] ? parseInt(row[30], 10) : 10,
-          variantImageUrl: variantImageUrl
-        });
+        const isDuplicate = currentProduct.variants.some(v => v.color === colorName && v.size === (optionValue || size));
+        if (!isDuplicate) {
+          currentProduct.variants.push({
+            sku: sku,
+            size: optionValue || size,
+            color: colorName,
+            price: row[20],
+            compareAtPrice: row[21],
+            cost: row[22],
+            weight: row[32] ? parseFloat(row[32]) : 250,
+            weightUnit: row[33] || 'g',
+            inventory: row[30] ? parseInt(row[30], 10) : 10,
+            variantImageUrl: variantImageUrl
+          });
+        }
       } else if (imageUrl) {
         // Image row
         if (currentProduct) {
