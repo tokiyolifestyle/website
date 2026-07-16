@@ -284,9 +284,9 @@
           </button>
         </div>
 
-        <a href="{{ routes.checkout_url }}" class="button button--outline button--full product-info__buy-now" onclick="document.getElementById('{{ product_form_id }}').submit(); return false;">
+        <button type="submit" name="checkout" class="button button--outline button--full product-info__buy-now" {% unless current_variant.available %}disabled style="display:none;"{% endunless %}>
           {{ 'sections.product.buy_now' | t }}
-        </a>
+        </button>
       {%- endform -%}
 
       {%- comment -%} Wishlist + Share {%- endcomment -%}
@@ -482,10 +482,30 @@
   .product-info__qty button:hover { background:#f5f5f5; }
   .product-info__qty input { width:48px; text-align:center; border:none; font-size:1rem; font-weight:600; height:48px; }
   .product-info__buy-now { margin-bottom:1rem; }
-  .product-info__meta-actions { display:flex; gap:1.25rem; margin-bottom:1.5rem; }
-  .product-info__wishlist-btn, .product-info__share-btn { display:flex; align-items:center; gap:.4rem; font-size:.875rem; color:#666; }
-  .product-info__wishlist-btn:hover, .product-info__share-btn:hover { color:var(--color-primary,#111); }
-  .product-info__wishlist-btn.is-active { color:var(--color-error,#D72638); }
+  .product-info__meta-actions { display:flex; gap:1.5rem; margin-bottom:1.5rem; }
+  .product-info__wishlist-btn, .product-info__share-btn { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 0.5rem; 
+    font-size: 0.8125rem; 
+    color: var(--color-text-muted, #767674); 
+    background: transparent !important; 
+    border: none !important; 
+    padding: 0.5rem 0 !important; 
+    margin: 0 !important; 
+    cursor: pointer; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 0.08em;
+    transition: color 0.25s ease;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    min-width: auto !important;
+    line-height: 1.2;
+    outline: none !important;
+  }
+  .product-info__wishlist-btn:hover, .product-info__share-btn:hover { color: var(--color-primary, #111111); }
+  .product-info__wishlist-btn.is-active { color: var(--color-error, #D72638); }
 
   /* Trust badges */
   .product-trust-badges { display:flex; gap:1rem; flex-wrap:wrap; padding:1rem 0; border-top:1px solid #f0f0f0; border-bottom:1px solid #f0f0f0; margin-bottom:1.25rem; }

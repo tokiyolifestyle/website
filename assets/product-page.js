@@ -43,6 +43,11 @@ function initVariantPicker() {
       addBtn.disabled = !variant.available;
       addBtn.textContent = variant.available ? (addBtn.dataset.addText || 'Add to Cart') : 'Sold Out';
     }
+    const buyNowBtn = document.querySelector('.product-info__buy-now');
+    if (buyNowBtn) {
+      buyNowBtn.disabled = !variant.available;
+      buyNowBtn.style.display = variant.available ? '' : 'none';
+    }
     if (stockEl) {
       const qty = variant.inventory_quantity;
       const managed = variant.inventory_management === 'shopify';
