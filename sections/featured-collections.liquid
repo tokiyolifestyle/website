@@ -9,12 +9,61 @@
     </div>
 
     <div class="fc-grid stagger-children">
+      {%- comment -%} Fetch fallbacks {%- endcomment -%}
+      {%- assign men_oversized_col = collections['men-oversized'] -%}
+      {%- assign women_oversized_col = collections['women-oversized'] -%}
+      {%- assign men_regular_col = collections['men-regular'] -%}
+
+      {%- assign men_black_handles = '' -%}
+      {%- for p in men_oversized_col.products -%}
+        {%- if p.title contains 'Black' -%}
+          {%- assign men_black_handles = men_black_handles | append: p.handle | append: ',' -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- for p in men_regular_col.products -%}
+        {%- if p.title contains 'Black' -%}
+          {%- assign men_black_handles = men_black_handles | append: p.handle | append: ',' -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- assign men_black_array = men_black_handles | split: ',' -%}
+
+      {%- assign women_black_handles = '' -%}
+      {%- for p in women_oversized_col.products -%}
+        {%- if p.title contains 'Black' -%}
+          {%- assign women_black_handles = women_black_handles | append: p.handle | append: ',' -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- assign women_black_array = women_black_handles | split: ',' -%}
+
       {%- for block in section.blocks -%}
         {%- assign handle_part = block.settings.link | split: '/collections/' | last -%}
         {%- assign col = collections[handle_part] -%}
         {%- assign col_image = block.settings.image -%}
-        {%- if col_image == blank and col != blank and col.products.first != blank -%}
-          {%- assign col_image = col.products.first.featured_image -%}
+        
+        {%- if col_image == blank -%}
+          {%- if col != blank and col.products.first != blank -%}
+            {%- comment -%} Try to find a black variant inside that collection first {%- endcomment -%}
+            {%- for p in col.products -%}
+              {%- if p.title contains 'Black' -%}
+                {%- assign col_image = p.featured_image -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if col_image == blank -%}
+              {%- assign col_image = col.products.first.featured_image -%}
+            {%- endif -%}
+          {%- else -%}
+            {%- comment -%} Fall back to mixed unique black products based on block title/index {%- endcomment -%}
+            {%- assign title_lower = block.settings.title | downcase -%}
+            {%- if title_lower contains 'women' -%}
+              {%- assign col_image = all_products[women_black_array[0]].featured_image -%}
+            {%- else -%}
+              {%- comment -%} Use unique index from men black list {%- endcomment -%}
+              {%- assign fallback_idx = forloop.index0 | modulo: men_black_array.size -%}
+              {%- assign fallback_handle = men_black_array[fallback_idx] -%}
+              {%- assign col_image = all_products[fallback_handle].featured_image -%}
+            {%- endif -%}
+          {%- endif -%}
         {%- endif -%}
         <a href="{{ block.settings.link | default: '#' }}" class="fc-card" {{ block.shopify_attributes }}>
           <div class="fc-card__media">
@@ -55,7 +104,7 @@
 
   .fc-card {
     position: relative; display: block; overflow: hidden;
-    aspect-ratio: 3/4;
+    aspect-ratio: 1.1 / 1;
     background: #F5F5F5;
     border: none;
     box-shadow: 0 4px 12px rgba(0,0,0,0.02);
