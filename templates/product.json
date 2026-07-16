@@ -12,7 +12,7 @@
     "main-product": {
       "type": "main-product",
       "blocks": {
-        "acc-1": { "type": "accordion", "settings": { "title": "Shipping & Returns", "content": "<p>Free shipping on prepaid orders over ₹899 (₹1199 for COD). Standard delivery 3–7 working days. Easy 7-day returns on unworn items with tags attached.</p>" } },
+        "acc-1": { "type": "accordion", "settings": { "title": "Shipping & Returns", "content": "<p>Free shipping on prepaid orders (₹1199 for COD). Standard delivery 3–7 working days. Easy 7-day returns on unworn items with tags attached.</p>" } },
         "acc-2": { "type": "accordion", "settings": { "title": "Care Instructions", "content": "<p>Machine wash cold on gentle cycle. Do not bleach. Tumble dry low. Cool iron if needed.</p>" } },
         "acc-3": { "type": "accordion", "settings": { "title": "About the Brand", "content": "<p>Tokiyo Lifestyle is a premium Indian fashion label committed to quality craftsmanship and sustainable practices.</p>" } }
       },

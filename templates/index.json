@@ -97,7 +97,7 @@
     "scrolling-text-1": {
       "type": "scrolling-text",
       "settings": {
-        "text": "Premium Quality | New Season Arrivals | Free Shipping Over ₹899 | Wear Your Confidence | Limited Edition Drops | Crafted With Care",
+        "text": "Premium Quality | New Season Arrivals | Free Shipping on Prepaid Orders | Wear Your Confidence | Limited Edition Drops | Crafted With Care",
         "separator": "✦",
         "speed": 25,
         "font_size": 14,
@@ -153,9 +153,10 @@
         "col-1": { "type": "collection", "settings": { "title": "Men's Oversized", "link": "/collections/men-oversized" } },
         "col-2": { "type": "collection", "settings": { "title": "Women's Edit", "link": "/collections/women-oversized" } },
         "col-3": { "type": "collection", "settings": { "title": "Anime Collection", "link": "/collections/men-oversized-anime" } },
-        "col-4": { "type": "collection", "settings": { "title": "Streetwear", "link": "/collections/men-oversized-streetwear" } }
+        "col-4": { "type": "collection", "settings": { "title": "Streetwear", "link": "/collections/men-oversized-streetwear" } },
+        "col-5": { "type": "collection", "settings": { "title": "Minimal Collection", "link": "/collections/men-oversized-minimal" } }
       },
-      "block_order": ["col-1","col-2","col-3","col-4"],
+      "block_order": ["col-1","col-2","col-3","col-4","col-5"],
       "settings": {
         "eyebrow": "Collections",
         "title": "Curated for You",
@@ -194,7 +195,7 @@
         "eyebrow": "Our Story",
         "heading": "Crafted for the Bold",
         "body": "<p>At Tokiyo Lifestyle, we believe fashion is more than clothing — it's a statement. Every piece is designed with precision and crafted from premium materials for the modern individual.</p>",
-        "features": "Premium 240 GSM Cotton|Ethically Sourced Materials|Designed in India|Free Shipping on ₹899+",
+        "features": "Premium 240 GSM Cotton|Ethically Sourced Materials|Designed in India|Free Shipping on Prepaid Orders",
         "cta_label": "Discover More",
         "cta_link": "/pages/about-us",
         "background_color": "#0A0A0A",

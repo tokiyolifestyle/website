@@ -42,7 +42,7 @@
     "grid_gutter": 8,
     "cart_type": "drawer",
     "cart_free_shipping_bar": true,
-    "cart_free_shipping_threshold": "899",
+    "cart_free_shipping_threshold": "0",
     "cart_show_gift_note": true,
     "enable_image_zoom": true,
     "enable_sticky_add_to_cart": true,
