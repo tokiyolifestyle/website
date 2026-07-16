@@ -96,7 +96,7 @@
   text-align: left; 
   width: fit-content;
 }
-.cart-drawer__footer { padding:1.25rem 1.5rem; border-top:1px solid #f0f0f0; flex-shrink:0; background:#fff; }
+.cart-drawer__footer { padding:1.25rem 0 0; border-top:1px solid #f0f0f0; margin-top: 0.5rem; background:#fff; }
 .cart-drawer__subtotal { display:flex; justify-content:space-between; font-weight:600; margin-bottom:.5rem; }
 .cart-drawer__note { margin:.75rem 0; }
 .cart-drawer__note textarea { width:100%; border:1px solid #ddd; border-radius:0; padding:.65rem; font-size:.875rem; resize:none; min-height:60px; }

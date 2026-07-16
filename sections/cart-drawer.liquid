@@ -2,6 +2,7 @@
 
 <div class="cart-drawer" data-cart-drawer id="CartDrawer" aria-label="Cart" role="dialog" aria-modal="true" style="transform: translateX(100%); visibility: hidden;">
   <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm" style="display: flex; flex-direction: column; height: 100%; width: 100%; overflow: hidden; margin: 0;">
+    {%- comment -%} Header stays fixed, everything below scrolls as one unit {%- endcomment -%}
     <div class="cart-drawer__header">
       <h2 class="cart-drawer__title">{{ 'sections.cart.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)</h2>
       <button class="cart-drawer__close" data-cart-drawer-close type="button" aria-label="{{ 'accessibility.close' | t }}">{% render 'icon-close' %}</button>
@@ -26,7 +27,7 @@
       </div>
     {%- endif -%}
 
-    <div class="cart-drawer__body" data-cart-body>
+    <div class="cart-drawer__body" data-cart-body style="overflow-y: auto; -webkit-overflow-scrolling: touch;">
       {%- if cart.item_count > 0 -%}
         {%- for item in cart.items -%}
           {%- if item.variant_id == 48862017716468 -%}{%- continue -%}{%- endif -%}
@@ -87,7 +88,6 @@
           <a href="/collections/all" class="button button--solid">{{ 'sections.cart.start_shopping' | t }}</a>
         </div>
       {%- endif -%}
-    </div>
 
     {%- if cart.item_count > 0 -%}
       <div class="cart-drawer__footer" data-cart-footer>
@@ -235,6 +235,7 @@
         </div>
       </div>
     {%- endif -%}
+    </div>
   </form>
 </div>
 
