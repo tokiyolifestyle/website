@@ -353,8 +353,7 @@ function parseProductsCSV() {
   const productsMap = {};
 
   const csvFiles = [
-    { path: 'C:\\Users\\lenovo\\Downloads\\Tokyo - Consolidated SKUs.csv', defaultType: 'Oversized T-Shirt' },
-    { path: 'C:\\Users\\lenovo\\Downloads\\Tokiyo Lifestyle - Regular category.csv', defaultType: 'Regular T-Shirt' },
+    { path: 'C:\\Users\\lenovo\\Downloads\\Tokiyo Lifestyle - Final SKUs.csv', defaultType: 'Oversized T-Shirt' },
     { path: 'C:\\Users\\lenovo\\Downloads\\Tokiyo Lifestyle - Women Oversized.csv', defaultType: 'Oversized T-Shirt' }
   ];
 
@@ -423,8 +422,8 @@ function parseProductsCSV() {
             sku: sku,
             size: optionValue || size,
             color: colorName,
-            price: row[20],
-            compareAtPrice: row[21],
+            price: "699.00",
+            compareAtPrice: "1099.00",
             cost: row[22],
             weight: row[32] ? parseFloat(row[32]) : 250,
             weightUnit: row[33] || 'g',
@@ -594,9 +593,20 @@ async function uploadProducts(products, locationId) {
         }]
       };
       
-      // Associate variant image directly if present in CSV
-      if (v.variantImageUrl) {
-        vInput.mediaSrc = [v.variantImageUrl];
+      // Associate variant image directly by matching color name in product images alt text
+      let assignedImageUrl = v.variantImageUrl;
+      if (!assignedImageUrl && prod.images.length > 0) {
+        const matchingImg = prod.images.find(img => {
+          if (!img.alt) return false;
+          return img.alt.toLowerCase().includes(v.color.toLowerCase());
+        });
+        if (matchingImg) {
+          assignedImageUrl = matchingImg.url;
+        }
+      }
+
+      if (assignedImageUrl) {
+        vInput.mediaSrc = [assignedImageUrl];
       }
       return vInput;
     });
