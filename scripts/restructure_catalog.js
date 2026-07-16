@@ -122,9 +122,9 @@ async function getPrimaryLocationId() {
   return activeLocation.id;
 }
 
-// Fetch all products page by page and archive them
-async function archiveAllProducts() {
-  console.log("\n=== STEP 1: ARCHIVING EXISTING PRODUCTS ===");
+// Fetch all products page by page and delete them (except COD Fee)
+async function deleteAllCatalogProducts() {
+  console.log("\n=== STEP 1: DELETING EXISTING CATALOG PRODUCTS ===");
   const getProductsQuery = `
     query GetProducts($cursor: String) {
       products(first: 50, after: $cursor) {
@@ -132,7 +132,7 @@ async function archiveAllProducts() {
           node {
             id
             title
-            status
+            handle
           }
         }
         pageInfo {
@@ -143,14 +143,10 @@ async function archiveAllProducts() {
     }
   `;
 
-  const archiveMutation = `
-    mutation ArchiveProduct($input: ProductInput!) {
-      productUpdate(input: $input) {
-        product {
-          id
-          title
-          status
-        }
+  const deleteMutation = `
+    mutation DeleteProduct($input: ProductDeleteInput!) {
+      productDelete(input: $input) {
+        deletedProductId
         userErrors {
           field
           message
@@ -165,29 +161,35 @@ async function archiveAllProducts() {
 
   while (hasNext) {
     const data = await shopifyQuery(getProductsQuery, { cursor });
+    if (!data || !data.products) break;
     const edges = data.products.edges;
     hasNext = data.products.pageInfo.hasNextPage;
     cursor = data.products.pageInfo.endCursor;
 
     for (const edge of edges) {
       const product = edge.node;
-      if (product.status !== 'ARCHIVED') {
-        console.log(`Archiving product: ${product.title} (${product.id})`);
-        const updateResult = await shopifyQuery(archiveMutation, {
-          input: { id: product.id, status: 'ARCHIVED' }
-        });
-        const errors = updateResult.productUpdate.userErrors;
-        if (errors.length > 0) {
-          console.error(`Failed to archive product ${product.title}:`, errors);
-        } else {
-          count++;
-        }
-        // Small delay to prevent rate limit
-        await new Promise(r => setTimeout(r, 200));
+      // Skip COD Fee product so it remains intact
+      if (product.title.toLowerCase() === 'cod fee') {
+        console.log(`Skipping special product: ${product.title}`);
+        continue;
       }
+      
+      console.log(`Deleting product: ${product.title} (${product.id})`);
+      const deleteResult = await shopifyQuery(deleteMutation, {
+        input: { id: product.id }
+      });
+      
+      const errors = deleteResult.productDelete.userErrors;
+      if (errors.length > 0) {
+        console.error(`Failed to delete product ${product.title}:`, errors);
+      } else {
+        count++;
+      }
+      // Small delay to prevent rate limit
+      await new Promise(r => setTimeout(r, 200));
     }
   }
-  console.log(`Archived ${count} active products.`);
+  console.log(`Deleted ${count} catalog products.`);
 }
 
 // List and delete existing collections
@@ -664,8 +666,8 @@ async function run() {
 
     const locationId = await getPrimaryLocationId();
 
-    // Step 1: Archive old catalog
-    await archiveAllProducts();
+    // Step 1: Delete old catalog products (except COD Fee)
+    await deleteAllCatalogProducts();
 
     // Step 2: Delete old collections
     await deleteExistingCollections();
