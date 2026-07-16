@@ -478,8 +478,8 @@ section[class*="section-"] { padding-block: 0; }
   align-items: center;
 }
 .announcement-bar__track:hover { animation-play-state: paused; }
-.announcement-bar__item { display: inline-flex; align-items: center; white-space: nowrap; padding: 0 2rem; }
-.announcement-bar__item p { margin: 0; line-height: 1; }
+.announcement-bar__item { display: inline-flex; align-items: center; white-space: nowrap; padding: 0 2rem; color: #FFFFFF !important; }
+.announcement-bar__item p { margin: 0; line-height: 1; color: #FFFFFF !important; }
 .announcement-bar__sep { margin: 0 1rem; opacity: 0.4; }
 
 /* ---- Footer (Premium Black — Brand Colors: Black/White/Red) ---- */
