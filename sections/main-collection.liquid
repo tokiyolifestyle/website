@@ -129,6 +129,79 @@
         {%- assign price_lte = decoded_query | split: 'filter.v.price.lte=' | last | split: '&' | first -%}
       {%- endif -%}
 
+      {%- comment -%} Parse selected filter parameters for custom Liquid-side filtering {%- endcomment -%}
+      {%- assign selected_genders = "" -%}
+      {%- if decoded_query contains "filter.p.tag=Men" or decoded_query contains "filter.p.tag=men" -%}
+        {%- assign selected_genders = selected_genders | append: "men," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=Women" or decoded_query contains "filter.p.tag=women" -%}
+        {%- assign selected_genders = selected_genders | append: "women," -%}
+      {%- endif -%}
+
+      {%- assign selected_fits = "" -%}
+      {%- if decoded_query contains "filter.p.tag=Oversized" or decoded_query contains "filter.p.tag=oversized" -%}
+        {%- assign selected_fits = selected_fits | append: "oversized," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=Regular" or decoded_query contains "filter.p.tag=regular" -%}
+        {%- assign selected_fits = selected_fits | append: "regular," -%}
+      {%- endif -%}
+
+      {%- assign selected_categories = "" -%}
+      {%- if decoded_query contains "filter.p.tag=graphic-print" -%}
+        {%- assign selected_categories = selected_categories | append: "graphic-print," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=anime" -%}
+        {%- assign selected_categories = selected_categories | append: "anime," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=streetwear" -%}
+        {%- assign selected_categories = selected_categories | append: "streetwear," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=story-wear" -%}
+        {%- assign selected_categories = selected_categories | append: "story-wear," -%}
+      {%- endif -%}
+      {%- if decoded_query contains "filter.p.tag=minimal" -%}
+        {%- assign selected_categories = selected_categories | append: "minimal," -%}
+      {%- endif -%}
+
+      {%- assign selected_colors = "" -%}
+      {%- for color in color_options -%}
+        {%- assign color_query = "filter.v.option.color=" | append: color -%}
+        {%- if decoded_query contains color_query -%}
+          {%- assign selected_colors = selected_colors | append: color | append: "," -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- assign selected_sizes = "" -%}
+      {%- for size in size_options -%}
+        {%- assign size_query = "filter.v.option.size=" | append: size -%}
+        {%- if decoded_query contains size_query -%}
+          {%- assign selected_sizes = selected_sizes | append: size | append: "," -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- assign selected_fabrics = "" -%}
+      {%- for fabric in fabric_options -%}
+        {%- assign fabric_query = "filter.p.tag=" | append: fabric -%}
+        {%- if decoded_query contains fabric_query -%}
+          {%- assign selected_fabrics = selected_fabrics | append: fabric | append: "," -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- assign selected_brands = "" -%}
+      {%- for brand in brand_options -%}
+        {%- assign brand_query = "filter.p.vendor=" | append: brand -%}
+        {%- if decoded_query contains brand_query -%}
+          {%- assign selected_brands = selected_brands | append: brand | append: "," -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- assign filter_avail = "" -%}
+      {%- if decoded_query contains "filter.v.availability=1" -%}
+        {%- assign filter_avail = "1" -%}
+      {%- elsif decoded_query contains "filter.v.availability=0" -%}
+        {%- assign filter_avail = "0" -%}
+      {%- endif -%}
+
       {%- comment -%} 0.1 Gender Filter {%- endcomment -%}
       <div class="filter-group" data-filter-group>
         <button class="filter-group__title" data-accordion-trigger data-accordion-group="filters" aria-expanded="true" aria-controls="Filter-Gender">
@@ -359,22 +432,165 @@
 
     {%- comment -%} Product grid {%- endcomment -%}
     <div class="collection-grid-wrap">
-      {%- paginate collection.products by section.settings.products_per_page -%}
+      {%- paginate collection.products by 250 -%}
         {%- if collection.products.size > 0 -%}
+          {%- assign matched_products_count = 0 -%}
+
           <div id="ProductGrid" class="product-grid product-grid--{{ section.settings.columns }}" data-product-grid>
             {%- for product in collection.products -%}
               {%- if product.handle == 'cod-fee' -%}{%- continue -%}{%- endif -%}
-              {% render 'product-card', product: product, lazy: true %}
+
+              {%- comment -%} Check filter matching {%- endcomment -%}
+              {%- assign matches_filter = true -%}
+
+              {%- comment -%} 1. Gender Filter {%- endcomment -%}
+              {%- if selected_genders != "" -%}
+                {%- assign match_gender = false -%}
+                {%- assign sg_list = selected_genders | split: "," -%}
+                {%- for sg in sg_list -%}
+                  {%- if product.tags contains sg -%}
+                    {%- assign match_gender = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if match_gender == false -%}
+                  {%- assign matches_filter = false -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- comment -%} 2. Fit Filter {%- endcomment -%}
+              {%- if selected_fits != "" -%}
+                {%- assign match_fit = false -%}
+                {%- assign sf_list = selected_fits | split: "," -%}
+                {%- for sf in sf_list -%}
+                  {%- if product.tags contains sf -%}
+                    {%- assign match_fit = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if match_fit == false -%}
+                  {%- assign matches_filter = false -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- comment -%} 3. Category Filter {%- endcomment -%}
+              {%- if selected_categories != "" -%}
+                {%- assign match_cat = false -%}
+                {%- assign sc_list = selected_categories | split: "," -%}
+                {%- for sc in sc_list -%}
+                  {%- if product.tags contains sc -%}
+                    {%- assign match_cat = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if match_cat == false -%}
+                  {%- assign matches_filter = false -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- comment -%} 4. Color Filter {%- endcomment -%}
+              {%- if selected_colors != "" -%}
+                {%- assign match_color = false -%}
+                {%- assign scol_list = selected_colors | split: "," -%}
+                {%- for scol in scol_list -%}
+                  {%- for variant in product.variants -%}
+                    {%- if variant.options contains scol -%}
+                      {%- assign match_color = true -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endfor -%}
+                {%- if match_color == false -%}
+                  {%- assign matches_filter = false -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- comment -%} 5. Size Filter {%- endcomment -%}
+              {%- if selected_sizes != "" -%}
+                {%- assign match_size = false -%}
+                {%- assign ss_list = selected_sizes | split: "," -%}
+                {%- for ss in ss_list -%}
+                  {%- for variant in product.variants -%}
+                    {%- if variant.options contains ss -%}
+                      {%- assign match_size = true -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endfor -%}
+                {%- if match_size == false -%}
+                  {%- assign matches_filter = false -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- comment -%} 6. Fabric Filter {%- endcomment -%}
+              {%- if selected_fabrics != "" -%}
+                {%- assign match_fab = false -%}
+                {%- assign sfab_list = selected_fabrics | split: "," -%}
+                {%- for sfab in sfab_list -%}
+                  {%- if product.tags contains sfab -%}
+                    {%- assign match_fab = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if match_fab == false -%}
+                  {%- assign matches_filter = false -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- comment -%} 7. Brand Filter {%- endcomment -%}
+              {%- if selected_brands != "" -%}
+                {%- assign match_brand = false -%}
+                {%- assign sb_list = selected_brands | split: "," -%}
+                {%- for sb in sb_list -%}
+                  {%- if product.vendor == sb -%}
+                    {%- assign match_brand = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if match_brand == false -%}
+                  {%- assign matches_filter = false -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- comment -%} 8. Availability Filter {%- endcomment -%}
+              {%- if filter_avail != "" -%}
+                {%- if filter_avail == "1" and product.available == false -%}
+                  {%- assign matches_filter = false -%}
+                {%- elsif filter_avail == "0" and product.available == true -%}
+                  {%- assign matches_filter = false -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- comment -%} 9. Price Filter {%- endcomment -%}
+              {%- if price_gte != "" or price_lte != "" -%}
+                {%- assign price_min_val = product.price_min | divided_by: 100.0 -%}
+                {%- if price_gte != "" -%}
+                  {%- assign limit_gte = price_gte | plus: 0.0 -%}
+                  {%- if price_min_val < limit_gte -%}
+                    {%- assign matches_filter = false -%}
+                  {%- endif -%}
+                {%- endif -%}
+                {%- if price_lte != "" -%}
+                  {%- assign limit_lte = price_lte | plus: 0.0 -%}
+                  {%- if price_min_val > limit_lte -%}
+                    {%- assign matches_filter = false -%}
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- if matches_filter -%}
+                {%- assign matched_products_count = matched_products_count | plus: 1 -%}
+                {% render 'product-card', product: product, lazy: true %}
+              {%- endif -%}
             {%- endfor -%}
           </div>
 
-          {%- if paginate.pages > 1 -%}
-            {% render 'pagination', paginate: paginate %}
+          {%- if matched_products_count == 0 -%}
+            <div class="collection-empty">
+              <p>{{ 'sections.collection.no_products' | t }}</p>
+              {%- if decoded_query contains 'filter.' -%}
+                <p>{{ 'sections.collection.use_fewer_filters' | t }}</p>
+                <a href="{{ collection.url }}" class="button button--outline">{{ 'sections.collection.clear_all' | t }}</a>
+              {%- endif -%}
+            </div>
           {%- endif -%}
         {%- else -%}
           <div class="collection-empty">
             <p>{{ 'sections.collection.no_products' | t }}</p>
-            {%- if results.active_filters.size > 0 -%}
+            {%- if decoded_query contains 'filter.' -%}
               <p>{{ 'sections.collection.use_fewer_filters' | t }}</p>
               <a href="{{ collection.url }}" class="button button--outline">{{ 'sections.collection.clear_all' | t }}</a>
             {%- endif -%}
