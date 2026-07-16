@@ -50,7 +50,11 @@
             {%- endif -%}
           {%- endif -%}
         {%- endif -%}
-        <a href="{{ block.settings.link | default: '#' }}" class="fc-card" {{ block.shopify_attributes }}>
+        {%- assign card_url = block.settings.link -%}
+        {%- if card_url == blank or card_url == '#' or card_url == '' -%}
+          {%- assign card_url = '/collections/all' -%}
+        {%- endif -%}
+        <a href="{{ card_url }}" class="fc-card" {{ block.shopify_attributes }}>
           <div class="fc-card__media">
             {%- if col_image != blank -%}
               {{ col_image | image_url: width: 800 | image_tag:
