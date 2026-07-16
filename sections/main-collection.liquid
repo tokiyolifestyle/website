@@ -103,7 +103,7 @@
         </div>
       {%- endif -%}
 
-      {%- assign decoded_query = canonical_url | split: '?' | last | replace: '%20', ' ' | replace: '%3A', ':' | replace: '%2F', '/' | replace: '%2C', ',' | replace: '+', ' ' -%}
+      {%- assign decoded_query = request.fullpath | split: '?' | last | replace: '%20', ' ' | replace: '%3A', ':' | replace: '%2F', '/' | replace: '%2C', ',' | replace: '+', ' ' -%}
 
       {%- assign gender_options = "Men,Women" | split: "," -%}
       {%- assign style_options = "Oversized,Regular" | split: "," -%}
