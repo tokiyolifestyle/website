@@ -47,12 +47,15 @@
         </a>
       {%- endfor -%}
     {%- else -%}
-      {%- comment -%} Fallback seed articles matching blog content from Tokiyo doc {%- endcomment -%}
+      {%- comment -%}
+        Fallback preview cards — linked to page handles used by main-article-hub.liquid.
+        These pages must exist in Shopify admin using the page.blog-article template.
+      {%- endcomment -%}
       {%- assign filter_tag = current_tags | first | handle -%}
 
       <!-- Brand & Stories -->
       {%- if filter_tag == blank or filter_tag == 'brand-stories' -%}
-        <a href="/blogs/news/about-tokiyo-lifestyle" class="article-card hover-lift">
+        <a href="/pages/blog-about-tokiyo-lifestyle" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-1.png' | asset_url }}" alt="About Tokiyo Lifestyle" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Brand &amp; Stories</span>
@@ -62,13 +65,13 @@
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
-        <a href="/blogs/news/the-story-behind-every-design" class="article-card hover-lift">
+        <a href="/pages/blog-story-behind-every-design" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-2.png' | asset_url }}" alt="Story Behind Every Design" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Brand &amp; Stories</span>
             <p class="article-card__date">July 14, 2026</p>
             <h2>The Story Behind Every Design</h2>
-            <p>Every Tokiyo Lifestyle design starts with an idea, an emotion, or a story waiting to be told through wearable art.</p>
+            <p>Every Tokiyo design starts with an idea, an emotion, or a story waiting to be told through wearable art.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
@@ -76,7 +79,7 @@
 
       <!-- Fashion & Styling -->
       {%- if filter_tag == blank or filter_tag == 'fashion-styling' -%}
-        <a href="/blogs/news/streetwear-trends-in-india" class="article-card hover-lift">
+        <a href="/pages/blog-streetwear-trends-india" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-3.png' | asset_url }}" alt="Streetwear Trends in India" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Fashion &amp; Styling</span>
@@ -86,7 +89,7 @@
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
-        <a href="/blogs/news/fashion-for-college-students" class="article-card hover-lift">
+        <a href="/pages/blog-fashion-for-college-students" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-4.png' | asset_url }}" alt="Fashion for College Students" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Fashion &amp; Styling</span>
@@ -96,7 +99,7 @@
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
-        <a href="/blogs/news/travel-outfit-ideas" class="article-card hover-lift">
+        <a href="/pages/blog-travel-outfit-ideas" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-1.png' | asset_url }}" alt="Travel Outfit Ideas" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Fashion &amp; Styling</span>
@@ -106,23 +109,23 @@
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
-        <a href="/blogs/news/weekend-outfit-inspiration" class="article-card hover-lift">
+        <a href="/pages/blog-weekend-outfit-inspiration" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-2.png' | asset_url }}" alt="Weekend Outfit Inspiration" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Fashion &amp; Styling</span>
             <p class="article-card__date">July 10, 2026</p>
             <h2>Weekend Outfit Inspiration</h2>
-            <p>Weekends are the perfect time to relax and express your personal style. A premium oversized tee paired with cargos is always the right call.</p>
+            <p>Weekends are perfect for relaxing and expressing your style. An oversized tee paired with cargos is always the right call.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
-        <a href="/blogs/news/night-out-outfit" class="article-card hover-lift">
+        <a href="/pages/blog-night-out-outfit" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-3.png' | asset_url }}" alt="Night Out Outfit" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Fashion &amp; Styling</span>
             <p class="article-card__date">July 9, 2026</p>
             <h2>Night Out Looks: Bold &amp; Comfortable</h2>
-            <p>A night out is the perfect opportunity to make a statement. A premium oversized tee with black jeans creates the perfect evening streetwear look.</p>
+            <p>A premium oversized tee with black jeans and a jacket creates the perfect evening streetwear look that makes a statement.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
@@ -130,33 +133,33 @@
 
       <!-- Fabric & Quality -->
       {%- if filter_tag == blank or filter_tag == 'fabric-quality' -%}
-        <a href="/blogs/news/why-fabric-quality-matters" class="article-card hover-lift">
+        <a href="/pages/blog-why-fabric-quality-matters" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-4.png' | asset_url }}" alt="Why Fabric Quality Matters" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Fabric &amp; Quality</span>
             <p class="article-card__date">July 8, 2026</p>
             <h2>Why Fabric Quality Matters in Streetwear</h2>
-            <p>Fabric quality is the foundation of every great T-shirt. It determines how comfortable the garment feels and how long it keeps its shape.</p>
+            <p>Fabric quality is the foundation of every great T-shirt. It determines comfort, fit, and how long it keeps its shape.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
-        <a href="/blogs/news/cotton-vs-cotton-blend" class="article-card hover-lift">
+        <a href="/pages/blog-cotton-vs-cotton-blend" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-1.png' | asset_url }}" alt="Cotton vs Cotton Blend" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Fabric &amp; Quality</span>
             <p class="article-card__date">July 7, 2026</p>
             <h2>Cotton vs Cotton Blend: Which Is Better?</h2>
-            <p>100% cotton offers natural softness and breathability. Blends offer durability and shape retention. Here's the full breakdown.</p>
+            <p>100% cotton offers natural softness. Blends offer durability. Here's the full breakdown to help you choose the right tee.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
-        <a href="/blogs/news/dtf-printing-vs-screen-printing" class="article-card hover-lift">
-          <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-2.png' | asset_url }}" alt="DTF Printing vs Screen Printing" loading="lazy"></div>
+        <a href="/pages/blog-dtf-printing-vs-screen-printing" class="article-card hover-lift">
+          <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-2.png' | asset_url }}" alt="DTF vs Screen Printing" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Fabric &amp; Quality</span>
             <p class="article-card__date">July 6, 2026</p>
             <h2>DTF Printing vs Screen Printing Explained</h2>
-            <p>DTF delivers vibrant colors and sharp details for intricate designs. Screen printing suits bold, large-run graphics. Know your tee before you buy.</p>
+            <p>DTF delivers vibrant colors for intricate designs. Screen printing suits bold large-run graphics. Know your tee before you buy.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
@@ -164,23 +167,23 @@
 
       <!-- Care Guides -->
       {%- if filter_tag == blank or filter_tag == 'care-guides' -%}
-        <a href="/blogs/news/how-to-wash-printed-t-shirts" class="article-card hover-lift">
+        <a href="/pages/blog-how-to-wash-printed-t-shirts" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-3.png' | asset_url }}" alt="How to Wash Printed T-Shirts" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Care Guides</span>
             <p class="article-card__date">July 5, 2026</p>
             <h2>How to Wash Printed T-Shirts the Right Way</h2>
-            <p>Turn inside out, use cold water, mild detergent, air dry in the shade. These simple steps keep your graphic tees looking new for years.</p>
+            <p>Turn inside out, cold water, mild detergent, air dry in shade. These simple steps keep graphic tees looking new for years.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
-        <a href="/blogs/news/how-to-prevent-fading" class="article-card hover-lift">
+        <a href="/pages/blog-how-to-prevent-fading" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-4.png' | asset_url }}" alt="How to Prevent Fading" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Care Guides</span>
             <p class="article-card__date">July 4, 2026</p>
             <h2>How to Prevent Fading on Your Favourite Tees</h2>
-            <p>Proper care keeps colors vibrant. Avoid bleach, wash in cold water, and always air dry in the shade to extend the life of your prints.</p>
+            <p>Avoid bleach, wash in cold water, and always air dry in shade to extend the life of your prints and keep colors vibrant.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
@@ -188,33 +191,33 @@
 
       <!-- Buying Guides -->
       {%- if filter_tag == blank or filter_tag == 'buying-guides' -%}
-        <a href="/blogs/news/how-to-choose-the-perfect-oversized-fit" class="article-card hover-lift">
+        <a href="/pages/blog-how-to-choose-oversized-fit" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-1.png' | asset_url }}" alt="Perfect Oversized Fit" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Buying Guides</span>
             <p class="article-card__date">July 3, 2026</p>
             <h2>How to Choose the Perfect Oversized Fit</h2>
-            <p>The perfect oversized tee should feel relaxed without looking baggy. Learn how shoulders, sleeves, and length work together for the ideal drape.</p>
+            <p>The perfect oversized tee feels relaxed without looking baggy. Learn how shoulders, sleeves, and length create the ideal drape.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
-        <a href="/blogs/news/best-t-shirt-colors-for-every-skin-tone" class="article-card hover-lift">
-          <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-2.png' | asset_url }}" alt="T-Shirt Colors for Every Skin Tone" loading="lazy"></div>
+        <a href="/pages/blog-best-t-shirt-colors-skin-tone" class="article-card hover-lift">
+          <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-2.png' | asset_url }}" alt="T-Shirt Colors for Skin Tone" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Buying Guides</span>
             <p class="article-card__date">July 2, 2026</p>
             <h2>Best T-Shirt Colors for Every Skin Tone</h2>
-            <p>The right color can enhance your natural complexion. From deep charcoal to vibrant mustard, here's your complete color guide for Indian skin tones.</p>
+            <p>The right color enhances your complexion. From deep charcoal to vibrant mustard — your complete color guide for Indian skin tones.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
-        <a href="/blogs/news/beginners-streetwear-guide" class="article-card hover-lift">
+        <a href="/pages/blog-beginners-streetwear-guide" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-3.png' | asset_url }}" alt="Beginner Streetwear Guide" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Buying Guides</span>
             <p class="article-card__date">July 1, 2026</p>
             <h2>Beginner's Guide to Streetwear in India</h2>
-            <p>Start with timeless essentials — a premium oversized tee, cargo pants, clean sneakers, and minimal accessories. Streetwear is a lifestyle, not a trend.</p>
+            <p>Start with an oversized tee, cargo pants, clean sneakers, and minimal accessories. Streetwear is a lifestyle, not just a trend.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
@@ -222,23 +225,23 @@
 
       <!-- Company Updates -->
       {%- if filter_tag == blank or filter_tag == 'company-updates' -%}
-        <a href="/blogs/news/new-collection-launches" class="article-card hover-lift">
+        <a href="/pages/blog-new-collection-launches" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-4.png' | asset_url }}" alt="New Collection Launches" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Company Updates</span>
             <p class="article-card__date">July 15, 2026</p>
             <h2>New Collection Launches at Tokiyo</h2>
-            <p>Every new Tokiyo collection marks the beginning of a fresh story. Released in limited quantities to maintain exclusivity and celebrate conscious fashion.</p>
+            <p>Every new Tokiyo collection marks the beginning of a fresh story — released in limited quantities to celebrate conscious fashion.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
-        <a href="/blogs/news/customer-stories" class="article-card hover-lift">
+        <a href="/pages/blog-customer-stories" class="article-card hover-lift">
           <div class="article-card__image hover-zoom"><img src="{{ 'hero-slide-1.png' | asset_url }}" alt="Customer Stories" loading="lazy"></div>
           <div class="article-card__info">
             <span class="article-card__category">Company Updates</span>
             <p class="article-card__date">July 14, 2026</p>
             <h2>Customer Stories: Wearing Tokiyo Your Way</h2>
-            <p>From college campuses and road trips to cafés and airports — our community brings each design to life in its own unique, authentic way.</p>
+            <p>From college campuses and road trips to cafés — our community brings each design to life in its own authentic, unique way.</p>
             <span class="article-card__read-more">Read Entry →</span>
           </div>
         </a>
