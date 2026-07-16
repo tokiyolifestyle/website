@@ -399,6 +399,7 @@
       {%- assign related_count = 0 -%}
       {%- for coll in related_collections limit: 1 -%}
         {%- for related_product in coll.products limit: 5 -%}
+          {%- if related_product.handle == 'cod-fee' -%}{%- continue -%}{%- endif -%}
           {%- unless related_product.id == product.id -%}
             {%- if related_count < 4 -%}
               {% render 'product-card', product: related_product, lazy: true %}

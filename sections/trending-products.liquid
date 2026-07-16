@@ -73,7 +73,7 @@
             {%- endif -%}
           {%- endif -%}
 
-          {%- if target_product != blank -%}
+          {%- if target_product != blank and target_product.handle != 'cod-fee' -%}
             {% render 'product-card', product: target_product, lazy: true %}
             {%- assign rendered_count = rendered_count | plus: 1 -%}
           {%- endif -%}
