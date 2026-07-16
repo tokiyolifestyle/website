@@ -210,8 +210,8 @@ section[class*="section-"] { padding-block: 0; }
 }
 .product-card__price { display: flex; gap: 0.5rem; align-items: baseline; font-size: 0.9375rem; }
 .product-card__price span { color: var(--color-primary, #111111); font-weight: 600; }
-.product-card__price .price--compare { text-decoration: line-through; color: var(--color-text-muted, #767674); font-size: 0.8125rem; font-weight: 400; }
-.product-card__price .price--sale { color: var(--color-accent, #ff0000); font-weight: 700; }
+.product-card__price .price--compare { text-decoration: line-through; color: var(--color-accent, #ff0000); font-size: 0.8125rem; font-weight: 500; }
+.product-card__price .price--sale { color: var(--color-primary, #111111); font-weight: 700; }
 .product-card__swatches { display: flex; gap: 6px; margin-top: 0.5rem; }
 .swatch {
   width: 14px; height: 14px;
