@@ -436,12 +436,19 @@
         {%- if collection.products.size > 0 -%}
           {%- assign matched_products_count = 0 -%}
 
+          <!-- DEBUG: decoded_query={{ decoded_query }} -->
+          <!-- DEBUG: selected_genders=[{{ selected_genders }}] selected_fits=[{{ selected_fits }}] selected_categories=[{{ selected_categories }}] -->
+          <!-- DEBUG: selected_colors=[{{ selected_colors }}] selected_sizes=[{{ selected_sizes }}] filter_avail=[{{ filter_avail }}] -->
+
           <div id="ProductGrid" class="product-grid product-grid--{{ section.settings.columns }}" data-product-grid>
             {%- for product in collection.products -%}
               {%- if product.handle == 'cod-fee' -%}{%- continue -%}{%- endif -%}
 
               {%- comment -%} Check filter matching {%- endcomment -%}
               {%- assign matches_filter = true -%}
+              {%- if forloop.index <= 2 -%}
+                <!-- DEBUG-PRODUCT: handle={{ product.handle }} tags={{ product.tags | join: '|' }} -->
+              {%- endif -%}
 
               {%- comment -%} 1. Gender Filter {%- endcomment -%}
               {%- if selected_genders != "" -%}
