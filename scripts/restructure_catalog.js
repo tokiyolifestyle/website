@@ -345,87 +345,103 @@ async function createAutomatedCollections() {
   }
 }
 
-// Parse CSV file and group by product key
+// Parse CSV files and group by product key
 function parseProductsCSV() {
   console.log("\n=== STEP 4: PARSING CSV CATALOG ===");
-  if (!fs.existsSync(csvFilePath)) {
-    throw new Error(`CSV file not found at ${csvFilePath}. Make sure it is copied there.`);
-  }
+  const productsMap = {};
 
-  const csvContent = fs.readFileSync(csvFilePath, 'utf-8');
-  const lines = csvContent.split(/\r?\n/);
-  
-  let currentProduct = null;
-  const products = [];
+  const csvFiles = [
+    { path: 'C:\\Users\\lenovo\\Downloads\\Tokyo - Consolidated SKUs.csv', defaultType: 'Oversized T-Shirt' },
+    { path: 'C:\\Users\\lenovo\\Downloads\\Tokiyo Lifestyle - Regular category.csv', defaultType: 'Regular T-Shirt' },
+    { path: 'C:\\Users\\lenovo\\Downloads\\Tokiyo Lifestyle - Women Oversized.csv', defaultType: 'Oversized T-Shirt' }
+  ];
 
-  for (let i = 1; i < lines.length; i++) {
-    const lineText = lines[i];
-    if (!lineText.trim()) continue;
+  for (const fileInfo of csvFiles) {
+    if (!fs.existsSync(fileInfo.path)) {
+      console.warn(`Warning: CSV file not found at ${fileInfo.path}. Skipping.`);
+      continue;
+    }
+    console.log(`Parsing file: ${fileInfo.path}`);
+    const csvContent = fs.readFileSync(fileInfo.path, 'utf-8');
+    const lines = csvContent.split(/\r?\n/);
 
-    const row = parseCSVRow(lineText);
-    if (row.length < 2 || !row[0]) continue;
+    let currentProduct = null;
 
-    const title = row[0];
-    const handle = row[1];
-    const sku = row[9];
-    const optionValue = row[12];
-    const imageUrl = row[36];
-    const imagePos = row[37];
-    const imageAlt = row[38];
-    const variantImageUrl = row[39];
+    for (let i = 1; i < lines.length; i++) {
+      const lineText = lines[i];
+      if (!lineText.trim()) continue;
 
-    if (sku) {
-      // Variant row
-      const skuParts = sku.split('_');
-      const size = skuParts.pop(); // last part is XS, S, M, L, XL, XXL
-      const productKey = skuParts.join('_'); // e.g. "TOTM001_BL"
+      const row = parseCSVRow(lineText);
+      if (row.length < 2 || !row[0]) continue;
 
-      if (!currentProduct || currentProduct.key !== productKey) {
-        // Start a new product group
-        // To resolve duplicate handle issues, append the design code to the handle
-        const designId = skuParts[0].toLowerCase(); // e.g. "totm001"
-        const uniqueHandle = `${handle}-${designId}`;
+      const title = row[0];
+      const handle = row[1];
+      const sku = row[9];
+      const optionValue = row[12];
+      const imageUrl = row[36];
+      const imagePos = row[37];
+      const imageAlt = row[38];
+      const variantImageUrl = row[39];
 
-        // Ensure title is consistent but clean
-        currentProduct = {
-          key: productKey,
-          title: title,
-          handle: uniqueHandle,
-          description: row[2],
-          vendor: row[3] || 'TOKIYO LIFESTYLE',
-          category: row[4],
-          type: row[5] || 'Oversized T-Shirt',
-          tags: row[6] ? row[6].split(',').map(t => t.trim()) : [],
-          variants: [],
-          images: []
-        };
-        products.push(currentProduct);
-      }
+      if (sku) {
+        // Variant row
+        const skuParts = sku.split('_');
+        const size = skuParts.pop(); // last part is XS, S, M, L, XL, XXL
+        const colorCode = skuParts.pop(); // second to last is BL, AI, etc.
+        const designCode = skuParts.join('_'); // remaining is prefix e.g. "TOTM001"
 
-      currentProduct.variants.push({
-        sku: sku,
-        size: optionValue || size,
-        price: row[20],
-        compareAtPrice: row[21],
-        cost: row[22],
-        weight: row[32] ? parseFloat(row[32]) : 250,
-        weightUnit: row[33] || 'g',
-        inventory: row[30] ? parseInt(row[30], 10) : 10,
-        variantImageUrl: variantImageUrl
-      });
-    } else if (imageUrl) {
-      // Image row
-      if (currentProduct) {
-        currentProduct.images.push({
-          url: imageUrl,
-          position: imagePos ? parseInt(imagePos, 10) : currentProduct.images.length + 1,
-          alt: imageAlt || currentProduct.title
+        const colorName = row[43] || colorCode || 'Default';
+
+        if (!productsMap[designCode]) {
+          // Clean title and handle by removing color suffix
+          const baseTitle = title.split(' - ')[0];
+          const formattedTitle = `${baseTitle} - ${designCode}`;
+
+          const baseHandle = handle.replace(/-black|-airforce|-beige|-pista|-peach|-lavender|-onion-pink|-mustard|-white/gi, '');
+          const uniqueHandle = `${baseHandle}-${designCode.toLowerCase()}`;
+
+          productsMap[designCode] = {
+            key: designCode,
+            title: formattedTitle,
+            handle: uniqueHandle,
+            description: row[2],
+            vendor: row[3] || 'TOKIYO LIFESTYLE',
+            category: row[4],
+            type: row[5] || fileInfo.defaultType,
+            tags: row[6] ? row[6].split(',').map(t => t.trim()) : [],
+            variants: [],
+            images: []
+          };
+        }
+        currentProduct = productsMap[designCode];
+
+        currentProduct.variants.push({
+          sku: sku,
+          size: optionValue || size,
+          color: colorName,
+          price: row[20],
+          compareAtPrice: row[21],
+          cost: row[22],
+          weight: row[32] ? parseFloat(row[32]) : 250,
+          weightUnit: row[33] || 'g',
+          inventory: row[30] ? parseInt(row[30], 10) : 10,
+          variantImageUrl: variantImageUrl
         });
+      } else if (imageUrl) {
+        // Image row
+        if (currentProduct) {
+          currentProduct.images.push({
+            url: imageUrl,
+            position: imagePos ? parseInt(imagePos, 10) : currentProduct.images.length + 1,
+            alt: imageAlt || currentProduct.title
+          });
+        }
       }
     }
   }
 
-  console.log(`Parsed ${products.length} unique products from the CSV.`);
+  const products = Object.values(productsMap);
+  console.log(`Parsed ${products.length} unique consolidated products.`);
   return products;
 }
 
@@ -525,13 +541,19 @@ async function uploadProducts(products, locationId) {
       continue;
     }
 
-    // 2. Create the "Size" option
-    // Collect sizes from variant list
-    const sizeValues = prod.variants.map(v => ({ name: v.size }));
+    // 2. Create "Color" and "Size" options
+    // Collect unique colors and sizes
+    const uniqueColors = Array.from(new Set(prod.variants.map(v => v.color)));
+    const uniqueSizes = Array.from(new Set(prod.variants.map(v => v.size)));
+
     const optionsInput = [
       {
+        name: "Color",
+        values: uniqueColors.map(c => ({ name: c }))
+      },
+      {
         name: "Size",
-        values: sizeValues
+        values: uniqueSizes.map(s => ({ name: s }))
       }
     ];
 
@@ -541,7 +563,7 @@ async function uploadProducts(products, locationId) {
       if (optErrors.length > 0) {
         console.error(`- Error creating product options:`, optErrors);
       } else {
-        console.log(`- Product option "Size" linked successfully.`);
+        console.log(`- Product options "Color" and "Size" linked successfully.`);
       }
     } catch (err) {
       console.error(`- Failed to create options:`, err.message);
@@ -552,7 +574,10 @@ async function uploadProducts(products, locationId) {
       const vInput = {
         price: v.price,
         compareAtPrice: v.compareAtPrice,
-        optionValues: [{ optionName: "Size", name: v.size }],
+        optionValues: [
+          { optionName: "Color", name: v.color },
+          { optionName: "Size", name: v.size }
+        ],
         inventoryItem: {
           sku: v.sku,
           tracked: true,
@@ -619,6 +644,20 @@ async function run() {
 
   try {
     const parsedProducts = parseProductsCSV();
+
+    if (dryRun) {
+      console.log("\n=== DRY RUN MODE: PREVIEWING GROUPED PRODUCTS ===");
+      for (const p of parsedProducts) {
+        console.log(`Product: ${p.title} (${p.key})`);
+        console.log(`  Handle: ${p.handle}`);
+        console.log(`  Variants count: ${p.variants.length}`);
+        console.log(`  Unique Colors: ${Array.from(new Set(p.variants.map(v => v.color))).join(', ')}`);
+        console.log(`  Unique Sizes: ${Array.from(new Set(p.variants.map(v => v.size))).join(', ')}`);
+        console.log(`  Images count: ${p.images.length}`);
+      }
+      console.log("\nDry run complete. No modifications were made to the live Shopify database.");
+      return;
+    }
 
     const locationId = await getPrimaryLocationId();
 
