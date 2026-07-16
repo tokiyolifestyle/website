@@ -994,10 +994,9 @@ section[class*="section-"] {
 /* Mobile */
 @media (max-width: 749px) {
   .hero-carousel {
-    height: calc(100vh - 110px) !important;
-    height: calc(100dvh - 110px) !important;
-    min-height: 520px !important;
-    max-height: 680px !important;
+    height: 140vw !important;
+    min-height: 540px !important;
+    max-height: 700px !important;
   }
   .hero-carousel__img {
     object-fit: cover !important;
