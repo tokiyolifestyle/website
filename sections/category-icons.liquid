@@ -4,26 +4,6 @@
   3D tilt cards, glowing borders, particles, split-reveal, magnetic hover
   ═══════════════════════════════════════════════════════════════
 {%- endcomment -%}
-{%- assign men_oversized_graphic_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm006'].featured_image -%}
-{%- assign men_oversized_anime_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm004'].featured_image -%}
-{%- assign men_oversized_streetwear_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm003'].featured_image -%}
-{%- assign men_oversized_story_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm008'].featured_image -%}
-{%- assign men_oversized_minimal_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm009'].featured_image -%}
-{%- assign men_oversized_solid_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm001'].featured_image -%}
-
-{%- assign men_regular_graphic_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm006'].featured_image -%}
-{%- assign men_regular_anime_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm003'].featured_image -%}
-{%- assign men_regular_streetwear_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm004'].featured_image -%}
-{%- assign men_regular_story_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm008'].featured_image -%}
-{%- assign men_regular_minimal_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm005'].featured_image -%}
-{%- assign men_regular_solid_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm001'].featured_image -%}
-
-{%- assign women_oversized_graphic_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo016'].featured_image -%}
-{%- assign women_oversized_anime_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo003'].featured_image -%}
-{%- assign women_oversized_streetwear_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo004'].featured_image -%}
-{%- assign women_oversized_story_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo005'].featured_image -%}
-{%- assign women_oversized_minimal_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo007'].featured_image -%}
-{%- assign women_oversized_solid_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo006'].featured_image -%}
 
 <section class="catg-universe" id="CategoryUniverse">
   {%- comment -%} Floating particles background {%- endcomment -%}
@@ -53,54 +33,15 @@
             {%- assign block_link = '/collections/' | append: constructed_handle -%}
             {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
-            {%- assign card_image = block.settings.image -%}
-            {%- if card_image == blank -%}
-              {%- assign label_lh = block.settings.label | downcase -%}
-              {%- if block.settings.gender == 'men' and block.settings.fit == 'oversized' -%}
-                {%- if label_lh contains 'graphic' -%}{%- assign card_image = men_oversized_graphic_img -%}
-                {%- elsif label_lh contains 'anime' -%}{%- assign card_image = men_oversized_anime_img -%}
-                {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = men_oversized_streetwear_img -%}
-                {%- elsif label_lh contains 'story' -%}{%- assign card_image = men_oversized_story_img -%}
-                {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = men_oversized_minimal_img -%}
-                {%- elsif label_lh contains 'solid' -%}{%- assign card_image = men_oversized_solid_img -%}
-                {%- endif -%}
-              {%- elsif block.settings.gender == 'men' and block.settings.fit == 'regular' -%}
-                {%- if label_lh contains 'graphic' -%}{%- assign card_image = men_regular_graphic_img -%}
-                {%- elsif label_lh contains 'anime' -%}{%- assign card_image = men_regular_anime_img -%}
-                {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = men_regular_streetwear_img -%}
-                {%- elsif label_lh contains 'story' -%}{%- assign card_image = men_regular_story_img -%}
-                {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = men_regular_minimal_img -%}
-                {%- elsif label_lh contains 'solid' -%}{%- assign card_image = men_regular_solid_img -%}
-                {%- endif -%}
-              {%- elsif block.settings.gender == 'women' and block.settings.fit == 'oversized' -%}
-                {%- if label_lh contains 'graphic' -%}{%- assign card_image = women_oversized_graphic_img -%}
-                {%- elsif label_lh contains 'anime' -%}{%- assign card_image = women_oversized_anime_img -%}
-                {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = women_oversized_streetwear_img -%}
-                {%- elsif label_lh contains 'story' -%}{%- assign card_image = women_oversized_story_img -%}
-                {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = women_oversized_minimal_img -%}
-                {%- elsif label_lh contains 'solid' -%}{%- assign card_image = women_oversized_solid_img -%}
-                {%- endif -%}
-              {%- endif -%}
-
-              {%- if card_image == blank -%}
-                {%- assign current_collection = collections[constructed_handle] -%}
-                {%- if current_collection != blank and current_collection.products.first != blank -%}
-                  {%- assign card_image = current_collection.products.first.featured_image -%}
-                {%- else -%}
-                  {%- assign fallback_handle = block.settings.gender | append: '-oversized' -%}
-                  {%- assign fallback_collection = collections[fallback_handle] -%}
-                  {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
-                    {%- assign fallback_collection = collections['men-oversized'] -%}
-                  {%- endif -%}
-                  {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                    {%- assign img_idx = forloop.index0 | modulo: fallback_collection.products.size -%}
-                    {%- assign card_image = fallback_collection.products[img_idx].featured_image -%}
-                  {%- endif -%}
-                {%- endif -%}
-              {%- endif -%}
+            {%- assign current_collection = collections[constructed_handle] -%}
+            {%- if current_collection == blank or current_collection.products.size == 0 -%}
+              {%- continue -%}
             {%- endif -%}
 
-            <a href="{{ block_link }}" class="catg-quickstrip__item" data-quickstrip-item>
+            {%- assign card_image = block.settings.image -%}
+            {%- if card_image == blank -%}
+              {%- assign card_image = current_collection.products.first.featured_image -%}
+            {%- endif -%}            <a href="{{ block_link }}" class="catg-quickstrip__item" data-quickstrip-item>
               <div class="catg-quickstrip__circle">
                 {%- assign strip_img = block.settings.strip_image | default: card_image -%}
                 {%- if strip_img != blank -%}
@@ -168,34 +109,16 @@
                 {%- assign block_link = '/collections/' | append: constructed_handle -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
+                {%- assign current_col_check = collections[constructed_handle] -%}
+                {%- if current_col_check == blank or current_col_check.products.size == 0 -%}
+                  {%- continue -%}
+                {%- endif -%}
+
                 {%- assign card_image = block.settings.image -%}
                 {%- if card_image == blank -%}
-                  {%- assign label_lh = block.settings.label | downcase -%}
-                  {%- if block.settings.gender == 'men' and block.settings.fit == 'oversized' -%}
-                    {%- if label_lh contains 'graphic' -%}{%- assign card_image = men_oversized_graphic_img -%}
-                    {%- elsif label_lh contains 'anime' -%}{%- assign card_image = men_oversized_anime_img -%}
-                    {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = men_oversized_streetwear_img -%}
-                    {%- elsif label_lh contains 'story' -%}{%- assign card_image = men_oversized_story_img -%}
-                    {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = men_oversized_minimal_img -%}
-                    {%- elsif label_lh contains 'solid' -%}{%- assign card_image = men_oversized_solid_img -%}
-                    {%- endif -%}
-                  {%- endif -%}
-
-                  {%- if card_image == blank -%}
-                    {%- assign current_collection = collections[constructed_handle] -%}
-                    {%- if current_collection != blank and current_collection.products.first != blank -%}
-                      {%- assign card_image = current_collection.products.first.featured_image -%}
-                    {%- else -%}
-                      {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                        {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
-                        {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
-                      {%- endif -%}
-                    {%- endif -%}
-                  {%- endif -%}
+                  {%- assign card_image = current_col_check.products.first.featured_image -%}
                 {%- endif -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
-                {%- assign current_col_check = collections[constructed_handle] -%}
-                {%- if current_col_check != blank and current_col_check.products.size > 0 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
                     <div class="catg-card-3d__glow-border"></div>
@@ -268,34 +191,16 @@
                 {%- assign block_link = '/collections/' | append: constructed_handle -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
+                {%- assign current_col_check = collections[constructed_handle] -%}
+                {%- if current_col_check == blank or current_col_check.products.size == 0 -%}
+                  {%- continue -%}
+                {%- endif -%}
+
                 {%- assign card_image = block.settings.image -%}
                 {%- if card_image == blank -%}
-                  {%- assign label_lh = block.settings.label | downcase -%}
-                  {%- if block.settings.gender == 'men' and block.settings.fit == 'regular' -%}
-                    {%- if label_lh contains 'graphic' -%}{%- assign card_image = men_regular_graphic_img -%}
-                    {%- elsif label_lh contains 'anime' -%}{%- assign card_image = men_regular_anime_img -%}
-                    {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = men_regular_streetwear_img -%}
-                    {%- elsif label_lh contains 'story' -%}{%- assign card_image = men_regular_story_img -%}
-                    {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = men_regular_minimal_img -%}
-                    {%- elsif label_lh contains 'solid' -%}{%- assign card_image = men_regular_solid_img -%}
-                    {%- endif -%}
-                  {%- endif -%}
-
-                  {%- if card_image == blank -%}
-                    {%- assign current_collection = collections[constructed_handle] -%}
-                    {%- if current_collection != blank and current_collection.products.first != blank -%}
-                      {%- assign card_image = current_collection.products.first.featured_image -%}
-                    {%- else -%}
-                      {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                        {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
-                        {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
-                      {%- endif -%}
-                    {%- endif -%}
-                  {%- endif -%}
+                  {%- assign card_image = current_col_check.products.first.featured_image -%}
                 {%- endif -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
-                {%- assign current_col_check = collections[constructed_handle] -%}
-                {%- if current_col_check != blank and current_col_check.products.size > 0 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
                     <div class="catg-card-3d__glow-border"></div>
@@ -368,34 +273,16 @@
                 {%- assign block_link = '/collections/' | append: constructed_handle -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
+                {%- assign current_col_check = collections[constructed_handle] -%}
+                {%- if current_col_check == blank or current_col_check.products.size == 0 -%}
+                  {%- continue -%}
+                {%- endif -%}
+
                 {%- assign card_image = block.settings.image -%}
                 {%- if card_image == blank -%}
-                  {%- assign label_lh = block.settings.label | downcase -%}
-                  {%- if block.settings.gender == 'women' and block.settings.fit == 'oversized' -%}
-                    {%- if label_lh contains 'graphic' -%}{%- assign card_image = women_oversized_graphic_img -%}
-                    {%- elsif label_lh contains 'anime' -%}{%- assign card_image = women_oversized_anime_img -%}
-                    {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = women_oversized_streetwear_img -%}
-                    {%- elsif label_lh contains 'story' -%}{%- assign card_image = women_oversized_story_img -%}
-                    {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = women_oversized_minimal_img -%}
-                    {%- elsif label_lh contains 'solid' -%}{%- assign card_image = women_oversized_solid_img -%}
-                    {%- endif -%}
-                  {%- endif -%}
-
-                  {%- if card_image == blank -%}
-                    {%- assign current_collection = collections[constructed_handle] -%}
-                    {%- if current_collection != blank and current_collection.products.first != blank -%}
-                      {%- assign card_image = current_collection.products.first.featured_image -%}
-                    {%- else -%}
-                      {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                        {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
-                        {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
-                      {%- endif -%}
-                    {%- endif -%}
-                  {%- endif -%}
+                  {%- assign card_image = current_col_check.products.first.featured_image -%}
                 {%- endif -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
-                {%- assign current_col_check = collections[constructed_handle] -%}
-                {%- if current_col_check != blank and current_col_check.products.size > 0 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
                     <div class="catg-card-3d__glow-border"></div>
@@ -1179,6 +1066,34 @@
 
     document.querySelectorAll('.catg-universe__grid').forEach(grid => gridObserver.observe(grid));
   }
+
+  /* ═══ Auto-scroll Quickstrip on Mobile ═══ */
+  function initQuickstripAutoScroll() {
+    const track = document.querySelector('.catg-quickstrip__track');
+    if (!track) return;
+    
+    if (window.innerWidth > 750) return;
+
+    let scrollStep = 1;
+    let isHovered = false;
+
+    track.addEventListener('touchstart', () => isHovered = true, {passive: true});
+    track.addEventListener('touchend', () => {
+      setTimeout(() => isHovered = false, 2000); // pause for 2s after manual scroll
+    }, {passive: true});
+
+    setInterval(() => {
+      if (!isHovered) {
+        track.scrollLeft += scrollStep;
+        if (track.scrollLeft >= (track.scrollWidth - track.clientWidth - 1)) {
+          scrollStep = -1;
+        } else if (track.scrollLeft <= 0) {
+          scrollStep = 1;
+        }
+      }
+    }, 25);
+  }
+  initQuickstripAutoScroll();
 
 })();
 </script>
