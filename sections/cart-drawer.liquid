@@ -32,23 +32,30 @@
         {%- for item in cart.items -%}
           {%- if item.variant_id == 48862017716468 -%}{%- continue -%}{%- endif -%}
           <div class="cart-item" data-cart-item="{{ item.key }}">
-            <div class="cart-item__image">
+            <div class="cart-item__image" style="background: #F8F7F5;">
               {%- if item.image -%}
-                {{ item.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: item.title | escape }}
+                {{ item.image | image_url: width: 160 | image_tag: loading: 'lazy', style: 'mix-blend-mode: multiply;', alt: item.title | escape }}
               {%- else -%}
                 {{ 'product-apparel-1' | placeholder_svg_tag }}
               {%- endif -%}
             </div>
             <div class="cart-item__details">
-              <p class="cart-item__title">{{ item.product.title }}</p>
-              {%- unless item.product.has_only_default_variant -%}<p class="cart-item__variant">{{ item.variant.title }}</p>{%- endunless -%}
-              <p class="cart-item__price">{{ item.final_price | money }}</p>
-              <div class="cart-item__qty">
-                <button type="button" class="cart-item__qty-btn" data-qty-change="-1" aria-label="Decrease">{% render 'icon-minus' %}</button>
-                <input class="cart-item__qty-input" data-qty-input type="number" value="{{ item.quantity }}" min="0" aria-label="Quantity">
-                <button type="button" class="cart-item__qty-btn" data-qty-change="1" aria-label="Increase">{% render 'icon-plus' %}</button>
+              <div class="cart-item__header">
+                <a href="{{ item.url }}" class="cart-item__title" style="text-decoration: none;">{{ item.product.title }}</a>
+                <button class="cart-item__remove-btn" data-cart-remove="{{ item.key }}" type="button" aria-label="Remove">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                </button>
               </div>
-              <button class="cart-item__remove" data-cart-remove="{{ item.key }}" type="button">{{ 'sections.cart.remove' | t }}</button>
+              {%- unless item.product.has_only_default_variant -%}<p class="cart-item__variant">{{ item.variant.title }}</p>{%- endunless -%}
+              
+              <div class="cart-item__bottom">
+                <p class="cart-item__price">{{ item.final_price | money }}</p>
+                <div class="cart-item__qty" style="margin-top: 0;">
+                  <button type="button" class="cart-item__qty-btn" data-qty-change="-1" aria-label="Decrease">{% render 'icon-minus' %}</button>
+                  <input class="cart-item__qty-input" data-qty-input type="number" value="{{ item.quantity }}" min="0" aria-label="Quantity">
+                  <button type="button" class="cart-item__qty-btn" data-qty-change="1" aria-label="Increase">{% render 'icon-plus' %}</button>
+                </div>
+              </div>
             </div>
           </div>
         {%- endfor -%}
@@ -82,6 +89,16 @@
           </div>
         </div>
 
+        {%- if settings.cart_show_gift_note -%}
+          <div class="cart-drawer__note" style="margin: 1.5rem 0 1rem; border-top: 1px dashed #eee; padding-top: 1rem;">
+            <label for="CartNote" class="payment-methods-title" style="margin-bottom: 0.5rem;">{{ 'sections.cart.gift_note' | t }}</label>
+            <textarea id="CartNote" name="note" data-cart-note placeholder="Enter your gift message..." rows="2" style="background: #fcfcfc;">{{ cart.note }}</textarea>
+          </div>
+        {%- endif -%}
+        
+        <p class="cart-drawer__taxes-note" style="margin-bottom: 1rem;">Shipping calculated at checkout. Price is inclusive of GST.</p>
+        <a href="/cart" class="button button--outline button--full" style="font-size:0.8rem; padding: 0.6rem;">{{ 'sections.cart.view_cart' | t }}</a>
+
       {%- else -%}
         <div class="cart-drawer__empty">
           <p>{{ 'sections.cart.empty' | t }}</p>
@@ -92,12 +109,12 @@
 
     {%- if cart.item_count > 0 -%}
       <div class="cart-drawer__footer" data-cart-footer>
-        <div class="cart-drawer__subtotal" id="CartCodFeeRow" style="display: none; margin-bottom: 0.5rem; color: #C62828; font-size: 0.85rem;">
+        <div class="cart-drawer__subtotal" id="CartCodFeeRow" style="display: none; margin-bottom: 0.25rem; color: #C62828; font-size: 0.8rem;">
           <span>COD Shipping Fee</span>
           <span>+₹80.00</span>
         </div>
 
-        <div class="cart-drawer__subtotal">
+        <div class="cart-drawer__subtotal" style="font-size: 1.1rem; margin-bottom: 0.75rem;">
           <span>{{ 'sections.cart.subtotal' | t }}</span>
           <span id="DrawerTotalPriceDisplay">{{ cart.total_price | money }}</span>
         </div>
@@ -223,16 +240,8 @@
           })();
         </script>
 
-        {%- if settings.cart_show_gift_note -%}
-          <div class="cart-drawer__note">
-            <label for="CartNote" class="visually-hidden">{{ 'sections.cart.gift_note' | t }}</label>
-            <textarea id="CartNote" name="note" data-cart-note placeholder="{{ 'sections.cart.gift_note' | t }}..." rows="2">{{ cart.note }}</textarea>
-          </div>
-        {%- endif -%}
-        <p class="cart-drawer__taxes-note">Shipping calculated at checkout. Price is inclusive of GST.</p>
         <div class="cart-drawer__checkout">
           <button type="submit" name="checkout" class="button button--solid button--full">{{ 'sections.cart.checkout' | t }}</button>
-          <a href="/cart" class="button button--outline button--full">{{ 'sections.cart.view_cart' | t }}</a>
         </div>
       </div>
     {%- endif -%}
