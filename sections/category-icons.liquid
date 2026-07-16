@@ -343,31 +343,11 @@
                 {%- assign block_link = '/collections/' | append: constructed_handle -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
-                {%- assign card_image = block.settings.image -%}
-                {%- if card_image == blank -%}
-                  {%- assign label_lh = block.settings.label | downcase -%}
-                  {%- if block.settings.gender == 'women' and block.settings.fit == 'regular' -%}
-                    {%- if label_lh contains 'graphic' -%}{%- assign card_image = women_regular_graphic_img -%}
-                    {%- elsif label_lh contains 'anime' -%}{%- assign card_image = women_regular_anime_img -%}
-                    {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = women_regular_streetwear_img -%}
-                    {%- elsif label_lh contains 'story' -%}{%- assign card_image = women_regular_story_img -%}
-                    {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = women_regular_minimal_img -%}
-                    {%- elsif label_lh contains 'solid' -%}{%- assign card_image = women_regular_solid_img -%}
-                    {%- endif -%}
-                  {%- endif -%}
-
-                  {%- if card_image == blank -%}
-                    {%- assign current_collection = collections[constructed_handle] -%}
-                    {%- if current_collection != blank and current_collection.products.first != blank -%}
-                      {%- assign card_image = current_collection.products.first.featured_image -%}
-                    {%- else -%}
-                      {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                        {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
-                        {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
-                      {%- endif -%}
-                    {%- endif -%}
-                  {%- endif -%}
+                {%- assign current_col_check = collections[constructed_handle] -%}
+                {%- if current_col_check == blank or current_col_check.products.size == 0 -%}
+                  {%- continue -%}
                 {%- endif -%}
+                {%- assign card_image = current_col_check.products.first.featured_image -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
 
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
