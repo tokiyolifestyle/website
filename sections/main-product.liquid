@@ -338,7 +338,7 @@
         {%- if settings.show_cod_badge -%}
           <div class="trust-badge">{% render 'icon-cash' %}<span>Cash on Delivery</span></div>
         {%- endif -%}
-        <div class="trust-badge">{% render 'icon-truck' %}<span>Free delivery above ₹2999</span></div>
+        <div class="trust-badge">{% render 'icon-truck' %}<span>Free shipping above ₹899</span></div>
         <div class="trust-badge">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <span>Easy 7-day returns</span>
@@ -598,7 +598,7 @@
       "name": "Accordion",
       "settings": [
         { "type": "text", "id": "title", "label": "Accordion title", "default": "Shipping & Returns" },
-        { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Free shipping on orders over ₹899. Standard delivery 3–5 business days. Easy 7-day returns on unworn items.</p>" }
+        { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Free shipping on prepaid orders over ₹899 (₹1199 for COD). Standard delivery 3–7 working days. Easy 7-day returns on unworn items.</p>" }
       ]
     }
   ],
@@ -606,7 +606,7 @@
     {
       "name": "Product Information",
       "blocks": [
-        { "type": "accordion", "settings": { "title": "Shipping & Returns", "content": "<p>Free shipping on orders over ₹899. Standard delivery 3–5 business days. Easy 7-day returns on unworn items with tags attached.</p>" } },
+        { "type": "accordion", "settings": { "title": "Shipping & Returns", "content": "<p>Free shipping on prepaid orders over ₹899 (₹1199 for COD). Standard delivery 3–7 working days. Easy 7-day returns on unworn items with tags attached.</p>" } },
         { "type": "accordion", "settings": { "title": "Care Instructions", "content": "<p>Machine wash cold on gentle cycle. Do not bleach. Tumble dry low. Cool iron if needed.</p>" } },
         { "type": "accordion", "settings": { "title": "About the Brand", "content": "<p>Tokiyo Lifestyle is a premium Indian fashion label committed to quality craftsmanship and sustainable practices.</p>" } }
       ]

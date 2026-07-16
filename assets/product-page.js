@@ -323,7 +323,7 @@ function initDeliveryChecker() {
     /* Simulate delivery check */
     result.textContent = 'Checking...';
     setTimeout(() => {
-      result.textContent = `Delivery available to ${pin} — Estimated 3–5 business days`;
+      result.textContent = `Delivery available to ${pin} — Estimated 3–7 working days`;
       result.className = 'delivery-result delivery-result--success';
     }, 800);
   });

@@ -70,7 +70,7 @@
               <span class="option-indicator"></span>
               <div class="option-details">
                 <strong>Cash on Delivery (COD)</strong>
-                <p>Extra ₹80 (Free above ₹999)</p>
+                <p>Extra ₹80 (Free above ₹1199)</p>
               </div>
             </label>
           </div>
@@ -153,7 +153,7 @@
             
             let codFee = 0;
             if (method === 'cod') {
-              if (subtotalRs < 999) {
+              if (subtotalRs < 1199) {
                 codFee = 80;
               }
             }
@@ -187,7 +187,7 @@
                 codNotice.style.display = 'none';
               } else {
                 prepaidNotice.style.display = 'none';
-                codNotice.style.display = (subtotalRs < 999) ? 'block' : 'none';
+                codNotice.style.display = (subtotalRs < 1199) ? 'block' : 'none';
               }
             }
 
@@ -198,13 +198,13 @@
                 shippingMessageEl.innerHTML = 'Prepaid Order: <strong>FREE Shipping</strong> applied! 🎁';
                 shippingProgressEl.style.width = '100%';
               } else {
-                if (subtotalRs >= 999) {
+                if (subtotalRs >= 1199) {
                   shippingMessageEl.innerHTML = '<strong>FREE Shipping (COD)</strong> achieved! 🎉';
                   shippingProgressEl.style.width = '100%';
                 } else {
-                  const remaining = 999 - subtotalRs;
+                  const remaining = 1199 - subtotalRs;
                   shippingMessageEl.innerHTML = 'Add <strong>₹' + Math.ceil(remaining) + '</strong> more for FREE Shipping (COD)!';
-                  const progressPct = Math.min(100, (subtotalRs / 999) * 100);
+                  const progressPct = Math.min(100, (subtotalRs / 1199) * 100);
                   shippingProgressEl.style.width = progressPct + '%';
                 }
               }
