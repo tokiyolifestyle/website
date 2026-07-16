@@ -29,6 +29,7 @@
     <div class="cart-drawer__body" data-cart-body>
       {%- if cart.item_count > 0 -%}
         {%- for item in cart.items -%}
+          {%- if item.variant_id == 48862017716468 -%}{%- continue -%}{%- endif -%}
           <div class="cart-item" data-cart-item="{{ item.key }}">
             <div class="cart-item__image">
               {%- if item.image -%}

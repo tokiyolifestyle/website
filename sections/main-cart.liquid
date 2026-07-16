@@ -23,6 +23,7 @@
           {%- endif -%}
 
           {%- for item in cart.items -%}
+            {%- if item.variant_id == 48862017716468 -%}{%- continue -%}{%- endif -%}
             <div class="cart-page__item cart-item animate-on-scroll fade-up" style="--anim-delay: {{ forloop.index0 | times: 80 }}ms;">
               <div class="cart-item__image">
                 {%- if item.image -%}
@@ -99,21 +100,7 @@
             <span>+₹80.00</span>
           </div>
 
-          <!-- --- Estimated GST Included (5% slab under 1000, 12% slab above) --- -->
-          {%- assign total_gst_cents = 0 -%}
-          {%- for item in cart.items -%}
-            {%- assign unit_price_rs = item.final_price | divided_by: 100.0 -%}
-            {%- if unit_price_rs <= 1000.0 -%}
-              {%- assign item_gst_cents = item.final_line_price | times: 5 | divided_by: 105 -%}
-            {%- else -%}
-              {%- assign item_gst_cents = item.final_line_price | times: 12 | divided_by: 112 -%}
-            {%- endif -%}
-            {%- assign total_gst_cents = total_gst_cents | plus: item_gst_cents -%}
-          {%- endfor -%}
-          <div class="cart-page__summary-row" id="CartPageGstRow" style="color: var(--color-text-muted, #767674); font-size: 0.85rem;">
-            <span>Estimated GST (Included)</span>
-            <span id="CartPageGstDisplay">{{ total_gst_cents | money }}</span>
-          </div>
+
 
           <div class="cart-page__summary-row cart-page__summary-row--shipping">
             <span>Shipping</span>

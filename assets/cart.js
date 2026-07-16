@@ -7,6 +7,7 @@ class TokiyoCart {
     this.bodyEl   = document.querySelector('[data-cart-body]');
     this.countEls = document.querySelectorAll('[data-cart-count]');
     this.threshold = parseFloat(document.querySelector('[data-free-shipping-threshold]')?.dataset.freeShippingThreshold || '0') * 100;
+    this.codFeeVariantId = 48862017716468;
     this.bindEvents();
   }
   bindEvents() {
@@ -31,6 +32,11 @@ class TokiyoCart {
       e.preventDefault();
       this.addFromForm(form);
     });
+    document.addEventListener('change', e => {
+      if (e.target.name === 'payment_method_choice' || e.target.name === 'cart_payment_method_choice') {
+        this.syncCodFeeInCart();
+      }
+    });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') this.closeDrawer(); });
     const noteInput = document.querySelector('[data-cart-note]');
     if (noteInput) { let t; noteInput.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => this.updateNote(noteInput.value), 800); }); }
@@ -39,7 +45,9 @@ class TokiyoCart {
     this.drawer?.classList.add('is-open');
     this.overlay?.classList.add('is-open');
     document.body.style.overflow = 'hidden';
-    this.refreshDrawer();
+    this.refreshDrawer().then(() => {
+      this.syncCodFeeInCart();
+    });
   }
   closeDrawer() {
     this.drawer?.classList.remove('is-open');
@@ -66,11 +74,52 @@ class TokiyoCart {
     const cart = await res.json();
     this.updateCount(cart.item_count);
     await this.refreshDrawer();
+    this.syncCodFeeInCart();
   }
   async updateNote(note) {
     await fetch('/cart/update.js', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({note}) });
   }
   updateCount(count) { this.countEls.forEach(el => el.textContent = count); }
+  
+  async syncCodFeeInCart() {
+    try {
+      const cart = await this.getCart();
+      const method = localStorage.getItem('tokiyo_payment_method') || 'prepaid';
+      
+      let subtotalCents = 0;
+      let hasCodFee = false;
+      
+      cart.items.forEach(item => {
+        if (item.variant_id === this.codFeeVariantId) {
+          hasCodFee = true;
+        } else {
+          subtotalCents += item.final_line_price;
+        }
+      });
+
+      const subtotalRs = subtotalCents / 100;
+      const needsCodFee = (method === 'cod' && subtotalRs < 999);
+
+      if (needsCodFee && !hasCodFee) {
+        await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+          body: JSON.stringify({ items: [{ id: this.codFeeVariantId, quantity: 1 }] })
+        });
+        await this.refreshDrawer();
+      } else if (!needsCodFee && hasCodFee) {
+        await fetch('/cart/change.js', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+          body: JSON.stringify({ id: String(this.codFeeVariantId), quantity: 0 })
+        });
+        await this.refreshDrawer();
+      }
+    } catch(err) {
+      console.error('COD Fee sync failed:', err);
+    }
+  }
+
   async refreshDrawer() {
     if (!this.bodyEl) return;
     try {
@@ -85,7 +134,6 @@ class TokiyoCart {
         const footerEl = document.querySelector('[data-cart-footer]');
         if (footerEl && nf) footerEl.innerHTML = nf.innerHTML;
         else if (nf && !footerEl) {
-          /* If footer didn't exist before (was empty cart), append it */
           this.drawer?.appendChild(nf.parentElement || nf);
         }
         const shippingBar = document.querySelector('[data-shipping-bar]');
