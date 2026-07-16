@@ -1003,23 +1003,24 @@ section[class*="section-"] {
     object-position: center top !important;
   }
   .hero-carousel__heading {
-    font-size: clamp(1.3rem, 5.5vw, 2rem) !important;
-    margin-bottom: 0.5rem !important;
+    font-size: 1.2rem !important;
+    margin-bottom: 0.35rem !important;
+    font-weight: 700 !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.35);
   }
   .hero-carousel__subheading {
-    font-size: 0.8rem !important;
-    margin-bottom: 1rem !important;
-    -webkit-line-clamp: 2 !important;
-    display: -webkit-box !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
+    display: none !important;
   }
   .hero-carousel__content {
-    padding-bottom: 1.25rem !important;
+    padding-bottom: 1.75rem !important;
+  }
+  .hero-carousel__ctas {
+    margin-top: 0.5rem !important;
+    gap: 0.5rem !important;
   }
   .hero-carousel__ctas .button {
-    padding: 0.6rem 1rem !important;
-    font-size: 0.6rem !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.65rem !important;
     letter-spacing: 0.1em !important;
   }
   /* Dots smaller */
