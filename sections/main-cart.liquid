@@ -12,12 +12,12 @@
             {%- if progress_pct > 100 -%}{%- assign progress_pct = 100 -%}{%- endif -%}
             <div class="cart-shipping-bar animate-on-scroll fade-up">
               <div class="cart-shipping-bar__track">
-                <div class="cart-shipping-bar__fill" style="width: {{ progress_pct }}%;"></div>
+                <div class="cart-shipping-bar__fill" data-shipping-progress style="width: {{ progress_pct }}%;"></div>
               </div>
               {%- if remaining > 0 -%}
-                <p class="cart-shipping-bar__text">Add <strong>{{ remaining | money }}</strong> more for <strong>FREE Shipping</strong> 🚚</p>
+                <p class="cart-shipping-bar__text" data-shipping-message>Add <strong>{{ remaining | money }}</strong> more for <strong>FREE Shipping</strong> 🚚</p>
               {%- else -%}
-                <p class="cart-shipping-bar__text cart-shipping-bar__text--success">✓ You've unlocked <strong>FREE Shipping!</strong> 🎉</p>
+                <p class="cart-shipping-bar__text cart-shipping-bar__text--success" data-shipping-message>✓ You've unlocked <strong>FREE Shipping!</strong> 🎉</p>
               {%- endif -%}
             </div>
           {%- endif -%}

@@ -1,4 +1,4 @@
-﻿<div class="cart-drawer-overlay" data-cart-overlay></div>
+<div class="cart-drawer-overlay" data-cart-overlay></div>
 
 <div class="cart-drawer" data-cart-drawer id="CartDrawer" aria-label="Cart" role="dialog" aria-modal="true" style="transform: translateX(100%); visibility: hidden;">
   <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm" style="display: flex; flex-direction: column; height: 100%; width: 100%; overflow: hidden; margin: 0;">
@@ -191,21 +191,21 @@
               }
             }
 
-            const shippingMessageEl = document.querySelector('[data-shipping-message]');
-            const shippingProgressEl = document.querySelector('[data-shipping-progress]');
-            if (shippingMessageEl && shippingProgressEl) {
+            const shippingMessageEls = document.querySelectorAll('[data-shipping-message]');
+            const shippingProgressEls = document.querySelectorAll('[data-shipping-progress]');
+            if (shippingMessageEls.length && shippingProgressEls.length) {
               if (method === 'prepaid') {
-                shippingMessageEl.innerHTML = 'Prepaid Order: <strong>FREE Shipping</strong> applied! ðŸŽ';
-                shippingProgressEl.style.width = '100%';
+                shippingMessageEls.forEach(el => el.innerHTML = 'Prepaid Order: <strong>FREE Shipping</strong> applied! 🎁');
+                shippingProgressEls.forEach(el => el.style.width = '100%');
               } else {
                 if (subtotalRs >= 1199) {
-                  shippingMessageEl.innerHTML = '<strong>FREE Shipping (COD)</strong> achieved! ðŸŽ‰';
-                  shippingProgressEl.style.width = '100%';
+                  shippingMessageEls.forEach(el => el.innerHTML = '<strong>FREE Shipping (COD)</strong> achieved! 🎉');
+                  shippingProgressEls.forEach(el => el.style.width = '100%');
                 } else {
                   const remaining = 1199 - subtotalRs;
-                  shippingMessageEl.innerHTML = 'Add <strong>â‚¹' + Math.ceil(remaining) + '</strong> more for FREE Shipping (COD)!';
+                  shippingMessageEls.forEach(el => el.innerHTML = 'Add <strong>₹' + Math.ceil(remaining) + '</strong> more for FREE Shipping (COD)!');
                   const progressPct = Math.min(100, (subtotalRs / 1199) * 100);
-                  shippingProgressEl.style.width = progressPct + '%';
+                  shippingProgressEls.forEach(el => el.style.width = progressPct + '%');
                 }
               }
             }
