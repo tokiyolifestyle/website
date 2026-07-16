@@ -111,31 +111,27 @@
         "mc-os-sw": { "type": "category", "settings": { "label": "Streetwear", "gender": "men", "fit": "oversized" } },
         "mc-os-st": { "type": "category", "settings": { "label": "Story Wear", "gender": "men", "fit": "oversized" } },
         "mc-os-mn": { "type": "category", "settings": { "label": "Minimal", "gender": "men", "fit": "oversized" } },
-        "mc-os-sb": { "type": "category", "settings": { "label": "Solid Basics", "gender": "men", "fit": "oversized" } },
         "mc-rg-gp": { "type": "category", "settings": { "label": "Graphic Print", "gender": "men", "fit": "regular" } },
         "mc-rg-an": { "type": "category", "settings": { "label": "Anime", "gender": "men", "fit": "regular" } },
         "mc-rg-sw": { "type": "category", "settings": { "label": "Streetwear", "gender": "men", "fit": "regular" } },
         "mc-rg-st": { "type": "category", "settings": { "label": "Story Wear", "gender": "men", "fit": "regular" } },
         "mc-rg-mn": { "type": "category", "settings": { "label": "Minimal", "gender": "men", "fit": "regular" } },
-        "mc-rg-sb": { "type": "category", "settings": { "label": "Solid Basics", "gender": "men", "fit": "regular" } },
         "wc-os-gp": { "type": "category", "settings": { "label": "Graphic Print", "gender": "women", "fit": "oversized" } },
         "wc-os-an": { "type": "category", "settings": { "label": "Anime", "gender": "women", "fit": "oversized" } },
         "wc-os-sw": { "type": "category", "settings": { "label": "Streetwear", "gender": "women", "fit": "oversized" } },
         "wc-os-st": { "type": "category", "settings": { "label": "Story Wear", "gender": "women", "fit": "oversized" } },
         "wc-os-mn": { "type": "category", "settings": { "label": "Minimal", "gender": "women", "fit": "oversized" } },
-        "wc-os-sb": { "type": "category", "settings": { "label": "Solid Basics", "gender": "women", "fit": "oversized" } },
         "wc-rg-gp": { "type": "category", "settings": { "label": "Graphic", "gender": "women", "fit": "regular" } },
         "wc-rg-an": { "type": "category", "settings": { "label": "Anime", "gender": "women", "fit": "regular" } },
         "wc-rg-sw": { "type": "category", "settings": { "label": "Streetwear", "gender": "women", "fit": "regular" } },
         "wc-rg-st": { "type": "category", "settings": { "label": "Story Wear", "gender": "women", "fit": "regular" } },
-        "wc-rg-mn": { "type": "category", "settings": { "label": "Minimal", "gender": "women", "fit": "regular" } },
-        "wc-rg-sb": { "type": "category", "settings": { "label": "Solid Basics", "gender": "women", "fit": "regular" } }
+        "wc-rg-mn": { "type": "category", "settings": { "label": "Minimal", "gender": "women", "fit": "regular" } }
       },
       "block_order": [
-        "mc-os-gp","mc-os-an","mc-os-sw","mc-os-st","mc-os-mn","mc-os-sb",
-        "mc-rg-gp","mc-rg-an","mc-rg-sw","mc-rg-st","mc-rg-mn","mc-rg-sb",
-        "wc-os-gp","wc-os-an","wc-os-sw","wc-os-st","wc-os-mn","wc-os-sb",
-        "wc-rg-gp","wc-rg-an","wc-rg-sw","wc-rg-st","wc-rg-mn","wc-rg-sb"
+        "mc-os-gp","mc-os-an","mc-os-sw","mc-os-st","mc-os-mn",
+        "mc-rg-gp","mc-rg-an","mc-rg-sw","mc-rg-st","mc-rg-mn",
+        "wc-os-gp","wc-os-an","wc-os-sw","wc-os-st","wc-os-mn",
+        "wc-rg-gp","wc-rg-an","wc-rg-sw","wc-rg-st","wc-rg-mn"
       ],
       "settings": {
         "eyebrow": "Explore",
@@ -148,10 +144,9 @@
         "col-1": { "type": "collection", "settings": { "title": "Men's Oversized", "link": "/collections/men-oversized" } },
         "col-2": { "type": "collection", "settings": { "title": "Women's Edit", "link": "/collections/women-oversized" } },
         "col-3": { "type": "collection", "settings": { "title": "Anime Collection", "link": "/collections/men-oversized-anime" } },
-        "col-4": { "type": "collection", "settings": { "title": "Streetwear", "link": "/collections/men-oversized-streetwear" } },
-        "col-5": { "type": "collection", "settings": { "title": "Solid Basics", "link": "/collections/men-oversized-solid-basics" } }
+        "col-4": { "type": "collection", "settings": { "title": "Streetwear", "link": "/collections/men-oversized-streetwear" } }
       },
-      "block_order": ["col-1","col-2","col-3","col-4","col-5"],
+      "block_order": ["col-1","col-2","col-3","col-4"],
       "settings": {
         "eyebrow": "Collections",
         "title": "Curated for You",

@@ -50,11 +50,7 @@
             {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
             {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
             
-            {%- if block.settings.gender == 'men' -%}
-              {%- assign block_link = '/collections/men-oversized' -%}
-            {%- else -%}
-              {%- assign block_link = '/collections/women-oversized' -%}
-            {%- endif -%}
+            {%- assign block_link = '/collections/' | append: constructed_handle -%}
             {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
             {%- assign card_image = block.settings.image -%}
@@ -169,7 +165,7 @@
                 {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
                 {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
                 
-                {%- assign block_link = '/collections/men-oversized' -%}
+                {%- assign block_link = '/collections/' | append: constructed_handle -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
                 {%- assign card_image = block.settings.image -%}
@@ -267,7 +263,7 @@
                 {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
                 {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
                 
-                {%- assign block_link = '/collections/men-regular' -%}
+                {%- assign block_link = '/collections/' | append: constructed_handle -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
                 {%- assign card_image = block.settings.image -%}
@@ -365,7 +361,7 @@
                 {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
                 {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
                 
-                {%- assign block_link = '/collections/women-oversized' -%}
+                {%- assign block_link = '/collections/' | append: constructed_handle -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
                 {%- assign card_image = block.settings.image -%}
@@ -462,7 +458,7 @@
                 {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
                 {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
                 
-                {%- assign block_link = '/collections/women-regular' -%}
+                {%- assign block_link = '/collections/' | append: constructed_handle -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
                 {%- assign card_image = block.settings.image -%}
