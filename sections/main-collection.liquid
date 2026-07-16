@@ -66,6 +66,13 @@
 
       {%- assign decoded_query = canonical_url | split: '?' | last | replace: '%20', ' ' | replace: '%3A', ':' | replace: '%2F', '/' | replace: '%2C', ',' | replace: '+', ' ' -%}
 
+      {%- assign gender_options = "Men,Women" | split: "," -%}
+      {%- assign style_options = "Oversized,Regular" | split: "," -%}
+      {%- assign size_options = "XS,S,M,L,XL,XXL" | split: "," -%}
+      {%- assign color_options = "Black,White,Beige,Pista,Airforce,Peach,Lavender,Mustard,Onion Pink" | split: "," -%}
+      {%- assign fabric_options = "100% Cotton,French Terry,Heavyweight Cotton" | split: "," -%}
+      {%- assign brand_options = "Tokiyo Lifestyle,Tokiyo Originals" | split: "," -%}
+
       {%- assign in_stock_checked = '' -%}
       {%- if decoded_query contains 'filter.v.availability=1' -%}{%- assign in_stock_checked = 'checked' -%}{%- endif -%}
 
@@ -82,10 +89,51 @@
         {%- assign price_lte = decoded_query | split: 'filter.v.price.lte=' | last | split: '&' | first -%}
       {%- endif -%}
 
-      {%- assign size_options = "XS,S,M,L,XL,XXL" | split: "," -%}
-      {%- assign color_options = "Black,White,Beige,Pista,Airforce,Peach,Lavender,Mustard,Onion Pink" | split: "," -%}
-      {%- assign fabric_options = "100% Cotton,French Terry,Heavyweight Cotton" | split: "," -%}
-      {%- assign brand_options = "Tokiyo Lifestyle,Tokiyo Originals" | split: "," -%}
+      {%- comment -%} 0.1 Gender Filter {%- endcomment -%}
+      <div class="filter-group" data-filter-group>
+        <button class="filter-group__title" data-accordion-trigger data-accordion-group="filters" aria-expanded="true" aria-controls="Filter-Gender">
+          Gender
+          {% render 'icon-chevron-down' %}
+        </button>
+        <div class="filter-group__options" id="Filter-Gender">
+          <ul class="filter-list">
+            {%- for gender in gender_options -%}
+              {%- assign is_checked = '' -%}
+              {%- assign gender_query = 'filter.p.tag=' | append: gender -%}
+              {%- if decoded_query contains gender_query -%}{%- assign is_checked = 'checked' -%}{%- endif -%}
+              <li class="filter-list__item">
+                <label class="filter-checkbox">
+                  <input type="checkbox" name="filter.p.tag" value="{{ gender }}" {{ is_checked }} data-filter-input>
+                  <span>{% if gender == 'Men' %}Men's{% else %}Women's{% endif %}</span>
+                </label>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+
+      {%- comment -%} 0.2 Style/Fit Filter {%- endcomment -%}
+      <div class="filter-group" data-filter-group>
+        <button class="filter-group__title" data-accordion-trigger data-accordion-group="filters" aria-expanded="true" aria-controls="Filter-Style">
+          Fit / Silhouette
+          {% render 'icon-chevron-down' %}
+        </button>
+        <div class="filter-group__options" id="Filter-Style">
+          <ul class="filter-list">
+            {%- for style in style_options -%}
+              {%- assign is_checked = '' -%}
+              {%- assign style_query = 'filter.p.tag=' | append: style -%}
+              {%- if decoded_query contains style_query -%}{%- assign is_checked = 'checked' -%}{%- endif -%}
+              <li class="filter-list__item">
+                <label class="filter-checkbox">
+                  <input type="checkbox" name="filter.p.tag" value="{{ style }}" {{ is_checked }} data-filter-input>
+                  <span>{{ style }}</span>
+                </label>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
 
       {%- comment -%} 1. Availability Filter {%- endcomment -%}
       <div class="filter-group" data-filter-group>
@@ -359,7 +407,6 @@
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior-y: contain;
-      touch-action: pan-y;
       border-radius: 0;
       background: #FFFFFF;
       padding: 1.5rem;
