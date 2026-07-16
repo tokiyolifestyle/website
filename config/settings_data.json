@@ -94,7 +94,14 @@
         }
       }
     },
-    "content_for_index": []
+    "content_for_index": [],
+    "blocks": {
+      "11502817661673146621": {
+        "type": "shopify://apps/releasit-cod-fee/blocks/app-embed/019a066b-bc34-792e-8460-8aae1d0bdf53",
+        "disabled": false,
+        "settings": {}
+      }
+    }
   },
   "presets": {
     "Default": {}
