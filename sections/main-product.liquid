@@ -125,6 +125,89 @@
       <div class="product-variants" data-variant-picker>
         <script data-variant-json type="application/json">{{ product.variants | json }}</script>
 
+        {%- comment -%} Sibling Color Swatches (Option A) {%- endcomment -%}
+        {%- assign current_sku = '' -%}
+        {%- for variant in product.variants -%}
+          {%- if variant.sku != blank -%}
+            {%- assign current_sku = variant.sku -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- assign design_code = '' -%}
+        {%- if current_sku contains '_' -%}
+          {%- assign design_code = current_sku | split: '_' | first | downcase -%}
+        {%- endif -%}
+
+        {%- if design_code != blank -%}
+          {%- comment -%} Determine product base handles depending on category {%- endcomment -%}
+          {%- assign is_regular = false -%}
+          {%- assign is_women = false -%}
+
+          {%- if product.title contains 'Regular' -%}
+            {%- assign is_regular = true -%}
+          {%- elsif product.title contains 'Women' -%}
+            {%- assign is_women = true -%}
+          {%- endif -%}
+
+          {%- assign colors = "black,white,beige,pista,airforce,peach,lavender,mustard,onion-pink,wine,d-grey" | split: "," -%}
+          
+          {%- assign sibling_products_found = '' -%}
+          {%- for color in colors -%}
+            {%- if is_regular -%}
+              {%- assign sibling_handle = 'tokiyo-lifestyle-regular-t-shirt-' | append: color | append: '-' | append: design_code -%}
+            {%- elsif is_women -%}
+              {%- assign sibling_handle = 'tokiyo-lifestyle-women-oversized-t-shirt-' | append: color | append: '-' | append: design_code -%}
+            {%- else -%}
+              {%- assign sibling_handle = 'tokiyo-lifestyle-oversized-t-shirt-' | append: color | append: '-' | append: design_code -%}
+            {%- endif -%}
+
+            {%- assign sibling_p = all_products[sibling_handle] -%}
+            {%- if sibling_p != empty -%}
+              {%- assign sibling_products_found = sibling_products_found | append: sibling_handle | append: ',' -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- assign sibling_handles_array = sibling_products_found | split: ',' -%}
+
+          {%- if sibling_handles_array.size > 1 -%}
+            <div class="product-option">
+              <div class="product-option__label">
+                <span>Color</span>
+              </div>
+              <div class="product-option__swatches">
+                {%- for s_handle in sibling_handles_array -%}
+                  {%- if s_handle == blank -%}{%- continue -%}{%- endif -%}
+                  {%- assign s_product = all_products[s_handle] -%}
+                  
+                  {%- comment -%} Extract color label from title {%- endcomment -%}
+                  {%- assign s_color = s_product.title | split: ' - ' | last -%}
+                  {%- assign hex_color = '#111111' -%}
+                  {%- if s_color == 'White' -%}{%- assign hex_color = '#FFFFFF' -%}
+                  {%- elsif s_color == 'Beige' -%}{%- assign hex_color = '#E4D5B7' -%}
+                  {%- elsif s_color == 'Pista' -%}{%- assign hex_color = '#C1F8C2' -%}
+                  {%- elsif s_color == 'Airforce' -%}{%- assign hex_color = '#5F8A96' -%}
+                  {%- elsif s_color == 'Peach' -%}{%- assign hex_color = '#FFE5B4' -%}
+                  {%- elsif s_color == 'Lavender' -%}{%- assign hex_color = '#E6E6FA' -%}
+                  {%- elsif s_color == 'Mustard' -%}{%- assign hex_color = '#E1AD01' -%}
+                  {%- elsif s_color == 'Onion Pink' -%}{%- assign hex_color = '#D1A3A4' -%}
+                  {%- elsif s_color == 'Wine' -%}{%- assign hex_color = '#722F37' -%}
+                  {%- elsif s_color == 'D. Grey' -%}{%- assign hex_color = '#5A5A5A' -%}
+                  {%- elsif s_color == 'Black' -%}{%- assign hex_color = '#111111' -%}
+                  {%- endif -%}
+
+                  <a href="{{ s_product.url }}" 
+                     class="sibling-swatch-link{% if s_product.id == product.id %} is-active{% endif %}" 
+                     title="{{ s_color }}">
+                    <span class="swatch swatch--lg" style="background-color:{{ hex_color }}; border: 1px solid rgba(0,0,0,0.12);"></span>
+                    <span class="visually-hidden">{{ s_color }}</span>
+                  </a>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+
         {%- for option in product.options_with_values -%}
           <div class="product-option">
             <div class="product-option__label">
@@ -377,6 +460,20 @@
   .option-btn:hover { border-color:var(--color-primary,#111); }
   .size-guide-panel { padding:1.25rem 0; }
   .product-info__tax-label { display: block; font-size: 0.72rem; font-weight: 600; color: var(--color-success, #2E7D32); margin-top: 0.35rem; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* Sibling Color Swatch Links Styles */
+  .sibling-swatch-link {
+    display: inline-block;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), outline 0.2s;
+    border-radius: 50%;
+  }
+  .sibling-swatch-link:hover {
+    transform: scale(1.15);
+  }
+  .sibling-swatch-link.is-active {
+    outline: 2px solid var(--color-primary, #111111);
+    outline-offset: 2px;
+  }
 
   /* Actions */
   .product-info__actions { display:flex; gap:.75rem; margin:1.5rem 0 .75rem; }
