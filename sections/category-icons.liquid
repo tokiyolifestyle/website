@@ -152,7 +152,23 @@
       </div>
  
       {%- comment -%} Regular Section {%- endcomment -%}
-      {%- capture men_regular_cards -%}
+      <div class="catg-universe__section">
+        <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
+          <div class="catg-universe__section-left">
+            <span class="catg-universe__section-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8L10 5C10 5 11 9 12 9C13 9 14 5 14 5L18 8L16 14H14V22H10V14H8L6 8Z"/></svg>
+            </span>
+            <div>
+              <span class="catg-universe__section-badge">REGULAR FIT</span>
+              <span class="catg-universe__section-sub">Classic comfort essentials</span>
+            </div>
+          </div>
+          <div class="catg-universe__section-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="catg-universe__section-body is-open">
+          <div class="catg-universe__grid">
             {%- assign fallback_collection = collections['men-regular'] -%}
             {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
               {%- assign fallback_collection = collections['men-oversized'] -%}
@@ -210,31 +226,9 @@
                 {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
-      {%- endcapture -%}
-      {%- assign men_regular_cards = men_regular_cards | strip -%}
-      {%- if men_regular_cards != blank -%}
-      <div class="catg-universe__section">
-        <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
-          <div class="catg-universe__section-left">
-            <span class="catg-universe__section-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8L10 5C10 5 11 9 12 9C13 9 14 5 14 5L18 8L16 14H14V22H10V14H8L6 8Z"/></svg>
-            </span>
-            <div>
-              <span class="catg-universe__section-badge">REGULAR FIT</span>
-              <span class="catg-universe__section-sub">Classic comfort essentials</span>
-            </div>
-          </div>
-          <div class="catg-universe__section-chevron">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-        </div>
-        <div class="catg-universe__section-body is-open">
-          <div class="catg-universe__grid">
-            {{ men_regular_cards }}
           </div>
         </div>
       </div>
-      {%- endif -%}
     </div>
  
     {%- comment -%} ═══ WOMEN'S PANEL ═══ {%- endcomment -%}
@@ -315,7 +309,23 @@
         </div>
       </div>
       {%- comment -%} Regular {%- endcomment -%}
-      {%- capture women_regular_cards -%}
+      <div class="catg-universe__section">
+        <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
+          <div class="catg-universe__section-left">
+            <span class="catg-universe__section-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8L10 5C10 5 11 9 12 9C13 9 14 5 14 5L18 8L16 14H14V22H10V14H8L6 8Z"/></svg>
+            </span>
+            <div>
+              <span class="catg-universe__section-badge">REGULAR FIT</span>
+              <span class="catg-universe__section-sub">Classic comfort essentials</span>
+            </div>
+          </div>
+          <div class="catg-universe__section-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="catg-universe__section-body is-open">
+          <div class="catg-universe__grid">
             {%- assign fallback_collection = collections['women-regular'] -%}
             {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
               {%- assign fallback_collection = collections['women-oversized'] -%}
@@ -372,31 +382,9 @@
                 </a>
               {%- endif -%}
             {%- endfor -%}
-      {%- endcapture -%}
-      {%- assign women_regular_cards = women_regular_cards | strip -%}
-      {%- if women_regular_cards != blank -%}
-      <div class="catg-universe__section">
-        <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
-          <div class="catg-universe__section-left">
-            <span class="catg-universe__section-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8L10 5C10 5 11 9 12 9C13 9 14 5 14 5L18 8L16 14H14V22H10V14H8L6 8Z"/></svg>
-            </span>
-            <div>
-              <span class="catg-universe__section-badge">REGULAR FIT</span>
-              <span class="catg-universe__section-sub">Classic comfort essentials</span>
-            </div>
-          </div>
-          <div class="catg-universe__section-chevron">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-        </div>
-        <div class="catg-universe__section-body is-open">
-          <div class="catg-universe__grid">
-            {{ women_regular_cards }}
           </div>
         </div>
       </div>
-      {%- endif -%}
     </div>
   </div>
 </section>
