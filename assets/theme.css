@@ -249,7 +249,7 @@ section[class*="section-"] { padding-block: 0; }
   border-bottom: 1px solid rgba(12, 12, 14, 0.08);
   transition: background-color 0.4s ease, box-shadow 0.4s ease;
   /* Hard cap on header height */
-  max-height: 70px;
+  max-height: 58px;
 }
 .site-header--sticky { position: sticky; top: 0; }
 .site-header.is-hidden { transform: translateY(-100%); pointer-events: none; }
@@ -262,10 +262,10 @@ section[class*="section-"] { padding-block: 0; }
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  padding-top: 0.4rem !important;
-  padding-bottom: 0.4rem !important;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
   min-height: 0 !important;
-  max-height: 68px !important;
+  max-height: 56px !important;
   overflow: hidden;
 }
 .site-header.is-scrolled .site-header__inner {
@@ -288,7 +288,7 @@ section[class*="section-"] { padding-block: 0; }
 .site-header__logo-link img,
 .header__logo-img {
   display: block;
-  max-height: 52px !important;  /* Compact — was 65px */
+  max-height: 38px !important;
   width: auto;
   mix-blend-mode: multiply;
 }
@@ -994,13 +994,13 @@ section[class*="section-"] {
 /* Mobile */
 @media (max-width: 749px) {
   .hero-carousel {
-    height: 115vw !important;
-    min-height: 420px !important;
-    max-height: 560px !important;
+    height: 110vw !important;
+    min-height: 400px !important;
+    max-height: 520px !important;
   }
   .hero-carousel__img {
     object-fit: cover !important;
-    object-position: center top !important;
+    object-position: center center !important;
   }
   .hero-carousel__heading {
     font-size: 1.2rem !important;
@@ -1035,10 +1035,10 @@ section[class*="section-"] {
    ══════════════════════════════════════════════════ */
 @media (max-width: 749px) {
   .site-header__inner {
-    padding-top: 0.3rem !important;
-    padding-bottom: 0.3rem !important;
+    padding-top: 0.2rem !important;
+    padding-bottom: 0.2rem !important;
     gap: 0.4rem !important;
-    min-height: 52px !important;
+    min-height: 44px !important;
   }
   /* Logo centered */
   .site-header__logo {
@@ -1048,7 +1048,7 @@ section[class*="section-"] {
   }
   .site-header__logo-link img,
   .header__logo-img {
-    max-height: 42px !important;
+    max-height: 32px !important;
     width: auto !important;
   }
   /* Hide pagoda SVG and text-based logo on mobile — jpg logo only */
