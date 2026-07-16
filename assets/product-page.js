@@ -253,12 +253,14 @@ function initGallery() {
       }
       zoomModal.classList.add('is-open');
       document.body.style.overflow = 'hidden';
+      stopAutoSlide();
     });
     
     zoomModal.addEventListener('click', e => {
       if (!e.target.closest('[data-zoom-image]')) {
         zoomModal.classList.remove('is-open');
         document.body.style.overflow = '';
+        startAutoSlide();
       }
     });
     
@@ -266,9 +268,42 @@ function initGallery() {
       if (e.key === 'Escape') {
         zoomModal.classList.remove('is-open');
         document.body.style.overflow = '';
+        startAutoSlide();
       }
     });
   }
+
+  /* ---- Auto-slide every 4 seconds ---- */
+  let autoSlideTimer = null;
+  let resumeTimer = null;
+
+  function startAutoSlide() {
+    stopAutoSlide();
+    const visibleSlides = getVisibleSlides();
+    if (visibleSlides.length <= 1) return;
+    autoSlideTimer = setInterval(() => {
+      goToSlide(currentIndex + 1);
+    }, 4000);
+  }
+
+  function stopAutoSlide() {
+    if (autoSlideTimer) { clearInterval(autoSlideTimer); autoSlideTimer = null; }
+    if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
+  }
+
+  function pauseAndResume() {
+    stopAutoSlide();
+    resumeTimer = setTimeout(startAutoSlide, 8000);
+  }
+
+  // Pause auto-slide on user interaction (swipe or thumb click)
+  gallery.addEventListener('touchstart', pauseAndResume, { passive: true });
+  if (thumbs) {
+    thumbs.addEventListener('click', pauseAndResume);
+  }
+
+  // Start auto-slide on load
+  startAutoSlide();
 }
 
 /* ---- Delivery checker ---- */
