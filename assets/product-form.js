@@ -232,7 +232,7 @@
         result.style.color = 'var(--color-error, #D72638)';
         return;
       }
-      result.textContent = 'Delivery available — estimated 3–5 business days.';
+      result.textContent = 'Delivery available — estimated 3–7 working days.';
       result.style.color = 'var(--color-success, #3BB273)';
     });
   }

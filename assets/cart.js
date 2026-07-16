@@ -108,7 +108,7 @@ class TokiyoCart {
       });
 
       const subtotalRs = subtotalCents / 100;
-      const needsCodFee = (method === 'cod' && subtotalRs < 999);
+      const needsCodFee = (method === 'cod' && subtotalRs < 1199);
 
       // Force live update of the subtotal cents variable read by sync scripts
       window.cartSubtotalCents = cart.total_price;

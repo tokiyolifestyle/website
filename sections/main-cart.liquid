@@ -6,7 +6,7 @@
         <div class="cart-page__items">
           {%- comment -%} Free Shipping Progress Bar {%- endcomment -%}
           {%- if settings.cart_free_shipping_bar -%}
-            {%- assign threshold = settings.cart_free_shipping_threshold | default: '2999' | times: 100 -%}
+            {%- assign threshold = settings.cart_free_shipping_threshold | default: '899' | times: 100 -%}
             {%- assign remaining = threshold | minus: cart.total_price -%}
             {%- assign progress_pct = cart.total_price | times: 100 | divided_by: threshold -%}
             {%- if progress_pct > 100 -%}{%- assign progress_pct = 100 -%}{%- endif -%}
@@ -84,7 +84,7 @@
                 <span class="option-indicator"></span>
                 <div class="option-details">
                   <strong>Cash on Delivery (COD)</strong>
-                  <p>Extra ₹80 (Free above ₹999)</p>
+                  <p>Extra ₹80 (Free above ₹1199)</p>
                 </div>
               </label>
             </div>
@@ -172,7 +172,7 @@
               
               let codFee = 0;
               if (method === 'cod') {
-                if (subtotalRs < 999) {
+                if (subtotalRs < 1199) {
                   codFee = 80;
                 }
               }

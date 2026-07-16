@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero-banner": {
@@ -88,7 +97,7 @@
     "scrolling-text-1": {
       "type": "scrolling-text",
       "settings": {
-        "text": "Premium Quality | New Season Arrivals | Free Shipping Over ₹2999 | Wear Your Confidence | Limited Edition Drops | Crafted With Care",
+        "text": "Premium Quality | New Season Arrivals | Free Shipping Over ₹899 | Wear Your Confidence | Limited Edition Drops | Crafted With Care",
         "separator": "✦",
         "speed": 25,
         "font_size": 14,
@@ -185,7 +194,7 @@
         "eyebrow": "Our Story",
         "heading": "Crafted for the Bold",
         "body": "<p>At Tokiyo Lifestyle, we believe fashion is more than clothing — it's a statement. Every piece is designed with precision and crafted from premium materials for the modern individual.</p>",
-        "features": "Premium 240 GSM Cotton|Ethically Sourced Materials|Designed in India|Free Shipping on ₹2999+",
+        "features": "Premium 240 GSM Cotton|Ethically Sourced Materials|Designed in India|Free Shipping on ₹899+",
         "cta_label": "Discover More",
         "cta_link": "/pages/about-us",
         "background_color": "#0A0A0A",
