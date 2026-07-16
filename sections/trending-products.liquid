@@ -40,39 +40,45 @@
     {%- assign max_limit = section.settings.limit | default: 8 -%}
     {%- assign rendered_count = 0 -%}
 
-    <div class="product-grid product-grid--{{ section.settings.columns }}" data-product-grid>
-      {%- for i in (0..30) -%}
-        {%- if rendered_count >= max_limit -%}{%- break -%}{%- endif -%}
-        
-        {%- comment -%} Alternating between Men's and Women's {%- endcomment -%}
-        {%- assign select_men = true -%}
-        {%- assign mod_check = i | modulo: 2 -%}
-        {%- if mod_check == 1 -%}
-          {%- assign select_men = false -%}
-        {%- endif -%}
+    {%- assign has_products = false -%}
+    {%- if men_handles_array.size > 0 or women_handles_array.size > 0 -%}
+      {%- assign has_products = true -%}
+    {%- endif -%}
 
-        {%- assign target_product = blank -%}
-        {%- if select_men -%}
-          {%- comment -%} Use multiplier offset to skip identical color options of the same design {%- endcomment -%}
-          {%- assign m_idx = i | divided_by: 2 | times: 3 | modulo: men_handles_array.size -%}
-          {%- assign m_handle = men_handles_array[m_idx] -%}
-          {%- if m_handle != blank -%}
-            {%- assign target_product = all_products[m_handle] -%}
+    {%- if has_products -%}
+      <div class="product-grid product-grid--{{ section.settings.columns }}" data-product-grid>
+        {%- for i in (0..30) -%}
+          {%- if rendered_count >= max_limit -%}{%- break -%}{%- endif -%}
+          
+          {%- comment -%} Alternating between Men's and Women's {%- endcomment -%}
+          {%- assign select_men = true -%}
+          {%- assign mod_check = i | modulo: 2 -%}
+          {%- if mod_check == 1 -%}
+            {%- assign select_men = false -%}
           {%- endif -%}
-        {%- else -%}
-          {%- assign w_idx = i | divided_by: 2 | times: 3 | modulo: women_handles_array.size -%}
-          {%- assign w_handle = women_handles_array[w_idx] -%}
-          {%- if w_handle != blank -%}
-            {%- assign target_product = all_products[w_handle] -%}
-          {%- endif -%}
-        {%- endif -%}
 
-        {%- if target_product != blank -%}
-          {% render 'product-card', product: target_product, lazy: true %}
-          {%- assign rendered_count = rendered_count | plus: 1 -%}
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
+          {%- assign target_product = blank -%}
+          {%- if select_men -%}
+            {%- comment -%} Use multiplier offset to skip identical color options of the same design {%- endcomment -%}
+            {%- assign m_idx = i | divided_by: 2 | times: 3 | modulo: men_handles_array.size -%}
+            {%- assign m_handle = men_handles_array[m_idx] -%}
+            {%- if m_handle != blank -%}
+              {%- assign target_product = all_products[m_handle] -%}
+            {%- endif -%}
+          {%- else -%}
+            {%- assign w_idx = i | divided_by: 2 | times: 3 | modulo: women_handles_array.size -%}
+            {%- assign w_handle = women_handles_array[w_idx] -%}
+            {%- if w_handle != blank -%}
+              {%- assign target_product = all_products[w_handle] -%}
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- if target_product != blank -%}
+            {% render 'product-card', product: target_product, lazy: true %}
+            {%- assign rendered_count = rendered_count | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
     {%- else -%}
       {%- comment -%} Coming Soon Products Placeholder {%- endcomment -%}
       <div class="product-grid product-grid--{{ section.settings.columns | default: 4 }} stagger-children">
