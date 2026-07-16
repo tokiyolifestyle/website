@@ -972,12 +972,12 @@ section[class*="section-"] {
 /* ══════════════════════════════════════════════════
    4. HERO BANNER — Good proportions on all screens
    ══════════════════════════════════════════════════ */
-/* Desktop: natural 82vh (set by section setting default) */
+/* Desktop: natural 92vh (set by section setting default) */
 @media (min-width: 990px) {
   .hero-carousel {
-    height: var(--hero-height, 82vh) !important;
-    min-height: 600px !important;
-    max-height: 95vh !important;
+    height: var(--hero-height, 92vh) !important;
+    min-height: 680px !important;
+    max-height: 98vh !important;
   }
 }
 /* Tablet */
@@ -994,9 +994,9 @@ section[class*="section-"] {
 /* Mobile */
 @media (max-width: 749px) {
   .hero-carousel {
-    height: 110vw !important;
-    min-height: 400px !important;
-    max-height: 520px !important;
+    height: 105vw !important;
+    min-height: 380px !important;
+    max-height: 500px !important;
   }
   .hero-carousel__img {
     object-fit: cover !important;
