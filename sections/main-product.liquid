@@ -16,8 +16,17 @@
       <div class="product-gallery__main">
         <div class="product-gallery__slider-track" data-gallery-track>
           {%- if product.images.size > 0 -%}
-            {%- for image in product.images limit: 8 -%}
-              <div class="product-gallery__slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide="{{ forloop.index0 }}">
+            {%- for image in product.images -%}
+              {%- assign img_color = '' -%}
+              {%- for color_val in product.options_by_name['Color'].values -%}
+                {%- assign downcase_alt = image.alt | downcase -%}
+                {%- assign downcase_color = color_val | downcase -%}
+                {%- if downcase_alt contains downcase_color -%}
+                  {%- assign img_color = color_val -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+              <div class="product-gallery__slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide="{{ forloop.index0 }}" data-color="{{ img_color | escape }}">
                 <div class="product-gallery__main-image">
                   {%- if image.aspect_ratio > 1.0 -%}
                     {{ image | image_url: width: 1000 | image_tag:
@@ -55,10 +64,20 @@
 
       {%- if product.images.size > 1 -%}
         <div class="product-gallery__thumbs" data-gallery-thumbs>
-          {%- for image in product.images limit: 8 -%}
+          {%- for image in product.images -%}
+            {%- assign img_color = '' -%}
+            {%- for color_val in product.options_by_name['Color'].values -%}
+              {%- assign downcase_alt = image.alt | downcase -%}
+              {%- assign downcase_color = color_val | downcase -%}
+              {%- if downcase_alt contains downcase_color -%}
+                {%- assign img_color = color_val -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
             <button
               class="product-gallery__thumb{% if forloop.first %} is-active{% endif %}"
               data-thumb="{{ image | image_url: width: 1000 }}"
+              data-color="{{ img_color | escape }}"
               aria-label="View image {{ forloop.index }}">
               {{ image | image_url: width: 160 | image_tag:
                 loading: 'lazy',
@@ -220,7 +239,20 @@
             {%- if option.name == 'Color' and settings.enable_color_swatches -%}
               <div class="product-option__swatches" role="group" aria-label="Select {{ option.name }}">
                 {%- for value in option.values -%}
-                  <label class="swatch-label" title="{{ value }}">
+                  {%- assign hex_color = value | handle | replace: '-', '' -%}
+                  {%- if value == 'White' -%}{%- assign hex_color = '#FFFFFF' -%}
+                  {%- elsif value == 'Beige' -%}{%- assign hex_color = '#E4D5B7' -%}
+                  {%- elsif value == 'Pista' -%}{%- assign hex_color = '#C1F8C2' -%}
+                  {%- elsif value == 'Airforce' -%}{%- assign hex_color = '#5F8A96' -%}
+                  {%- elsif value == 'Peach' -%}{%- assign hex_color = '#FFE5B4' -%}
+                  {%- elsif value == 'Lavender' -%}{%- assign hex_color = '#E6E6FA' -%}
+                  {%- elsif value == 'Mustard' -%}{%- assign hex_color = '#E1AD01' -%}
+                  {%- elsif value == 'Onion Pink' -%}{%- assign hex_color = '#D1A3A4' -%}
+                  {%- elsif value == 'Wine' -%}{%- assign hex_color = '#722F37' -%}
+                  {%- elsif value == 'D. Grey' -%}{%- assign hex_color = '#5A5A5A' -%}
+                  {%- elsif value == 'Black' -%}{%- assign hex_color = '#111111' -%}
+                  {%- endif -%}
+                  <label class="swatch-label color-swatch" title="{{ value }}">
                     <input
                       type="radio"
                       name="{{ option.name }}"
@@ -228,7 +260,7 @@
                       data-option-name="{{ option.name }}"
                       class="visually-hidden"
                       {% if option.selected_value == value %}checked{% endif %}>
-                    <span class="swatch swatch--lg" style="background-color:{{ value | handle | replace: '-', '' }};"></span>
+                    <span class="swatch swatch--lg" style="background-color:{{ hex_color }};"></span>
                     <span class="visually-hidden">{{ value }}</span>
                   </label>
                 {%- endfor -%}
@@ -236,7 +268,7 @@
             {%- else -%}
               <div class="product-option__buttons" role="group" aria-label="Select {{ option.name }}">
                 {%- for value in option.values -%}
-                  <label class="option-btn-label">
+                  <label class="option-btn-label size-button">
                     <input
                       type="radio"
                       name="{{ option.name }}"

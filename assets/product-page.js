@@ -17,7 +17,7 @@ function initVariantPicker() {
     const selected = {};
     picker.querySelectorAll('[data-option-name]').forEach(input => {
       if (input.checked || input.tagName === 'SELECT') {
-        selected[input.dataset.optionName] = input.tagName === 'SELECT' ? input.value : input.value;
+        selected[input.dataset.optionName] = input.value;
       }
     });
     return variantData.find(v =>
@@ -26,6 +26,33 @@ function initVariantPicker() {
         return selected[key] === opt;
       })
     ) || variantData.find(v => v.options.every((opt, i) => selected[Object.keys(selected)[i]] === opt));
+  }
+
+  function updateAvailability() {
+    const selected = {};
+    picker.querySelectorAll('[data-option-name]').forEach(input => {
+      if (input.checked || input.tagName === 'SELECT') {
+        selected[input.dataset.optionName] = input.value;
+      }
+    });
+
+    const optionInputs = picker.querySelectorAll('[data-option-name]');
+    optionInputs.forEach(input => {
+      const optionName = input.dataset.optionName;
+      const testSelected = Object.assign({}, selected, { [optionName]: input.value });
+      
+      const match = variantData.find(v =>
+        v.options.every((opt, i) => {
+          const key = Object.keys(testSelected)[i];
+          return testSelected[key] === opt;
+        })
+      );
+      
+      const wrapper = input.closest('.size-button, .color-swatch');
+      if (wrapper) {
+        wrapper.classList.toggle('is-unavailable', !match || !match.available);
+      }
+    });
   }
 
   function updateUI(variant) {
@@ -62,10 +89,17 @@ function initVariantPicker() {
         stockEl.className = 'stock-indicator stock-indicator--in';
       }
     }
+
+    if (variant.options && variant.options[0]) {
+      filterGalleryByColor(variant.options[0]);
+    }
+
     /* Update URL without reload */
     const url = new URL(window.location);
     url.searchParams.set('variant', variant.id);
     history.replaceState({}, '', url);
+
+    updateAvailability();
   }
 
   picker.addEventListener('change', () => {
@@ -77,6 +111,49 @@ function initVariantPicker() {
   const urlVariant = new URLSearchParams(window.location.search).get('variant');
   const initial = urlVariant ? variantData.find(v => String(v.id) === urlVariant) : variantData.find(v => v.available) || variantData[0];
   if (initial) updateUI(initial);
+  updateAvailability();
+}
+
+/* ---- Filter Gallery by Color ---- */
+function filterGalleryByColor(selectedColor) {
+  const track = document.querySelector('[data-gallery-track]');
+  const thumbs = document.querySelector('[data-gallery-thumbs]');
+  if (!track) return;
+
+  const slides = [...track.querySelectorAll('.product-gallery__slide')];
+  const allThumbs = thumbs ? [...thumbs.querySelectorAll('[data-thumb]')] : [];
+
+  const cleanColor = selectedColor ? selectedColor.toLowerCase().trim() : '';
+
+  // Filter slides
+  slides.forEach(slide => {
+    const imgColor = slide.getAttribute('data-color') ? slide.getAttribute('data-color').toLowerCase().trim() : '';
+    if (!imgColor || imgColor === cleanColor) {
+      slide.classList.remove('is-hidden');
+      slide.style.display = '';
+    } else {
+      slide.classList.add('is-hidden');
+      slide.style.display = 'none';
+    }
+  });
+
+  // Filter thumbs
+  allThumbs.forEach(thumb => {
+    const imgColor = thumb.getAttribute('data-color') ? thumb.getAttribute('data-color').toLowerCase().trim() : '';
+    if (!imgColor || imgColor === cleanColor) {
+      thumb.classList.remove('is-hidden');
+      thumb.style.display = '';
+    } else {
+      thumb.classList.add('is-hidden');
+      thumb.style.display = 'none';
+    }
+  });
+
+  // Re-sync slider track
+  const visibleThumbs = allThumbs.filter(t => !t.classList.contains('is-hidden'));
+  if (visibleThumbs.length > 0) {
+    visibleThumbs[0].click();
+  }
 }
 
 /* ---- Image gallery ---- */
@@ -88,13 +165,22 @@ function initGallery() {
   const zoomModal  = document.querySelector('[data-zoom-modal]');
   if (!gallery || !track) return;
 
-  const slides = [...track.querySelectorAll('.product-gallery__slide')];
-  const allThumbs = thumbs ? [...thumbs.querySelectorAll('[data-thumb]')] : [];
+  function getVisibleSlides() {
+    return [...track.querySelectorAll('.product-gallery__slide:not(.is-hidden)')];
+  }
+  function getVisibleThumbs() {
+    return thumbs ? [...thumbs.querySelectorAll('[data-thumb]:not(.is-hidden)')] : [];
+  }
+
   let currentIndex = 0;
 
   function goToSlide(index) {
-    if (index < 0) index = slides.length - 1;
-    if (index >= slides.length) index = 0;
+    const visibleSlides = getVisibleSlides();
+    const visibleThumbs = getVisibleThumbs();
+    if (visibleSlides.length === 0) return;
+
+    if (index < 0) index = visibleSlides.length - 1;
+    if (index >= visibleSlides.length) index = 0;
     
     currentIndex = index;
     
@@ -102,27 +188,37 @@ function initGallery() {
     track.style.transform = `translateX(-${currentIndex * 100}%)`;
     
     // Update active slide class
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('is-active', i === currentIndex);
-    });
+    const allSlides = [...track.querySelectorAll('.product-gallery__slide')];
+    allSlides.forEach(slide => slide.classList.remove('is-active'));
+    if (visibleSlides[currentIndex]) {
+      visibleSlides[currentIndex].classList.add('is-active');
+    }
 
     // Update active thumbnail class
-    allThumbs.forEach((thumb, i) => {
-      thumb.classList.toggle('is-active', i === currentIndex);
-    });
+    const allThumbs = thumbs ? [...thumbs.querySelectorAll('[data-thumb]')] : [];
+    allThumbs.forEach(thumb => thumb.classList.remove('is-active'));
+    if (visibleThumbs[currentIndex]) {
+      visibleThumbs[currentIndex].classList.add('is-active');
+    }
 
     // Scroll active thumbnail into view
-    if (allThumbs[currentIndex]) {
-      allThumbs[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    if (visibleThumbs[currentIndex]) {
+      visibleThumbs[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
   }
 
-  // Thumb clicks
-  allThumbs.forEach((thumb, i) => {
-    thumb.addEventListener('click', () => {
-      goToSlide(i);
+  // Thumb clicks delegated to data-gallery-thumbs wrapper
+  if (thumbs) {
+    thumbs.addEventListener('click', e => {
+      const clickedThumb = e.target.closest('[data-thumb]');
+      if (!clickedThumb || clickedThumb.classList.contains('is-hidden')) return;
+      const visibleThumbs = getVisibleThumbs();
+      const visibleIndex = visibleThumbs.indexOf(clickedThumb);
+      if (visibleIndex !== -1) {
+        goToSlide(visibleIndex);
+      }
     });
-  });
+  }
 
   // Swipe events
   let touchStartX = 0;
@@ -140,10 +236,8 @@ function initGallery() {
   function handleSwipe() {
     const swipeThreshold = 50;
     if (touchStartX - touchEndX > swipeThreshold) {
-      // Swiped left -> next slide
       goToSlide(currentIndex + 1);
     } else if (touchEndX - touchStartX > swipeThreshold) {
-      // Swiped right -> prev slide
       goToSlide(currentIndex - 1);
     }
   }
@@ -151,7 +245,8 @@ function initGallery() {
   // Zoom Modal integration
   if (zoomBtn && zoomModal) {
     zoomBtn.addEventListener('click', () => {
-      const activeImg = slides[currentIndex]?.querySelector('img');
+      const visibleSlides = getVisibleSlides();
+      const activeImg = visibleSlides[currentIndex]?.querySelector('img');
       const zoomImg = zoomModal.querySelector('img');
       if (activeImg && zoomImg) {
         zoomImg.src = activeImg.src;

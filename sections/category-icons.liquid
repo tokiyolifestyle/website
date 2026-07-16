@@ -4,6 +4,26 @@
   3D tilt cards, glowing borders, particles, split-reveal, magnetic hover
   ═══════════════════════════════════════════════════════════════
 {%- endcomment -%}
+{%- assign men_oversized_graphic_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm006'].featured_image -%}
+{%- assign men_oversized_anime_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm003'].featured_image -%}
+{%- assign men_oversized_streetwear_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm004'].featured_image -%}
+{%- assign men_oversized_story_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm008'].featured_image -%}
+{%- assign men_oversized_minimal_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm005'].featured_image -%}
+{%- assign men_oversized_solid_img = all_products['tokiyo-lifestyle-oversized-t-shirt-totm001'].featured_image -%}
+
+{%- assign men_regular_graphic_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm006'].featured_image -%}
+{%- assign men_regular_anime_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm003'].featured_image -%}
+{%- assign men_regular_streetwear_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm004'].featured_image -%}
+{%- assign men_regular_story_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm008'].featured_image -%}
+{%- assign men_regular_minimal_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm005'].featured_image -%}
+{%- assign men_regular_solid_img = all_products['tokiyo-lifestyle-regular-t-shirt-trtm001'].featured_image -%}
+
+{%- assign women_oversized_graphic_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo003'].featured_image -%}
+{%- assign women_oversized_anime_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo001'].featured_image -%}
+{%- assign women_oversized_streetwear_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo004'].featured_image -%}
+{%- assign women_oversized_story_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo005'].featured_image -%}
+{%- assign women_oversized_minimal_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo002'].featured_image -%}
+{%- assign women_oversized_solid_img = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo006'].featured_image -%}
 
 <section class="catg-universe" id="CategoryUniverse">
   {%- comment -%} Floating particles background {%- endcomment -%}
@@ -39,18 +59,47 @@
 
             {%- assign card_image = block.settings.image -%}
             {%- if card_image == blank -%}
-              {%- assign current_collection = collections[constructed_handle] -%}
-              {%- if current_collection != blank and current_collection.products.first != blank -%}
-                {%- assign card_image = current_collection.products.first.featured_image -%}
-              {%- else -%}
-                {%- assign fallback_handle = block.settings.gender | append: '-oversized' -%}
-                {%- assign fallback_collection = collections[fallback_handle] -%}
-                {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
-                  {%- assign fallback_collection = collections['men-oversized'] -%}
+              {%- assign label_lh = block.settings.label | downcase -%}
+              {%- if block.settings.gender == 'men' and block.settings.fit == 'oversized' -%}
+                {%- if label_lh contains 'graphic' -%}{%- assign card_image = men_oversized_graphic_img -%}
+                {%- elsif label_lh contains 'anime' -%}{%- assign card_image = men_oversized_anime_img -%}
+                {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = men_oversized_streetwear_img -%}
+                {%- elsif label_lh contains 'story' -%}{%- assign card_image = men_oversized_story_img -%}
+                {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = men_oversized_minimal_img -%}
+                {%- elsif label_lh contains 'solid' -%}{%- assign card_image = men_oversized_solid_img -%}
                 {%- endif -%}
-                {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                  {%- assign img_idx = forloop.index0 | modulo: fallback_collection.products.size -%}
-                  {%- assign card_image = fallback_collection.products[img_idx].featured_image -%}
+              {%- elsif block.settings.gender == 'men' and block.settings.fit == 'regular' -%}
+                {%- if label_lh contains 'graphic' -%}{%- assign card_image = men_regular_graphic_img -%}
+                {%- elsif label_lh contains 'anime' -%}{%- assign card_image = men_regular_anime_img -%}
+                {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = men_regular_streetwear_img -%}
+                {%- elsif label_lh contains 'story' -%}{%- assign card_image = men_regular_story_img -%}
+                {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = men_regular_minimal_img -%}
+                {%- elsif label_lh contains 'solid' -%}{%- assign card_image = men_regular_solid_img -%}
+                {%- endif -%}
+              {%- elsif block.settings.gender == 'women' and block.settings.fit == 'oversized' -%}
+                {%- if label_lh contains 'graphic' -%}{%- assign card_image = women_oversized_graphic_img -%}
+                {%- elsif label_lh contains 'anime' -%}{%- assign card_image = women_oversized_anime_img -%}
+                {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = women_oversized_streetwear_img -%}
+                {%- elsif label_lh contains 'story' -%}{%- assign card_image = women_oversized_story_img -%}
+                {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = women_oversized_minimal_img -%}
+                {%- elsif label_lh contains 'solid' -%}{%- assign card_image = women_oversized_solid_img -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- if card_image == blank -%}
+                {%- assign current_collection = collections[constructed_handle] -%}
+                {%- if current_collection != blank and current_collection.products.first != blank -%}
+                  {%- assign card_image = current_collection.products.first.featured_image -%}
+                {%- else -%}
+                  {%- assign fallback_handle = block.settings.gender | append: '-oversized' -%}
+                  {%- assign fallback_collection = collections[fallback_handle] -%}
+                  {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
+                    {%- assign fallback_collection = collections['men-oversized'] -%}
+                  {%- endif -%}
+                  {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                    {%- assign img_idx = forloop.index0 | modulo: fallback_collection.products.size -%}
+                    {%- assign card_image = fallback_collection.products[img_idx].featured_image -%}
+                  {%- endif -%}
                 {%- endif -%}
               {%- endif -%}
             {%- endif -%}
@@ -125,13 +174,26 @@
 
                 {%- assign card_image = block.settings.image -%}
                 {%- if card_image == blank -%}
-                  {%- assign current_collection = collections[constructed_handle] -%}
-                  {%- if current_collection != blank and current_collection.products.first != blank -%}
-                    {%- assign card_image = current_collection.products.first.featured_image -%}
-                  {%- else -%}
-                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                      {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
-                      {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
+                  {%- assign label_lh = block.settings.label | downcase -%}
+                  {%- if block.settings.gender == 'men' and block.settings.fit == 'oversized' -%}
+                    {%- if label_lh contains 'graphic' -%}{%- assign card_image = men_oversized_graphic_img -%}
+                    {%- elsif label_lh contains 'anime' -%}{%- assign card_image = men_oversized_anime_img -%}
+                    {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = men_oversized_streetwear_img -%}
+                    {%- elsif label_lh contains 'story' -%}{%- assign card_image = men_oversized_story_img -%}
+                    {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = men_oversized_minimal_img -%}
+                    {%- elsif label_lh contains 'solid' -%}{%- assign card_image = men_oversized_solid_img -%}
+                    {%- endif -%}
+                  {%- endif -%}
+
+                  {%- if card_image == blank -%}
+                    {%- assign current_collection = collections[constructed_handle] -%}
+                    {%- if current_collection != blank and current_collection.products.first != blank -%}
+                      {%- assign card_image = current_collection.products.first.featured_image -%}
+                    {%- else -%}
+                      {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                        {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
+                        {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
+                      {%- endif -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
@@ -210,13 +272,26 @@
 
                 {%- assign card_image = block.settings.image -%}
                 {%- if card_image == blank -%}
-                  {%- assign current_collection = collections[constructed_handle] -%}
-                  {%- if current_collection != blank and current_collection.products.first != blank -%}
-                    {%- assign card_image = current_collection.products.first.featured_image -%}
-                  {%- else -%}
-                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                      {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
-                      {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
+                  {%- assign label_lh = block.settings.label | downcase -%}
+                  {%- if block.settings.gender == 'men' and block.settings.fit == 'regular' -%}
+                    {%- if label_lh contains 'graphic' -%}{%- assign card_image = men_regular_graphic_img -%}
+                    {%- elsif label_lh contains 'anime' -%}{%- assign card_image = men_regular_anime_img -%}
+                    {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = men_regular_streetwear_img -%}
+                    {%- elsif label_lh contains 'story' -%}{%- assign card_image = men_regular_story_img -%}
+                    {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = men_regular_minimal_img -%}
+                    {%- elsif label_lh contains 'solid' -%}{%- assign card_image = men_regular_solid_img -%}
+                    {%- endif -%}
+                  {%- endif -%}
+
+                  {%- if card_image == blank -%}
+                    {%- assign current_collection = collections[constructed_handle] -%}
+                    {%- if current_collection != blank and current_collection.products.first != blank -%}
+                      {%- assign card_image = current_collection.products.first.featured_image -%}
+                    {%- else -%}
+                      {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                        {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
+                        {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
+                      {%- endif -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
@@ -295,13 +370,26 @@
 
                 {%- assign card_image = block.settings.image -%}
                 {%- if card_image == blank -%}
-                  {%- assign current_collection = collections[constructed_handle] -%}
-                  {%- if current_collection != blank and current_collection.products.first != blank -%}
-                    {%- assign card_image = current_collection.products.first.featured_image -%}
-                  {%- else -%}
-                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                      {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
-                      {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
+                  {%- assign label_lh = block.settings.label | downcase -%}
+                  {%- if block.settings.gender == 'women' and block.settings.fit == 'oversized' -%}
+                    {%- if label_lh contains 'graphic' -%}{%- assign card_image = women_oversized_graphic_img -%}
+                    {%- elsif label_lh contains 'anime' -%}{%- assign card_image = women_oversized_anime_img -%}
+                    {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = women_oversized_streetwear_img -%}
+                    {%- elsif label_lh contains 'story' -%}{%- assign card_image = women_oversized_story_img -%}
+                    {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = women_oversized_minimal_img -%}
+                    {%- elsif label_lh contains 'solid' -%}{%- assign card_image = women_oversized_solid_img -%}
+                    {%- endif -%}
+                  {%- endif -%}
+
+                  {%- if card_image == blank -%}
+                    {%- assign current_collection = collections[constructed_handle] -%}
+                    {%- if current_collection != blank and current_collection.products.first != blank -%}
+                      {%- assign card_image = current_collection.products.first.featured_image -%}
+                    {%- else -%}
+                      {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                        {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
+                        {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
+                      {%- endif -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
@@ -379,13 +467,26 @@
 
                 {%- assign card_image = block.settings.image -%}
                 {%- if card_image == blank -%}
-                  {%- assign current_collection = collections[constructed_handle] -%}
-                  {%- if current_collection != blank and current_collection.products.first != blank -%}
-                    {%- assign card_image = current_collection.products.first.featured_image -%}
-                  {%- else -%}
-                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                      {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
-                      {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
+                  {%- assign label_lh = block.settings.label | downcase -%}
+                  {%- if block.settings.gender == 'women' and block.settings.fit == 'regular' -%}
+                    {%- if label_lh contains 'graphic' -%}{%- assign card_image = women_regular_graphic_img -%}
+                    {%- elsif label_lh contains 'anime' -%}{%- assign card_image = women_regular_anime_img -%}
+                    {%- elsif label_lh contains 'streetwear' -%}{%- assign card_image = women_regular_streetwear_img -%}
+                    {%- elsif label_lh contains 'story' -%}{%- assign card_image = women_regular_story_img -%}
+                    {%- elsif label_lh contains 'minimal' -%}{%- assign card_image = women_regular_minimal_img -%}
+                    {%- elsif label_lh contains 'solid' -%}{%- assign card_image = women_regular_solid_img -%}
+                    {%- endif -%}
+                  {%- endif -%}
+
+                  {%- if card_image == blank -%}
+                    {%- assign current_collection = collections[constructed_handle] -%}
+                    {%- if current_collection != blank and current_collection.products.first != blank -%}
+                      {%- assign card_image = current_collection.products.first.featured_image -%}
+                    {%- else -%}
+                      {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                        {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
+                        {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
+                      {%- endif -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
