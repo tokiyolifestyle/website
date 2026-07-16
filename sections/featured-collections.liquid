@@ -42,8 +42,12 @@
             {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm003'].featured_image -%}
           {%- elsif title_lower contains 'minimal' -%}
             {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm009'].featured_image -%}
-          {%- elsif title_lower contains 'men' -%}
+          {%- elsif title_lower contains 'graphic' -%}
+            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm006'].featured_image -%}
+          {%- elsif title_lower contains 'story' -%}
             {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm008'].featured_image -%}
+          {%- elsif title_lower contains 'men' -%}
+            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm001'].featured_image -%}
           {%- elsif title_lower contains 'women' -%}
             {%- assign col_image = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo006'].featured_image -%}
           {%- else -%}
@@ -56,6 +60,11 @@
         {%- if card_url == blank or card_url == '#' or card_url == '' -%}
           {%- assign card_url = '/collections/all' -%}
         {%- endif -%}
+        
+        {%- if col != blank and col.products.size == 0 and card_url != '/collections/all' -%}
+          {%- continue -%}
+        {%- endif -%}
+
         <a href="{{ card_url }}" class="fc-card" {{ block.shopify_attributes }}>
           <div class="fc-card__media">
             {%- if col_image != blank -%}

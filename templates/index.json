@@ -154,9 +154,11 @@
         "col-2": { "type": "collection", "settings": { "title": "Women's Edit", "link": "/collections/women-oversized" } },
         "col-3": { "type": "collection", "settings": { "title": "Anime Collection", "link": "/collections/men-oversized-anime" } },
         "col-4": { "type": "collection", "settings": { "title": "Streetwear", "link": "/collections/men-oversized-streetwear" } },
-        "col-5": { "type": "collection", "settings": { "title": "Minimal Collection", "link": "/collections/men-oversized-minimal" } }
+        "col-5": { "type": "collection", "settings": { "title": "Minimal Collection", "link": "/collections/men-oversized-minimal" } },
+        "col-6": { "type": "collection", "settings": { "title": "Graphic Print", "link": "/collections/men-oversized-graphic-print" } },
+        "col-7": { "type": "collection", "settings": { "title": "Story Wear", "link": "/collections/men-oversized-story-wear" } }
       },
-      "block_order": ["col-1","col-2","col-3","col-4","col-5"],
+      "block_order": ["col-1","col-2","col-3","col-4","col-5","col-6","col-7"],
       "settings": {
         "eyebrow": "Collections",
         "title": "Curated for You",

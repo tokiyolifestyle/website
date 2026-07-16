@@ -194,7 +194,8 @@
                   {%- endif -%}
                 {%- endif -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
-
+                {%- assign current_col_check = collections[constructed_handle] -%}
+                {%- if current_col_check != blank and current_col_check.products.size > 0 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
                     <div class="catg-card-3d__glow-border"></div>
@@ -225,6 +226,7 @@
                     <div class="catg-card-3d__shine" data-card-shine></div>
                   </div>
                 </a>
+                {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
           </div>
@@ -292,7 +294,8 @@
                   {%- endif -%}
                 {%- endif -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
-
+                {%- assign current_col_check = collections[constructed_handle] -%}
+                {%- if current_col_check != blank and current_col_check.products.size > 0 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
                     <div class="catg-card-3d__glow-border"></div>
@@ -323,6 +326,7 @@
                     <div class="catg-card-3d__shine" data-card-shine></div>
                   </div>
                 </a>
+                {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
           </div>
@@ -390,7 +394,8 @@
                   {%- endif -%}
                 {%- endif -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
-
+                {%- assign current_col_check = collections[constructed_handle] -%}
+                {%- if current_col_check != blank and current_col_check.products.size > 0 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
                     <div class="catg-card-3d__glow-border"></div>
@@ -421,6 +426,7 @@
                     <div class="catg-card-3d__shine" data-card-shine></div>
                   </div>
                 </a>
+                {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
           </div>
