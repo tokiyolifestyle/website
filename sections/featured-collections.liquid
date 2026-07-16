@@ -32,30 +32,7 @@
       {%- for block in section.blocks -%}
         {%- assign handle_part = block.settings.link | split: '/collections/' | last -%}
         {%- assign col = collections[handle_part] -%}
-        {%- assign col_image = block.settings.image -%}
-        
-        {%- if col_image == blank -%}
-          {%- assign title_lower = block.settings.title | downcase -%}
-          {%- if title_lower contains 'anime' -%}
-            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm004'].featured_image -%}
-          {%- elsif title_lower contains 'streetwear' -%}
-            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm003'].featured_image -%}
-          {%- elsif title_lower contains 'minimal' -%}
-            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm009'].featured_image -%}
-          {%- elsif title_lower contains 'graphic' -%}
-            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm006'].featured_image -%}
-          {%- elsif title_lower contains 'story' -%}
-            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm008'].featured_image -%}
-          {%- elsif title_lower contains 'men' -%}
-            {%- assign col_image = all_products['tokiyo-lifestyle-oversized-t-shirt-totm001'].featured_image -%}
-          {%- elsif title_lower contains 'women' -%}
-            {%- assign col_image = all_products['tokiyo-lifestyle-women-oversized-t-shirt-tovwo006'].featured_image -%}
-          {%- else -%}
-            {%- if col != blank and col.products.first != blank -%}
-              {%- assign col_image = col.products.first.featured_image -%}
-            {%- endif -%}
-          {%- endif -%}
-        {%- endif -%}
+        {%- assign col_image = col.products.first.featured_image -%}
         {%- assign card_url = block.settings.link -%}
         {%- if card_url == blank or card_url == '#' or card_url == '' -%}
           {%- assign card_url = '/collections/all' -%}

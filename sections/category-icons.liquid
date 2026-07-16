@@ -38,10 +38,8 @@
               {%- continue -%}
             {%- endif -%}
 
-            {%- assign card_image = block.settings.image -%}
-            {%- if card_image == blank -%}
-              {%- assign card_image = current_collection.products.first.featured_image -%}
-            {%- endif -%}            <a href="{{ block_link }}" class="catg-quickstrip__item" data-quickstrip-item>
+            {%- assign card_image = current_collection.products.first.featured_image -%}
+            <a href="{{ block_link }}" class="catg-quickstrip__item" data-quickstrip-item>
               <div class="catg-quickstrip__circle">
                 {%- assign strip_img = block.settings.strip_image | default: card_image -%}
                 {%- if strip_img != blank -%}
@@ -114,10 +112,7 @@
                   {%- continue -%}
                 {%- endif -%}
 
-                {%- assign card_image = block.settings.image -%}
-                {%- if card_image == blank -%}
-                  {%- assign card_image = current_col_check.products.first.featured_image -%}
-                {%- endif -%}
+                {%- assign card_image = current_col_check.products.first.featured_image -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
@@ -196,10 +191,7 @@
                   {%- continue -%}
                 {%- endif -%}
 
-                {%- assign card_image = block.settings.image -%}
-                {%- if card_image == blank -%}
-                  {%- assign card_image = current_col_check.products.first.featured_image -%}
-                {%- endif -%}
+                {%- assign card_image = current_col_check.products.first.featured_image -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
@@ -278,10 +270,7 @@
                   {%- continue -%}
                 {%- endif -%}
 
-                {%- assign card_image = block.settings.image -%}
-                {%- if card_image == blank -%}
-                  {%- assign card_image = current_col_check.products.first.featured_image -%}
-                {%- endif -%}
+                {%- assign card_image = current_col_check.products.first.featured_image -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
