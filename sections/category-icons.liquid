@@ -299,6 +299,17 @@
         </div>
         <div class="catg-universe__section-body is-open">
           <div class="catg-universe__grid">
+            {%- assign fallback_collection = collections['women-oversized'] -%}
+            {%- assign black_products = '' -%}
+            {%- for p in fallback_collection.products -%}
+              {%- assign p_title_lower = p.title | downcase -%}
+              {%- if p_title_lower contains 'black' -%}
+                {%- assign black_products = black_products | append: p.handle | append: ',' -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- assign black_handles = black_products | split: ',' -%}
+            {%- assign card_counter = 0 -%}
+
             {%- for block in section.blocks -%}
               {%- if block.settings.gender == 'women' and block.settings.fit == 'oversized' -%}
                 {%- assign gender_part = block.settings.gender | downcase -%}
@@ -316,17 +327,15 @@
                   {%- if current_collection != blank and current_collection.products.first != blank -%}
                     {%- assign card_image = current_collection.products.first.featured_image -%}
                   {%- else -%}
-                    {%- assign fallback_handle = 'women-oversized' -%}
-                    {%- assign fallback_collection = collections[fallback_handle] -%}
-                    {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
-                      {%- assign fallback_collection = collections['men-oversized'] -%}
-                    {%- endif -%}
-                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                      {%- assign img_idx = forloop.index0 | modulo: fallback_collection.products.size -%}
-                      {%- assign card_image = fallback_collection.products[img_idx].featured_image -%}
+                    {%- if black_handles.size > 0 -%}
+                      {%- assign product_index = card_counter | modulo: black_handles.size -%}
+                      {%- assign selected_handle = black_handles[product_index] -%}
+                      {%- assign selected_product = all_products[selected_handle] -%}
+                      {%- assign card_image = selected_product.featured_image -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
+                {%- assign card_counter = card_counter | plus: 1 -%}
 
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
@@ -381,6 +390,20 @@
         </div>
         <div class="catg-universe__section-body is-open">
           <div class="catg-universe__grid">
+            {%- assign fallback_collection = collections['women-regular'] -%}
+            {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
+              {%- assign fallback_collection = collections['women-oversized'] -%}
+            {%- endif -%}
+            {%- assign black_products = '' -%}
+            {%- for p in fallback_collection.products -%}
+              {%- assign p_title_lower = p.title | downcase -%}
+              {%- if p_title_lower contains 'black' -%}
+                {%- assign black_products = black_products | append: p.handle | append: ',' -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- assign black_handles = black_products | split: ',' -%}
+            {%- assign card_counter = 0 -%}
+
             {%- for block in section.blocks -%}
               {%- if block.settings.gender == 'women' and block.settings.fit == 'regular' -%}
                 {%- assign gender_part = block.settings.gender | downcase -%}
@@ -389,7 +412,7 @@
                 {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
                 {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
                 
-                {%- assign block_link = '/collections/women-oversized' -%}
+                {%- assign block_link = '/collections/women-regular' -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
                 {%- assign card_image = block.settings.image -%}
@@ -398,17 +421,15 @@
                   {%- if current_collection != blank and current_collection.products.first != blank -%}
                     {%- assign card_image = current_collection.products.first.featured_image -%}
                   {%- else -%}
-                    {%- assign fallback_handle = 'women-oversized' -%}
-                    {%- assign fallback_collection = collections[fallback_handle] -%}
-                    {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
-                      {%- assign fallback_collection = collections['men-oversized'] -%}
-                    {%- endif -%}
-                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
-                      {%- assign img_idx = forloop.index0 | modulo: fallback_collection.products.size -%}
-                      {%- assign card_image = fallback_collection.products[img_idx].featured_image -%}
+                    {%- if black_handles.size > 0 -%}
+                      {%- assign product_index = card_counter | modulo: black_handles.size -%}
+                      {%- assign selected_handle = black_handles[product_index] -%}
+                      {%- assign selected_product = all_products[selected_handle] -%}
+                      {%- assign card_image = selected_product.featured_image -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
+                {%- assign card_counter = card_counter | plus: 1 -%}
 
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
@@ -728,7 +749,7 @@
     position: relative;
     border-radius: 16px;
     overflow: hidden;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 1.1 / 1;
     transform-style: preserve-3d;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
