@@ -36,7 +36,7 @@
       },
       "block_order": ["announcement-1", "announcement-2", "announcement-3", "announcement-4"],
       "settings": {
-        "speed": 30
+        "speed": 65
       }
     },
     "main-header": {

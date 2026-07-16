@@ -100,6 +100,12 @@ class TokiyoCart {
       const subtotalRs = subtotalCents / 100;
       const needsCodFee = (method === 'cod' && subtotalRs < 999);
 
+      // Force live update of the subtotal cents variable read by sync scripts
+      window.cartSubtotalCents = cart.total_price;
+      if (typeof window.syncCartPayment === 'function') {
+        window.syncCartPayment();
+      }
+
       if (needsCodFee && !hasCodFee) {
         await fetch('/cart/add.js', {
           method: 'POST',
@@ -121,24 +127,19 @@ class TokiyoCart {
   }
 
   async refreshDrawer() {
-    if (!this.bodyEl) return;
+    const currentForm = document.getElementById('CartDrawerForm');
+    if (!currentForm) return;
     try {
       const res = await fetch('/?sections=cart-drawer');
       const data = await res.json();
       if (data['cart-drawer']) {
         const doc = new DOMParser().parseFromString(data['cart-drawer'], 'text/html');
-        const nb = doc.querySelector('[data-cart-body]');
-        const nf = doc.querySelector('[data-cart-footer]');
-        const ns = doc.querySelector('[data-shipping-bar]');
-        if (nb) this.bodyEl.innerHTML = nb.innerHTML;
-        const footerEl = document.querySelector('[data-cart-footer]');
-        if (footerEl && nf) footerEl.innerHTML = nf.innerHTML;
-        else if (nf && !footerEl) {
-          this.drawer?.appendChild(nf.parentElement || nf);
+        const newForm = doc.getElementById('CartDrawerForm');
+        if (newForm) {
+          currentForm.innerHTML = newForm.innerHTML;
+          // Refresh inner references to body element
+          this.bodyEl = document.querySelector('[data-cart-body]');
         }
-        const shippingBar = document.querySelector('[data-shipping-bar]');
-        if (shippingBar && ns) shippingBar.innerHTML = ns.innerHTML;
-        
         if (typeof window.syncCartPayment === 'function') {
           window.syncCartPayment();
         }
