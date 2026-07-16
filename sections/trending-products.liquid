@@ -7,44 +7,35 @@
       <h2>{{ section.settings.title | default: 'Bestsellers' }}</h2>
     </div>
 
-    {%- comment -%} Dynamically build mixed Men's and Women's Black products list {%- endcomment -%}
+    {%- comment -%} Dynamically build mixed Men's and Women's products list {%- endcomment -%}
     {%- assign men_oversized_col = collections['men-oversized'] -%}
     {%- assign men_regular_col = collections['men-regular'] -%}
     {%- assign women_oversized_col = collections['women-oversized'] -%}
     
-    {%- assign men_black_handles = '' -%}
-    {%- assign women_black_handles = '' -%}
+    {%- assign men_handles = '' -%}
+    {%- assign women_handles = '' -%}
 
-    {%- comment -%} Get Men's Black products {%- endcomment -%}
+    {%- comment -%} Get Men's products {%- endcomment -%}
     {%- if men_oversized_col != blank -%}
       {%- for p in men_oversized_col.products -%}
-        {%- assign title_lower = p.title | downcase -%}
-        {%- if title_lower contains 'black' -%}
-          {%- assign men_black_handles = men_black_handles | append: p.handle | append: ',' -%}
-        {%- endif -%}
+        {%- assign men_handles = men_handles | append: p.handle | append: ',' -%}
       {%- endfor -%}
     {%- endif -%}
     {%- if men_regular_col != blank -%}
       {%- for p in men_regular_col.products -%}
-        {%- assign title_lower = p.title | downcase -%}
-        {%- if title_lower contains 'black' -%}
-          {%- assign men_black_handles = men_black_handles | append: p.handle | append: ',' -%}
-        {%- endif -%}
+        {%- assign men_handles = men_handles | append: p.handle | append: ',' -%}
       {%- endfor -%}
     {%- endif -%}
 
-    {%- comment -%} Get Women's Black products {%- endcomment -%}
+    {%- comment -%} Get Women's products {%- endcomment -%}
     {%- if women_oversized_col != blank -%}
       {%- for p in women_oversized_col.products -%}
-        {%- assign title_lower = p.title | downcase -%}
-        {%- if title_lower contains 'black' -%}
-          {%- assign women_black_handles = women_black_handles | append: p.handle | append: ',' -%}
-        {%- endif -%}
+        {%- assign women_handles = women_handles | append: p.handle | append: ',' -%}
       {%- endfor -%}
     {%- endif -%}
 
-    {%- assign men_handles_array = men_black_handles | split: ',' -%}
-    {%- assign women_handles_array = women_black_handles | split: ',' -%}
+    {%- assign men_handles_array = men_handles | split: ',' -%}
+    {%- assign women_handles_array = women_handles | split: ',' -%}
     
     {%- assign max_limit = section.settings.limit | default: 8 -%}
     {%- assign rendered_count = 0 -%}
@@ -62,13 +53,14 @@
 
         {%- assign target_product = blank -%}
         {%- if select_men -%}
-          {%- assign m_idx = i | divided_by: 2 | modulo: men_handles_array.size -%}
+          {%- comment -%} Use multiplier offset to skip identical color options of the same design {%- endcomment -%}
+          {%- assign m_idx = i | divided_by: 2 | times: 3 | modulo: men_handles_array.size -%}
           {%- assign m_handle = men_handles_array[m_idx] -%}
           {%- if m_handle != blank -%}
             {%- assign target_product = all_products[m_handle] -%}
           {%- endif -%}
         {%- else -%}
-          {%- assign w_idx = i | divided_by: 2 | modulo: women_handles_array.size -%}
+          {%- assign w_idx = i | divided_by: 2 | times: 3 | modulo: women_handles_array.size -%}
           {%- assign w_handle = women_handles_array[w_idx] -%}
           {%- if w_handle != blank -%}
             {%- assign target_product = all_products[w_handle] -%}

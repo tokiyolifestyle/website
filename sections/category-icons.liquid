@@ -110,14 +110,6 @@
         <div class="catg-universe__section-body is-open">
           <div class="catg-universe__grid">
             {%- assign fallback_collection = collections['men-oversized'] -%}
-            {%- assign black_products = '' -%}
-            {%- for p in fallback_collection.products -%}
-              {%- assign p_title_lower = p.title | downcase -%}
-              {%- if p_title_lower contains 'black' -%}
-                {%- assign black_products = black_products | append: p.handle | append: ',' -%}
-              {%- endif -%}
-            {%- endfor -%}
-            {%- assign black_handles = black_products | split: ',' -%}
             {%- assign card_counter = 0 -%}
 
             {%- for block in section.blocks -%}
@@ -137,11 +129,9 @@
                   {%- if current_collection != blank and current_collection.products.first != blank -%}
                     {%- assign card_image = current_collection.products.first.featured_image -%}
                   {%- else -%}
-                    {%- if black_handles.size > 0 -%}
-                      {%- assign product_index = card_counter | modulo: black_handles.size -%}
-                      {%- assign selected_handle = black_handles[product_index] -%}
-                      {%- assign selected_product = all_products[selected_handle] -%}
-                      {%- assign card_image = selected_product.featured_image -%}
+                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                      {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
+                      {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
@@ -205,14 +195,6 @@
             {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
               {%- assign fallback_collection = collections['men-oversized'] -%}
             {%- endif -%}
-            {%- assign black_products = '' -%}
-            {%- for p in fallback_collection.products -%}
-              {%- assign p_title_lower = p.title | downcase -%}
-              {%- if p_title_lower contains 'black' -%}
-                {%- assign black_products = black_products | append: p.handle | append: ',' -%}
-              {%- endif -%}
-            {%- endfor -%}
-            {%- assign black_handles = black_products | split: ',' -%}
             {%- assign card_counter = 0 -%}
 
             {%- for block in section.blocks -%}
@@ -232,11 +214,9 @@
                   {%- if current_collection != blank and current_collection.products.first != blank -%}
                     {%- assign card_image = current_collection.products.first.featured_image -%}
                   {%- else -%}
-                    {%- if black_handles.size > 0 -%}
-                      {%- assign product_index = card_counter | modulo: black_handles.size -%}
-                      {%- assign selected_handle = black_handles[product_index] -%}
-                      {%- assign selected_product = all_products[selected_handle] -%}
-                      {%- assign card_image = selected_product.featured_image -%}
+                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                      {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
+                      {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
@@ -300,14 +280,6 @@
         <div class="catg-universe__section-body is-open">
           <div class="catg-universe__grid">
             {%- assign fallback_collection = collections['women-oversized'] -%}
-            {%- assign black_products = '' -%}
-            {%- for p in fallback_collection.products -%}
-              {%- assign p_title_lower = p.title | downcase -%}
-              {%- if p_title_lower contains 'black' -%}
-                {%- assign black_products = black_products | append: p.handle | append: ',' -%}
-              {%- endif -%}
-            {%- endfor -%}
-            {%- assign black_handles = black_products | split: ',' -%}
             {%- assign card_counter = 0 -%}
 
             {%- for block in section.blocks -%}
@@ -327,11 +299,9 @@
                   {%- if current_collection != blank and current_collection.products.first != blank -%}
                     {%- assign card_image = current_collection.products.first.featured_image -%}
                   {%- else -%}
-                    {%- if black_handles.size > 0 -%}
-                      {%- assign product_index = card_counter | modulo: black_handles.size -%}
-                      {%- assign selected_handle = black_handles[product_index] -%}
-                      {%- assign selected_product = all_products[selected_handle] -%}
-                      {%- assign card_image = selected_product.featured_image -%}
+                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                      {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
+                      {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
@@ -394,14 +364,6 @@
             {%- if fallback_collection == blank or fallback_collection.products.size == 0 -%}
               {%- assign fallback_collection = collections['women-oversized'] -%}
             {%- endif -%}
-            {%- assign black_products = '' -%}
-            {%- for p in fallback_collection.products -%}
-              {%- assign p_title_lower = p.title | downcase -%}
-              {%- if p_title_lower contains 'black' -%}
-                {%- assign black_products = black_products | append: p.handle | append: ',' -%}
-              {%- endif -%}
-            {%- endfor -%}
-            {%- assign black_handles = black_products | split: ',' -%}
             {%- assign card_counter = 0 -%}
 
             {%- for block in section.blocks -%}
@@ -421,11 +383,9 @@
                   {%- if current_collection != blank and current_collection.products.first != blank -%}
                     {%- assign card_image = current_collection.products.first.featured_image -%}
                   {%- else -%}
-                    {%- if black_handles.size > 0 -%}
-                      {%- assign product_index = card_counter | modulo: black_handles.size -%}
-                      {%- assign selected_handle = black_handles[product_index] -%}
-                      {%- assign selected_product = all_products[selected_handle] -%}
-                      {%- assign card_image = selected_product.featured_image -%}
+                    {%- if fallback_collection != blank and fallback_collection.products.size > 0 -%}
+                      {%- assign product_index = card_counter | times: 3 | modulo: fallback_collection.products.size -%}
+                      {%- assign card_image = fallback_collection.products[product_index].featured_image -%}
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
@@ -749,7 +709,7 @@
     position: relative;
     border-radius: 16px;
     overflow: hidden;
-    aspect-ratio: 1.1 / 1;
+    aspect-ratio: 3 / 4;
     transform-style: preserve-3d;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
