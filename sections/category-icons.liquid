@@ -1033,6 +1033,19 @@
     document.querySelectorAll('.catg-universe__grid').forEach(grid => gridObserver.observe(grid));
   }
 
+  /* ═══ Hide empty sections (JS fallback for Liquid collection caching) ═══ */
+  function hideEmptySections() {
+    document.querySelectorAll('.catg-universe__panel').forEach(panel => {
+      panel.querySelectorAll('.catg-universe__section').forEach(section => {
+        const cards = section.querySelectorAll('.catg-card-3d');
+        if (cards.length === 0) {
+          section.style.display = 'none';
+        }
+      });
+    });
+  }
+  hideEmptySections();
+
   /* ═══ Auto-scroll Quickstrip on Mobile ═══ */
   function initQuickstripAutoScroll() {
     const track = document.querySelector('.catg-quickstrip__track');
