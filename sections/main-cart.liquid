@@ -67,9 +67,7 @@
               </div>
             </div>
           {%- endfor -%}
-          <div class="cart-page__update">
-            <button type="submit" name="update" class="button button--outline">Update Cart</button>
-          </div>
+
         </div>
 
         <div class="cart-page__summary animate-on-scroll fade-up">
@@ -129,95 +127,6 @@
 
           <script>
             window.cartSubtotalCents = {{ cart_subtotal_cents }};
-            
-            function updateCartPaymentMethod(method) {
-              localStorage.setItem('tokiyo_payment_method', method);
-              if (typeof window.syncCartPayment === 'function') {
-                window.syncCartPayment();
-              }
-            }
-
-            // Establish the global sync function if not defined
-            window.syncCartPayment = function() {
-              const method = localStorage.getItem('tokiyo_payment_method') || 'prepaid';
-              
-              // Sync drawer cards
-              const prepaidCard = document.getElementById('PrepaidOptionCard');
-              const codCard = document.getElementById('CodOptionCard');
-              const prepaidInput = document.querySelector('input[name="payment_method_choice"][value="prepaid"]');
-              const codInput = document.querySelector('input[name="payment_method_choice"][value="cod"]');
-              if (prepaidCard && codCard) {
-                if (method === 'prepaid') {
-                  prepaidCard.classList.add('active');
-                  codCard.classList.remove('active');
-                  if (prepaidInput) prepaidInput.checked = true;
-                } else {
-                  prepaidCard.classList.remove('active');
-                  codCard.classList.add('active');
-                  if (codInput) codInput.checked = true;
-                }
-              }
-
-              // Sync cart page cards
-              const cartPrepaidCard = document.getElementById('CartPrepaidOptionCard');
-              const cartCodCard = document.getElementById('CartCodOptionCard');
-              const cartPrepaidInput = document.querySelector('input[name="cart_payment_method_choice"][value="prepaid"]');
-              const cartCodInput = document.querySelector('input[name="cart_payment_method_choice"][value="cod"]');
-              if (cartPrepaidCard && cartCodCard) {
-                if (method === 'prepaid') {
-                  cartPrepaidCard.classList.add('active');
-                  cartCodCard.classList.remove('active');
-                  if (cartPrepaidInput) cartPrepaidInput.checked = true;
-                } else {
-                  cartPrepaidCard.classList.remove('active');
-                  cartCodCard.classList.add('active');
-                  if (cartCodInput) cartCodInput.checked = true;
-                }
-              }
-
-              const subtotalCents = window.cartSubtotalCents || 0;
-              const subtotalRs = subtotalCents / 100;
-              
-              let codFee = 0;
-              if (method === 'cod') {
-                if (subtotalRs < 1199) {
-                  codFee = 80;
-                }
-              }
-              
-              const totalDisplayPrice = subtotalRs + codFee;
-              const formattedPrice = '₹' + totalDisplayPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-              const subtotalPriceEl = document.getElementById('DrawerTotalPriceDisplay');
-              if (subtotalPriceEl) {
-                subtotalPriceEl.innerText = formattedPrice;
-              }
-              const codFeeRow = document.getElementById('CartCodFeeRow');
-              if (codFeeRow) {
-                codFeeRow.style.display = (codFee > 0) ? 'flex' : 'none';
-              }
-
-              const cartTotalPriceEl = document.getElementById('CartTotalPriceDisplay');
-              if (cartTotalPriceEl) {
-                cartTotalPriceEl.innerText = formattedPrice;
-              }
-              const cartCodFeeRow = document.getElementById('CartCodFeeSummaryRow');
-              if (cartCodFeeRow) {
-                cartCodFeeRow.style.display = (codFee > 0) ? 'flex' : 'none';
-              }
-            };
-
-            // Recovery execution
-            (function() {
-              const savedMethod = localStorage.getItem('tokiyo_payment_method') || 'prepaid';
-              const radioBtn = document.querySelector(`input[name="cart_payment_method_choice"][value="${savedMethod}"]`);
-              if (radioBtn) {
-                radioBtn.checked = true;
-              }
-              if (typeof window.syncCartPayment === 'function') {
-                setTimeout(window.syncCartPayment, 20);
-              }
-            })();
           </script>
           {%- if settings.cart_show_gift_note -%}
             <div class="cart-page__note-wrap">
