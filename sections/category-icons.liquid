@@ -318,7 +318,7 @@
           {%- if _lp == 'graphic' -%}{%- assign _lp = 'graphic-print' -%}{%- endif -%}
           {%- assign _handle = _gp | append: '-' | append: _fp | append: '-' | append: _lp -%}
           {%- assign _col = collections[_handle] -%}
-          {%- if _col != blank and _col.products.size > 0 -%}
+          {%- if _col.products.size > 0 -%}
             {%- assign women_regular_has_products = true -%}
           {%- endif -%}
         {%- endif -%}
