@@ -1,30 +1,38 @@
+{%- assign cart_item_count = 0 -%}
+{%- assign cart_subtotal_cents = 0 -%}
+{%- for item in cart.items -%}
+  {%- if item.variant_id == 48862017716468 -%}{%- continue -%}{%- endif -%}
+  {%- assign cart_item_count = cart_item_count | plus: item.quantity -%}
+  {%- assign cart_subtotal_cents = cart_subtotal_cents | plus: item.final_line_price -%}
+{%- endfor -%}
+
 <div class="cart-page page-width">
   <h1 class="cart-page__title animate-on-scroll fade-up">{{ 'sections.cart.title' | t }}</h1>
-  {%- if cart.item_count > 0 -%}
+  {%- if cart_item_count > 0 -%}
     {%- form 'cart', cart, id: 'CartForm', class: 'cart-page__form' -%}
       <div class="cart-page__grid">
         <div class="cart-page__items">
           {%- comment -%} Free Shipping Progress Bar {%- endcomment -%}
           {%- if settings.cart_free_shipping_bar -%}
-            {%- assign threshold = settings.cart_free_shipping_threshold | default: '899' | times: 100 -%}
-            {%- assign remaining = threshold | minus: cart.total_price -%}
-            {%- assign progress_pct = cart.total_price | times: 100 | divided_by: threshold -%}
+            {%- assign threshold = 1199 | times: 100 -%}
+            {%- assign remaining = threshold | minus: cart_subtotal_cents -%}
+            {%- assign progress_pct = cart_subtotal_cents | times: 100 | divided_by: threshold -%}
             {%- if progress_pct > 100 -%}{%- assign progress_pct = 100 -%}{%- endif -%}
             <div class="cart-shipping-bar animate-on-scroll fade-up">
               <div class="cart-shipping-bar__track">
-                <div class="cart-shipping-bar__fill" style="width: {{ progress_pct }}%;"></div>
+                <div class="cart-shipping-bar__fill" data-shipping-progress style="width: {{ progress_pct }}%;"></div>
               </div>
               {%- if remaining > 0 -%}
-                <p class="cart-shipping-bar__text">Add <strong>{{ remaining | money }}</strong> more for <strong>FREE Shipping</strong> 🚚</p>
+                <p class="cart-shipping-bar__text" data-shipping-message>Add <strong>{{ remaining | money }}</strong> more for <strong>FREE Shipping (COD)</strong> 🚚</p>
               {%- else -%}
-                <p class="cart-shipping-bar__text cart-shipping-bar__text--success">✓ You've unlocked <strong>FREE Shipping!</strong> 🎉</p>
+                <p class="cart-shipping-bar__text cart-shipping-bar__text--success" data-shipping-message>✓ You've unlocked <strong>FREE Shipping (COD)!</strong> 🎉</p>
               {%- endif -%}
             </div>
           {%- endif -%}
 
           {%- for item in cart.items -%}
             {%- if item.variant_id == 48862017716468 -%}{%- continue -%}{%- endif -%}
-            <div class="cart-page__item cart-item animate-on-scroll fade-up" style="--anim-delay: {{ forloop.index0 | times: 80 }}ms;">
+            <div class="cart-page__item cart-item animate-on-scroll fade-up" data-cart-item="{{ item.key }}" style="--anim-delay: {{ forloop.index0 | times: 80 }}ms;">
               <div class="cart-item__image">
                 {%- if item.image -%}
                   <a href="{{ item.url }}">{{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: item.title | escape }}</a>
@@ -52,10 +60,10 @@
               </div>
               <div class="cart-item__total">
                 <p class="cart-item__total-price">{{ item.final_line_price | money }}</p>
-                <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" class="cart-item__remove" aria-label="Remove {{ item.title }}">
+                <button type="button" class="cart-item__remove" data-cart-remove="{{ item.key }}" aria-label="Remove {{ item.title }}" style="background: none; border: none; cursor: pointer; padding: 0;">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg>
                   Remove
-                </a>
+                </button>
               </div>
             </div>
           {%- endfor -%}
@@ -91,8 +99,8 @@
           </div>
 
           <div class="cart-page__summary-row">
-            <span>Subtotal ({{ cart.item_count }} items)</span>
-            <span>{{ cart.total_price | money }}</span>
+            <span>Subtotal ({{ cart_item_count }} items)</span>
+            <span>{{ cart_subtotal_cents | money }}</span>
           </div>
 
           <div class="cart-page__summary-row" id="CartCodFeeSummaryRow" style="display: none; color: #C62828;">
@@ -105,7 +113,7 @@
           <div class="cart-page__summary-row cart-page__summary-row--shipping">
             <span>Shipping</span>
             <span class="cart-summary__shipping-value">
-              {%- if cart.total_price >= threshold -%}
+              {%- if cart_subtotal_cents >= threshold -%}
                 <span class="text-success">FREE</span>
               {%- else -%}
                 Calculated at checkout
@@ -115,12 +123,12 @@
           <div class="cart-page__summary-divider"></div>
           <div class="cart-page__summary-row cart-page__summary-total">
             <span>Total</span>
-            <span id="CartTotalPriceDisplay">{{ cart.total_price | money }}</span>
+            <span id="CartTotalPriceDisplay">{{ cart_subtotal_cents | money }}</span>
           </div>
           <p class="cart-page__summary-note">Price is inclusive of GST.</p>
 
           <script>
-            window.cartSubtotalCents = {{ cart.total_price }};
+            window.cartSubtotalCents = {{ cart_subtotal_cents }};
             
             function updateCartPaymentMethod(method) {
               localStorage.setItem('tokiyo_payment_method', method);

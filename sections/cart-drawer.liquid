@@ -1,10 +1,18 @@
+<{%- assign cart_item_count = 0 -%}
+{%- assign cart_subtotal_cents = 0 -%}
+{%- for item in cart.items -%}
+  {%- if item.variant_id == 48862017716468 -%}{%- continue -%}{%- endif -%}
+  {%- assign cart_item_count = cart_item_count | plus: item.quantity -%}
+  {%- assign cart_subtotal_cents = cart_subtotal_cents | plus: item.final_line_price -%}
+{%- endfor -%}
+
 <div class="cart-drawer-overlay" data-cart-overlay></div>
 
 <div class="cart-drawer" data-cart-drawer id="CartDrawer" aria-label="Cart" role="dialog" aria-modal="true" style="transform: translateX(100%); visibility: hidden;">
   <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm" style="display: flex; flex-direction: column; height: 100%; width: 100%; overflow: hidden; margin: 0;">
     {%- comment -%} Header stays fixed, everything below scrolls as one unit {%- endcomment -%}
     <div class="cart-drawer__header">
-      <h2 class="cart-drawer__title">{{ 'sections.cart.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)</h2>
+      <h2 class="cart-drawer__title">{{ 'sections.cart.title' | t }} (<span data-cart-count>{{ cart_item_count }}</span>)</h2>
       <button class="cart-drawer__close" data-cart-drawer-close type="button" aria-label="{{ 'accessibility.close' | t }}">{% render 'icon-close' %}</button>
     </div>
 
@@ -13,15 +21,15 @@
       <div class="cart-drawer__shipping-bar" data-shipping-bar data-free-shipping-threshold="{{ threshold }}">
         <p data-shipping-message>
           {%- assign threshold_cents = threshold | times: 100 -%}
-          {%- if cart.total_price >= threshold_cents -%}
+          {%- if cart_subtotal_cents >= threshold_cents -%}
             {{ 'sections.cart.free_shipping_achieved' | t }}
           {%- else -%}
-            {%- assign remaining = threshold_cents | minus: cart.total_price | divided_by: 100.0 -%}
+            {%- assign remaining = threshold_cents | minus: cart_subtotal_cents | divided_by: 100.0 -%}
             Add ₹{{ remaining | floor }} more for FREE shipping!
           {%- endif -%}
         </p>
         <div class="cart-drawer__progress">
-          {%- assign progress_pct = cart.total_price | times: 100 | divided_by: threshold_cents | at_most: 100 -%}
+          {%- assign progress_pct = cart_subtotal_cents | times: 100 | divided_by: threshold_cents | at_most: 100 -%}
           <div class="cart-drawer__progress-bar" data-shipping-progress style="width:{{ progress_pct }}%;"></div>
         </div>
       </div>
@@ -116,11 +124,11 @@
 
         <div class="cart-drawer__subtotal" style="font-size: 1.1rem; margin-bottom: 0.75rem;">
           <span>{{ 'sections.cart.subtotal' | t }}</span>
-          <span id="DrawerTotalPriceDisplay">{{ cart.total_price | money }}</span>
+          <span id="DrawerTotalPriceDisplay">{{ cart_subtotal_cents | money }}</span>
         </div>
 
         <script>
-          window.cartSubtotalCents = {{ cart.total_price }};
+          window.cartSubtotalCents = {{ cart_subtotal_cents }};
           
           function updatePaymentMethod(method) {
             localStorage.setItem('tokiyo_payment_method', method);

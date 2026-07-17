@@ -61,7 +61,12 @@
 
       <button class="site-header__icon-btn" data-cart-drawer-toggle aria-label="{{ 'sections.header.cart' | t }}">
         {% render 'icon-cart' %}
-        <span class="site-header__icon-count" data-cart-count>{{ cart.item_count }}</span>
+        {%- assign cart_item_count = 0 -%}
+        {%- for item in cart.items -%}
+          {%- if item.variant_id == 48862017716468 -%}{%- continue -%}{%- endif -%}
+          {%- assign cart_item_count = cart_item_count | plus: item.quantity -%}
+        {%- endfor -%}
+        <span class="site-header__icon-count" data-cart-count>{{ cart_item_count }}</span>
       </button>
     </div>
   </div>
