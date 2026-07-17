@@ -1,5 +1,121 @@
 /* TOKIYO LIFESTYLE — cart.js */
 'use strict';
+
+// Define payment helper functions globally so they are always available
+window.updatePaymentMethod = function(method) {
+  localStorage.setItem('tokiyo_payment_method', method);
+  if (typeof window.syncCartPayment === 'function') {
+    window.syncCartPayment();
+  }
+};
+
+window.updateCartPaymentMethod = function(method) {
+  localStorage.setItem('tokiyo_payment_method', method);
+  if (typeof window.syncCartPayment === 'function') {
+    window.syncCartPayment();
+  }
+};
+
+window.syncCartPayment = function() {
+  const method = localStorage.getItem('tokiyo_payment_method') || 'prepaid';
+  
+  // Sync drawer cards
+  const prepaidCard = document.getElementById('PrepaidOptionCard');
+  const codCard = document.getElementById('CodOptionCard');
+  const prepaidInput = document.querySelector('input[name="payment_method_choice"][value="prepaid"]');
+  const codInput = document.querySelector('input[name="payment_method_choice"][value="cod"]');
+  if (prepaidCard && codCard) {
+    if (method === 'prepaid') {
+      prepaidCard.classList.add('active');
+      codCard.classList.remove('active');
+      if (prepaidInput) prepaidInput.checked = true;
+    } else {
+      prepaidCard.classList.remove('active');
+      codCard.classList.add('active');
+      if (codInput) codInput.checked = true;
+    }
+  }
+
+  // Sync cart page cards
+  const cartPrepaidCard = document.getElementById('CartPrepaidOptionCard');
+  const cartCodCard = document.getElementById('CartCodOptionCard');
+  const cartPrepaidInput = document.querySelector('input[name="cart_payment_method_choice"][value="prepaid"]');
+  const cartCodInput = document.querySelector('input[name="cart_payment_method_choice"][value="cod"]');
+  if (cartPrepaidCard && cartCodCard) {
+    if (method === 'prepaid') {
+      cartPrepaidCard.classList.add('active');
+      cartCodCard.classList.remove('active');
+      if (cartPrepaidInput) cartPrepaidInput.checked = true;
+    } else {
+      cartPrepaidCard.classList.remove('active');
+      cartCodCard.classList.add('active');
+      if (cartCodInput) cartCodInput.checked = true;
+    }
+  }
+
+  const subtotalCents = window.cartSubtotalCents || 0;
+  const subtotalRs = subtotalCents / 100;
+  
+  let codFee = 0;
+  if (method === 'cod') {
+    if (subtotalRs < 1199) {
+      codFee = 80;
+    }
+  }
+  
+  const totalDisplayPrice = subtotalRs + codFee;
+  const formattedPrice = '₹' + totalDisplayPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  const subtotalPriceEl = document.getElementById('DrawerTotalPriceDisplay');
+  if (subtotalPriceEl) {
+    subtotalPriceEl.innerText = formattedPrice;
+  }
+  const codFeeRow = document.getElementById('CartCodFeeRow');
+  if (codFeeRow) {
+    codFeeRow.style.display = (codFee > 0) ? 'flex' : 'none';
+  }
+
+  const cartTotalPriceEl = document.getElementById('CartTotalPriceDisplay');
+  if (cartTotalPriceEl) {
+    cartTotalPriceEl.innerText = formattedPrice;
+  }
+  const cartCodFeeRow = document.getElementById('CartCodFeeSummaryRow');
+  if (cartCodFeeRow) {
+    cartCodFeeRow.style.display = (codFee > 0) ? 'flex' : 'none';
+  }
+
+  const prepaidNotice = document.getElementById('PaymentPrepaidNotice');
+  const codNotice = document.getElementById('PaymentCodNotice');
+  if (prepaidNotice && codNotice) {
+    if (method === 'prepaid') {
+      prepaidNotice.style.display = 'block';
+      codNotice.style.display = 'none';
+    } else {
+      prepaidNotice.style.display = 'none';
+      codNotice.style.display = (subtotalRs < 1199) ? 'block' : 'none';
+    }
+  }
+
+  const shippingMessageEls = document.querySelectorAll('[data-shipping-message]');
+  const shippingProgressEls = document.querySelectorAll('[data-shipping-progress]');
+  if (shippingMessageEls.length > 0 && shippingProgressEls.length > 0) {
+    if (method === 'prepaid') {
+      shippingMessageEls.forEach(el => el.innerHTML = 'Prepaid Order: <strong>FREE Shipping</strong> applied! 🎁');
+      shippingProgressEls.forEach(el => el.style.width = '100%');
+    } else {
+      if (subtotalRs >= 1199) {
+        shippingMessageEls.forEach(el => el.innerHTML = '<strong>FREE Shipping (COD)</strong> achieved! 🎉');
+        shippingProgressEls.forEach(el => el.style.width = '100%');
+      } else {
+        const remaining = 1199 - subtotalRs;
+        shippingMessageEls.forEach(el => el.innerHTML = 'Add <strong>₹' + Math.ceil(remaining) + '</strong> more for FREE Shipping (COD)!');
+        const progressPct = Math.min(100, (subtotalRs / 1199) * 100);
+        shippingProgressEls.forEach(el => el.style.width = progressPct + '%');
+      }
+    }
+  }
+};
+
 class TokiyoCart {
   constructor() {
     this.drawer   = document.querySelector('[data-cart-drawer]');
@@ -9,6 +125,9 @@ class TokiyoCart {
     this.threshold = parseFloat(document.querySelector('[data-free-shipping-threshold]')?.dataset.freeShippingThreshold || '0') * 100;
     this.codFeeVariantId = 48862017716468;
     this.bindEvents();
+    
+    // Initial sync and recovery on page load
+    this.recoverPaymentMethod();
     this.syncCodFeeInCart();
   }
   bindEvents() {
@@ -47,11 +166,26 @@ class TokiyoCart {
     // Sync cart when returning via back button from checkout (bfcache restore)
     window.addEventListener('pageshow', (e) => {
       if (e.persisted) {
+        this.recoverPaymentMethod();
         this.syncCodFeeInCart().then(() => {
           this.refreshCart();
         });
       }
     });
+  }
+  recoverPaymentMethod() {
+    const savedMethod = localStorage.getItem('tokiyo_payment_method') || 'prepaid';
+    const drawerRadioBtn = document.querySelector(`input[name="payment_method_choice"][value="${savedMethod}"]`);
+    if (drawerRadioBtn) {
+      drawerRadioBtn.checked = true;
+    }
+    const cartPageRadioBtn = document.querySelector(`input[name="cart_payment_method_choice"][value="${savedMethod}"]`);
+    if (cartPageRadioBtn) {
+      cartPageRadioBtn.checked = true;
+    }
+    if (typeof window.syncCartPayment === 'function') {
+      window.syncCartPayment();
+    }
   }
   async openDrawer() {
     this.drawer?.classList.add('is-open');
@@ -208,32 +342,7 @@ class TokiyoCart {
       }
 
       // Re-update message & progress displays on page
-      const method = localStorage.getItem('tokiyo_payment_method') || 'prepaid';
-      const subtotalCents = window.cartSubtotalCents || 0;
-      const subtotalRs = subtotalCents / 100;
-
-      const shippingMessageEls = document.querySelectorAll('[data-shipping-message]');
-      const shippingProgressEls = document.querySelectorAll('[data-shipping-progress]');
-      if (shippingMessageEls.length > 0 && shippingProgressEls.length > 0) {
-        if (method === 'prepaid') {
-          shippingMessageEls.forEach(el => el.innerHTML = 'Prepaid Order: <strong>FREE Shipping</strong> applied! 🎁');
-          shippingProgressEls.forEach(el => el.style.width = '100%');
-        } else {
-          if (subtotalRs >= 1199) {
-            shippingMessageEls.forEach(el => el.innerHTML = '<strong>FREE Shipping (COD)</strong> achieved! 🎉');
-            shippingProgressEls.forEach(el => el.style.width = '100%');
-          } else {
-            const remaining = 1199 - subtotalRs;
-            shippingMessageEls.forEach(el => el.innerHTML = 'Add <strong>₹' + Math.ceil(remaining) + '</strong> more for FREE Shipping (COD)!');
-            const progressPct = Math.min(100, (subtotalRs / 1199) * 100);
-            shippingProgressEls.forEach(el => el.style.width = progressPct + '%');
-          }
-        }
-      }
-
-      if (typeof window.syncCartPayment === 'function') {
-        window.syncCartPayment();
-      }
+      this.recoverPaymentMethod();
     } catch(err) {
       console.error('Cart refresh failed:', err);
     }
