@@ -155,6 +155,45 @@ async function getPublications() {
   return data.publications.edges.map(e => e.node);
 }
 
+function getWomensRegularPrices(designCode, size) {
+  const code = designCode.toUpperCase().trim();
+  const sizeUpper = size.toUpperCase().trim();
+  
+  const isSML = sizeUpper === 'XS' || sizeUpper === 'S' || sizeUpper === 'M' || sizeUpper === 'L';
+
+  // TRTWO001 / TRTWO002: S/M/L = 449, XL/XXL = 499, Compare-at = 899
+  if (code === 'TRTWO001' || code === 'TRTWO002') {
+    return {
+      price: (isSML ? 449 : 499).toFixed(2),
+      compareAtPrice: (899).toFixed(2)
+    };
+  }
+  // TRTWO003: S/M/L = 549, XL/XXL = 599, Compare-at = 1099
+  if (code === 'TRTWO003') {
+    return {
+      price: (isSML ? 549 : 599).toFixed(2),
+      compareAtPrice: (1099).toFixed(2)
+    };
+  }
+  // TRTWO004 / TRTWO006: S/M/L = 499, XL/XXL = 549, Compare-at = 999
+  if (code === 'TRTWO004' || code === 'TRTWO006') {
+    return {
+      price: (isSML ? 499 : 549).toFixed(2),
+      compareAtPrice: (999).toFixed(2)
+    };
+  }
+  // TRTWO005: S/M/L = 399, XL/XXL = 459, Compare-at = 899
+  if (code === 'TRTWO005') {
+    return {
+      price: (isSML ? 399 : 459).toFixed(2),
+      compareAtPrice: (899).toFixed(2)
+    };
+  }
+
+  // Fallback
+  return { price: "599.00", compareAtPrice: "999.00" };
+}
+
 // Parse CSV file and group by product design key
 function parseProductsCSV() {
   console.log("\n=== PARSING CSV CATALOG ===");
@@ -221,17 +260,18 @@ function parseProductsCSV() {
 
       const isDuplicate = currentProduct.variants.some(v => v.color === colorName && v.size === (optionValue || size));
       if (!isDuplicate) {
-        // Retrieve prices directly from CSV
-        const price = parseFloat(row[20] || '599').toFixed(2);
-        const compareAtPrice = parseFloat(row[21] || '999').toFixed(2);
-        const finalInventory = row[30] ? parseInt(row[30], 10) : 10;
+        // Retrieve prices using the price chart helper
+        const pricing = getWomensRegularPrices(designCode, optionValue || size);
+        
+        const isBlack = colorName.toLowerCase() === 'black';
+        const finalInventory = isBlack ? (row[30] ? parseInt(row[30], 10) : 10) : 0;
 
         currentProduct.variants.push({
           sku: sku,
           size: optionValue || size,
           color: colorName,
-          price: price,
-          compareAtPrice: compareAtPrice,
+          price: pricing.price,
+          compareAtPrice: pricing.compareAtPrice,
           cost: row[22] || '250',
           weight: row[32] ? parseFloat(row[32]) : 250,
           weightUnit: row[33] || 'g',
