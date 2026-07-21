@@ -3,7 +3,9 @@
 <section class="featured-collections section-featured-collections">
   <div class="page-width">
     <div class="section-header-block animate-on-scroll fade-up">
-      <p class="text-eyebrow">{{ section.settings.eyebrow | default: 'Explore' }}</p>
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="text-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
       <h2>{{ section.settings.title | default: 'Shop by Category' }}</h2>
       <p>{{ section.settings.subtitle | default: 'Curated collections crafted for the modern lifestyle.' }}</p>
     </div>

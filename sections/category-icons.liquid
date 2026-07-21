@@ -12,7 +12,9 @@
   <div class="page-width">
     {%- comment -%} Section Header with animated line {%- endcomment -%}
     <div class="catg-universe__header">
-      <p class="text-eyebrow">{{ section.settings.eyebrow | default: 'Explore' }}</p>
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="text-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
       <h2 class="catg-universe__title">
         <span class="catg-universe__title-line" data-split-text>{{ section.settings.title | default: 'Shop by Category' }}</span>
       </h2>
@@ -376,7 +378,7 @@
   /* ═══ Universe Container ═══ */
   .catg-universe {
     position: relative;
-    padding: 1rem 0 2rem 0;
+    padding: 0.25rem 0 2rem 0;
     background: #FFFFFF;
     overflow: hidden;
   }
