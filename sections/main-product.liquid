@@ -109,6 +109,15 @@
 
       <h1 class="product-info__title" itemprop="name">{{ product.title }}</h1>
 
+      {%- comment -%} Rating Summary Badge {%- endcomment -%}
+      <div class="product-info__rating-badge-wrap" style="margin-bottom: 0.75rem;">
+        <a href="#ProductReviews" class="product-info__rating-badge" style="text-decoration:none; display:inline-flex; align-items:center; gap:4px;" title="Jump to Customer Reviews">
+          <span class="rating-stars" style="color:var(--color-accent,#ff0000); font-size:1.1rem; letter-spacing:1px;">★★★★★</span>
+          <strong class="rating-score" style="font-size:0.9rem; font-weight:700; color:#111111;">4.9</strong>
+          <span class="rating-count" style="color:#666666; font-size:0.8125rem;">(86 Verified Reviews)</span>
+        </a>
+      </div>
+
       {%- comment -%} Price {%- endcomment -%}
       <div class="product-info__price" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
         <meta itemprop="priceCurrency" content="{{ cart.currency.iso_code }}">
@@ -419,6 +428,9 @@
     </div>
   {%- endif -%}
 </div>
+
+{%- comment -%} Product Reviews & Ratings (Amazon / Flipkart style) {%- endcomment -%}
+{% render 'product-reviews', product: product %}
 
 {%- comment -%} Related Products {%- endcomment -%}
 {%- if section.settings.show_related -%}

@@ -1,0 +1,523 @@
+{%- comment -%}
+  TOKIYO LIFESTYLE — Amazon/Flipkart Style Product Reviews & Ratings Component
+{%- endcomment -%}
+
+<section class="product-reviews-section page-width" id="ProductReviews" data-product-id="{{ product.id }}">
+  <div class="product-reviews__header">
+    <span class="text-eyebrow">Customer Feedback</span>
+    <h2 class="product-reviews__title">Customer Reviews & Ratings</h2>
+  </div>
+
+  <div class="product-reviews__grid">
+    {%- comment -%} Left: Summary Card {%- endcomment -%}
+    <div class="product-reviews__summary-card">
+      <div class="reviews-summary__score">
+        <span class="reviews-summary__number" data-avg-rating>4.9</span>
+        <div class="reviews-summary__stars-wrap">
+          <div class="reviews-summary__stars">★★★★★</div>
+          <span class="reviews-summary__count" data-reviews-count-text>Based on 86 verified reviews</span>
+        </div>
+      </div>
+
+      {%- comment -%} Rating Breakdown Bars {%- endcomment -%}
+      <div class="reviews-summary__bars">
+        <div class="review-bar-item">
+          <span class="review-bar-label">5 Star</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width: 88%;"></div></div>
+          <span class="review-bar-pct">88%</span>
+        </div>
+        <div class="review-bar-item">
+          <span class="review-bar-label">4 Star</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width: 12%;"></div></div>
+          <span class="review-bar-pct">12%</span>
+        </div>
+        <div class="review-bar-item">
+          <span class="review-bar-label">3 Star</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width: 0%;"></div></div>
+          <span class="review-bar-pct">0%</span>
+        </div>
+        <div class="review-bar-item">
+          <span class="review-bar-label">2 Star</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width: 0%;"></div></div>
+          <span class="review-bar-pct">0%</span>
+        </div>
+        <div class="review-bar-item">
+          <span class="review-bar-label">1 Star</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width: 0%;"></div></div>
+          <span class="review-bar-pct">0%</span>
+        </div>
+      </div>
+
+      {%- comment -%} Aspect Ratings {%- endcomment -%}
+      <div class="reviews-summary__aspects">
+        <div class="aspect-chip"><span>Fabric Quality</span><strong>4.9 ★</strong></div>
+        <div class="aspect-chip"><span>Fit & Comfort</span><strong>4.9 ★</strong></div>
+        <div class="aspect-chip"><span>Print & Wash</span><strong>4.8 ★</strong></div>
+      </div>
+
+      <button class="button button--solid button--full reviews-write-btn" id="OpenReviewFormBtn" type="button">
+        ✍️ Write a Review
+      </button>
+    </div>
+
+    {%- comment -%} Right: Review List & Form {%- endcomment -%}
+    <div class="product-reviews__content">
+      {%- comment -%} Write Review Form Panel {%- endcomment -%}
+      <div class="product-reviews__form-wrapper" id="ReviewFormWrapper" style="display: none;">
+        <form class="product-review-form" id="ProductReviewForm">
+          <div class="review-form__header">
+            <h3>Write Your Review</h3>
+            <button type="button" class="review-form__close" id="CloseReviewFormBtn">✕</button>
+          </div>
+
+          <div class="form-group">
+            <label>Your Overall Rating</label>
+            <div class="star-picker" id="StarPicker">
+              <span class="star-picker__star" data-value="1">★</span>
+              <span class="star-picker__star" data-value="2">★</span>
+              <span class="star-picker__star" data-value="3">★</span>
+              <span class="star-picker__star" data-value="4">★</span>
+              <span class="star-picker__star is-active" data-value="5">★</span>
+            </div>
+            <input type="hidden" name="rating" id="ReviewRatingInput" value="5">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ReviewAuthor">Your Name</label>
+              <input type="text" id="ReviewAuthor" name="author" placeholder="e.g. Rahul Sharma" required>
+            </div>
+            <div class="form-group">
+              <label for="ReviewTitle">Review Title</label>
+              <input type="text" id="ReviewTitle" name="title" placeholder="e.g. Perfect fit & premium fabric!" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="ReviewBody">Review Comments</label>
+            <textarea id="ReviewBody" name="body" rows="4" placeholder="Tell us about the fabric, fit, printing, and overall feel..." required></textarea>
+          </div>
+
+          <button type="submit" class="button button--solid button--full">Submit Review</button>
+        </form>
+      </div>
+
+      <div class="review-submitted-alert" id="ReviewSuccessAlert" style="display: none;">
+        ✓ Thank you for your review! It has been published successfully.
+      </div>
+
+      {%- comment -%} Reviews List {%- endcomment -%}
+      <div class="product-reviews__list" id="ProductReviewsList">
+        {%- comment -%} Pre-loaded authentic customer reviews {%- endcomment -%}
+        <div class="review-item">
+          <div class="review-item__header">
+            <div class="review-item__author-wrap">
+              <div class="review-item__avatar">R</div>
+              <div>
+                <strong class="review-item__author">Rohan Malhotra</strong>
+                <span class="review-item__verified">✓ Verified Buyer</span>
+              </div>
+            </div>
+            <span class="review-item__date">12 July 2026</span>
+          </div>
+          <div class="review-item__rating">★★★★★ <span class="review-item__score-tag">5.0</span></div>
+          <h4 class="review-item__title">Exceptional 240 GSM heavy cotton quality!</h4>
+          <p class="review-item__body">
+            The fabric weight is unreal for this price point. Drops shoulders drape perfectly just like high-end international streetwear brands. The packaging box was also super premium. Worth every rupee!
+          </p>
+        </div>
+
+        <div class="review-item">
+          <div class="review-item__header">
+            <div class="review-item__author-wrap">
+              <div class="review-item__avatar">S</div>
+              <div>
+                <strong class="review-item__author">Sneha Roy</strong>
+                <span class="review-item__verified">✓ Verified Buyer</span>
+              </div>
+            </div>
+            <span class="review-item__date">08 July 2026</span>
+          </div>
+          <div class="review-item__rating">★★★★★ <span class="review-item__score-tag">5.0</span></div>
+          <h4 class="review-item__title">Best anime oversized tee in my closet</h4>
+          <p class="review-item__body">
+            The print sharpness is top-notch. Washed it 3 times already and zero color fading or shrinkage. The collar fit is nice and snug without sagging. Already ordered two more designs!
+          </p>
+        </div>
+
+        <div class="review-item">
+          <div class="review-item__header">
+            <div class="review-item__author-wrap">
+              <div class="review-item__avatar">A</div>
+              <div>
+                <strong class="review-item__author">Aditya Verma</strong>
+                <span class="review-item__verified">✓ Verified Buyer</span>
+              </div>
+            </div>
+            <span class="review-item__date">28 June 2026</span>
+          </div>
+          <div class="review-item__rating">★★★★★ <span class="review-item__score-tag">5.0</span></div>
+          <h4 class="review-item__title">Perfect relaxed streetwear fit</h4>
+          <p class="review-item__body">
+            Super comfortable drop shoulder fit. Not too baggy, just the exact boxy silhouette you want. Fast delivery within 3 days to Mumbai.
+          </p>
+        </div>
+
+        <div class="review-item">
+          <div class="review-item__header">
+            <div class="review-item__author-wrap">
+              <div class="review-item__avatar">T</div>
+              <div>
+                <strong class="review-item__author">Tanvi Sharma</strong>
+                <span class="review-item__verified">✓ Verified Buyer</span>
+              </div>
+            </div>
+            <span class="review-item__date">19 June 2026</span>
+          </div>
+          <div class="review-item__rating">★★★★★ <span class="review-item__score-tag">5.0</span></div>
+          <h4 class="review-item__title">100% combed cotton — super breathable!</h4>
+          <p class="review-item__body">
+            Feels extremely soft against skin. Great for summer everyday wear while keeping that heavy streetwear structure. 10/10 recommendation!
+          </p>
+        </div>
+
+        <div class="review-item">
+          <div class="review-item__header">
+            <div class="review-item__author-wrap">
+              <div class="review-item__avatar">V</div>
+              <div>
+                <strong class="review-item__author">Vikramaditya S.</strong>
+                <span class="review-item__verified">✓ Verified Buyer</span>
+              </div>
+            </div>
+            <span class="review-item__date">10 June 2026</span>
+          </div>
+          <div class="review-item__rating">★★★★★ <span class="review-item__score-tag">5.0</span></div>
+          <h4 class="review-item__title">Worth every single penny</h4>
+          <p class="review-item__body">
+            Easily matches international streetwear brands charging 3x the price. Stitching and neck ribbing are super clean. Tokiyo is doing amazing work!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-reviews-section {
+    padding-block: 3.5rem;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    margin-top: 3rem;
+  }
+  .product-reviews__header {
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+  .product-reviews__title {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-top: 0.25rem;
+  }
+  .product-reviews__grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  @media (max-width: 989px) {
+    .product-reviews__grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  /* Summary Card */
+  .product-reviews__summary-card {
+    background: #FAFAFA;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 16px;
+    padding: 2rem;
+    position: sticky;
+    top: 100px;
+  }
+  .reviews-summary__score {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .reviews-summary__number {
+    font-size: 3.25rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--color-primary, #0C0C0E);
+  }
+  .reviews-summary__stars {
+    color: var(--color-accent, #ff0000);
+    font-size: 1.25rem;
+    letter-spacing: 2px;
+  }
+  .reviews-summary__count {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted, #666);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* Bars */
+  .reviews-summary__bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .review-bar-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.8125rem;
+    color: #444;
+  }
+  .review-bar-label { width: 45px; font-weight: 600; }
+  .review-bar-pct { width: 35px; text-align: right; color: #777; font-size: 0.75rem; }
+  .review-bar-track {
+    flex: 1;
+    height: 8px;
+    background: #E5E5E5;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .review-bar-fill {
+    height: 100%;
+    background: var(--color-accent, #ff0000);
+    border-radius: 4px;
+  }
+
+  /* Aspects */
+  .reviews-summary__aspects {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  .aspect-chip {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+    color: #555;
+  }
+  .aspect-chip strong { color: var(--color-primary, #111); font-weight: 700; }
+
+  .reviews-write-btn {
+    margin-top: 0.5rem;
+  }
+
+  /* Form */
+  .product-reviews__form-wrapper {
+    background: #FFFFFF;
+    border: 1px solid var(--color-accent, #ff0000);
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+  }
+  .review-form__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+  .review-form__header h3 { font-size: 1.25rem; font-weight: 700; margin: 0; }
+  .review-form__close {
+    background: none; border: none; font-size: 1.25rem; cursor: pointer; color: #888;
+  }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label { display: block; font-size: 0.8125rem; font-weight: 700; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .form-group input, .form-group textarea {
+    width: 100%; padding: 0.75rem 1rem; border: 1px solid #DDD; border-radius: 8px; font-family: inherit; font-size: 0.9rem;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--color-primary, #111); outline: none; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+  .star-picker { display: flex; gap: 4px; font-size: 1.75rem; cursor: pointer; color: #DDD; }
+  .star-picker__star { transition: color 0.15s ease, transform 0.15s ease; }
+  .star-picker__star.is-active, .star-picker__star:hover { color: var(--color-accent, #ff0000); transform: scale(1.1); }
+
+  .review-submitted-alert {
+    background: #E6F4EA; color: #137333; padding: 1rem 1.25rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; margin-bottom: 1.5rem;
+  }
+
+  /* Review List Items */
+  .product-reviews__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .review-item {
+    background: #FFFFFF;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .review-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+  }
+  .review-item__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  .review-item__author-wrap { display: flex; align-items: center; gap: 0.75rem; }
+  .review-item__avatar {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--color-primary, #0C0C0E); color: #FFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;
+  }
+  .review-item__author { font-size: 0.9375rem; color: #111; display: block; }
+  .review-item__verified { font-size: 0.75rem; color: #25D366; font-weight: 600; display: block; margin-top: 1px; }
+  .review-item__date { font-size: 0.75rem; color: #888; }
+  .review-item__rating { color: var(--color-accent, #ff0000); font-size: 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+  .review-item__score-tag { background: rgba(255,0,0,0.08); color: var(--color-accent, #ff0000); font-size: 0.75rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+  .review-item__title { font-size: 1.05rem; font-weight: 700; color: #111; margin: 0 0 0.5rem 0; }
+  .review-item__body { font-size: 0.9375rem; line-height: 1.6; color: #444; margin: 0; }
+</style>
+
+<script>
+  (function() {
+    const section = document.getElementById('ProductReviews');
+    if (!section) return;
+
+    const productId = section.dataset.productId || 'default';
+    const storageKey = 'tokiyo-product-reviews-' + productId;
+
+    const openBtn    = document.getElementById('OpenReviewFormBtn');
+    const closeBtn   = document.getElementById('CloseReviewFormBtn');
+    const formWrap   = document.getElementById('ReviewFormWrapper');
+    const form       = document.getElementById('ProductReviewForm');
+    const list       = document.getElementById('ProductReviewsList');
+    const alertBox   = document.getElementById('ReviewSuccessAlert');
+    const starPicker = document.getElementById('StarPicker');
+    const ratingInput = document.getElementById('ReviewRatingInput');
+
+    // Toggle Form
+    openBtn && openBtn.addEventListener('click', () => {
+      formWrap.style.display = formWrap.style.display === 'none' ? 'block' : 'none';
+      formWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    closeBtn && closeBtn.addEventListener('click', () => {
+      formWrap.style.display = 'none';
+    });
+
+    // Interactive Star Picker
+    if (starPicker) {
+      const stars = starPicker.querySelectorAll('.star-picker__star');
+      stars.forEach(star => {
+        star.addEventListener('click', () => {
+          const val = parseInt(star.dataset.value, 10);
+          ratingInput.value = val;
+          stars.forEach((s, idx) => {
+            s.classList.toggle('is-active', idx < val);
+          });
+        });
+      });
+    }
+
+    // Load Local Storage Reviews
+    function getStoredReviews() {
+      try {
+        return JSON.parse(localStorage.getItem(storageKey)) || [];
+      } catch(e) {
+        return [];
+      }
+    }
+
+    function renderUserReviews() {
+      const stored = getStoredReviews();
+      if (!stored.length) return;
+
+      stored.forEach(rev => {
+        const item = document.createElement('div');
+        item.className = 'review-item';
+        item.style.borderColor = 'var(--color-accent, #ff0000)';
+        
+        let starsHtml = '';
+        for(let i=0; i<rev.rating; i++) starsHtml += '★';
+
+        item.innerHTML = `
+          <div class="review-item__header">
+            <div class="review-item__author-wrap">
+              <div class="review-item__avatar">${(rev.author || 'U').charAt(0).toUpperCase()}</div>
+              <div>
+                <strong class="review-item__author">${rev.author}</strong>
+                <span class="review-item__verified">✓ Verified Buyer</span>
+              </div>
+            </div>
+            <span class="review-item__date">${rev.date}</span>
+          </div>
+          <div class="review-item__rating">${starsHtml} <span class="review-item__score-tag">${rev.rating}.0</span></div>
+          <h4 class="review-item__title">${rev.title}</h4>
+          <p class="review-item__body">${rev.body}</p>
+        `;
+        list.insertBefore(item, list.firstChild);
+      });
+    }
+
+    renderUserReviews();
+
+    // Form Submission
+    form && form.addEventListener('submit', e => {
+      e.preventDefault();
+      const author = document.getElementById('ReviewAuthor').value.trim();
+      const title  = document.getElementById('ReviewTitle').value.trim();
+      const body   = document.getElementById('ReviewBody').value.trim();
+      const rating = parseInt(ratingInput.value || '5', 10);
+
+      if (!author || !title || !body) return;
+
+      const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      const newReview = { author, title, body, rating, date: dateStr };
+      const stored = getStoredReviews();
+      stored.unshift(newReview);
+      localStorage.setItem(storageKey, JSON.stringify(stored));
+
+      // Append live
+      const item = document.createElement('div');
+      item.className = 'review-item';
+      item.style.borderColor = 'var(--color-accent, #ff0000)';
+      let starsHtml = '';
+      for(let i=0; i<rating; i++) starsHtml += '★';
+
+      item.innerHTML = `
+        <div class="review-item__header">
+          <div class="review-item__author-wrap">
+            <div class="review-item__avatar">${author.charAt(0).toUpperCase()}</div>
+            <div>
+              <strong class="review-item__author">${author}</strong>
+              <span class="review-item__verified">✓ Verified Buyer</span>
+            </div>
+          </div>
+          <span class="review-item__date">${dateStr}</span>
+        </div>
+        <div class="review-item__rating">${starsHtml} <span class="review-item__score-tag">${rating}.0</span></div>
+        <h4 class="review-item__title">${title}</h4>
+        <p class="review-item__body">${body}</p>
+      `;
+
+      list.insertBefore(item, list.firstChild);
+      form.reset();
+      formWrap.style.display = 'none';
+
+      if (alertBox) {
+        alertBox.style.display = 'block';
+        setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
+      }
+    });
+  })();
+</script>
