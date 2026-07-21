@@ -201,9 +201,13 @@ function initGallery() {
       visibleThumbs[currentIndex].classList.add('is-active');
     }
 
-    // Scroll active thumbnail into view
-    if (visibleThumbs[currentIndex]) {
-      visibleThumbs[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    // Scroll active thumbnail horizontally inside container only (does NOT scroll window/page)
+    if (visibleThumbs[currentIndex] && thumbs) {
+      const thumb = visibleThumbs[currentIndex];
+      thumbs.scrollTo({
+        left: thumb.offsetLeft - (thumbs.clientWidth / 2) + (thumb.clientWidth / 2),
+        behavior: 'smooth'
+      });
     }
   }
 
@@ -289,7 +293,11 @@ function initGallery() {
     const visibleSlides = getVisibleSlides();
     if (visibleSlides.length <= 1) return;
     autoSlideTimer = setInterval(() => {
-      goToSlide(currentIndex + 1);
+      // Only auto-slide if gallery is currently visible in viewport
+      const rect = gallery.getBoundingClientRect();
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        goToSlide(currentIndex + 1);
+      }
     }, 4000);
   }
 
