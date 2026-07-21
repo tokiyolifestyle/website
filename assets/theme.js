@@ -386,7 +386,31 @@ document.addEventListener('DOMContentLoaded', () => {
   initCursorDot();
   initQuantitySelectors();
   initSectionSpacing();
+  initShareButtons();
 });
+
+/* ========== Product Share Handler ========== */
+function initShareButtons() {
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('[data-share-product], [data-share-btn]');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const url = btn.getAttribute('data-share-product') || window.location.href;
+    const title = btn.getAttribute('data-share-title') || document.title;
+    if (navigator.share) {
+      navigator.share({ title: title, url: url }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        if (typeof showToast === 'function') {
+          showToast('Link copied to clipboard!');
+        } else {
+          alert('Link copied to clipboard!');
+        }
+      });
+    }
+  });
+}
 
 document.addEventListener('shopify:section:load', () => {
   initScrollAnimations();

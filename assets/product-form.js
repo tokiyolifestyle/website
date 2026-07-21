@@ -68,6 +68,12 @@
     }
 
     function updateUI() {
+      var colorInput = document.querySelector('input[data-option-name="Color"]:checked, input[name="Color"]:checked');
+      if (colorInput) {
+        document.querySelectorAll('[data-selected-color-name]').forEach(function(el) {
+          el.textContent = colorInput.value;
+        });
+      }
       var selected = getSelectedOptions();
       var variant = findMatchingVariant(selected);
       var priceEl = document.querySelector('[data-product-price]');
@@ -158,22 +164,27 @@
 
   /* ---------------- Image Zoom ---------------- */
   function initImageZoom() {
-    var mainImage = document.querySelector('[data-gallery-main-image]');
-    if (!mainImage) return;
-    mainImage.addEventListener('mousemove', function (e) {
-      if (window.innerWidth < 990) return;
-      var rect = mainImage.getBoundingClientRect();
-      var x = ((e.clientX - rect.left) / rect.width) * 100;
-      var y = ((e.clientY - rect.top) / rect.height) * 100;
-      var img = mainImage.querySelector('img');
-      if (img) img.style.transformOrigin = x + '% ' + y + '%';
-    });
-    mainImage.addEventListener('mouseenter', function () {
-      if (window.innerWidth < 990) return;
-      mainImage.classList.add('is-zoomed');
-    });
-    mainImage.addEventListener('mouseleave', function () {
-      mainImage.classList.remove('is-zoomed');
+    document.querySelectorAll('.product-gallery__main-image, [data-gallery-main-image]').forEach(function (mainImage) {
+      mainImage.addEventListener('mousemove', function (e) {
+        if (window.innerWidth < 768) return;
+        var rect = mainImage.getBoundingClientRect();
+        var x = ((e.clientX - rect.left) / rect.width) * 100;
+        var y = ((e.clientY - rect.top) / rect.height) * 100;
+        var img = mainImage.querySelector('img');
+        if (img) img.style.transformOrigin = x + '% ' + y + '%';
+      });
+      mainImage.addEventListener('mouseenter', function () {
+        if (window.innerWidth < 768) return;
+        mainImage.classList.add('is-zoomed');
+      });
+      mainImage.addEventListener('mouseleave', function () {
+        mainImage.classList.remove('is-zoomed');
+      });
+      mainImage.addEventListener('click', function (e) {
+        if (e.target.closest('[data-zoom-toggle]')) return;
+        var zoomBtn = document.querySelector('[data-zoom-toggle]');
+        if (zoomBtn) zoomBtn.click();
+      });
     });
   }
 
@@ -199,18 +210,41 @@
   /* ---------------- Sticky Add To Cart ---------------- */
   function initStickyAddToCart() {
     var stickyBar = document.querySelector('[data-sticky-atc]');
-    var triggerEl = document.querySelector('[data-product-form]');
+    var triggerEl = document.querySelector('[data-add-to-cart-form]') || document.querySelector('[data-product-form]');
+    var footerEl  = document.querySelector('footer, .site-footer');
     if (!stickyBar || !triggerEl || !('IntersectionObserver' in window)) return;
 
-    var observer = new IntersectionObserver(function (entries) {
+    var isMainFormPassed = false;
+    var isFooterVisible  = false;
+
+    function updateStickyVisibility() {
+      if (isMainFormPassed && !isFooterVisible) {
+        stickyBar.classList.add('is-visible');
+      } else {
+        stickyBar.classList.remove('is-visible');
+      }
+    }
+
+    var formObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        stickyBar.classList.toggle('is-visible', !entry.isIntersecting && entry.boundingClientRect.top < 0);
+        isMainFormPassed = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        updateStickyVisibility();
       });
     }, { threshold: 0 });
 
-    observer.observe(triggerEl);
+    formObserver.observe(triggerEl);
 
-    var stickyBtn = stickyBar.querySelector('[data-sticky-add-to-cart]');
+    if (footerEl) {
+      var footerObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          isFooterVisible = entry.isIntersecting;
+          updateStickyVisibility();
+        });
+      }, { threshold: 0.05 });
+      footerObserver.observe(footerEl);
+    }
+
+    var stickyBtn = stickyBar.querySelector('[data-sticky-add-to-cart]') || stickyBar.querySelector('button');
     stickyBtn && stickyBtn.addEventListener('click', function () {
       var mainSubmit = triggerEl.querySelector('[type="submit"]');
       mainSubmit && mainSubmit.click();

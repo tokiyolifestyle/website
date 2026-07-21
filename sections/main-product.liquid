@@ -27,7 +27,7 @@
                 {%- endif -%}
               {%- endfor -%}
               <div class="product-gallery__slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide="{{ forloop.index0 }}" data-color="{{ img_color | escape }}">
-                <div class="product-gallery__main-image">
+                <div class="product-gallery__main-image" data-gallery-main-image>
                   {%- if image.aspect_ratio > 1.0 -%}
                     {{ image | image_url: width: 1000 | image_tag:
                       loading: 'eager',
@@ -192,7 +192,7 @@
           {%- if sibling_handles_array.size > 1 -%}
             <div class="product-option">
               <div class="product-option__label">
-                <span>Color</span>
+                <span>Color: <strong data-selected-color-name style="color: var(--color-primary, #111111); margin-left: 4px;">{{ product.title | split: ' - ' | last }}</strong></span>
               </div>
               <div class="product-option__swatches">
                 {%- for s_handle in sibling_handles_array -%}
@@ -230,7 +230,7 @@
         {%- for option in product.options_with_values -%}
           <div class="product-option">
             <div class="product-option__label">
-              <span>{{ option.name }}</span>
+              <span>{{ option.name }}{% if option.name == 'Color' %}: <strong data-selected-color-name style="color: var(--color-primary, #111111); margin-left: 4px;">{{ option.selected_value }}</strong>{% endif %}</span>
               {%- if option.name == 'Size' and settings.enable_size_guide -%}
                 <button class="product-option__size-guide" data-accordion-trigger aria-expanded="false" aria-controls="SizeGuidePanel" type="button">Size Guide</button>
               {%- endif -%}
@@ -422,7 +422,7 @@
 
 {%- comment -%} Related Products {%- endcomment -%}
 {%- if section.settings.show_related -%}
-  <div class="related-products page-width" style="padding-block:var(--spacing-sections,64px); padding-bottom: calc(var(--spacing-sections,64px) + 80px)">
+  <div class="related-products page-width" style="padding-block:var(--spacing-sections,64px); padding-bottom: calc(var(--spacing-sections,64px) + 110px);">
     <div class="section-header-block">
       <h2>{{ 'sections.product.related_products' | t }}</h2>
     </div>
@@ -453,11 +453,12 @@
   .product-gallery__main { position:relative; overflow:hidden; border-radius:var(--card-radius,12px); width:100%; }
   .product-gallery__slider-track { display:flex; width:100%; transition:transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
   .product-gallery__slide { width:100%; flex-shrink:0; }
-  .product-gallery__main-image { position:relative; overflow:hidden; aspect-ratio:3/4; background:#f5f5f5; width:100%; }
-  .product-gallery__main-image img { width:100%; height:100%; }
+  .product-gallery__main-image { position:relative; overflow:hidden; aspect-ratio:3/4; background:#f5f5f5; width:100%; cursor:zoom-in; }
+  .product-gallery__main-image img { width:100%; height:100%; transition:transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); transform-origin: center center; }
+  .product-gallery__main-image.is-zoomed img { transform: scale(2.2); }
   .gallery-img-portrait { object-fit:cover; background:#f5f5f5; }
   .gallery-img-landscape { object-fit:contain !important; background:#FFFFFF !important; }
-  .product-gallery__zoom-btn { position:absolute; bottom:12px; right:12px; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center; }
+  .product-gallery__zoom-btn { position:absolute; bottom:12px; right:12px; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:3; }
   .product-gallery__thumbs { display:flex; gap:.5rem; margin-top:.75rem; overflow-x:auto; scrollbar-width:none; max-width:100%; }
   .product-gallery__thumbs::-webkit-scrollbar { display:none; }
   .product-gallery__thumb { width:70px; height:90px; border-radius:8px; overflow:hidden; border:2px solid transparent; flex-shrink:0; cursor:pointer; transition:border-color .2s; }

@@ -425,9 +425,7 @@
         </div>
       </div>
 
-      <div class="collection-filters__footer">
-        <button class="button button--solid button--full" data-filter-apply>{{ 'sections.collection.apply' | t }}</button>
-      </div>
+      {%- comment -%} Instant filter auto-applies without needing an Apply button {%- endcomment -%}
     </aside>
 
     {%- comment -%} Product grid {%- endcomment -%}
@@ -905,11 +903,10 @@
     restoreCheckboxes();
     applyClientFilters();
 
-    /* Apply filters button — update URL without full reload for speed */
-    document.querySelector('[data-filter-apply]')?.addEventListener('click', () => {
+    /* Auto-apply filters on change — update URL real-time without full reload */
+    function triggerFilterUpdate() {
       const url = new URL(window.location.pathname, window.location.origin);
       const currentUrl = new URL(window.location);
-      /* Preserve preview_theme_id for development */
       if (currentUrl.searchParams.has('preview_theme_id')) {
         url.searchParams.set('preview_theme_id', currentUrl.searchParams.get('preview_theme_id'));
       }
@@ -926,9 +923,16 @@
           url.searchParams.set(input.name, input.value);
         }
       });
-      /* Update URL without reload, then filter client-side */
       window.history.pushState({}, '', url.toString());
       applyClientFilters();
+    }
+
+    document.querySelectorAll('[data-filter-input], .filter-price-inputs input').forEach(input => {
+      input.addEventListener('change', triggerFilterUpdate);
+    });
+
+    document.querySelector('[data-filter-apply]')?.addEventListener('click', () => {
+      triggerFilterUpdate();
       closeFilters();
     });
 

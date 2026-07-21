@@ -86,10 +86,10 @@
           "delay": 5,
           "eyebrow": "Exclusive Offer",
           "title": "Get 10% Off Your First Order",
-          "subtitle": "Join the Tokiyo Lifestyle community and be the first to know about new drops.",
+          "subtitle": "Join the Tokiyo Lifestyle community and get 10% off your first order with code TOKIYO10 (First 1000 customers only).",
           "placeholder": "Enter your email",
           "button_label": "Claim My Discount",
-          "success_message": "Code sent to your email!",
+          "success_message": "Use code TOKIYO10 at checkout for 10% OFF (First 1000 customers only)!",
           "skip_label": "No thanks, I'll pay full price"
         }
       }

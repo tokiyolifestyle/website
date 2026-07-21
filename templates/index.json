@@ -226,10 +226,10 @@
       "settings": {
         "eyebrow": "Stay Connected",
         "title": "Get Early Access to New Drops",
-        "subtitle": "Subscribe and get 10% off your first order. No spam, just good style.",
+        "subtitle": "Subscribe and get 10% off your first order with code TOKIYO10 (First 1000 customers only).",
         "placeholder": "Enter your email",
         "button_label": "Subscribe",
-        "success_message": "You're in! Check your inbox for your discount code.",
+        "success_message": "You're in! Use code TOKIYO10 for 10% off your first order (First 1000 customers only).",
         "disclaimer": "By subscribing you agree to our Privacy Policy."
       }
     }

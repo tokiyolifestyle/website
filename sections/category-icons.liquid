@@ -24,39 +24,44 @@
     {%- comment -%} ═══ Quick Icon Strip (LimeRoad style) ═══ {%- endcomment -%}
     <div class="catg-quickstrip" data-quickstrip>
       <div class="catg-quickstrip__track">
+        {%- assign seen_labels = '' -%}
         {%- for block in section.blocks -%}
-          {%- if block.settings.show_in_strip -%}
-            {%- assign gender_part = block.settings.gender | downcase -%}
-            {%- assign fit_part = block.settings.fit | downcase -%}
-            {%- assign label_part = block.settings.label | downcase | replace: ' ', '-' -%}
-            {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
-            {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
-            
-            {%- assign block_link = '/collections/' | append: constructed_handle -%}
-            {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
-
-            {%- assign current_collection = collections[constructed_handle] -%}
-            {%- if current_collection == blank or current_collection.products.size == 0 -%}
-              {%- continue -%}
-            {%- endif -%}
-
-            {%- assign card_image = current_collection.products.first.featured_image -%}
-            <a href="{{ block_link }}" class="catg-quickstrip__item" data-quickstrip-item>
-              <div class="catg-quickstrip__circle">
-                {%- assign strip_img = block.settings.strip_image | default: card_image -%}
-                {%- if strip_img != blank -%}
-                  {{ strip_img | image_url: width: 120 | image_tag:
-                    loading: 'lazy', widths: '60, 120', class: 'catg-quickstrip__img',
-                    alt: block.settings.label | escape
-                  }}
-                {%- else -%}
-                  <span class="catg-quickstrip__letter">{{ block.settings.label | slice: 0 }}</span>
-                {%- endif -%}
-                <div class="catg-quickstrip__glow"></div>
-              </div>
-              <span class="catg-quickstrip__label">{{ block.settings.label }}</span>
-            </a>
+          {%- assign label_clean = block.settings.label | strip -%}
+          {%- if label_clean == 'Graphic' -%}{%- assign label_clean = 'Graphic Print' -%}{%- endif -%}
+          {%- assign check_key = ',' | append: label_clean | append: ',' -%}
+          {%- assign current_seen = ',' | append: seen_labels | append: ',' -%}
+          {%- if current_seen contains check_key -%}{%- continue -%}{%- endif -%}
+          {%- if seen_labels == '' -%}
+            {%- assign seen_labels = label_clean -%}
+          {%- else -%}
+            {%- assign seen_labels = seen_labels | append: ',' | append: label_clean -%}
           {%- endif -%}
+
+          {%- assign label_tag = label_clean | downcase | replace: ' ', '-' -%}
+          {%- assign block_link = '/collections/all?filter.p.tag=' | append: label_tag -%}
+          {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
+
+          {%- assign gender_part = block.settings.gender | downcase -%}
+          {%- assign fit_part = block.settings.fit | downcase -%}
+          {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_tag -%}
+          {%- assign current_collection = collections[constructed_handle] -%}
+          {%- assign card_image = current_collection.products.first.featured_image -%}
+
+          <a href="{{ block_link }}" class="catg-quickstrip__item" data-quickstrip-item>
+            <div class="catg-quickstrip__circle">
+              {%- assign strip_img = block.settings.strip_image | default: card_image -%}
+              {%- if strip_img != blank -%}
+                {{ strip_img | image_url: width: 120 | image_tag:
+                  loading: 'lazy', widths: '60, 120', class: 'catg-quickstrip__img',
+                  alt: label_clean | escape
+                }}
+              {%- else -%}
+                <span class="catg-quickstrip__letter">{{ label_clean | slice: 0 }}</span>
+              {%- endif -%}
+              <div class="catg-quickstrip__glow"></div>
+            </div>
+            <span class="catg-quickstrip__label">{{ label_clean }}</span>
+          </a>
         {%- endfor -%}
       </div>
     </div>

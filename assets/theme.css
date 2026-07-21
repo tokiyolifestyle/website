@@ -184,6 +184,21 @@ section[class*="section-"] { padding-block: 0; }
 .product-card__wishlist-btn:hover { transform: scale(1.08); background-color: var(--color-primary, #111111); color: #FFFFFF; }
 .product-card__wishlist-btn.is-active { color: var(--color-error, #C62828); }
 
+.product-card__share-btn {
+  position: absolute;
+  top: 52px; right: 12px;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2;
+  color: #111111;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.product-card__share-btn:hover { transform: scale(1.08); background-color: var(--color-primary, #111111); color: #FFFFFF; }
+
 .product-card__quick-add {
   position: absolute;
   bottom: 0; left: 0; right: 0;
