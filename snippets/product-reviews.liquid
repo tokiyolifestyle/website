@@ -388,14 +388,28 @@
   .review-item__body { font-size: 0.9375rem; line-height: 1.6; color: #444; margin: 0; }
 </style>
 
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCY-WiyDWBVfS64t_DAmh2NwukpXHkVzZQ",
+    authDomain: "tokiyolifestyle-website.firebaseapp.com",
+    projectId: "tokiyolifestyle-website",
+    storageBucket: "tokiyolifestyle-website.firebasestorage.app",
+    messagingSenderId: "270059975283",
+    appId: "1:270059975283:web:d0fe2cf5169ff72ec1b006",
+    measurementId: "G-XXH1MYLFKE"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+
   (function() {
     const section = document.getElementById('ProductReviews');
     if (!section) return;
 
     const productId = section.dataset.productId || 'default';
-    const storageKey = 'tokiyo-product-reviews-' + productId;
-
     const openBtn    = document.getElementById('OpenReviewFormBtn');
     const closeBtn   = document.getElementById('CloseReviewFormBtn');
     const formWrap   = document.getElementById('ReviewFormWrapper');
@@ -428,50 +442,55 @@
       });
     }
 
-    // Load Local Storage Reviews
-    function getStoredReviews() {
+    // Helper to render review card
+    function createReviewCard(author, title, body, rating, date) {
+      const item = document.createElement('div');
+      item.className = 'review-item';
+      item.style.borderColor = 'var(--color-accent, #ff0000)';
+
+      let starsHtml = '';
+      for (let i = 0; i < rating; i++) starsHtml += '★';
+
+      item.innerHTML = `
+        <div class="review-item__header">
+          <div class="review-item__author-wrap">
+            <div class="review-item__avatar">${(author || 'U').charAt(0).toUpperCase()}</div>
+            <div>
+              <strong class="review-item__author">${author}</strong>
+              <span class="review-item__verified">✓ Verified Buyer</span>
+            </div>
+          </div>
+          <span class="review-item__date">${date}</span>
+        </div>
+        <div class="review-item__rating">${starsHtml} <span class="review-item__score-tag">${rating}.0</span></div>
+        <h4 class="review-item__title">${title}</h4>
+        <p class="review-item__body">${body}</p>
+      `;
+      return item;
+    }
+
+    // Load Live Reviews from Firebase Firestore
+    async function loadFirebaseReviews() {
       try {
-        return JSON.parse(localStorage.getItem(storageKey)) || [];
-      } catch(e) {
-        return [];
+        const q = query(
+          collection(db, "reviews"),
+          where("productId", "==", String(productId))
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const card = createReviewCard(data.author, data.title, data.body, data.rating, data.date);
+          list.insertBefore(card, list.firstChild);
+        });
+      } catch (err) {
+        console.warn("Firestore fetch notice:", err);
       }
     }
 
-    function renderUserReviews() {
-      const stored = getStoredReviews();
-      if (!stored.length) return;
+    loadFirebaseReviews();
 
-      stored.forEach(rev => {
-        const item = document.createElement('div');
-        item.className = 'review-item';
-        item.style.borderColor = 'var(--color-accent, #ff0000)';
-        
-        let starsHtml = '';
-        for(let i=0; i<rev.rating; i++) starsHtml += '★';
-
-        item.innerHTML = `
-          <div class="review-item__header">
-            <div class="review-item__author-wrap">
-              <div class="review-item__avatar">${(rev.author || 'U').charAt(0).toUpperCase()}</div>
-              <div>
-                <strong class="review-item__author">${rev.author}</strong>
-                <span class="review-item__verified">✓ Verified Buyer</span>
-              </div>
-            </div>
-            <span class="review-item__date">${rev.date}</span>
-          </div>
-          <div class="review-item__rating">${starsHtml} <span class="review-item__score-tag">${rev.rating}.0</span></div>
-          <h4 class="review-item__title">${rev.title}</h4>
-          <p class="review-item__body">${rev.body}</p>
-        `;
-        list.insertBefore(item, list.firstChild);
-      });
-    }
-
-    renderUserReviews();
-
-    // Form Submission
-    form && form.addEventListener('submit', e => {
+    // Form Submission to Firebase Firestore
+    form && form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const author = document.getElementById('ReviewAuthor').value.trim();
       const title  = document.getElementById('ReviewTitle').value.trim();
@@ -482,35 +501,25 @@
 
       const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 
-      const newReview = { author, title, body, rating, date: dateStr };
-      const stored = getStoredReviews();
-      stored.unshift(newReview);
-      localStorage.setItem(storageKey, JSON.stringify(stored));
+      // Save to Firebase Firestore
+      try {
+        await addDoc(collection(db, "reviews"), {
+          productId: String(productId),
+          author,
+          title,
+          body,
+          rating,
+          date: dateStr,
+          timestamp: Date.now()
+        });
+      } catch (err) {
+        console.error("Firestore save error:", err);
+      }
 
-      // Append live
-      const item = document.createElement('div');
-      item.className = 'review-item';
-      item.style.borderColor = 'var(--color-accent, #ff0000)';
-      let starsHtml = '';
-      for(let i=0; i<rating; i++) starsHtml += '★';
+      // Render live on UI immediately
+      const card = createReviewCard(author, title, body, rating, dateStr);
+      list.insertBefore(card, list.firstChild);
 
-      item.innerHTML = `
-        <div class="review-item__header">
-          <div class="review-item__author-wrap">
-            <div class="review-item__avatar">${author.charAt(0).toUpperCase()}</div>
-            <div>
-              <strong class="review-item__author">${author}</strong>
-              <span class="review-item__verified">✓ Verified Buyer</span>
-            </div>
-          </div>
-          <span class="review-item__date">${dateStr}</span>
-        </div>
-        <div class="review-item__rating">${starsHtml} <span class="review-item__score-tag">${rating}.0</span></div>
-        <h4 class="review-item__title">${title}</h4>
-        <p class="review-item__body">${body}</p>
-      `;
-
-      list.insertBefore(item, list.firstChild);
       form.reset();
       formWrap.style.display = 'none';
 
