@@ -370,12 +370,12 @@
       {%- comment -%} Wishlist + Share {%- endcomment -%}
       <div class="product-info__meta-actions">
         {%- if settings.enable_wishlist -%}
-          <button class="product-info__wishlist-btn" data-wishlist-toggle="{{ product.id }}" type="button">
-            {% render 'icon-heart' %} <span>{{ 'sections.product.wishlist_add' | t }}</span>
+          <button class="product-info__wishlist-btn" data-wishlist-toggle="{{ product.id }}" type="button" aria-label="Add to Wishlist">
+            {% render 'icon-heart' %}
           </button>
         {%- endif -%}
-        <button class="product-info__share-btn" data-share-btn type="button">
-          {% render 'icon-share' %} <span>{{ 'sections.product.share' | t }}</span>
+        <button class="product-info__share-btn" data-share-btn type="button" aria-label="Share">
+          {% render 'icon-share' %}
         </button>
       </div>
 
