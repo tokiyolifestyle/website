@@ -402,7 +402,10 @@ function initStickyBar() {
   let isFooterVisible = false;
 
   function updateVisibility() {
-    if (isSentinelPassed && !isFooterVisible) {
+    // Only show if sentinel passed and footer is not visible, and not scrolled to bottom:
+    const scrollPos = window.innerHeight + window.scrollY;
+    const scrollLimit = document.documentElement.scrollHeight - 300;
+    if (isSentinelPassed && !isFooterVisible && scrollPos < scrollLimit) {
       bar.classList.add('is-visible');
     } else {
       bar.classList.remove('is-visible');
@@ -419,9 +422,14 @@ function initStickyBar() {
     const footerObs = new IntersectionObserver(entries => {
       isFooterVisible = entries[0].isIntersecting;
       updateVisibility();
-    }, { threshold: 0.05 });
+    }, { threshold: 0 });
     footerObs.observe(footer);
   }
+
+  // Backup scroll fallback (highly reliable for mobile touch drag scrolling near bottom)
+  window.addEventListener('scroll', () => {
+    updateVisibility();
+  }, { passive: true });
 }
 
 /* ---- Quantity selector ---- */
