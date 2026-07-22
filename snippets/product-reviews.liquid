@@ -60,49 +60,8 @@
       </button>
     </div>
 
-    {%- comment -%} Right: Review List & Form {%- endcomment -%}
+    {%- comment -%} Right: Review List {%- endcomment -%}
     <div class="product-reviews__content">
-      {%- comment -%} Write Review Modal Overlay & Sheet {%- endcomment -%}
-      <div class="review-modal-backdrop" id="ReviewModalBackdrop" style="display: none;"></div>
-      <div class="product-reviews__form-wrapper" id="ReviewFormWrapper" style="display: none;">
-        <form class="product-review-form" id="ProductReviewForm">
-          <div class="review-form__header">
-            <h3>Write Your Review</h3>
-            <button type="button" class="review-form__close" id="CloseReviewFormBtn" aria-label="Close modal">✕</button>
-          </div>
-
-          <div class="form-group">
-            <label>Your Overall Rating</label>
-            <div class="star-picker" id="StarPicker">
-              <span class="star-picker__star" data-value="1">★</span>
-              <span class="star-picker__star" data-value="2">★</span>
-              <span class="star-picker__star" data-value="3">★</span>
-              <span class="star-picker__star" data-value="4">★</span>
-              <span class="star-picker__star is-active" data-value="5">★</span>
-            </div>
-            <input type="hidden" name="rating" id="ReviewRatingInput" value="5">
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="ReviewAuthor">Your Name</label>
-              <input type="text" id="ReviewAuthor" name="author" placeholder="e.g. Rahul Sharma" required>
-            </div>
-            <div class="form-group">
-              <label for="ReviewTitle">Review Title</label>
-              <input type="text" id="ReviewTitle" name="title" placeholder="e.g. Perfect fit & premium fabric!" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="ReviewBody">Review Comments</label>
-            <textarea id="ReviewBody" name="body" rows="4" placeholder="Tell us about the fabric, fit, printing, and overall feel..." required></textarea>
-          </div>
-
-          <button type="submit" class="button button--solid button--full">Submit Review</button>
-        </form>
-      </div>
-
       <div class="review-submitted-alert" id="ReviewSuccessAlert" style="display: none;">
         ✓ Thank you for your review! It has been published successfully.
       </div>
@@ -203,6 +162,47 @@
     </div>
   </div>
 </section>
+
+{%- comment -%} Write Review Modal Overlay & Sheet (Rendered at root level) {%- endcomment -%}
+<div class="review-modal-backdrop" id="ReviewModalBackdrop" style="display: none;"></div>
+<div class="product-reviews__form-wrapper" id="ReviewFormWrapper" style="display: none;">
+  <form class="product-review-form" id="ProductReviewForm">
+    <div class="review-form__header">
+      <h3>Write Your Review</h3>
+      <button type="button" class="review-form__close" id="CloseReviewFormBtn" aria-label="Close modal">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>Your Overall Rating</label>
+      <div class="star-picker" id="StarPicker">
+        <span class="star-picker__star" data-value="1">★</span>
+        <span class="star-picker__star" data-value="2">★</span>
+        <span class="star-picker__star" data-value="3">★</span>
+        <span class="star-picker__star" data-value="4">★</span>
+        <span class="star-picker__star is-active" data-value="5">★</span>
+      </div>
+      <input type="hidden" name="rating" id="ReviewRatingInput" value="5">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="ReviewAuthor">Your Name</label>
+        <input type="text" id="ReviewAuthor" name="author" placeholder="e.g. Rahul Sharma" required>
+      </div>
+      <div class="form-group">
+        <label for="ReviewTitle">Review Title</label>
+        <input type="text" id="ReviewTitle" name="title" placeholder="e.g. Perfect fit & premium fabric!" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="ReviewBody">Review Comments</label>
+      <textarea id="ReviewBody" name="body" rows="4" placeholder="Tell us about the fabric, fit, printing, and overall feel..." required></textarea>
+    </div>
+
+    <button type="submit" class="button button--solid button--full">Submit Review</button>
+  </form>
+</div>
 
 <style>
   .product-reviews-section {
@@ -469,8 +469,14 @@
     const backdrop   = document.getElementById('ReviewModalBackdrop');
 
     function openModal() {
-      if (formWrap) formWrap.style.display = 'block';
+      if (backdrop && backdrop.parentElement !== document.body) {
+        document.body.appendChild(backdrop);
+      }
+      if (formWrap && formWrap.parentElement !== document.body) {
+        document.body.appendChild(formWrap);
+      }
       if (backdrop) backdrop.style.display = 'block';
+      if (formWrap) formWrap.style.display = 'block';
       document.body.style.overflow = 'hidden';
     }
 

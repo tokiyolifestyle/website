@@ -1,13 +1,21 @@
-/* ---- Layout: No white gap, flush footer ---- */
+/* ---- Layout: Strict horizontal bounds, no right-side wobble/overflow ---- */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 body {
-  display: block; /* was flex - caused white gap via margin-top:auto on footer */
+  display: block;
   min-height: 100vh;
+  position: relative;
   overflow-x: hidden;
+}
+#MainContent, main, .page-width, .product-page {
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* ---- Typography Scale ---- */
