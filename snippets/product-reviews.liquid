@@ -62,12 +62,13 @@
 
     {%- comment -%} Right: Review List & Form {%- endcomment -%}
     <div class="product-reviews__content">
-      {%- comment -%} Write Review Form Panel {%- endcomment -%}
+      {%- comment -%} Write Review Modal Overlay & Sheet {%- endcomment -%}
+      <div class="review-modal-backdrop" id="ReviewModalBackdrop" style="display: none;"></div>
       <div class="product-reviews__form-wrapper" id="ReviewFormWrapper" style="display: none;">
         <form class="product-review-form" id="ProductReviewForm">
           <div class="review-form__header">
             <h3>Write Your Review</h3>
-            <button type="button" class="review-form__close" id="CloseReviewFormBtn">✕</button>
+            <button type="button" class="review-form__close" id="CloseReviewFormBtn" aria-label="Close modal">✕</button>
           </div>
 
           <div class="form-group">
@@ -315,14 +316,61 @@
     margin-top: 0.5rem;
   }
 
-  /* Form */
+  /* Modal Overlay & Form Sheet */
+  .review-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 99998;
+  }
   .product-reviews__form-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 92%;
+    max-width: 540px;
+    max-height: 90vh;
+    overflow-y: auto;
     background: #FFFFFF;
-    border: 1px solid var(--color-accent, #ff0000);
-    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 16px;
     padding: 1.75rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    z-index: 99999;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+    margin-bottom: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  @media (max-width: 600px) {
+    .product-reviews__form-wrapper {
+      top: auto;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      transform: none;
+      width: 100%;
+      max-width: 100%;
+      border-radius: 24px 24px 0 0;
+      padding: 1.5rem 1.25rem 2rem 1.25rem;
+      max-height: 88vh;
+      box-shadow: 0 -12px 50px rgba(0,0,0,0.35);
+    }
+    .product-reviews__summary-card {
+      position: relative !important;
+      top: 0 !important;
+      margin-bottom: 1.5rem;
+    }
+    .form-group input, .form-group textarea {
+      font-size: 16px !important; /* Prevents iOS auto-zoom on input tap */
+      min-height: 48px;
+    }
+    .star-picker {
+      font-size: 2.25rem !important;
+      gap: 8px !important;
+      padding-block: 0.25rem;
+    }
   }
   .review-form__header {
     display: flex;
@@ -418,15 +466,24 @@
     const alertBox   = document.getElementById('ReviewSuccessAlert');
     const starPicker = document.getElementById('StarPicker');
     const ratingInput = document.getElementById('ReviewRatingInput');
+    const backdrop   = document.getElementById('ReviewModalBackdrop');
 
-    // Toggle Form
-    openBtn && openBtn.addEventListener('click', () => {
-      formWrap.style.display = formWrap.style.display === 'none' ? 'block' : 'none';
-      formWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-    closeBtn && closeBtn.addEventListener('click', () => {
-      formWrap.style.display = 'none';
-    });
+    function openModal() {
+      if (formWrap) formWrap.style.display = 'block';
+      if (backdrop) backdrop.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      if (formWrap) formWrap.style.display = 'none';
+      if (backdrop) backdrop.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Toggle Modal
+    openBtn && openBtn.addEventListener('click', openModal);
+    closeBtn && closeBtn.addEventListener('click', closeModal);
+    backdrop && backdrop.addEventListener('click', closeModal);
 
     // Interactive Star Picker
     if (starPicker) {
@@ -521,7 +578,7 @@
       list.insertBefore(card, list.firstChild);
 
       form.reset();
-      formWrap.style.display = 'none';
+      closeModal();
 
       if (alertBox) {
         alertBox.style.display = 'block';

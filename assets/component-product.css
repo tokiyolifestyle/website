@@ -91,7 +91,7 @@
 .sticky-atc {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: #fff; border-top: 1px solid #eee;
-  padding: 0.85rem 1.5rem; z-index: 50;
+  padding: 0.85rem 1.5rem; z-index: 80;
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   transform: translateY(100%); transition: transform 0.3s ease;
   box-shadow: 0 -6px 20px rgba(0,0,0,0.06);
@@ -103,3 +103,18 @@
 
 /* Related / recently viewed */
 .product-recs { padding-block: var(--spacing-sections, 64px); }
+
+/* Mobile Touch & Layout Optimizations */
+@media (max-width: 749px) {
+  .product-page { padding-block: 1rem 2rem; }
+  .color-swatch-list { gap: 0.8rem; }
+  .color-swatch { width: 44px; height: 44px; }
+  .color-swatch__inner { width: 34px; height: 34px; }
+  .size-button-list { gap: 0.7rem; }
+  .size-button { min-width: 54px; height: 48px; font-size: 0.9375rem; font-weight: 600; border-radius: 10px; }
+  .product-info__actions { gap: 0.75rem; margin: 1.25rem 0; }
+  .product-info__actions .button { min-height: 52px; font-size: 1rem; border-radius: 12px; }
+  .product-info__title { font-size: 1.45rem; line-height: 1.25; }
+  .sticky-atc { padding: 0.75rem 1rem; }
+  .sticky-atc .button { padding: 0.65rem 1.25rem; font-size: 0.875rem; }
+}
