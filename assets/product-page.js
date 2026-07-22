@@ -505,24 +505,36 @@ function initCartSync() {
 
   window.cartItems = [];
 
-  // Function to check and update UI based on selected variant
+  // Safe Function to check and update UI based on selected variant
   window.updateCartUI = function() {
-    // Get currently selected variant ID
     const variantIdEl = document.querySelector('input[name="id"]');
-    if (!variantIdEl) return;
-    const variantId = String(variantIdEl.value);
+    if (!inlineSelector) return;
 
-    // Find item in cart
-    const cartItem = window.cartItems.find(item => String(item.variant_id) === variantId);
+    try {
+      if (!variantIdEl || !window.cartItems || !window.cartItems.length) {
+        if (actionsWrapper) actionsWrapper.style.display = 'block';
+        if (buyNowBtn) buyNowBtn.style.display = '';
+        inlineSelector.style.display = 'none';
+        return;
+      }
 
-    if (cartItem && cartItem.quantity > 0) {
-      // Item is in cart! Hide standard actions, show inline selector
-      if (actionsWrapper) actionsWrapper.style.display = 'none';
-      if (buyNowBtn) buyNowBtn.style.display = 'none';
-      inlineSelector.style.display = 'flex';
-      countText.textContent = `${cartItem.quantity} IN CART`;
-    } else {
-      // Item is not in cart! Show standard actions
+      const variantId = String(variantIdEl.value);
+      const cartItem = window.cartItems.find(item => String(item.variant_id) === variantId);
+
+      if (cartItem && cartItem.quantity > 0) {
+        // Item is in cart! Hide standard actions, show inline selector
+        if (actionsWrapper) actionsWrapper.style.display = 'none';
+        if (buyNowBtn) buyNowBtn.style.display = 'none';
+        inlineSelector.style.display = 'flex';
+        countText.textContent = `${cartItem.quantity} IN CART`;
+      } else {
+        // Item is not in cart! Show standard actions
+        if (actionsWrapper) actionsWrapper.style.display = 'block';
+        if (buyNowBtn) buyNowBtn.style.display = '';
+        inlineSelector.style.display = 'none';
+      }
+    } catch (e) {
+      console.warn("Cart UI update error:", e);
       if (actionsWrapper) actionsWrapper.style.display = 'block';
       if (buyNowBtn) buyNowBtn.style.display = '';
       inlineSelector.style.display = 'none';
@@ -530,7 +542,7 @@ function initCartSync() {
   };
 
   // Fetch cart data from Shopify
-  function fetchCartData() {
+  function fetchCartData(callback) {
     fetch('/cart.js')
       .then(res => res.json())
       .then(cart => {
@@ -545,6 +557,11 @@ function initCartSync() {
         document.querySelectorAll('[data-cart-count]').forEach(el => {
           el.textContent = cartItemCount;
         });
+        window.updateCartUI();
+        if (typeof callback === 'function') callback();
+      })
+      .catch(err => {
+        console.error("Cart fetch error:", err);
         window.updateCartUI();
       });
   }
@@ -627,14 +644,57 @@ function initCartSync() {
   decBtn?.addEventListener('click', () => modifyCartQty(-1));
   incBtn?.addEventListener('click', () => modifyCartQty(1));
 
-  // Listen to standard product form submit (Add to Cart click)
-  // When added to cart successfully, we refresh cart data to show the quantity selector instantly
+  // Intercept standard Add to Cart submission for instantaneous AJAX and visual swap
   const productForm = document.querySelector('[data-add-to-cart-form]') || document.querySelector('form[action="/cart/add"]');
   if (productForm) {
     productForm.addEventListener('submit', (e) => {
-      // Small timeout after submit to allow Shopify cart to add the item, then refetch
-      setTimeout(fetchCartData, 1200);
-      window.showToast('Added to cart! 🛒');
+      e.preventDefault();
+      
+      const variantIdEl = productForm.querySelector('input[name="id"]');
+      if (!variantIdEl) return;
+      const variantId = variantIdEl.value;
+      const qtyEl = productForm.querySelector('[data-qty-value]') || { value: 1 };
+      const qty = parseInt(qtyEl.value, 10) || 1;
+
+      // Disable button & show spinner/loading state
+      const submitBtn = productForm.querySelector('[data-add-to-cart-btn]') || productForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn ? (submitBtn.getAttribute('data-add-text') || submitBtn.textContent) : 'Add to Cart';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Adding...';
+      }
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: qty })
+      })
+      .then(res => res.json())
+      .then(item => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
+        window.showToast('Added to cart! 🛒');
+        // Fetch cart data instantly to replace Add to Cart button with inline controls
+        fetchCartData(() => {
+          // Open cart drawer for confirmation
+          if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+            window.CartDrawer.open();
+          } else if (typeof window.openCartDrawer === 'function') {
+            window.openCartDrawer();
+          } else {
+            document.querySelector('[data-cart-drawer-toggle]')?.click();
+          }
+        });
+      })
+      .catch(err => {
+        console.error(err);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
+      });
     });
   }
 }
