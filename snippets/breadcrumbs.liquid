@@ -12,15 +12,6 @@
           <a itemprop="item" href="{{ collection.url }}"><span itemprop="name">{{ collection.title }}</span></a>
           <meta itemprop="position" content="2">
         </li>
-        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <span itemprop="name">{{ product.title }}</span>
-          <meta itemprop="position" content="3">
-        </li>
-      {%- else -%}
-        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <span itemprop="name">{{ product.title }}</span>
-          <meta itemprop="position" content="2">
-        </li>
       {%- endif -%}
 
     {%- elsif request.page_type == 'collection' -%}
