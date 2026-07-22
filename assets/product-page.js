@@ -96,7 +96,18 @@ function initVariantPicker() {
       document.querySelectorAll('[data-selected-color-name]').forEach(el => {
         el.textContent = selectedColorInput.value;
       });
-      filterGalleryByColor(selectedColorInput.value);
+      // Add smooth transition fade out
+      const mainGalleryEl = document.querySelector('.product-gallery__main');
+      if (mainGalleryEl) {
+        mainGalleryEl.style.opacity = '0.3';
+        mainGalleryEl.style.transition = 'opacity 0.2s ease';
+        setTimeout(() => {
+          filterGalleryByColor(selectedColorInput.value);
+          mainGalleryEl.style.opacity = '1';
+        }, 180);
+      } else {
+        filterGalleryByColor(selectedColorInput.value);
+      }
     } else {
       // Fallback: check option positions for color
       const checkColorInput = picker.querySelector('[data-option-name="Color"]');
