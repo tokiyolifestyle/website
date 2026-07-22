@@ -119,10 +119,11 @@
       {%- endif -%}
 
       {%- if settings.enable_image_zoom -%}
-        <div class="product-gallery__zoom-modal" data-zoom-modal aria-hidden="true">
-          <button class="product-gallery__zoom-close" aria-label="Close zoom">{% render 'icon-close' %}</button>
-          <div class="product-gallery__zoom-image" data-zoom-image>
-            {{ product.featured_media | image_url: width: 2000 | image_tag: loading: 'lazy', alt: product.title | escape }}
+        <div class="product-gallery__zoom-modal" data-zoom-modal>
+          <div class="product-gallery__zoom-backdrop" data-zoom-backdrop></div>
+          <button type="button" class="product-gallery__zoom-close" data-zoom-close aria-label="Close zoom modal">✕</button>
+          <div class="product-gallery__zoom-image" data-zoom-container>
+            <img src="" alt="{{ product.title | escape }}" data-zoom-image loading="eager">
           </div>
         </div>
       {%- endif -%}
@@ -492,14 +493,7 @@
   </div>
 {%- endif -%}
 
-{%- comment -%} Full-screen Image Lightbox Zoom Modal {%- endcomment -%}
-<div class="product-gallery__zoom-modal" data-zoom-modal>
-  <div class="product-gallery__zoom-backdrop" data-zoom-backdrop></div>
-  <button type="button" class="product-gallery__zoom-close" data-zoom-close aria-label="Close zoom modal">✕</button>
-  <div class="product-gallery__zoom-image" data-zoom-container>
-    <img src="" alt="{{ product.title | escape }}" data-zoom-image loading="eager">
-  </div>
-</div>
+
 
 <style>
   .product-page__grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; padding-block:2.5rem; align-items:start; }
