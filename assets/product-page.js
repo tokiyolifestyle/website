@@ -446,6 +446,180 @@ function initQtySelector() {
   });
 }
 
+/* ---- Toast notification ---- */
+window.showToast = function(message) {
+  let toastContainer = document.querySelector('.toast-container');
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.className = 'toast-container';
+    document.body.appendChild(toastContainer);
+  }
+  
+  const toast = document.createElement('div');
+  toast.className = 'toast-notification';
+  toast.textContent = message;
+  
+  toastContainer.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.classList.add('is-visible');
+  }, 10);
+  
+  setTimeout(() => {
+    toast.classList.remove('is-visible');
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+  }, 2200);
+};
+
+/* ---- Flipkart / Amazon Style Cart Sync ---- */
+function initCartSync() {
+  const inlineSelector = document.querySelector('[data-cart-qty-inline]');
+  const actionsWrapper = document.querySelector('[data-cart-actions-wrapper]');
+  const buyNowBtn      = document.querySelector('.product-info__buy-now');
+  const decBtn         = document.querySelector('[data-cart-inline-dec]');
+  const incBtn         = document.querySelector('[data-cart-inline-inc]');
+  const countText      = document.querySelector('[data-cart-inline-count]');
+  
+  if (!inlineSelector) return;
+
+  window.cartItems = [];
+
+  // Function to check and update UI based on selected variant
+  window.updateCartUI = function() {
+    // Get currently selected variant ID
+    const variantIdEl = document.querySelector('input[name="id"]');
+    if (!variantIdEl) return;
+    const variantId = String(variantIdEl.value);
+
+    // Find item in cart
+    const cartItem = window.cartItems.find(item => String(item.variant_id) === variantId);
+
+    if (cartItem && cartItem.quantity > 0) {
+      // Item is in cart! Hide standard actions, show inline selector
+      if (actionsWrapper) actionsWrapper.style.display = 'none';
+      if (buyNowBtn) buyNowBtn.style.display = 'none';
+      inlineSelector.style.display = 'flex';
+      countText.textContent = `${cartItem.quantity} IN CART`;
+    } else {
+      // Item is not in cart! Show standard actions
+      if (actionsWrapper) actionsWrapper.style.display = 'block';
+      if (buyNowBtn) buyNowBtn.style.display = '';
+      inlineSelector.style.display = 'none';
+    }
+  };
+
+  // Fetch cart data from Shopify
+  function fetchCartData() {
+    fetch('/cart.js')
+      .then(res => res.json())
+      .then(cart => {
+        window.cartItems = cart.items || [];
+        // Update header count bubble
+        let cartItemCount = 0;
+        window.cartItems.forEach(item => {
+          if (item.variant_id !== 48862017716468) { // ignore cod fee variant
+            cartItemCount += item.quantity;
+          }
+        });
+        document.querySelectorAll('[data-cart-count]').forEach(el => {
+          el.textContent = cartItemCount;
+        });
+        window.updateCartUI();
+      });
+  }
+
+  // Load cart data initially
+  fetchCartData();
+
+  // Listen to variant changes
+  const picker = document.querySelector('[data-variant-picker]');
+  if (picker) {
+    picker.addEventListener('change', () => {
+      // Small timeout to allow variant ID value to update in form
+      setTimeout(window.updateCartUI, 50);
+    });
+  }
+
+  // Handle quantity modification AJAX
+  function modifyCartQty(changeAmount) {
+    const variantIdEl = document.querySelector('input[name="id"]');
+    if (!variantIdEl) return;
+    const variantId = String(variantIdEl.value);
+    const cartItem = window.cartItems.find(item => String(item.variant_id) === variantId);
+    if (!cartItem) return;
+
+    const newQty = Math.max(0, cartItem.quantity + changeAmount);
+    
+    // Show loading state
+    countText.textContent = 'Updating...';
+
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: variantId,
+        quantity: newQty
+      })
+    })
+    .then(res => res.json())
+    .then(cart => {
+      // Show success toast
+      if (changeAmount > 0) {
+        window.showToast('Cart updated! 🛒');
+      } else if (newQty === 0) {
+        window.showToast('Removed from cart 🛒');
+      } else {
+        window.showToast('Cart updated! 🛒');
+      }
+      
+      // Update global cart state
+      window.cartItems = cart.items || [];
+      
+      // Update header count bubble
+      let cartItemCount = 0;
+      window.cartItems.forEach(item => {
+        if (item.variant_id !== 48862017716468) {
+          cartItemCount += item.quantity;
+        }
+      });
+      document.querySelectorAll('[data-cart-count]').forEach(el => {
+        el.textContent = cartItemCount;
+      });
+
+      // If cart drawer has a refresh function, call it to keep it synced
+      if (window.CartDrawer && typeof window.CartDrawer.refresh === 'function') {
+        window.CartDrawer.refresh();
+      } else if (typeof window.refreshCartDrawer === 'function') {
+        window.refreshCartDrawer();
+      }
+
+      window.updateCartUI();
+    })
+    .catch(err => {
+      console.error(err);
+      window.updateCartUI();
+    });
+  }
+
+  decBtn?.addEventListener('click', () => modifyCartQty(-1));
+  incBtn?.addEventListener('click', () => modifyCartQty(1));
+
+  // Listen to standard product form submit (Add to Cart click)
+  // When added to cart successfully, we refresh cart data to show the quantity selector instantly
+  const productForm = document.querySelector('[data-add-to-cart-form]') || document.querySelector('form[action="/cart/add"]');
+  if (productForm) {
+    productForm.addEventListener('submit', (e) => {
+      // Small timeout after submit to allow Shopify cart to add the item, then refetch
+      setTimeout(fetchCartData, 1200);
+      window.showToast('Added to cart! 🛒');
+    });
+  }
+}
+
 /* ---- Format money ---- */
 function formatMoney(cents) {
   return '₹' + (cents / 100).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -457,4 +631,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initDeliveryChecker();
   initStickyBar();
   initQtySelector();
+  initCartSync();
 });

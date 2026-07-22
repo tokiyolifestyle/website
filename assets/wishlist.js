@@ -32,6 +32,9 @@ function initWishlist() {
     btn.classList.toggle('is-active', added);
     btn.setAttribute('aria-label', added ? 'Remove from Wishlist' : 'Add to Wishlist');
     updateBadges();
+    if (typeof window.showToast === 'function') {
+      window.showToast(added ? 'Added to wishlist ❤️' : 'Removed from wishlist');
+    }
   });
 
   /* Mark already-wishlisted buttons on load */
