@@ -90,8 +90,35 @@ function initVariantPicker() {
       }
     }
 
-    if (variant.options && variant.options[0]) {
-      filterGalleryByColor(variant.options[0]);
+    // Update the color name text under the label:
+    const selectedColorInput = picker.querySelector('input[data-option-name="Color"]:checked, input[name="Color"]:checked');
+    if (selectedColorInput) {
+      document.querySelectorAll('[data-selected-color-name]').forEach(el => {
+        el.textContent = selectedColorInput.value;
+      });
+    }
+
+    // Scroll to the variant's featured media image if it exists:
+    if (variant.featured_media && variant.featured_media.id) {
+      const targetThumb = document.querySelector(`[data-gallery-thumbs] [data-media-id="${variant.featured_media.id}"]`);
+      if (targetThumb) {
+        targetThumb.click();
+      }
+    } else if (variant.featured_image && variant.featured_image.id) {
+      const targetThumb = document.querySelector(`[data-gallery-thumbs] [data-media-id="${variant.featured_image.id}"]`);
+      if (targetThumb) {
+        targetThumb.click();
+      }
+    } else if (variant.options && variant.options[0]) {
+      // Fallback: filter by first option if it is color option
+      const checkColorInput = picker.querySelector('[data-option-name="Color"]');
+      if (checkColorInput) {
+        const pos = parseInt(checkColorInput.getAttribute('data-option-position') || '1', 10) - 1;
+        const colorVal = variant.options[pos];
+        if (colorVal) {
+          filterGalleryByColor(colorVal);
+        }
+      }
     }
 
     /* Update URL without reload */
