@@ -274,9 +274,6 @@ function initGallery() {
   }
 
   // Zoom Modal integration
-  const zoomModal = document.querySelector('[data-zoom-modal]');
-  const mainGallery = document.querySelector('[data-product-gallery]');
-
   if (zoomModal) {
     const zoomImg = zoomModal.querySelector('[data-zoom-image]');
 
@@ -294,8 +291,8 @@ function initGallery() {
       if (typeof startAutoSlide === 'function') startAutoSlide();
     }
 
-    if (mainGallery) {
-      mainGallery.addEventListener('click', e => {
+    if (gallery) {
+      gallery.addEventListener('click', e => {
         const zoomToggle = e.target.closest('[data-zoom-toggle]');
         const mainImg = e.target.closest('.product-gallery__main-image');
         if (zoomToggle || mainImg) {
