@@ -396,16 +396,27 @@ function initStickyBar() {
   const bar       = document.querySelector('[data-sticky-atc]');
   const sentinel  = document.querySelector('[data-sticky-sentinel]');
   const footer    = document.querySelector('footer, .site-footer, #shopify-section-footer, .footer');
+  const newsletter = document.querySelector('.site-footer__newsletter, .newsletter-form, .section-newsletter');
   if (!bar || !sentinel) return;
 
   let isSentinelPassed = false;
   let isFooterVisible = false;
+  let isNewsletterVisible = false;
 
   function updateVisibility() {
-    // Only show if sentinel passed and footer is not visible, and not scrolled to bottom:
-    const scrollPos = window.innerHeight + window.scrollY;
-    const scrollLimit = document.documentElement.scrollHeight - 300;
-    if (isSentinelPassed && !isFooterVisible && scrollPos < scrollLimit) {
+    const scrollPos = window.innerHeight + (window.pageYOffset || window.scrollY);
+    const totalHeight = Math.max(
+      document.body.scrollHeight, 
+      document.body.offsetHeight, 
+      document.documentElement.clientHeight, 
+      document.documentElement.scrollHeight, 
+      document.documentElement.offsetHeight
+    );
+    const scrollLimit = totalHeight - 650; // Hide 650px before absolute bottom
+    
+    const shouldHide = isFooterVisible || isNewsletterVisible || (scrollPos >= scrollLimit);
+
+    if (isSentinelPassed && !shouldHide) {
       bar.classList.add('is-visible');
     } else {
       bar.classList.remove('is-visible');
@@ -424,6 +435,14 @@ function initStickyBar() {
       updateVisibility();
     }, { threshold: 0 });
     footerObs.observe(footer);
+  }
+
+  if (newsletter) {
+    const newsletterObs = new IntersectionObserver(entries => {
+      isNewsletterVisible = entries[0].isIntersecting;
+      updateVisibility();
+    }, { threshold: 0 });
+    newsletterObs.observe(newsletter);
   }
 
   // Backup scroll fallback (highly reliable for mobile touch drag scrolling near bottom)
