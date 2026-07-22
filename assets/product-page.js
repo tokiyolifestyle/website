@@ -395,28 +395,14 @@ function initDeliveryChecker() {
 function initStickyBar() {
   const bar       = document.querySelector('[data-sticky-atc]');
   const sentinel  = document.querySelector('[data-sticky-sentinel]');
-  const footer    = document.querySelector('footer, .site-footer, #shopify-section-footer, .footer');
-  const newsletter = document.querySelector('.site-footer__newsletter, .newsletter-form, .section-newsletter');
+  const hideTrigger = document.querySelector('.related-products, #ProductReviews, .product-reviews-section, footer, .site-footer');
   if (!bar || !sentinel) return;
 
   let isSentinelPassed = false;
-  let isFooterVisible = false;
-  let isNewsletterVisible = false;
+  let isHideTriggerVisible = false;
 
   function updateVisibility() {
-    const scrollPos = window.innerHeight + (window.pageYOffset || window.scrollY);
-    const totalHeight = Math.max(
-      document.body.scrollHeight, 
-      document.body.offsetHeight, 
-      document.documentElement.clientHeight, 
-      document.documentElement.scrollHeight, 
-      document.documentElement.offsetHeight
-    );
-    const scrollLimit = totalHeight - 650; // Hide 650px before absolute bottom
-    
-    const shouldHide = isFooterVisible || isNewsletterVisible || (scrollPos >= scrollLimit);
-
-    if (isSentinelPassed && !shouldHide) {
+    if (isSentinelPassed && !isHideTriggerVisible) {
       bar.classList.add('is-visible');
     } else {
       bar.classList.remove('is-visible');
@@ -429,23 +415,15 @@ function initStickyBar() {
   }, { threshold: 0 });
   sentinelObs.observe(sentinel);
 
-  if (footer) {
-    const footerObs = new IntersectionObserver(entries => {
-      isFooterVisible = entries[0].isIntersecting;
+  if (hideTrigger) {
+    const hideObs = new IntersectionObserver(entries => {
+      isHideTriggerVisible = entries[0].isIntersecting;
       updateVisibility();
     }, { threshold: 0 });
-    footerObs.observe(footer);
+    hideObs.observe(hideTrigger);
   }
 
-  if (newsletter) {
-    const newsletterObs = new IntersectionObserver(entries => {
-      isNewsletterVisible = entries[0].isIntersecting;
-      updateVisibility();
-    }, { threshold: 0 });
-    newsletterObs.observe(newsletter);
-  }
-
-  // Backup scroll fallback (highly reliable for mobile touch drag scrolling near bottom)
+  // Backup scroll fallback (highly reliable for mobile touch drag scrolling)
   window.addEventListener('scroll', () => {
     updateVisibility();
   }, { passive: true });
