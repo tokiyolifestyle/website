@@ -383,11 +383,33 @@ function initDeliveryChecker() {
 function initStickyBar() {
   const bar       = document.querySelector('[data-sticky-atc]');
   const sentinel  = document.querySelector('[data-sticky-sentinel]');
+  const footer    = document.querySelector('footer, .site-footer, #shopify-section-footer, .footer');
   if (!bar || !sentinel) return;
-  const obs = new IntersectionObserver(entries => {
-    bar.classList.toggle('is-visible', !entries[0].isIntersecting);
+
+  let isSentinelPassed = false;
+  let isFooterVisible = false;
+
+  function updateVisibility() {
+    if (isSentinelPassed && !isFooterVisible) {
+      bar.classList.add('is-visible');
+    } else {
+      bar.classList.remove('is-visible');
+    }
+  }
+
+  const sentinelObs = new IntersectionObserver(entries => {
+    isSentinelPassed = !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0;
+    updateVisibility();
   }, { threshold: 0 });
-  obs.observe(sentinel);
+  sentinelObs.observe(sentinel);
+
+  if (footer) {
+    const footerObs = new IntersectionObserver(entries => {
+      isFooterVisible = entries[0].isIntersecting;
+      updateVisibility();
+    }, { threshold: 0.05 });
+    footerObs.observe(footer);
+  }
 }
 
 /* ---- Quantity selector ---- */
