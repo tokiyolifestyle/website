@@ -341,31 +341,40 @@
       {%- form 'product', product, id: product_form_id, data-add-to-cart-form: '' -%}
         <input type="hidden" name="id" value="{{ current_variant.id }}">
 
-        <div class="product-info__actions">
-          <div class="product-info__qty" data-qty-selector>
-            <button type="button" data-qty-dec aria-label="Decrease quantity">{% render 'icon-minus' %}</button>
-            <input type="number" name="quantity" id="Qty" data-qty-value value="1" min="1" aria-label="Quantity">
-            <button type="button" data-qty-inc aria-label="Increase quantity">{% render 'icon-plus' %}</button>
+        <div data-cart-actions-wrapper>
+          <div class="product-info__actions">
+            <div class="product-info__qty" data-qty-selector>
+              <button type="button" data-qty-dec aria-label="Decrease quantity">{% render 'icon-minus' %}</button>
+              <input type="number" name="quantity" id="Qty" data-qty-value value="1" min="1" aria-label="Quantity">
+              <button type="button" data-qty-inc aria-label="Increase quantity">{% render 'icon-plus' %}</button>
+            </div>
+
+            <button
+              type="submit"
+              class="button button--solid button--full"
+              data-add-to-cart-btn
+              data-add-text="{{ 'sections.product.add_to_cart' | t }}"
+              {% unless current_variant.available %}disabled{% endunless %}>
+              {%- if current_variant.available -%}
+                {{ 'sections.product.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'sections.product.sold_out' | t }}
+              {%- endif -%}
+            </button>
           </div>
 
-          <button
-            type="submit"
-            class="button button--solid button--full"
-            data-add-to-cart-btn
-            data-add-text="{{ 'sections.product.add_to_cart' | t }}"
-            {% unless current_variant.available %}disabled{% endunless %}>
-            {%- if current_variant.available -%}
-              {{ 'sections.product.add_to_cart' | t }}
-            {%- else -%}
-              {{ 'sections.product.sold_out' | t }}
-            {%- endif -%}
+          <button type="submit" name="checkout" class="button button--outline button--full product-info__buy-now" {% unless current_variant.available %}disabled style="display:none;"{% endunless %}>
+            {{ 'sections.product.buy_now' | t }}
           </button>
         </div>
-
-        <button type="submit" name="checkout" class="button button--outline button--full product-info__buy-now" {% unless current_variant.available %}disabled style="display:none;"{% endunless %}>
-          {{ 'sections.product.buy_now' | t }}
-        </button>
       {%- endform -%}
+
+      {%- comment -%} Flipkart/Amazon style Inline Cart Quantity Selector {%- endcomment -%}
+      <div class="product-info__cart-qty-inline" data-cart-qty-inline style="display: none;">
+        <button type="button" class="cart-qty-btn cart-qty-btn--dec" data-cart-inline-dec>-</button>
+        <span class="cart-qty-text" data-cart-inline-count>1 IN CART</span>
+        <button type="button" class="cart-qty-btn cart-qty-btn--inc" data-cart-inline-inc>+</button>
+      </div>
 
       {%- comment -%} Wishlist + Share {%- endcomment -%}
       <div class="product-info__meta-actions">
@@ -628,6 +637,84 @@
   .product-info__qty button:hover { background:#F2F2F7; }
   .product-info__qty input { width:36px; text-align:center; border:none; font-size:0.95rem; font-weight:700; height:40px; background:transparent; color:#1C1C1E; }
   .product-info__buy-now { margin-bottom:0.75rem; }
+
+  /* Inline Cart Quantity Selector (Flipkart/Amazon style) */
+  .product-info__cart-qty-inline {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    height: 40px !important;
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    margin: 1rem 0 0.75rem !important;
+    box-sizing: border-box !important;
+  }
+  .cart-qty-btn {
+    width: 54px !important;
+    height: 40px !important;
+    background: transparent !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: background 0.2s !important;
+  }
+  .cart-qty-btn:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+  }
+  .cart-qty-text {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 0.8rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  /* Toast Notification */
+  .toast-container {
+    position: fixed !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    pointer-events: none !important;
+    align-items: center !important;
+    width: max-content !important;
+    max-width: 90vw !important;
+  }
+  .toast-notification {
+    background: rgba(17, 17, 17, 0.95) !important;
+    color: #ffffff !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 50px !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2) !important;
+    opacity: 0 !important;
+    transform: translateY(15px) !important;
+    transition: opacity 0.25s ease, transform 0.25s ease !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    pointer-events: auto !important;
+    text-align: center !important;
+  }
+  .toast-notification.is-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
   .product-info__meta-actions {
     display: flex !important;
     gap: 0.6rem !important;
