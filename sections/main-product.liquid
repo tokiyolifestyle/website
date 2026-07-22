@@ -18,14 +18,28 @@
           {%- if product.images.size > 0 -%}
             {%- for image in product.images -%}
               {%- assign img_color = '' -%}
-              {%- for color_val in product.options_by_name['Color'].values -%}
-                {%- assign downcase_alt = image.alt | downcase -%}
-                {%- assign downcase_color = color_val | downcase -%}
-                {%- if downcase_alt contains downcase_color -%}
-                  {%- assign img_color = color_val -%}
-                  {%- break -%}
+              {%- for variant in product.variants -%}
+                {%- if variant.featured_image and variant.featured_image.src contains image.src -%}
+                  {%- for option in product.options_with_values -%}
+                    {%- if option.name == 'Color' -%}
+                      {%- assign opt_idx = 'option' | append: option.position -%}
+                      {%- assign img_color = variant[opt_idx] -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
                 {%- endif -%}
+                {%- if img_color != blank -%}{%- break -%}{%- endif -%}
               {%- endfor -%}
+              {%- if img_color == blank -%}
+                {%- for color_val in product.options_by_name['Color'].values -%}
+                  {%- assign downcase_alt = image.alt | downcase -%}
+                  {%- assign downcase_color = color_val | downcase -%}
+                  {%- if downcase_alt contains downcase_color -%}
+                    {%- assign img_color = color_val -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
               <div class="product-gallery__slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide="{{ forloop.index0 }}" data-color="{{ img_color | escape }}" data-media-id="{{ image.id }}">
                 <div class="product-gallery__main-image" data-gallery-main-image>
                   {%- if image.aspect_ratio > 1.0 -%}
@@ -65,15 +79,29 @@
       {%- if product.images.size > 1 -%}
         <div class="product-gallery__thumbs" data-gallery-thumbs>
           {%- for image in product.images -%}
-            {%- assign img_color = '' -%}
-            {%- for color_val in product.options_by_name['Color'].values -%}
-              {%- assign downcase_alt = image.alt | downcase -%}
-              {%- assign downcase_color = color_val | downcase -%}
-              {%- if downcase_alt contains downcase_color -%}
-                {%- assign img_color = color_val -%}
-                {%- break -%}
-              {%- endif -%}
-            {%- endfor -%}
+             {%- assign img_color = '' -%}
+             {%- for variant in product.variants -%}
+               {%- if variant.featured_image and variant.featured_image.src contains image.src -%}
+                 {%- for option in product.options_with_values -%}
+                   {%- if option.name == 'Color' -%}
+                     {%- assign opt_idx = 'option' | append: option.position -%}
+                     {%- assign img_color = variant[opt_idx] -%}
+                     {%- break -%}
+                   {%- endif -%}
+                 {%- endfor -%}
+               {%- endif -%}
+               {%- if img_color != blank -%}{%- break -%}{%- endif -%}
+             {%- endfor -%}
+             {%- if img_color == blank -%}
+               {%- for color_val in product.options_by_name['Color'].values -%}
+                 {%- assign downcase_alt = image.alt | downcase -%}
+                 {%- assign downcase_color = color_val | downcase -%}
+                 {%- if downcase_alt contains downcase_color -%}
+                   {%- assign img_color = color_val -%}
+                   {%- break -%}
+                 {%- endif -%}
+               {%- endfor -%}
+             {%- endif -%}
             <button
               class="product-gallery__thumb{% if forloop.first %} is-active{% endif %}"
               data-thumb="{{ image | image_url: width: 1000 }}"
@@ -480,27 +508,51 @@
     .product-option__buttons {
       display: flex !important;
       flex-wrap: nowrap !important;
-      overflow-x: auto !important;
-      -webkit-overflow-scrolling: touch !important;
-      gap: 0.6rem !important;
-      padding-bottom: 0.5rem !important;
-      scrollbar-width: none !important;
+      gap: 0.4rem !important;
+      width: 100% !important;
+      padding-bottom: 0 !important;
     }
     .product-option__buttons::-webkit-scrollbar {
       display: none !important;
     }
     .option-btn-label.size-button {
-      flex: 0 0 auto !important;
+      flex: 1 1 0% !important;
+      min-width: 0 !important;
+      margin: 0 !important;
     }
     .option-btn {
-      min-width: 52px !important;
-      height: 46px !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      height: 38px !important;
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
-      padding: 0 0.85rem !important;
+      padding: 0 !important;
+      font-size: 0.8rem !important;
+      font-weight: 700 !important;
+      border-radius: 6px !important;
+    }
+    .product-info__actions {
+      margin: 1rem 0 !important;
+      gap: 0.5rem !important;
+    }
+    .product-info__actions .button {
+      min-height: 44px !important;
+      height: 44px !important;
       font-size: 0.9rem !important;
       border-radius: 8px !important;
+    }
+    .product-info__qty {
+      height: 44px !important;
+    }
+    .product-info__qty button {
+      width: 36px !important;
+      height: 44px !important;
+    }
+    .product-info__qty input {
+      width: 36px !important;
+      height: 44px !important;
+      font-size: 0.9rem !important;
     }
   }
 

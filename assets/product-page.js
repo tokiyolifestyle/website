@@ -90,12 +90,23 @@ function initVariantPicker() {
       }
     }
 
-    // Update the color name text under the label:
+    // Update the color name text under the label and filter the gallery:
     const selectedColorInput = picker.querySelector('input[data-option-name="Color"]:checked, input[name="Color"]:checked');
     if (selectedColorInput) {
       document.querySelectorAll('[data-selected-color-name]').forEach(el => {
         el.textContent = selectedColorInput.value;
       });
+      filterGalleryByColor(selectedColorInput.value);
+    } else {
+      // Fallback: check option positions for color
+      const checkColorInput = picker.querySelector('[data-option-name="Color"]');
+      if (checkColorInput) {
+        const pos = parseInt(checkColorInput.getAttribute('data-option-position') || '1', 10) - 1;
+        const colorVal = variant.options[pos];
+        if (colorVal) {
+          filterGalleryByColor(colorVal);
+        }
+      }
     }
 
     // Scroll to the variant's featured media image if it exists:
@@ -108,16 +119,6 @@ function initVariantPicker() {
       const targetThumb = document.querySelector(`[data-gallery-thumbs] [data-media-id="${variant.featured_image.id}"]`);
       if (targetThumb) {
         targetThumb.click();
-      }
-    } else if (variant.options && variant.options[0]) {
-      // Fallback: filter by first option if it is color option
-      const checkColorInput = picker.querySelector('[data-option-name="Color"]');
-      if (checkColorInput) {
-        const pos = parseInt(checkColorInput.getAttribute('data-option-position') || '1', 10) - 1;
-        const colorVal = variant.options[pos];
-        if (colorVal) {
-          filterGalleryByColor(colorVal);
-        }
       }
     }
 
