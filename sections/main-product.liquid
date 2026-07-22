@@ -151,7 +151,7 @@
 
       {%- comment -%} Variant Picker {%- endcomment -%}
       <div class="product-variants" data-variant-picker>
-        <script data-variant-json type="application/json">{{ product.variants | json }}</script>
+        <script data-variant-json data-product-variants type="application/json">{{ product.variants | json }}</script>
 
         {%- comment -%} Sibling Color Swatches (Option A) {%- endcomment -%}
         {%- assign current_sku = '' -%}
@@ -267,6 +267,8 @@
                       name="{{ option.name }}"
                       value="{{ value }}"
                       data-option-name="{{ option.name }}"
+                      data-option-position="{{ option.position }}"
+                      data-option-input
                       class="visually-hidden"
                       {% if option.selected_value == value %}checked{% endif %}>
                     <span class="swatch swatch--lg" style="background-color:{{ hex_color }};"></span>
@@ -283,6 +285,8 @@
                       name="{{ option.name }}"
                       value="{{ value }}"
                       data-option-name="{{ option.name }}"
+                      data-option-position="{{ option.position }}"
+                      data-option-input
                       class="visually-hidden"
                       {% if option.selected_value == value %}checked{% endif %}>
                     <span class="option-btn">{{ value }}</span>

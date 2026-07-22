@@ -17,34 +17,34 @@ function initVariantPicker() {
     const selected = {};
     picker.querySelectorAll('[data-option-name]').forEach(input => {
       if (input.checked || input.tagName === 'SELECT') {
-        selected[input.dataset.optionName] = input.value;
+        const pos = parseInt(input.getAttribute('data-option-position') || '1', 10) - 1;
+        selected[pos] = input.value;
       }
     });
     return variantData.find(v =>
       v.options.every((opt, i) => {
-        const key = Object.keys(selected)[i];
-        return selected[key] === opt;
+        return selected[i] === opt;
       })
-    ) || variantData.find(v => v.options.every((opt, i) => selected[Object.keys(selected)[i]] === opt));
+    );
   }
 
   function updateAvailability() {
     const selected = {};
     picker.querySelectorAll('[data-option-name]').forEach(input => {
       if (input.checked || input.tagName === 'SELECT') {
-        selected[input.dataset.optionName] = input.value;
+        const pos = parseInt(input.getAttribute('data-option-position') || '1', 10) - 1;
+        selected[pos] = input.value;
       }
     });
 
     const optionInputs = picker.querySelectorAll('[data-option-name]');
     optionInputs.forEach(input => {
-      const optionName = input.dataset.optionName;
-      const testSelected = Object.assign({}, selected, { [optionName]: input.value });
+      const pos = parseInt(input.getAttribute('data-option-position') || '1', 10) - 1;
+      const testSelected = Object.assign({}, selected, { [pos]: input.value });
       
       const match = variantData.find(v =>
         v.options.every((opt, i) => {
-          const key = Object.keys(testSelected)[i];
-          return testSelected[key] === opt;
+          return testSelected[i] === opt;
         })
       );
       
