@@ -629,40 +629,34 @@
   .product-info__qty input { width:36px; text-align:center; border:none; font-size:0.95rem; font-weight:700; height:40px; background:transparent; color:#1C1C1E; }
   .product-info__buy-now { margin-bottom:0.75rem; }
   .product-info__meta-actions {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
+    display: flex !important;
     gap: 0.6rem !important;
     margin-block: 0.75rem 1rem !important;
+    justify-content: flex-start !important;
   }
   .product-info__wishlist-btn, .product-info__share-btn { 
     display: inline-flex !important; 
     align-items: center !important; 
     justify-content: center !important; 
-    gap: 0.4rem !important; 
-    font-size: 0.75rem !important; 
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
     color: #1C1C1E !important; 
     background: #F2F2F7 !important; 
     border: 1px solid #E5E5EA !important; 
-    padding: 0.55rem 0.75rem !important; 
+    padding: 0 !important;
     margin: 0 !important; 
     cursor: pointer !important; 
-    font-weight: 700 !important; 
-    text-transform: uppercase !important; 
-    letter-spacing: 0.05em !important;
     transition: all 0.2s ease !important;
     box-shadow: none !important;
-    border-radius: 6px !important;
-    min-width: auto !important;
+    min-width: 38px !important;
     min-height: 38px !important;
-    line-height: 1.2;
     outline: none !important;
   }
   .product-info__wishlist-btn:hover, .product-info__share-btn:hover { background:#E5E5EA !important; color:#000000 !important; }
-  .product-info__wishlist-btn svg, .product-info__share-btn svg { width:14px !important; height:14px !important; stroke:currentColor !important; fill:none !important; }
+  .product-info__wishlist-btn svg, .product-info__share-btn svg { width:15px !important; height:15px !important; stroke:currentColor !important; fill:none !important; }
   .product-info__wishlist-btn.is-active { background:#FFE5E5 !important; border-color:#FFA3A3 !important; color:#DC2626 !important; }
   .product-info__wishlist-btn.is-active svg { fill:#DC2626 !important; stroke:#DC2626 !important; }
-  .product-info__wishlist-btn:hover, .product-info__share-btn:hover { color: var(--color-primary, #111111); }
-  .product-info__wishlist-btn.is-active { color: var(--color-error, #D72638); }
 
   /* Trust badges */
   .product-trust-badges { display:flex; gap:1rem; flex-wrap:wrap; padding:1rem 0; border-top:1px solid #f0f0f0; border-bottom:1px solid #f0f0f0; margin-bottom:1.25rem; }
