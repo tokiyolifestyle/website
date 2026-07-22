@@ -209,10 +209,8 @@
 
   /* ---------------- Sticky Add To Cart ---------------- */
   function initStickyAddToCart() {
-    var stickyBar = document.querySelector('[data-sticky-atc]');
-    var triggerEl = document.querySelector('[data-add-to-cart-form]') || document.querySelector('[data-product-form]');
-    var footerEl  = document.querySelector('footer, .site-footer');
-    if (!stickyBar || !triggerEl || !('IntersectionObserver' in window)) return;
+    // Disabled to prevent conflicts with product-page.js implementation
+    return;
 
     var isMainFormPassed = false;
     var isFooterVisible  = false;
