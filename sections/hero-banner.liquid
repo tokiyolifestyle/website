@@ -180,19 +180,11 @@
   .hero-carousel__overlay {
     position: absolute;
     inset: 0;
-    /* Base is transparent — opacity controlled by inline style from block settings */
-    background: rgba(0,0,0,1);
+    background: rgba(0,0,0,0.05) !important;
+    opacity: 0.1 !important;
   }
   .hero-carousel__gradient {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(0,0,0,0.3) 0%,
-      rgba(0,0,0,0.08) 40%,
-      transparent 100%
-    );
-    z-index: 1;
+    display: none !important;
   }
 
 
