@@ -237,6 +237,9 @@
         {%- endif -%}
 
         {%- for option in product.options_with_values -%}
+          {%- if option.name == 'Color' and sibling_handles_array.size > 1 -%}
+            {%- continue -%}
+          {%- endif -%}
           <div class="product-option">
             <div class="product-option__label">
               <span>{{ option.name }}{% if option.name == 'Color' %}: <strong data-selected-color-name style="color: var(--color-primary, #111111); margin-left: 4px;">{{ option.selected_value }}</strong>{% endif %}</span>
