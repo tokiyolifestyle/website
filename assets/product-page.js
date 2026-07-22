@@ -473,7 +473,7 @@ window.showToast = function(message) {
 /* ---- Flipkart / Amazon Style Cart Sync ---- */
 function initCartSync() {
   const inlineSelector = document.querySelector('[data-cart-qty-inline]');
-  const actionsWrapper = document.querySelector('[data-cart-actions-wrapper]');
+  const actionsBlock   = document.querySelector('.product-info__actions');
   const buyNowBtn      = document.querySelector('.product-info__buy-now');
   const decBtn         = document.querySelector('[data-cart-inline-dec]');
   const incBtn         = document.querySelector('[data-cart-inline-inc]');
@@ -490,9 +490,9 @@ function initCartSync() {
 
     try {
       if (!variantIdEl || !window.cartItems || !window.cartItems.length) {
-        if (actionsWrapper) actionsWrapper.style.display = 'block';
-        if (buyNowBtn) buyNowBtn.style.display = '';
-        inlineSelector.style.display = 'none';
+        if (actionsBlock) actionsBlock.style.setProperty('display', 'flex', 'important');
+        if (buyNowBtn) buyNowBtn.style.setProperty('display', 'block', 'important');
+        inlineSelector.style.setProperty('display', 'none', 'important');
         return;
       }
 
@@ -501,21 +501,21 @@ function initCartSync() {
 
       if (cartItem && cartItem.quantity > 0) {
         // Item is in cart! Hide standard actions, show inline selector
-        if (actionsWrapper) actionsWrapper.style.display = 'none';
-        if (buyNowBtn) buyNowBtn.style.display = 'none';
-        inlineSelector.style.display = 'flex';
+        if (actionsBlock) actionsBlock.style.setProperty('display', 'none', 'important');
+        if (buyNowBtn) buyNowBtn.style.setProperty('display', 'none', 'important');
+        inlineSelector.style.setProperty('display', 'flex', 'important');
         countText.textContent = `${cartItem.quantity} IN CART`;
       } else {
         // Item is not in cart! Show standard actions
-        if (actionsWrapper) actionsWrapper.style.display = 'block';
-        if (buyNowBtn) buyNowBtn.style.display = '';
-        inlineSelector.style.display = 'none';
+        if (actionsBlock) actionsBlock.style.setProperty('display', 'flex', 'important');
+        if (buyNowBtn) buyNowBtn.style.setProperty('display', 'block', 'important');
+        inlineSelector.style.setProperty('display', 'none', 'important');
       }
     } catch (e) {
       console.warn("Cart UI update error:", e);
-      if (actionsWrapper) actionsWrapper.style.display = 'block';
-      if (buyNowBtn) buyNowBtn.style.display = '';
-      inlineSelector.style.display = 'none';
+      if (actionsBlock) actionsBlock.style.setProperty('display', 'flex', 'important');
+      if (buyNowBtn) buyNowBtn.style.setProperty('display', 'block', 'important');
+      inlineSelector.style.setProperty('display', 'none', 'important');
     }
   };
 
