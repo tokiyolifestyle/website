@@ -200,6 +200,12 @@
       <textarea id="ReviewBody" name="body" rows="4" placeholder="Tell us about the fabric, fit, printing, and overall feel..." required></textarea>
     </div>
 
+    <div class="form-group">
+      <label for="ReviewImages">Upload Photos (Optional)</label>
+      <input type="file" id="ReviewImages" accept="image/*" multiple style="display: block; width: 100%; padding: 0.35rem 0; font-size: 0.8rem; border: none; background: transparent;">
+      <p style="font-size: 0.65rem; color: #8E8E93; margin-top: 0.15rem; font-weight: 500;">Share up to 3 photos of the product (JPEG, PNG)</p>
+    </div>
+
     <button type="submit" class="button button--solid button--full">Submit Review</button>
   </form>
 </div>
@@ -440,6 +446,24 @@
   .review-item__score-tag { background: rgba(255,0,0,0.08); color: var(--color-accent, #ff0000); font-size: 0.75rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
   .review-item__title { font-size: 1.05rem; font-weight: 700; color: #111; margin: 0 0 0.5rem 0; }
   .review-item__body { font-size: 0.9375rem; line-height: 1.6; color: #444; margin: 0; }
+  .review-item__images {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .review-item__img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: zoom-in;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: transform 0.2s;
+  }
+  .review-item__img:hover {
+    transform: scale(1.05);
+  }
 </style>
 
 <script type="module">
@@ -511,14 +535,58 @@
       });
     }
 
+    // Image compression helper to keep Firestore document size small
+    function compressImage(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const MAX_WIDTH = 600;
+            const MAX_HEIGHT = 600;
+            let width = img.width;
+            let height = img.height;
+            
+            if (width > height) {
+              if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              }
+            } else {
+              if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', 0.7)); // Compress to JPEG with 70% quality
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
     // Helper to render review card
-    function createReviewCard(author, title, body, rating, date) {
+    function createReviewCard(author, title, body, rating, date, images) {
       const item = document.createElement('div');
       item.className = 'review-item';
       item.style.borderColor = 'var(--color-accent, #ff0000)';
 
       let starsHtml = '';
       for (let i = 0; i < rating; i++) starsHtml += '★';
+
+      let imagesHtml = '';
+      if (images && images.length) {
+        imagesHtml = `<div class="review-item__images">
+          ${images.map(imgSrc => `<img src="${imgSrc}" class="review-item__img" alt="Review photo" onclick="if(window.openZoomModal)window.openZoomModal('${imgSrc}')">`).join('')}
+        </div>`;
+      }
 
       item.innerHTML = `
         <div class="review-item__header">
@@ -534,6 +602,7 @@
         <div class="review-item__rating">${starsHtml} <span class="review-item__score-tag">${rating}.0</span></div>
         <h4 class="review-item__title">${title}</h4>
         <p class="review-item__body">${body}</p>
+        ${imagesHtml}
       `;
       return item;
     }
@@ -548,7 +617,7 @@
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          const card = createReviewCard(data.author, data.title, data.body, data.rating, data.date);
+          const card = createReviewCard(data.author, data.title, data.body, data.rating, data.date, data.images);
           list.insertBefore(card, list.firstChild);
         });
       } catch (err) {
@@ -570,6 +639,12 @@
 
       const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 
+      // Handle photos compression & base64 conversion
+      const fileInput = document.getElementById('ReviewImages');
+      const files = fileInput ? fileInput.files : [];
+      const imagePromises = [...files].slice(0, 3).map(file => compressImage(file));
+      const imagesBase64 = await Promise.all(imagePromises);
+
       // Save to Firebase Firestore
       try {
         await addDoc(collection(db, "reviews"), {
@@ -578,6 +653,7 @@
           title,
           body,
           rating,
+          images: imagesBase64,
           date: dateStr,
           timestamp: Date.now()
         });
@@ -586,7 +662,7 @@
       }
 
       // Render live on UI immediately
-      const card = createReviewCard(author, title, body, rating, dateStr);
+      const card = createReviewCard(author, title, body, rating, dateStr, imagesBase64);
       list.insertBefore(card, list.firstChild);
 
       form.reset();
