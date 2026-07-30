@@ -507,7 +507,7 @@
 <style>
   .product-page__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.85fr 1.15fr;
     gap: 4rem;
     padding-block: 2.5rem;
     align-items: start;
@@ -581,6 +581,17 @@
       position: sticky !important;
       top: 110px !important;
       z-index: 5 !important;
+    }
+    .product-gallery__main {
+      max-height: 65vh !important;
+      max-width: calc(65vh * 3 / 4) !important;
+      margin-inline: auto !important;
+    }
+    .product-gallery__slide {
+      height: 65vh !important;
+    }
+    .product-gallery__main-image {
+      height: 100% !important;
     }
   }
   /* Gallery Slider Track Layout */
