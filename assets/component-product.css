@@ -159,3 +159,23 @@
   .sticky-atc { padding: 0.75rem 1rem; }
   .sticky-atc .button { padding: 0.65rem 1.25rem; font-size: 0.875rem; font-weight: 700; }
 }
+
+@media (min-width: 990px) {
+  .product-gallery {
+    position: sticky !important;
+    top: 2rem !important;
+    align-self: start !important;
+  }
+  .product-gallery__main {
+    max-height: 70vh !important;
+    aspect-ratio: 3/4 !important;
+    margin-inline: auto !important;
+  }
+  .product-gallery__main-image {
+    height: 100% !important;
+  }
+  .product-gallery__main-image img {
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}

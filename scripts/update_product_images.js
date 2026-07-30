@@ -80,6 +80,46 @@ async function shopifyQuery(query, variables = {}) {
   return json.data;
 }
 
+async function getPrimaryLocationId() {
+  const query = `
+    query GetLocations {
+      locations(first: 10) {
+        edges {
+          node {
+            id
+            name
+            isActive
+          }
+        }
+      }
+    }
+  `;
+  const data = await shopifyQuery(query);
+  const locations = data.locations.edges.map(e => e.node);
+  const activeLocation = locations.find(l => l.isActive) || locations[0];
+  if (!activeLocation) {
+    throw new Error("No active Shopify location found to track inventory!");
+  }
+  return activeLocation.id;
+}
+
+async function getPublications() {
+  const query = `
+    query {
+      publications(first: 10) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+    }
+  `;
+  const data = await shopifyQuery(query);
+  return data.publications.edges.map(e => e.node);
+}
+
 function parseCSVRow(text) {
   const result = [];
   let field = "";
@@ -203,6 +243,280 @@ async function findProductOnShopify(designCode) {
   return exactMatch ? exactMatch.node : null;
 }
 
+function getWomensOversizedPrices(designCode, size) {
+  const womensOversized = {
+    TOTWO008: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO009: { sml: 699, xlxxl: 749, mrp: 1299 },
+    TOTWO010: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO011: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO012: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO013: { sml: 649, xlxxl: 699, mrp: 1099 },
+    TOTWO014: { sml: 599, xlxxl: 649, mrp: 599 },
+    TOTWO015: { sml: 649, xlxxl: 699, mrp: 1099 }
+  };
+  const norm = designCode.toUpperCase().replace('TOVWO', 'TOTWO');
+  const pricing = womensOversized[norm] || { sml: 649, xlxxl: 699, mrp: 1099 };
+  const sizeUpper = size.toUpperCase().trim();
+  const isSML = sizeUpper === 'XS' || sizeUpper === 'S' || sizeUpper === 'M' || sizeUpper === 'L';
+  return {
+    price: (isSML ? pricing.sml : pricing.xlxxl).toFixed(2),
+    compareAtPrice: pricing.mrp.toFixed(2)
+  };
+}
+
+// Function to create a product from scratch on Shopify
+async function createNewProduct(productData, locationId, publications) {
+  const { designCode, colors } = productData;
+  console.log(`\n==================================================`);
+  console.log(`Creating New Product for Design Code: ${designCode}`);
+
+  const title = `Tokiyo Lifestyle Women Oversized T-Shirt - ${designCode}`;
+  const handle = `tokiyo-lifestyle-women-oversized-t-shirt-${designCode.toLowerCase()}`;
+  const firstColor = Object.keys(colors)[0] || 'Beige';
+  const description = `<p>Step up your everyday fit with the Tokiyo Lifestyle Women Oversized T-Shirt. Made from premium 240 GSM cotton fabric, it's soft, breathable, and built for all-day comfort. The relaxed oversized silhouette gives you an easy, streetwear-ready look that pairs effortlessly with joggers, cargos, or denim. A wardrobe staple for anyone who wants comfort without compromising on style.</p>`;
+  
+  const productInput = {
+    title: title,
+    handle: handle,
+    descriptionHtml: description,
+    vendor: "TOKIYO LIFESTYLE",
+    productType: "Oversized T-Shirt",
+    status: "ACTIVE",
+    tags: ["women", "oversized", "t-shirt", "Premium", "Cotton", "240 GSM", "Streetwear", "Casual Wear", "Tokiyo Lifestyle", "minimal"]
+  };
+
+  if (dryRun) {
+    console.log(`[DRY RUN] Would create product "${title}" with handle "${handle}"`);
+    console.log(`[DRY RUN] Colors:`, Object.keys(colors));
+    console.log(`[DRY RUN] Variants (XS-XXL) would be bulk created.`);
+    return;
+  }
+
+  // 1. Create product container
+  const productCreateMutation = `
+    mutation CreateProduct($input: ProductCreateInput!) {
+      productCreate(product: $input) {
+        product {
+          id
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+  
+  let productId;
+  try {
+    const prodResult = await shopifyQuery(productCreateMutation, { input: productInput });
+    const prodErrors = prodResult.productCreate.userErrors || [];
+    if (prodErrors.length > 0) {
+      console.error(`- Error creating product:`, prodErrors);
+      return;
+    }
+    productId = prodResult.productCreate.product.id;
+    console.log(`- Product container created successfully. ID: ${productId}`);
+  } catch (err) {
+    console.error(`- Failed to create base product:`, err.message);
+    return;
+  }
+
+  // 2. Link options
+  const optionsCreateMutation = `
+    mutation CreateProductOptions($productId: ID!, $options: [OptionCreateInput!]!) {
+      productOptionsCreate(productId: $productId, options: $options) {
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const uniqueColors = Object.keys(colors);
+  const uniqueSizes = ["XS", "S", "M", "L", "XL", "XXL"];
+
+  const optionsInput = [
+    { name: "Color", values: uniqueColors.map(c => ({ name: c })) },
+    { name: "Size", values: uniqueSizes.map(s => ({ name: s })) }
+  ];
+
+  try {
+    const optResult = await shopifyQuery(optionsCreateMutation, { productId, options: optionsInput });
+    const optErrors = optResult.productOptionsCreate?.userErrors || [];
+    if (optErrors.length > 0) {
+      console.error(`- Error creating options:`, optErrors);
+    }
+  } catch (err) {
+    console.error(`- Failed to create options:`, err.message);
+  }
+
+  // 3. Upload media (4 color photos + size chart as 5th image for each color)
+  const sizeChartUrl = 'https://drive.google.com/uc?id=1CEwBUsw3YWl_9832IzGeB5kXeOh-W-sL';
+  const mediaInput = [];
+  
+  Object.keys(colors).forEach(colorName => {
+    const colorInfo = colors[colorName];
+    colorInfo.images.forEach((url, idx) => {
+      mediaInput.push({
+        originalSource: url,
+        mediaContentType: "IMAGE",
+        alt: `${title} - ${colorName} - Image ${idx + 1}`
+      });
+    });
+    // Add Size Chart as Image 5 for this color way
+    mediaInput.push({
+      originalSource: sizeChartUrl,
+      mediaContentType: "IMAGE",
+      alt: `${title} - ${colorName} - Image 5`
+    });
+  });
+
+  const createMediaMutation = `
+    mutation productCreateMedia($productId: ID!, $media: [CreateMediaInput!]!) {
+      productCreateMedia(productId: $productId, media: $media) {
+        media {
+          id
+          alt
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  try {
+    const mediaResult = await shopifyQuery(createMediaMutation, { productId, media: mediaInput });
+    const mediaErrors = mediaResult.productCreateMedia?.userErrors || [];
+    if (mediaErrors.length > 0) {
+      console.error(`- Error creating media:`, mediaErrors);
+    }
+    console.log(`- Upload initiated for ${mediaInput.length} product images.`);
+  } catch (err) {
+    console.error(`- Failed uploading media:`, err.message);
+  }
+
+  // Wait 3 seconds for Shopify CDN
+  await new Promise(r => setTimeout(r, 3000));
+
+  // Query updated media to map IDs
+  const checkProductQuery = `
+    query checkProduct($id: ID!) {
+      product(id: $id) {
+        media(first: 100) {
+          edges {
+            node {
+              id
+              alt
+            }
+          }
+        }
+      }
+    }
+  `;
+  const checkResult = await shopifyQuery(checkProductQuery, { id: productId });
+  const updatedMediaEdges = checkResult.product?.media?.edges || [];
+  
+  const colorToMediaIdMap = {};
+  updatedMediaEdges.forEach(edge => {
+    const node = edge.node;
+    if (node.alt) {
+      Object.keys(colors).forEach(colorName => {
+        if (node.alt.toLowerCase().includes(`${colorName.toLowerCase()} - image 1`)) {
+          colorToMediaIdMap[colorName.toLowerCase()] = node.id;
+        }
+      });
+    }
+  });
+
+  // 4. Create variants and link media
+  const variantsInput = [];
+  Object.keys(colors).forEach(colorName => {
+    const colorInfo = colors[colorName];
+    const targetMediaId = colorToMediaIdMap[colorName.toLowerCase()];
+    
+    uniqueSizes.forEach(size => {
+      const pricing = getWomensOversizedPrices(designCode, size);
+      const sku = `${colorInfo.skuPrefix}_${size}`;
+      
+      const vInput = {
+        price: pricing.price,
+        compareAtPrice: pricing.compareAtPrice,
+        optionValues: [
+          { optionName: "Color", name: colorName },
+          { optionName: "Size", name: size }
+        ],
+        inventoryItem: {
+          sku: sku,
+          tracked: true,
+          cost: "250"
+        },
+        inventoryQuantities: [{
+          locationId: locationId,
+          availableQuantity: 10
+        }]
+      };
+      
+      if (targetMediaId) {
+        vInput.mediaId = targetMediaId;
+      }
+      variantsInput.push(vInput);
+    });
+  });
+
+  const variantsCreateMutation = `
+    mutation CreateProductVariants($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
+      productVariantsBulkCreate(productId: $productId, variants: $variants, strategy: REMOVE_STANDALONE_VARIANT) {
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  try {
+    const varResult = await shopifyQuery(variantsCreateMutation, { productId, variants: variantsInput });
+    const varErrors = varResult.productVariantsBulkCreate?.userErrors || [];
+    if (varErrors.length > 0) {
+      console.error(`- Error creating variants:`, varErrors);
+    } else {
+      console.log(`- Created ${variantsInput.length} variants successfully.`);
+    }
+  } catch (err) {
+    console.error(`- Failed bulk variants creation:`, err.message);
+  }
+
+  // 5. Publish to sales channels
+  const publishMutation = `
+    mutation PublishResource($id: ID!, $input: [PublicationInput!]!) {
+      publishablePublish(id: $id, input: $input) {
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+  const pubInputs = publications.map(p => ({ publicationId: p.id }));
+  try {
+    const pubResult = await shopifyQuery(publishMutation, { id: productId, input: pubInputs });
+    const pubErrors = pubResult.publishablePublish?.userErrors || [];
+    if (pubErrors.length > 0) {
+      console.error(`- Failed publishing product:`, pubErrors);
+    } else {
+      console.log(`- Product successfully published to sales channels.`);
+    }
+  } catch (err) {
+    console.error(`- Failed publishing:`, err.message);
+  }
+
+  await new Promise(r => setTimeout(r, 1000));
+}
+
 async function updateProductImages(productData) {
   const { designCode, colors } = productData;
   console.log(`\n==================================================`);
@@ -220,11 +534,7 @@ async function updateProductImages(productData) {
     console.log(`[DRY RUN] Would delete ${shopifyProduct.media.edges.length} existing media items.`);
     Object.keys(colors).forEach(colorName => {
       const colorInfo = colors[colorName];
-      console.log(`[DRY RUN] Color "${colorName}": Would upload ${colorInfo.images.length} images.`);
-      console.log(`[DRY RUN] Variants affected:`, shopifyProduct.variants.edges.filter(e => {
-        const cOpt = e.node.selectedOptions.find(o => o.name === 'Color');
-        return cOpt && cOpt.value.toLowerCase() === colorName.toLowerCase();
-      }).map(e => `${e.node.title} (SKU: ${e.node.sku})`));
+      console.log(`[DRY RUN] Color "${colorName}": Would upload ${colorInfo.images.length + 1} images (including Size Chart).`);
     });
     return;
   }
@@ -256,21 +566,8 @@ async function updateProductImages(productData) {
   // 2. Upload new media color-wise
   const mediaInput = [];
   const colorMap = {}; // Keep track of which URL belongs to which color/image index
-  
-  Object.keys(colors).forEach(colorName => {
-    const colorInfo = colors[colorName];
-    colorInfo.images.forEach((url, idx) => {
-      const altText = `${shopifyProduct.title} - ${colorName} - Image ${idx + 1}`;
-      mediaInput.push({
-        originalSource: url,
-        mediaContentType: "IMAGE",
-        alt: altText
-      });
-      colorMap[url] = { colorName, index: idx + 1 };
-    });
-  });
 
-  // Append Size Chart image
+  // Resolve correct size chart URL
   let sizeChartUrl = null;
   const isWomen = shopifyProduct.title.toLowerCase().includes('women') || 
                   shopifyProduct.handle.toLowerCase().includes('women') || 
@@ -283,10 +580,24 @@ async function updateProductImages(productData) {
     sizeChartUrl = 'https://drive.google.com/uc?id=1JgmlUH0mQVT7xpwIOQxStP4YxKO0vlAB';
   }
   
-  mediaInput.push({
-    originalSource: sizeChartUrl,
-    mediaContentType: "IMAGE",
-    alt: `${shopifyProduct.title} - Size Chart`
+  Object.keys(colors).forEach(colorName => {
+    const colorInfo = colors[colorName];
+    colorInfo.images.forEach((url, idx) => {
+      const altText = `${shopifyProduct.title} - ${colorName} - Image ${idx + 1}`;
+      mediaInput.push({
+        originalSource: url,
+        mediaContentType: "IMAGE",
+        alt: altText
+      });
+      colorMap[url] = { colorName, index: idx + 1 };
+    });
+    
+    // Add Size Chart as Image 5 for this color way
+    mediaInput.push({
+      originalSource: sizeChartUrl,
+      mediaContentType: "IMAGE",
+      alt: `${shopifyProduct.title} - ${colorName} - Image 5`
+    });
   });
 
   if (mediaInput.length === 0) {
@@ -421,6 +732,8 @@ async function main() {
 
   try {
     const productsList = parseImageUpdateCSV();
+    const locationId = await getPrimaryLocationId();
+    const publications = await getPublications();
     
     let filteredList = productsList;
     if (testCode) {
@@ -433,7 +746,13 @@ async function main() {
 
     for (const prodData of filteredList) {
       try {
-        await updateProductImages(prodData);
+        const shopifyProduct = await findProductOnShopify(prodData.designCode);
+        if (shopifyProduct) {
+          await updateProductImages(prodData);
+        } else {
+          // If the product doesn't exist, CREATE it!
+          await createNewProduct(prodData, locationId, publications);
+        }
       } catch (err) {
         console.error(`Failed to process design ${prodData.designCode}:`, err);
       }
