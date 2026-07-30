@@ -32,8 +32,8 @@
               {%- endfor -%}
               {%- if img_color == blank -%}
                 {%- for color_val in product.options_by_name['Color'].values -%}
-                  {%- assign downcase_alt = image.alt | downcase -%}
-                  {%- assign downcase_color = color_val | downcase -%}
+                  {%- assign downcase_alt = image.alt | downcase | replace: '-', '' | replace: ' ', '' | replace: '.', '' -%}
+                  {%- assign downcase_color = color_val | downcase | replace: '-', '' | replace: ' ', '' | replace: '.', '' -%}
                   {%- if downcase_alt contains downcase_color -%}
                     {%- assign img_color = color_val -%}
                     {%- break -%}
@@ -94,8 +94,8 @@
              {%- endfor -%}
              {%- if img_color == blank -%}
                {%- for color_val in product.options_by_name['Color'].values -%}
-                 {%- assign downcase_alt = image.alt | downcase -%}
-                 {%- assign downcase_color = color_val | downcase -%}
+                 {%- assign downcase_alt = image.alt | downcase | replace: '-', '' | replace: ' ', '' | replace: '.', '' -%}
+                 {%- assign downcase_color = color_val | downcase | replace: '-', '' | replace: ' ', '' | replace: '.', '' -%}
                  {%- if downcase_alt contains downcase_color -%}
                    {%- assign img_color = color_val -%}
                    {%- break -%}
