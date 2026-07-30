@@ -270,6 +270,25 @@ async function updateProductImages(productData) {
     });
   });
 
+  // Append Size Chart image
+  let sizeChartUrl = null;
+  const isWomen = shopifyProduct.title.toLowerCase().includes('women') || 
+                  shopifyProduct.handle.toLowerCase().includes('women') || 
+                  designCode.toLowerCase().includes('tovwo') || 
+                  designCode.toLowerCase().includes('trtwo');
+  
+  if (isWomen) {
+    sizeChartUrl = 'https://drive.google.com/uc?id=1CEwBUsw3YWl_9832IzGeB5kXeOh-W-sL';
+  } else {
+    sizeChartUrl = 'https://drive.google.com/uc?id=1JgmlUH0mQVT7xpwIOQxStP4YxKO0vlAB';
+  }
+  
+  mediaInput.push({
+    originalSource: sizeChartUrl,
+    mediaContentType: "IMAGE",
+    alt: `${shopifyProduct.title} - Size Chart`
+  });
+
   if (mediaInput.length === 0) {
     console.log("No new images to upload.");
     return;
