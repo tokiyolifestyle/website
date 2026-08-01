@@ -661,7 +661,6 @@
     .catg-universe__grid {
       display: flex;
       overflow-x: auto;
-      scroll-snap-type: x mandatory;
       scrollbar-width: none;
       padding-bottom: 1rem;
       padding-inline: 1rem;
@@ -674,7 +673,6 @@
     .catg-card-3d {
       width: 200px;
       flex-shrink: 0;
-      scroll-snap-align: start;
     }
   }
 
@@ -1078,6 +1076,41 @@
     }, 25);
   }
   initQuickstripAutoScroll();
+
+  /* ═══ Auto-scroll Category Cards Grid on Mobile ═══ */
+  function initGridAutoScroll() {
+    if (window.innerWidth > 750) return;
+
+    const grids = document.querySelectorAll('.catg-universe__grid');
+    grids.forEach(grid => {
+      let scrollStep = 0.5; // Very slow speed
+      let isInteracting = false;
+      let interactionTimeout;
+
+      grid.addEventListener('touchstart', () => {
+        isInteracting = true;
+        clearTimeout(interactionTimeout);
+      }, {passive: true});
+
+      grid.addEventListener('touchend', () => {
+        interactionTimeout = setTimeout(() => {
+          isInteracting = false;
+        }, 3000); // Resume auto-scroll after 3 seconds of no touch
+      }, {passive: true});
+
+      setInterval(() => {
+        if (!isInteracting && grid.offsetParent !== null) {
+          grid.scrollLeft += scrollStep;
+          if (grid.scrollLeft >= (grid.scrollWidth - grid.clientWidth - 1)) {
+            scrollStep = -0.5;
+          } else if (grid.scrollLeft <= 0) {
+            scrollStep = 0.5;
+          }
+        }
+      }, 30);
+    });
+  }
+  initGridAutoScroll();
 
 })();
 </script>
