@@ -148,7 +148,8 @@ function initVariantPicker() {
 
   /* Init with current variant */
   const urlVariant = new URLSearchParams(window.location.search).get('variant');
-  const initial = urlVariant ? variantData.find(v => String(v.id) === urlVariant) : variantData.find(v => v.available) || variantData[0];
+  const domVariant = getCurrentVariant();
+  const initial = urlVariant ? variantData.find(v => String(v.id) === urlVariant) : (domVariant || variantData.find(v => v.available) || variantData[0]);
   if (initial) updateUI(initial);
   updateAvailability();
 }

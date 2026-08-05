@@ -294,6 +294,7 @@
                   {%- elsif value == 'D. Grey' -%}{%- assign hex_color = '#5A5A5A' -%}
                   {%- elsif value == 'Black' -%}{%- assign hex_color = '#111111' -%}
                   {%- endif -%}
+                  {%- assign opt_key = 'option' | append: option.position -%}
                   <label class="swatch-label color-swatch" title="{{ value }}">
                     <input
                       type="radio"
@@ -303,7 +304,7 @@
                       data-option-position="{{ option.position }}"
                       data-option-input
                       class="visually-hidden"
-                      {% if option.selected_value == value %}checked{% endif %}>
+                      {% if current_variant[opt_key] == value %}checked{% endif %}>
                     <span class="swatch swatch--lg" style="background-color:{{ hex_color }};"></span>
                     <span class="visually-hidden">{{ value }}</span>
                   </label>
@@ -312,6 +313,7 @@
             {%- else -%}
               <div class="product-option__buttons" role="group" aria-label="Select {{ option.name }}">
                 {%- for value in option.values -%}
+                  {%- assign opt_key = 'option' | append: option.position -%}
                   <label class="option-btn-label size-button">
                     <input
                       type="radio"
@@ -321,7 +323,7 @@
                       data-option-position="{{ option.position }}"
                       data-option-input
                       class="visually-hidden"
-                      {% if option.selected_value == value %}checked{% endif %}>
+                      {% if current_variant[opt_key] == value %}checked{% endif %}>
                     <span class="option-btn">{{ value }}</span>
                   </label>
                 {%- endfor -%}
