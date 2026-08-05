@@ -74,36 +74,35 @@
 <style>
   .featured-collections { padding: var(--spacing-sections, 48px) 0; background: #FFFFFF; }
   .fc-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
   }
   .fc-card {
-    flex: 1 1 calc(20% - 12px);
-    max-width: calc(25% - 12px);
-    min-width: 220px;
+    width: 100%;
     position: relative; display: block; overflow: hidden;
     aspect-ratio: 3 / 4;
     background: #F5F5F5;
-    border: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
     transition: box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
+  @media(max-width:1200px){
+    .fc-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+  }
   @media(max-width:989px){
-    .fc-grid { gap: 10px; }
-    .fc-card {
-      flex: 1 1 calc(33.333% - 10px);
-      max-width: calc(33.333% - 10px);
-      min-width: 180px;
+    .fc-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
     }
   }
   @media(max-width:600px){
-    .fc-grid { gap: 8px; }
-    .fc-card {
-      flex: 1 1 calc(50% - 8px);
-      max-width: calc(50% - 8px);
-      min-width: 140px;
+    .fc-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
   }
   .fc-card:hover {
