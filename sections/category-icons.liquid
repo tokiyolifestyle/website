@@ -37,22 +37,27 @@
             {%- assign seen_labels = seen_labels | append: ',' | append: label_clean -%}
           {%- endif -%}
 
-          {%- assign label_tag = label_clean | downcase | replace: ' ', '-' -%}
-          {%- assign block_link = '/collections/all?filter.p.tag=' | append: label_tag -%}
+          {%- assign label_tag_hyphen = label_clean | downcase | replace: ' ', '-' -%}
+          {%- assign label_tag_space = label_clean | downcase | replace: '-', ' ' -%}
+          {%- assign label_tag_nodash = label_clean | downcase | replace: ' ', '' | replace: '-', '' -%}
+
+          {%- assign block_link = '/collections/all?filter.p.tag=' | append: label_tag_hyphen -%}
           {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
           {%- assign gender_part = block.settings.gender | downcase -%}
           {%- assign fit_part = block.settings.fit | downcase -%}
-          {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_tag -%}
+          {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_tag_hyphen -%}
           {%- assign current_collection = collections[constructed_handle] -%}
           {%- assign card_image = current_collection.products.first.featured_image -%}
           
           {%- if card_image == blank -%}
             {%- for p in collections.all.products -%}
               {%- assign p_tags_downcase = p.tags | join: ',' | downcase -%}
-              {%- if p_tags_downcase contains label_tag -%}
-                {%- assign card_image = p.featured_image -%}
-                {%- break -%}{%- comment -%} found a fallback product image {%- endcomment -%}
+              {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
+                {%- if p.featured_image != blank -%}
+                  {%- assign card_image = p.featured_image -%}
+                  {%- break -%}
+                {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
           {%- endif -%}
