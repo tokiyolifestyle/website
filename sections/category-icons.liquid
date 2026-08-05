@@ -242,10 +242,12 @@
                   {%- assign label_tag_nodash = block.settings.label | downcase | replace: ' ', '' | replace: '-', '' -%}
                   {%- for p in collections.all.products -%}
                     {%- assign p_tags_downcase = p.tags | join: ',' | downcase -%}
-                    {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
-                      {%- if p.featured_image != blank -%}
-                        {%- assign card_image = p.featured_image -%}
-                        {%- break -%}
+                    {%- if p_tags_downcase contains 'men' or p_tags_downcase contains 'man' or p.handle contains 'totm' or p.handle contains 'trtm' -%}
+                      {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
+                        {%- if p.featured_image != blank -%}
+                          {%- assign card_image = p.featured_image -%}
+                          {%- break -%}
+                        {%- endif -%}
                       {%- endif -%}
                     {%- endif -%}
                   {%- endfor -%}
