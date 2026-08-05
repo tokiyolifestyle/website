@@ -53,10 +53,22 @@
           {%- if card_image == blank -%}
             {%- for p in collections.all.products -%}
               {%- assign p_tags_downcase = p.tags | join: ',' | downcase -%}
-              {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
-                {%- if p.featured_image != blank -%}
-                  {%- assign card_image = p.featured_image -%}
-                  {%- break -%}
+              {%- assign is_gender_match = false -%}
+              {%- if block.settings.gender == 'women' -%}
+                {%- if p_tags_downcase contains 'women' or p_tags_downcase contains 'woman' or p.handle contains 'women' or p.handle contains 'tovwo' or p.handle contains 'trtwo' -%}
+                  {%- assign is_gender_match = true -%}
+                {%- endif -%}
+              {%- else -%}
+                {%- if p_tags_downcase contains 'men' or p_tags_downcase contains 'man' or p.handle contains 'totm' or p.handle contains 'trtm' -%}
+                  {%- assign is_gender_match = true -%}
+                {%- endif -%}
+              {%- endif -%}
+              {%- if is_gender_match -%}
+                {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
+                  {%- if p.featured_image != blank -%}
+                    {%- assign card_image = p.featured_image -%}
+                    {%- break -%}
+                  {%- endif -%}
                 {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
@@ -138,10 +150,12 @@
                   {%- assign label_tag_nodash = block.settings.label | downcase | replace: ' ', '' | replace: '-', '' -%}
                   {%- for p in collections.all.products -%}
                     {%- assign p_tags_downcase = p.tags | join: ',' | downcase -%}
-                    {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
-                      {%- if p.featured_image != blank -%}
-                        {%- assign card_image = p.featured_image -%}
-                        {%- break -%}
+                    {%- if p_tags_downcase contains 'men' or p_tags_downcase contains 'man' or p.handle contains 'totm' or p.handle contains 'trtm' -%}
+                      {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
+                        {%- if p.featured_image != blank -%}
+                          {%- assign card_image = p.featured_image -%}
+                          {%- break -%}
+                        {%- endif -%}
                       {%- endif -%}
                     {%- endif -%}
                   {%- endfor -%}
@@ -318,10 +332,12 @@
                   {%- assign label_tag_nodash = block.settings.label | downcase | replace: ' ', '' | replace: '-', '' -%}
                   {%- for p in collections.all.products -%}
                     {%- assign p_tags_downcase = p.tags | join: ',' | downcase -%}
-                    {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
-                      {%- if p.featured_image != blank -%}
-                        {%- assign card_image = p.featured_image -%}
-                        {%- break -%}
+                    {%- if p_tags_downcase contains 'women' or p_tags_downcase contains 'woman' or p.handle contains 'women' or p.handle contains 'tovwo' or p.handle contains 'trtwo' -%}
+                      {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
+                        {%- if p.featured_image != blank -%}
+                          {%- assign card_image = p.featured_image -%}
+                          {%- break -%}
+                        {%- endif -%}
                       {%- endif -%}
                     {%- endif -%}
                   {%- endfor -%}
