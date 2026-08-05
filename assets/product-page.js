@@ -73,7 +73,14 @@ function initVariantPicker() {
     const buyNowBtn = document.querySelector('.product-info__buy-now');
     if (buyNowBtn) {
       buyNowBtn.disabled = !variant.available;
-      buyNowBtn.style.display = variant.available ? '' : 'none';
+      if (variant.available) {
+        buyNowBtn.style.setProperty('display', 'block', 'important');
+      } else {
+        buyNowBtn.style.setProperty('display', 'none', 'important');
+      }
+    }
+    if (typeof window.updateCartUI === 'function') {
+      window.updateCartUI();
     }
     if (stockEl) {
       const qty = variant.inventory_quantity;
@@ -487,12 +494,25 @@ function initCartSync() {
   // Safe Function to check and update UI based on selected variant
   window.updateCartUI = function() {
     const variantIdEl = document.querySelector('input[name="id"]');
+    const addBtn = document.querySelector('[data-add-to-cart-btn]');
+    const isAvailable = addBtn ? !addBtn.disabled : false;
     if (!inlineSelector) return;
+
+    function applyBuyNowVisibility() {
+      if (!buyNowBtn) return;
+      if (isAvailable) {
+        buyNowBtn.style.setProperty('display', 'block', 'important');
+        buyNowBtn.disabled = false;
+      } else {
+        buyNowBtn.style.setProperty('display', 'none', 'important');
+        buyNowBtn.disabled = true;
+      }
+    }
 
     try {
       if (!variantIdEl || !window.cartItems || !window.cartItems.length) {
         if (actionsBlock) actionsBlock.style.setProperty('display', 'flex', 'important');
-        if (buyNowBtn) buyNowBtn.style.setProperty('display', 'block', 'important');
+        applyBuyNowVisibility();
         inlineSelector.style.setProperty('display', 'none', 'important');
         return;
       }
@@ -509,13 +529,13 @@ function initCartSync() {
       } else {
         // Item is not in cart! Show standard actions
         if (actionsBlock) actionsBlock.style.setProperty('display', 'flex', 'important');
-        if (buyNowBtn) buyNowBtn.style.setProperty('display', 'block', 'important');
+        applyBuyNowVisibility();
         inlineSelector.style.setProperty('display', 'none', 'important');
       }
     } catch (e) {
       console.warn("Cart UI update error:", e);
       if (actionsBlock) actionsBlock.style.setProperty('display', 'flex', 'important');
-      if (buyNowBtn) buyNowBtn.style.setProperty('display', 'block', 'important');
+      applyBuyNowVisibility();
       inlineSelector.style.setProperty('display', 'none', 'important');
     }
   };
