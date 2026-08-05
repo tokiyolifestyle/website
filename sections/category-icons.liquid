@@ -124,17 +124,29 @@
                 {%- assign fit_part = block.settings.fit | downcase -%}
                 {%- assign label_part = block.settings.label | downcase | replace: ' ', '-' -%}
                 {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
+                {%- if label_part == 'street-wear' -%}{%- assign label_part = 'streetwear' -%}{%- endif -%}
                 {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
                 
                 {%- assign block_link = '/collections/' | append: constructed_handle -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
                 {%- assign current_col_check = collections[constructed_handle] -%}
-                {%- if current_col_check == blank or current_col_check.products.size == 0 -%}
-                  {%- continue -%}
+                {%- assign card_image = current_col_check.products.first.featured_image -%}
+                {%- if card_image == blank -%}
+                  {%- assign label_tag_hyphen = block.settings.label | downcase | replace: ' ', '-' -%}
+                  {%- assign label_tag_space = block.settings.label | downcase | replace: '-', ' ' -%}
+                  {%- assign label_tag_nodash = block.settings.label | downcase | replace: ' ', '' | replace: '-', '' -%}
+                  {%- for p in collections.all.products -%}
+                    {%- assign p_tags_downcase = p.tags | join: ',' | downcase -%}
+                    {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
+                      {%- if p.featured_image != blank -%}
+                        {%- assign card_image = p.featured_image -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
                 {%- endif -%}
 
-                {%- assign card_image = current_col_check.products.first.featured_image -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
@@ -202,17 +214,29 @@
                 {%- assign fit_part = block.settings.fit | downcase -%}
                 {%- assign label_part = block.settings.label | downcase | replace: ' ', '-' -%}
                 {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
+                {%- if label_part == 'street-wear' -%}{%- assign label_part = 'streetwear' -%}{%- endif -%}
                 {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
                 
                 {%- assign block_link = '/collections/' | append: constructed_handle -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
                 {%- assign current_col_check = collections[constructed_handle] -%}
-                {%- if current_col_check == blank or current_col_check.products.size == 0 -%}
-                  {%- continue -%}
+                {%- assign card_image = current_col_check.products.first.featured_image -%}
+                {%- if card_image == blank -%}
+                  {%- assign label_tag_hyphen = block.settings.label | downcase | replace: ' ', '-' -%}
+                  {%- assign label_tag_space = block.settings.label | downcase | replace: '-', ' ' -%}
+                  {%- assign label_tag_nodash = block.settings.label | downcase | replace: ' ', '' | replace: '-', '' -%}
+                  {%- for p in collections.all.products -%}
+                    {%- assign p_tags_downcase = p.tags | join: ',' | downcase -%}
+                    {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
+                      {%- if p.featured_image != blank -%}
+                        {%- assign card_image = p.featured_image -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
                 {%- endif -%}
 
-                {%- assign card_image = current_col_check.products.first.featured_image -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
@@ -280,17 +304,29 @@
                 {%- assign fit_part = block.settings.fit | downcase -%}
                 {%- assign label_part = block.settings.label | downcase | replace: ' ', '-' -%}
                 {%- if label_part == 'graphic' -%}{%- assign label_part = 'graphic-print' -%}{%- endif -%}
+                {%- if label_part == 'street-wear' -%}{%- assign label_part = 'streetwear' -%}{%- endif -%}
                 {%- assign constructed_handle = gender_part | append: '-' | append: fit_part | append: '-' | append: label_part -%}
                 
                 {%- assign block_link = '/collections/' | append: constructed_handle -%}
                 {%- if block.settings.link != blank -%}{%- assign block_link = block.settings.link -%}{%- endif -%}
 
                 {%- assign current_col_check = collections[constructed_handle] -%}
-                {%- if current_col_check == blank or current_col_check.products.size == 0 -%}
-                  {%- continue -%}
+                {%- assign card_image = current_col_check.products.first.featured_image -%}
+                {%- if card_image == blank -%}
+                  {%- assign label_tag_hyphen = block.settings.label | downcase | replace: ' ', '-' -%}
+                  {%- assign label_tag_space = block.settings.label | downcase | replace: '-', ' ' -%}
+                  {%- assign label_tag_nodash = block.settings.label | downcase | replace: ' ', '' | replace: '-', '' -%}
+                  {%- for p in collections.all.products -%}
+                    {%- assign p_tags_downcase = p.tags | join: ',' | downcase -%}
+                    {%- if p_tags_downcase contains label_tag_space or p_tags_downcase contains label_tag_hyphen or p_tags_downcase contains label_tag_nodash -%}
+                      {%- if p.featured_image != blank -%}
+                        {%- assign card_image = p.featured_image -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
                 {%- endif -%}
 
-                {%- assign card_image = current_col_check.products.first.featured_image -%}
                 {%- assign card_counter = card_counter | plus: 1 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
                   <div class="catg-card-3d__inner">
