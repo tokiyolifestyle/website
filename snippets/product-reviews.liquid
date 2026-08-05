@@ -521,6 +521,20 @@
     closeBtn && closeBtn.addEventListener('click', closeModal);
     backdrop && backdrop.addEventListener('click', closeModal);
 
+    // Auto-open review modal & scroll when link has ?write_review=true or #write-review
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('write_review') === 'true' || window.location.hash === '#write-review' || window.location.hash === '#ProductReviews') {
+      setTimeout(() => {
+        const reviewSection = document.getElementById('ProductReviews');
+        if (reviewSection) {
+          reviewSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        if (urlParams.get('write_review') === 'true' || window.location.hash === '#write-review') {
+          openModal();
+        }
+      }, 400);
+    }
+
     // Interactive Star Picker
     if (starPicker) {
       const stars = starPicker.querySelectorAll('.star-picker__star');
