@@ -432,8 +432,14 @@
     <div class="collection-grid-wrap">
       {%- paginate collection.products by 250 -%}
         {%- if collection.products.size > 0 -%}
+          {%- assign current_sort_val = collection.sort_by | default: collection.default_sort_by -%}
+          {%- if current_sort_val == 'title-ascending' or current_sort_val == 'manual' or collection.sort_by == blank -%}
+            {%- assign sorted_products = collection.products | sort: 'title' -%}
+          {%- else -%}
+            {%- assign sorted_products = collection.products -%}
+          {%- endif -%}
           <div id="ProductGrid" class="product-grid product-grid--{{ section.settings.columns }}" data-product-grid>
-            {%- for product in collection.products -%}
+            {%- for product in sorted_products -%}
               {%- if product.handle == 'cod-fee' -%}{%- continue -%}{%- endif -%}
               {%- assign p_tags_lower = '' -%}
               {%- for tag in product.tags -%}
