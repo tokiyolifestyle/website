@@ -9,3 +9,5 @@ scripts/introspect.js
 scripts/list_collections_and_publications.js
 scripts/publish_and_verify.js
 scripts/delete_products.js
+scripts/activate_sales_channels.*
+
