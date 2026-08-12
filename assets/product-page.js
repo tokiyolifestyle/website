@@ -315,6 +315,9 @@ function initGallery() {
 
     function openZoomModal(imgSrc) {
       if (!imgSrc || !zoomImg) return;
+      if (zoomModal.parentNode !== document.body) {
+        document.body.appendChild(zoomModal);
+      }
       zoomImg.src = imgSrc;
       zoomModal.classList.add('is-open');
       document.body.style.overflow = 'hidden';
@@ -727,8 +730,8 @@ function formatMoney(cents) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  initVariantPicker();
   initGallery();
+  initVariantPicker();
   initDeliveryChecker();
   initStickyBar();
   initQtySelector();

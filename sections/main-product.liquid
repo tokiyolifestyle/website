@@ -687,8 +687,9 @@
   }
   .product-gallery__main-image.is-zoomed img { transform: scale(2.2); }
   .gallery-img-portrait, .gallery-img-landscape { object-fit:cover !important; background:#F8F8FA !important; }
-  .gallery-img-portrait[alt*="Image 5"], .gallery-img-portrait[alt*="Size Chart"],
-  .gallery-img-landscape[alt*="Image 5"], .gallery-img-landscape[alt*="Size Chart"] {
+  .gallery-img-portrait[alt*="Image 5"], .gallery-img-portrait[alt*="Size Chart"], .gallery-img-portrait[alt*="Size Guide"],
+  .gallery-img-landscape[alt*="Image 5"], .gallery-img-landscape[alt*="Size Chart"], .gallery-img-landscape[alt*="Size Guide"],
+  .product-gallery__slide[data-media-id="size-guide-slide"] img {
     object-fit: contain !important;
     background: #FFFFFF !important;
   }
