@@ -7,23 +7,23 @@
   <meta name="theme-color" content="{{ settings.color_primary }}">
 
   <title>
-    {%- if request.path contains '/about' -%}
+    {%- if request.path contains 'about' -%}
       About Us & Stories | Tokiyo Lifestyle
-    {%- elsif request.path contains '/b2b' or request.path contains '/bulk-order' -%}
+    {%- elsif request.path contains 'b2b' or request.path contains 'bulk-order' -%}
       Bulk Order & B2B | Tokiyo Lifestyle
-    {%- elsif request.path contains '/career' -%}
+    {%- elsif request.path contains 'career' -%}
       Careers | Tokiyo Lifestyle
-    {%- elsif request.path contains '/franchise' -%}
+    {%- elsif request.path contains 'franchise' -%}
       Franchise Partnership | Tokiyo Lifestyle
-    {%- elsif request.path contains '/wishlist' -%}
+    {%- elsif request.path contains 'wishlist' -%}
       My Wishlist | Tokiyo Lifestyle
-    {%- elsif request.path contains '/blogs/news/why-fabric-quality-matters' -%}
+    {%- elsif request.path contains 'fabric-quality' -%}
       Why Fabric Quality Matters: Cotton vs Cotton Blend | Tokiyo Lifestyle
-    {%- elsif request.path contains '/blogs/news/how-to-choose-the-perfect-oversized-fit' -%}
+    {%- elsif request.path contains 'oversized-fit' -%}
       How to Choose the Perfect Oversized Fit | Tokiyo Lifestyle
-    {%- elsif request.path contains '/blogs/news/how-to-wash-printed-t-shirts' -%}
+    {%- elsif request.path contains 'wash-printed' -%}
       How to Wash Printed T-Shirts and Prevent Fading | Tokiyo Lifestyle
-    {%- elsif request.path contains '/blogs/news/streetwear-trends-in-india' -%}
+    {%- elsif request.path contains 'streetwear-trends' -%}
       Streetwear Trends in India: Street Culture & Devotion Within | Tokiyo Lifestyle
     {%- else -%}
       {{ page_title }}
