@@ -361,8 +361,8 @@
     </a>
   </div>
 
-  <!-- Floating Cart Button above WhatsApp Widget (Mobile Only) -->
-  <button class="floating-cart-btn hide-desktop" data-cart-drawer-toggle="" aria-label="Open Cart">
+  <!-- Floating Cart Button above WhatsApp Widget -->
+  <button class="floating-cart-btn" data-cart-drawer-toggle="" aria-label="Open Cart">
     {% render 'icon-cart' %}
     {%- assign cart_item_count = 0 -%}
     {%- for item in cart.items -%}

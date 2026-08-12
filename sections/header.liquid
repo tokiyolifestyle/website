@@ -102,7 +102,7 @@
         </a>
       {%- endif -%}
 
-      <button class="site-header__icon-btn hide-mobile" data-cart-drawer-toggle aria-label="{{ 'sections.header.cart' | t }}">
+      <button class="site-header__icon-btn" data-cart-drawer-toggle aria-label="{{ 'sections.header.cart' | t }}" style="display: none !important;">
         {% render 'icon-cart' %}
         {%- assign cart_item_count = 0 -%}
         {%- for item in cart.items -%}
