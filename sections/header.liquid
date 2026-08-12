@@ -94,7 +94,7 @@
         </button>
       {%- endif -%}
 
-      <a href="{{ routes.account_url }}" class="site-header__icon-btn" aria-label="{{ 'sections.header.account' | t }}">
+      <a href="{{ routes.account_login_url }}" class="site-header__icon-btn" aria-label="{{ 'sections.header.account' | t }}">
         {% render 'icon-account' %}
       </a>
 
@@ -213,7 +213,7 @@
       <a href="/blogs/news" class="mobile-nav__link">Blogs</a>
     </li>
     <li class="mobile-nav__item">
-      <a href="{{ routes.account_url }}" class="mobile-nav__link">My Account</a>
+      <a href="{{ routes.account_login_url }}" class="mobile-nav__link">My Account</a>
     </li>
     {%- if settings.enable_wishlist -%}
       <li class="mobile-nav__item">

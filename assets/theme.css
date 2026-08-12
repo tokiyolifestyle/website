@@ -1732,3 +1732,154 @@ html, body { padding-bottom: 0 !important; }
   }
 }
 
+/* ---- Customer Account / Login / Register Pages ---- */
+.customer-page {
+  padding-block: 3.5rem 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 68vh;
+  background: var(--color-background, #FFFFFF);
+}
+.customer-page__card {
+  width: 100%;
+  max-width: 440px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+}
+.customer-page__logo {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+.customer-logo-img {
+  max-width: 150px;
+  height: auto;
+  object-fit: contain;
+}
+.customer-page__title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #111111;
+  margin: 0 0 0.4rem;
+}
+.customer-page__subtitle {
+  font-size: 0.85rem;
+  color: #666666;
+  margin-bottom: 1.75rem;
+  line-height: 1.4;
+}
+.customer-page .form-field {
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+.customer-page .form-row {
+  display: flex;
+  gap: 1rem;
+}
+.customer-page .form-row .form-field {
+  flex: 1;
+}
+.customer-page .form-field label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #333333;
+  margin-bottom: 0.4rem;
+}
+.form-field__label-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+.form-field__label-wrap label {
+  margin-bottom: 0 !important;
+}
+.customer-page__forgot-link {
+  font-size: 0.72rem;
+  color: var(--color-accent, #ff0000);
+  text-decoration: underline;
+  font-weight: 600;
+}
+.customer-page .form-field input[type="email"],
+.customer-page .form-field input[type="password"],
+.customer-page .form-field input[type="text"] {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  background: #F9F9FB;
+  color: #111111;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.customer-page .form-field input:focus {
+  outline: none;
+  border-color: #111111;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+  background: #FFFFFF;
+}
+.input-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.password-toggle-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #888888;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+}
+.customer-page__btn {
+  margin-top: 0.5rem;
+  border-radius: 50px;
+  padding: 0.9rem 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.customer-page__footer-link {
+  margin-top: 1.5rem;
+  font-size: 0.825rem;
+  color: #666666;
+}
+.customer-page__footer-link a {
+  color: #111111;
+  font-weight: 700;
+  text-decoration: underline;
+}
+.form-errors {
+  background: #FEE2E2;
+  border: 1px solid #FCA5A5;
+  color: #991B1B;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+.form-success {
+  background: #D1FAE5;
+  border: 1px solid #6EE7B7;
+  color: #065F46;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  margin-bottom: 1.25rem;
+}
