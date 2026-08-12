@@ -713,7 +713,7 @@ section[class*="section-"] {
   box-shadow: 0 8px 30px rgba(0,0,0,0.05);
 }
 .template-index .site-header:not(.is-scrolled) {
-  position: absolute !important;
+  position: fixed !important;
   left: 0;
   right: 0;
   width: 100%;
@@ -869,7 +869,7 @@ section[class*="section-"] {
     border-bottom: 1px solid var(--color-border);
   }
   .template-index .site-header:not(.is-scrolled) {
-    position: absolute !important;
+    position: fixed !important;
   }
 }
 
