@@ -2696,9 +2696,23 @@ html, body { padding-bottom: 0 !important; }
   background: #FFFFFF;
 }
 .account-drawer__submit-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: var(--color-accent, #ff0000);
+  color: #FFFFFF !important;
   border-radius: 50px;
-  padding: 0.85rem 1.25rem;
+  padding: 0.9rem 1.5rem;
   font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(255, 0, 0, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.account-drawer__submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(255, 0, 0, 0.45);
 }
 .account-drawer__links {
   margin-top: 1.25rem;

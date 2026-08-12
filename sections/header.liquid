@@ -318,19 +318,12 @@
         </div>
 
         <div class="account-drawer__login-box">
-          <h3>Sign In / Create Account</h3>
+          <h3>Sign In to Your Account</h3>
+          <p class="account-drawer__subtitle">Sign in with your email to access your Tokiyo VIP Privilege Card & Order history.</p>
 
-          {%- form 'customer_login', class: 'account-drawer__form' -%}
-            <div class="form-field">
-              <label for="DrawerEmail">Email Address</label>
-              <input type="email" name="customer[email]" id="DrawerEmail" autocomplete="email" placeholder="your@email.com" required>
-            </div>
-            <div class="form-field">
-              <label for="DrawerPassword">Password</label>
-              <input type="password" name="customer[password]" id="DrawerPassword" autocomplete="current-password" placeholder="••••••••" required>
-            </div>
-            <button type="submit" class="button button--solid button--full account-drawer__submit-btn">Sign In to Tokiyo</button>
-          {%- endform -%}
+          <a href="{{ routes.account_url }}" class="button button--solid button--full account-drawer__submit-btn">
+            Sign In / Access VIP Card →
+          </a>
 
           <div class="account-drawer__links">
             <a href="{{ routes.account_register_url }}" class="account-drawer__link">Create a New Account →</a>
