@@ -148,7 +148,7 @@
   <!-- --- Animated Streetwear Chibi Mascot Wandering Widget --- -->
   <div id="TokiyoMascot" class="tokiyo-mascot" aria-hidden="true" style="display: none;">
     <div class="tokiyo-mascot__bubble" id="MascotBubble">Happy Independence Day! 🇮🇳</div>
-    <div class="mascot-flag-container" style="position: absolute; top: -24px; right: -4px; width: 32px; height: auto; z-index: 10; pointer-events: none;">
+    <div class="mascot-flag-container" style="position: absolute; top: -20px; right: -14px; width: 32px; height: auto; z-index: 10; pointer-events: none;">
       <!-- SVG Indian Flag -->
       <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" style="box-shadow: 0 2px 6px rgba(0,0,0,0.15); display: block;">
         <rect width="900" height="600" fill="#fff"/>
@@ -163,7 +163,7 @@
         </g>
       </svg>
       <!-- Flag pole -->
-      <div style="position: absolute; left: 0; top: 0; width: 2.5px; height: 50px; background: #666;"></div>
+      <div style="position: absolute; left: 0; top: 0; width: 2.5px; height: 65px; background: #666;"></div>
     </div>
     <img src="{{ 'tokiyo-mascot.png' | asset_url }}" alt="Tokiyo Chibi Mascot" id="MascotImg" loading="lazy">
   </div>
@@ -341,8 +341,9 @@
         }
       }
 
-      /* Slow, natural pace for both mobile and desktop (8.5s walk interval) */
-      setInterval(wander, 8500);
+      /* Walk soon after page load (2s) and then every 7s on desktop */
+      setTimeout(wander, 2000);
+      setInterval(wander, 7000);
 
       mascot.addEventListener('click', () => {
         const current = img.style.transform || '';
