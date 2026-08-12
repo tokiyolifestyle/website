@@ -56,6 +56,28 @@ function initMobileNav() {
   });
 }
 
+/* ========== Account Drawer ========== */
+function initAccountDrawer() {
+  const drawer  = $('[data-account-drawer]');
+  if (!drawer) return;
+  const openDrawer = () => {
+    drawer.classList.add('is-open');
+    drawer.removeAttribute('aria-hidden');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeDrawer = () => {
+    drawer.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+  $$('[data-account-drawer-toggle]').forEach(btn => btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openDrawer();
+  }));
+  $$('[data-account-drawer-close]').forEach(btn => btn.addEventListener('click', closeDrawer));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+}
+
 /* ========== Back to Top ========== */
 function initBackToTop() {
   const btn = $('#BackToTop');
@@ -371,6 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initPageTransitions();
   initHeader();
   initMobileNav();
+  initAccountDrawer();
   initBackToTop();
   initScrollAnimations();
   initParallax();

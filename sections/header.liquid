@@ -94,9 +94,9 @@
         </button>
       {%- endif -%}
 
-      <a href="{{ routes.account_login_url }}" class="site-header__icon-btn" aria-label="{{ 'sections.header.account' | t }}">
+      <button type="button" class="site-header__icon-btn" data-account-drawer-toggle aria-label="{{ 'sections.header.account' | t }}">
         {% render 'icon-account' %}
-      </a>
+      </button>
 
       {%- if settings.enable_wishlist -%}
         <a href="{{ routes.root_url }}pages/wishlist" class="site-header__icon-btn hide-mobile" data-wishlist-link aria-label="{{ 'sections.header.wishlist' | t }}">
@@ -213,7 +213,7 @@
       <a href="/blogs/news" class="mobile-nav__link">Blogs</a>
     </li>
     <li class="mobile-nav__item">
-      <a href="{{ routes.account_login_url }}" class="mobile-nav__link">My Account</a>
+      <button type="button" class="mobile-nav__link mobile-nav__link--btn" data-account-drawer-toggle>My Account & VIP Card</button>
     </li>
     {%- if settings.enable_wishlist -%}
       <li class="mobile-nav__item">
@@ -223,6 +223,114 @@
   </ul>
 </div>
 <div class="mobile-nav__overlay" data-mobile-nav-overlay></div>
+
+{%- comment -%} TOKIYO VIP ACCOUNT & MEMBER PRIVILEGE DRAWER {%- endcomment -%}
+<div class="account-drawer" id="AccountDrawer" data-account-drawer aria-hidden="true">
+  <div class="account-drawer__overlay" data-account-drawer-close></div>
+  <div class="account-drawer__inner">
+    <div class="account-drawer__header">
+      <div class="account-drawer__brand">
+        <img src="{{ 'tokiyo-logo.jpeg' | asset_url }}" alt="{{ shop.name }}" width="130" height="auto" loading="eager" class="account-drawer__logo-img">
+      </div>
+      <button class="account-drawer__close" data-account-drawer-close aria-label="Close Account Drawer">✕</button>
+    </div>
+
+    <div class="account-drawer__body">
+      {%- assign base_timestamp = 'now' | date: '%s' | plus: 0 -%}
+      {%- if customer.orders.size > 0 -%}
+        {%- assign latest_order_date = customer.orders.first.created_at | date: '%s' | plus: 0 -%}
+        {%- assign base_timestamp = latest_order_date -%}
+      {%- endif -%}
+      {%- assign validity_seconds = 90 | times: 24 | times: 60 | times: 60 -%}
+      {%- assign validity_timestamp = base_timestamp | plus: validity_seconds -%}
+      {%- assign card_number_seed = customer.id | default: 94819 -%}
+      {%- assign card_number_part1 = card_number_seed | modulo: 10000 -%}
+      {%- assign card_number_part2 = card_number_seed | divided_by: 10 | modulo: 10000 -%}
+
+      <!-- Tokiyo VIP Privilege Card -->
+      <div class="account-drawer__card-section">
+        <div class="tokiyo-drawer-card">
+          <div class="drawer-card__glow-red"></div>
+          <div class="drawer-card__glow-gold"></div>
+
+          <div class="drawer-card__header">
+            <div class="drawer-card__brand">
+              <span class="drawer-card__title">TOKIYO</span>
+              <span class="drawer-card__sub">LIFESTYLE</span>
+            </div>
+            <span class="drawer-card__badge">BLACK TIER</span>
+          </div>
+
+          <div class="drawer-card__chip-row">
+            <div class="drawer-card__chip">
+              <div class="drawer-card__chip-inner"></div>
+            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+
+          <div class="drawer-card__number">
+            TK-{{ card_number_part1 | default: '4820' | prepend: '0000' | slice: -4, 4 }}-{{ card_number_part2 | default: '9284' | prepend: '0000' | slice: -4, 4 }}
+          </div>
+
+          <div class="drawer-card__footer">
+            <div>
+              <span class="drawer-card__lbl">MEMBER NAME</span>
+              <span class="drawer-card__val">{{ customer.name | default: 'VIP Guest Member' }}</span>
+            </div>
+            <div class="text-right">
+              <span class="drawer-card__lbl">VALID UNTIL</span>
+              <span class="drawer-card__val font-mono">{{ validity_timestamp | date: '%d/%m/%Y' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="drawer-vip-info">
+          <span class="drawer-vip-icon">⚡</span>
+          <span>Validity auto-extends by <strong>+3 months</strong> on every purchase!</span>
+        </div>
+      </div>
+
+      {%- if customer -%}
+        <!-- Logged-in Customer View -->
+        <div class="account-drawer__user-box">
+          <h3>Welcome, {{ customer.first_name }} 👋</h3>
+          <p>{{ customer.email }}</p>
+          <div class="account-drawer__actions">
+            <a href="{{ routes.account_url }}" class="button button--solid button--full">View My Orders ({{ customer.orders.size }})</a>
+            <a href="{{ routes.account_addresses_url }}" class="button button--outline button--full">Manage Addresses</a>
+            <a href="{{ routes.account_logout_url }}" class="button button--outline button--full account-drawer__logout-btn">Log Out</a>
+          </div>
+        </div>
+      {%- else -%}
+        <!-- Guest Quick Login View -->
+        <div class="account-drawer__login-box">
+          <h3>Sign In / Create Account</h3>
+          <p class="account-drawer__subtitle">Access your order status, VIP rewards & fast checkout</p>
+
+          {%- form 'customer_login', class: 'account-drawer__form' -%}
+            <div class="form-field">
+              <label for="DrawerEmail">Email Address</label>
+              <input type="email" name="customer[email]" id="DrawerEmail" autocomplete="email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-field">
+              <label for="DrawerPassword">Password</label>
+              <input type="password" name="customer[password]" id="DrawerPassword" autocomplete="current-password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="button button--solid button--full account-drawer__submit-btn">Sign In to Tokiyo</button>
+          {%- endform -%}
+
+          <div class="account-drawer__links">
+            <a href="{{ routes.account_register_url }}" class="account-drawer__link">Create a New Account →</a>
+            <a href="https://wa.me/917869818818?text=Hi%20Tokiyo%20Team%2C%20I%20need%20help%20with%20my%20VIP%20Account" target="_blank" rel="noopener" class="account-drawer__whatsapp-btn">
+              💬 Contact VIP WhatsApp Support
+            </a>
+          </div>
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</div>
 
 {% schema %}
 {
