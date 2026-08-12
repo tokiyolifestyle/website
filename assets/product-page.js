@@ -172,10 +172,23 @@ function filterGalleryByColor(selectedColor) {
 
   const cleanColor = selectedColor ? selectedColor.toLowerCase().trim() : '';
 
+  if (!cleanColor) {
+    slides.forEach(slide => {
+      slide.classList.remove('is-hidden');
+      slide.style.display = '';
+    });
+    allThumbs.forEach(thumb => {
+      thumb.classList.remove('is-hidden');
+      thumb.style.display = '';
+    });
+    return;
+  }
+
   // Filter slides
   slides.forEach(slide => {
     const imgColor = slide.getAttribute('data-color') ? slide.getAttribute('data-color').toLowerCase().trim() : '';
-    if (!imgColor || imgColor === cleanColor) {
+    const isSizeGuide = slide.getAttribute('data-media-id') === 'size-guide-slide';
+    if (isSizeGuide || !imgColor || imgColor === cleanColor) {
       slide.classList.remove('is-hidden');
       slide.style.display = '';
     } else {
@@ -187,7 +200,8 @@ function filterGalleryByColor(selectedColor) {
   // Filter thumbs
   allThumbs.forEach(thumb => {
     const imgColor = thumb.getAttribute('data-color') ? thumb.getAttribute('data-color').toLowerCase().trim() : '';
-    if (!imgColor || imgColor === cleanColor) {
+    const isSizeGuide = thumb.getAttribute('data-media-id') === 'size-guide-slide';
+    if (isSizeGuide || !imgColor || imgColor === cleanColor) {
       thumb.classList.remove('is-hidden');
       thumb.style.display = '';
     } else {
@@ -199,7 +213,9 @@ function filterGalleryByColor(selectedColor) {
   // Re-sync slider track
   const visibleThumbs = allThumbs.filter(t => !t.classList.contains('is-hidden'));
   if (visibleThumbs.length > 0) {
-    visibleThumbs[0].click();
+    // Make sure we select the first product image, not the size guide if it's first
+    const firstProductThumb = visibleThumbs.find(t => t.getAttribute('data-media-id') !== 'size-guide-slide') || visibleThumbs[0];
+    firstProductThumb.click();
   }
 }
 
@@ -315,10 +331,16 @@ function initGallery() {
       gallery.addEventListener('click', e => {
         const zoomToggle = e.target.closest('[data-zoom-toggle]');
         const mainImg = e.target.closest('.product-gallery__main-image');
-        if (zoomToggle || mainImg) {
-          const visibleSlides = getVisibleSlides();
-          const activeSlide = visibleSlides && visibleSlides.length ? visibleSlides[currentIndex] : document.querySelector('.product-gallery__slide.is-active');
-          const activeImg = activeSlide ? activeSlide.querySelector('img') : null;
+        if (zoomToggle || mainImg || e.target.tagName === 'IMG') {
+          let activeImg = e.target.tagName === 'IMG' ? e.target : null;
+          if (!activeImg && mainImg) {
+            activeImg = mainImg.querySelector('img');
+          }
+          if (!activeImg) {
+            const visibleSlides = getVisibleSlides();
+            const activeSlide = visibleSlides && visibleSlides.length ? visibleSlides[currentIndex] : document.querySelector('.product-gallery__slide.is-active');
+            activeImg = activeSlide ? activeSlide.querySelector('img') : null;
+          }
           if (activeImg) {
             const imgSrc = activeImg.currentSrc || activeImg.src || activeImg.getAttribute('src');
             openZoomModal(imgSrc);

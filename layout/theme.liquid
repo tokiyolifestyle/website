@@ -220,6 +220,25 @@
     .tokiyo-mascot.has-bubble .tokiyo-mascot__bubble {
       transform: translateX(-50%) scale(1);
     }
+    .mascot-flag-container {
+      animation: flagSway 2s ease-in-out infinite alternate !important;
+      transform-origin: bottom left !important;
+    }
+    .mascot-flag-container svg {
+      animation: flagWave 2.5s ease-in-out infinite !important;
+      transform-origin: left center !important;
+    }
+    @keyframes flagSway {
+      0% { transform: rotate(-5deg); }
+      100% { transform: rotate(8deg); }
+    }
+    @keyframes flagWave {
+      0% { transform: skewY(0deg) scaleX(1); }
+      25% { transform: skewY(2.5deg) scaleX(0.96) skewX(1deg); }
+      50% { transform: skewY(-1.5deg) scaleX(1.02) skewX(-1deg); }
+      75% { transform: skewY(2deg) scaleX(0.98); }
+      100% { transform: skewY(0deg) scaleX(1); }
+    }
     @keyframes mascotBob {
       0% { transform: translateY(0); }
       100% { transform: translateY(-8px); }
