@@ -282,6 +282,24 @@ function initGallery() {
     }
   }
 
+  // Desktop mousemove hover pan zoom
+  track.querySelectorAll('.product-gallery__main-image').forEach(container => {
+    const img = container.querySelector('img');
+    if (!img) return;
+    container.addEventListener('mousemove', e => {
+      if (window.innerWidth < 768) return;
+      const rect = container.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      img.style.transformOrigin = `${x}% ${y}%`;
+      img.style.transform = 'scale(2)';
+    });
+    container.addEventListener('mouseleave', () => {
+      img.style.transform = '';
+      img.style.transformOrigin = '';
+    });
+  });
+
   // Zoom Modal integration
   if (zoomModal) {
     if (zoomModal.parentNode !== document.body) {
@@ -303,6 +321,9 @@ function initGallery() {
       document.body.style.overflow = '';
     }
 
+    window.openZoomModal = openZoomModal;
+    window.closeZoomModal = closeZoomModal;
+
     // Main gallery click -> opens zoom modal (both desktop & mobile)
     gallery.addEventListener('click', e => {
       if (e.target.closest('[data-gallery-thumbs]')) return;
@@ -311,6 +332,8 @@ function initGallery() {
       const mainImg = e.target.closest('.product-gallery__main-image') || e.target.closest('.product-gallery__slide');
       
       if (zoomToggle || mainImg || e.target.tagName === 'IMG') {
+        e.preventDefault();
+        e.stopPropagation();
         let imgEl = e.target.tagName === 'IMG' ? e.target : null;
         if (!imgEl && mainImg) imgEl = mainImg.querySelector('img');
         if (!imgEl) {
@@ -324,6 +347,20 @@ function initGallery() {
         }
       }
     });
+
+    if (zoomBtn) {
+      zoomBtn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        const visibleSlides = getVisibleSlides();
+        const activeSlide = visibleSlides[currentIndex] || visibleSlides[0];
+        const imgEl = activeSlide ? activeSlide.querySelector('img') : gallery.querySelector('img');
+        if (imgEl) {
+          const src = imgEl.currentSrc || imgEl.src || imgEl.getAttribute('src');
+          if (src) openZoomModal(src);
+        }
+      });
+    }
 
     zoomModal.addEventListener('click', e => {
       if (e.target.closest('[data-zoom-close]') || e.target.closest('[data-zoom-backdrop]') || e.target === zoomModal) {
@@ -666,11 +703,17 @@ function formatMoney(cents) {
   return '₹' + (cents / 100).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initAll() {
   initGallery();
   initVariantPicker();
   initDeliveryChecker();
   initStickyBar();
   initQtySelector();
   initCartSync();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}

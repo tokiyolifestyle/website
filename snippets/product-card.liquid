@@ -27,24 +27,24 @@
           alt: card_media.alt | default: product.title | escape
         }}
         {%- if settings.show_secondary_image and product.images.size > 1 -%}
-          {%- assign sec_image = product.images[1] -%}
-          {%- if current_variant.featured_media -%}
-            {%- assign var_color = current_variant.options[0] | downcase -%}
-            {%- for img in product.images -%}
-              {%- assign img_alt_dn = img.alt | downcase -%}
-              {%- if img.id != current_variant.featured_media.id and img_alt_dn contains var_color -%}
-                {%- assign sec_image = img -%}
-                {%- break -%}
-              {%- endif -%}
-            {%- endfor -%}
+          {%- assign sec_image = nil -%}
+          {%- for img in product.images -%}
+            {%- assign img_alt_dn = img.alt | downcase -%}
+            {%- assign img_src_dn = img.src | downcase -%}
+            {%- unless img.id == card_media.id or img_alt_dn contains 'size-guide' or img_alt_dn contains 'size chart' or img_alt_dn contains 'sizeguide' or img_src_dn contains 'size-guide' or img_src_dn contains 'size-chart' -%}
+              {%- assign sec_image = img -%}
+              {%- break -%}
+            {%- endunless -%}
+          {%- endfor -%}
+          {%- if sec_image != blank -%}
+            {{ sec_image | image_url: width: 600 | image_tag:
+              loading: 'lazy',
+              widths: '300, 400, 600',
+              sizes: '(max-width:749px) 50vw, 25vw',
+              class: 'product-card__image product-card__image--secondary',
+              alt: sec_image.alt | default: product.title | escape
+            }}
           {%- endif -%}
-          {{ sec_image | image_url: width: 600 | image_tag:
-            loading: 'lazy',
-            widths: '300, 400, 600',
-            sizes: '(max-width:749px) 50vw, 25vw',
-            class: 'product-card__image product-card__image--secondary',
-            alt: sec_image.alt | default: product.title | escape
-          }}
         {%- endif -%}
       {%- else -%}
         <div class="coming-soon-placeholder">
