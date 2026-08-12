@@ -309,61 +309,8 @@ function initGallery() {
     }
   }
 
-  // Zoom Modal integration
-  if (zoomModal) {
-    const zoomImg = zoomModal.querySelector('[data-zoom-image]');
-
-    function openZoomModal(imgSrc) {
-      if (!imgSrc || !zoomImg) return;
-      if (zoomModal.parentNode !== document.body) {
-        document.body.appendChild(zoomModal);
-      }
-      zoomImg.src = imgSrc;
-      zoomModal.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
-      if (typeof stopAutoSlide === 'function') stopAutoSlide();
-    }
-
-    function closeZoomModal() {
-      zoomModal.classList.remove('is-open');
-      document.body.style.overflow = '';
-      if (typeof startAutoSlide === 'function') startAutoSlide();
-    }
-
-    if (gallery) {
-      gallery.addEventListener('click', e => {
-        const zoomToggle = e.target.closest('[data-zoom-toggle]');
-        const mainImg = e.target.closest('.product-gallery__main-image');
-        if (zoomToggle || mainImg || e.target.tagName === 'IMG') {
-          let activeImg = e.target.tagName === 'IMG' ? e.target : null;
-          if (!activeImg && mainImg) {
-            activeImg = mainImg.querySelector('img');
-          }
-          if (!activeImg) {
-            const visibleSlides = getVisibleSlides();
-            const activeSlide = visibleSlides && visibleSlides.length ? visibleSlides[currentIndex] : document.querySelector('.product-gallery__slide.is-active');
-            activeImg = activeSlide ? activeSlide.querySelector('img') : null;
-          }
-          if (activeImg) {
-            const imgSrc = activeImg.currentSrc || activeImg.src || activeImg.getAttribute('src');
-            openZoomModal(imgSrc);
-          }
-        }
-      });
-    }
-
-    zoomModal.addEventListener('click', e => {
-      if (!e.target.closest('[data-zoom-image]') || e.target.closest('.product-gallery__zoom-close') || e.target.closest('[data-zoom-backdrop]')) {
-        closeZoomModal();
-      }
-    });
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && zoomModal.classList.contains('is-open')) {
-        closeZoomModal();
-      }
-    });
-  }
+  // Zoom Modal handled by inline script in main-product.liquid
+  // (moved outside gallery overflow container for correct fixed positioning)
 
   /* ---- Auto-slide every 4 seconds ---- */
   let autoSlideTimer = null;
