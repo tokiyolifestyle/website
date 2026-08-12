@@ -1,81 +1,275 @@
-{%- comment -%} Image with Text — Dark Premium {%- endcomment -%}
+{%- comment -%} Image with Text — Dark Premium Redesign {%- endcomment -%}
 
 <section class="iwt section-iwt" style="background:{{ section.settings.background_color | default: '#0A0A0A' }};">
   <div class="page-width">
     <div class="iwt__grid iwt__grid--{{ section.settings.layout }}">
+
+      {%- comment -%} Media Column {%- endcomment -%}
       <div class="iwt__media animate-on-scroll {% if section.settings.layout == 'image-right' %}fade-left{% else %}fade-right{% endif %}">
-        {%- assign iwt_image = section.settings.image -%}
-        {%- if iwt_image == blank and collections['men-oversized'] != blank and collections['men-oversized'].products.first != blank -%}
-          {%- assign iwt_image = collections['men-oversized'].products.first.featured_image -%}
-        {%- endif -%}
-        {%- if iwt_image != blank -%}
-          {{ iwt_image | image_url: width: 900 | image_tag:
-            loading: 'lazy',
-            widths: '450, 700, 900',
-            sizes: '(max-width:749px) 100vw, 50vw',
-            class: 'iwt__img'
-          }}
-        {%- else -%}
-          <div class="iwt__placeholder">
-            <div class="iwt__placeholder-pattern"></div>
+        <div class="iwt__media-wrap">
+          {%- assign iwt_image = section.settings.image -%}
+          {%- if iwt_image == blank and collections['men-oversized'] != blank and collections['men-oversized'].products.first != blank -%}
+            {%- assign iwt_image = collections['men-oversized'].products.first.featured_image -%}
+          {%- endif -%}
+          {%- if iwt_image != blank -%}
+            {{ iwt_image | image_url: width: 900 | image_tag:
+              loading: 'lazy',
+              widths: '450, 700, 900',
+              sizes: '(max-width:749px) 100vw, 50vw',
+              class: 'iwt__img'
+            }}
+          {%- else -%}
+            <div class="iwt__placeholder">
+              <div class="iwt__placeholder-pattern"></div>
+            </div>
+          {%- endif -%}
+          <div class="iwt__media-tag">
+            <span class="iwt__media-tag-dot"></span>
+            Premium Quality
           </div>
-        {%- endif -%}
+        </div>
       </div>
+
+      {%- comment -%} Content Column {%- endcomment -%}
       <div class="iwt__content animate-on-scroll {% if section.settings.layout == 'image-right' %}fade-right{% else %}fade-left{% endif %}">
         {%- if section.settings.eyebrow != blank -%}
-          <p class="text-eyebrow">{{ section.settings.eyebrow }}</p>
+          <p class="iwt__eyebrow">{{ section.settings.eyebrow }}</p>
         {%- endif -%}
-        <h2 style="color:{{ section.settings.text_color | default: '#FFFFFF' }};">{{ section.settings.heading }}</h2>
-        <div class="iwt__body" style="color:{{ section.settings.text_color | default: 'rgba(255,255,255,0.6)' }};">
+
+        <h2 class="iwt__heading" style="color:{{ section.settings.text_color | default: '#FFFFFF' }};">
+          {{ section.settings.heading }}
+        </h2>
+
+        <div class="iwt__divider"></div>
+
+        <div class="iwt__body">
           {{ section.settings.body }}
         </div>
+
         {%- if section.settings.features != blank -%}
           <ul class="iwt__features">
             {%- assign features = section.settings.features | split: '|' -%}
             {%- for feature in features -%}
-              <li>
-                <span class="iwt__check">✦</span>
-                {{ feature | strip }}
+              <li class="iwt__feature-item">
+                <span class="iwt__feature-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span>{{ feature | strip }}</span>
               </li>
             {%- endfor -%}
           </ul>
         {%- endif -%}
+
         {%- if section.settings.cta_label != blank -%}
-          <a href="{{ section.settings.cta_link }}" class="button button--solid">{{ section.settings.cta_label }}</a>
+          <div class="iwt__cta">
+            <a href="{{ section.settings.cta_link }}" class="iwt__btn">
+              {{ section.settings.cta_label }}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
         {%- endif -%}
       </div>
+
     </div>
   </div>
 </section>
 
 <style>
-  .iwt { padding:6rem 0; }
-  .iwt__grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
-  .iwt__grid--image-right .iwt__media { order:2; }
-  .iwt__img { width:100%; height:auto; }
+  .iwt {
+    padding: 6rem 0;
+    overflow: hidden;
+  }
+
+  /* ── Grid ── */
+  .iwt__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .iwt__grid--image-right .iwt__media { order: 2; }
+  .iwt__grid--image-right .iwt__content { order: 1; }
+
+  /* ── Media ── */
+  .iwt__media-wrap {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  }
+  .iwt__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .iwt__media-wrap:hover .iwt__img {
+    transform: scale(1.04);
+  }
+  .iwt__media-tag {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #FFFFFF;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.85rem;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .iwt__media-tag-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent, #ff0000);
+    animation: iwt-pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes iwt-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
   .iwt__placeholder {
-    aspect-ratio:4/5; background:linear-gradient(135deg, #141414, #1a1a1a);
-    display:flex; align-items:center; justify-content:center;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #141414, #1a1a1a);
+    display: flex; align-items: center; justify-content: center;
   }
   .iwt__placeholder-pattern {
-    width:100%; height:100%;
+    width: 100%; height: 100%;
     background-image: radial-gradient(circle at 30% 40%, rgba(201,168,106,0.08) 0%, transparent 50%);
   }
-  .iwt__content h2 { margin-bottom:1rem; }
-  .iwt__body { margin-bottom:1.5rem; line-height:1.8; color:rgba(255,255,255,0.6); }
-  .iwt__body p, .iwt__body span, .iwt__body strong, .iwt__body a, .iwt__body font { color: inherit !important; }
-  .iwt__features { margin:1.5rem 0 2rem; }
-  .iwt__features li {
-    display:flex; align-items:center; gap:0.75rem;
-    padding:0.5rem 0; color:rgba(255,255,255,0.7) !important;
-    font-size:0.9375rem;
+
+  /* ── Content ── */
+  .iwt__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
-  .iwt__features li * { color: inherit !important; }
-  .iwt__check { color:var(--color-accent, #ff0000); font-size:0.75rem; }
+  .iwt__eyebrow {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-accent, #ff0000);
+    margin: 0 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .iwt__eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-accent, #ff0000);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .iwt__heading {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem;
+    color: #FFFFFF;
+  }
+  .iwt__divider {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-accent, #ff0000), transparent);
+    border-radius: 3px;
+    margin-bottom: 1.5rem;
+  }
+  .iwt__body {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 2rem;
+    max-width: 480px;
+  }
+  .iwt__body p, .iwt__body span, .iwt__body strong, .iwt__body a, .iwt__body font {
+    color: inherit !important;
+  }
+
+  /* ── Feature List ── */
+  .iwt__features {
+    list-style: none;
+    margin: 0 0 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .iwt__feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+  .iwt__feature-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--color-accent, #ff0000);
+  }
+  .iwt__feature-icon svg { stroke: var(--color-accent, #ff0000); }
+
+  /* ── CTA Button ── */
+  .iwt__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #FFFFFF;
+    color: #111111;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 2px solid #FFFFFF;
+  }
+  .iwt__btn:hover {
+    background: transparent;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255,255,255,0.12);
+  }
+  .iwt__btn svg { transition: transform 0.3s; }
+  .iwt__btn:hover svg { transform: translateX(4px); }
+
+  /* ── Mobile ── */
   @media(max-width:749px){
-    .iwt__grid { grid-template-columns:1fr; gap:2rem; }
-    .iwt__grid--image-right .iwt__media { order:0; }
-    .iwt { padding:3rem 0; }
+    .iwt { padding: 3.5rem 0; }
+    .iwt__grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .iwt__grid--image-right .iwt__media { order: 0; }
+    .iwt__grid--image-right .iwt__content { order: 1; }
+    .iwt__media-wrap { aspect-ratio: 3/2; border-radius: 14px; }
+    .iwt__heading { font-size: 2rem; }
+    .iwt__body { max-width: 100%; font-size: 0.925rem; }
+    .iwt__btn { width: 100%; justify-content: center; }
   }
 </style>
 

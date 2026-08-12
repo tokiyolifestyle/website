@@ -137,28 +137,39 @@
             {% render 'icon-chevron-down' %}
           </button>
           <ul class="mobile-nav__sublist" role="list">
-            <li class="mobile-nav__subitem-group" style="padding: 5px 0;">
-              <span style="font-weight: 700; color: #fff; font-size: 0.9rem; padding: 5px 15px; display: block;">Men's Oversized</span>
-              <ul style="list-style: none; padding-left: 15px;">
-                <li><a href="/collections/men-oversized-graphic-print" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Graphic Print</a></li>
-                <li><a href="/collections/men-oversized-anime" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Anime</a></li>
-                <li><a href="/collections/men-oversized-streetwear" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Streetwear</a></li>
-                <li><a href="/collections/men-oversized-story-wear" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Story Wear</a></li>
-                <li><a href="/collections/men-oversized-minimal" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Minimal</a></li>
-                <li><a href="/collections/men-oversized-solid-basics" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Solid Basics</a></li>
+
+            <!-- Men's Oversized -->
+            <li class="mobile-nav__item mobile-nav__item--nested">
+              <a href="/collections/men-oversized" class="mobile-nav__link mobile-nav__link--sub">Men's Oversized</a>
+              <button class="mobile-nav__expand" aria-label="Expand Men's" data-mobile-submenu-toggle>
+                {% render 'icon-chevron-down' %}
+              </button>
+              <ul class="mobile-nav__sublist mobile-nav__sublist--deep" role="list">
+                <li><a href="/collections/men-oversized-graphic-print" class="mobile-nav__link mobile-nav__link--deep">Graphic Print</a></li>
+                <li><a href="/collections/men-oversized-anime" class="mobile-nav__link mobile-nav__link--deep">Anime</a></li>
+                <li><a href="/collections/men-oversized-streetwear" class="mobile-nav__link mobile-nav__link--deep">Streetwear</a></li>
+                <li><a href="/collections/men-oversized-story-wear" class="mobile-nav__link mobile-nav__link--deep">Story Wear</a></li>
+                <li><a href="/collections/men-oversized-minimal" class="mobile-nav__link mobile-nav__link--deep">Minimal</a></li>
+                <li><a href="/collections/men-oversized-solid-basics" class="mobile-nav__link mobile-nav__link--deep">Solid Basics</a></li>
               </ul>
             </li>
-            <li class="mobile-nav__subitem-group" style="padding: 5px 0; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">
-              <span style="font-weight: 700; color: #fff; font-size: 0.9rem; padding: 5px 15px; display: block;">Women's Oversized</span>
-              <ul style="list-style: none; padding-left: 15px;">
-                <li><a href="/collections/women-oversized-graphic-print" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Graphic Print</a></li>
-                <li><a href="/collections/women-oversized-anime" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Anime</a></li>
-                <li><a href="/collections/women-oversized-streetwear" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Streetwear</a></li>
-                <li><a href="/collections/women-oversized-story-wear" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Story Wear</a></li>
-                <li><a href="/collections/women-oversized-minimal" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Minimal</a></li>
-                <li><a href="/collections/women-oversized-solid-basics" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Solid Basics</a></li>
+
+            <!-- Women's Oversized -->
+            <li class="mobile-nav__item mobile-nav__item--nested">
+              <a href="/collections/women-oversized" class="mobile-nav__link mobile-nav__link--sub">Women's Oversized</a>
+              <button class="mobile-nav__expand" aria-label="Expand Women's" data-mobile-submenu-toggle>
+                {% render 'icon-chevron-down' %}
+              </button>
+              <ul class="mobile-nav__sublist mobile-nav__sublist--deep" role="list">
+                <li><a href="/collections/women-oversized-graphic-print" class="mobile-nav__link mobile-nav__link--deep">Graphic Print</a></li>
+                <li><a href="/collections/women-oversized-anime" class="mobile-nav__link mobile-nav__link--deep">Anime</a></li>
+                <li><a href="/collections/women-oversized-streetwear" class="mobile-nav__link mobile-nav__link--deep">Streetwear</a></li>
+                <li><a href="/collections/women-oversized-story-wear" class="mobile-nav__link mobile-nav__link--deep">Story Wear</a></li>
+                <li><a href="/collections/women-oversized-minimal" class="mobile-nav__link mobile-nav__link--deep">Minimal</a></li>
+                <li><a href="/collections/women-oversized-solid-basics" class="mobile-nav__link mobile-nav__link--deep">Solid Basics</a></li>
               </ul>
             </li>
+
           </ul>
         </li>
       {%- else -%}

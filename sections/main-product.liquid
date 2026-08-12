@@ -47,14 +47,6 @@
           {%- if product.images.size > 0 -%}
             {%- assign loop_index = 0 -%}
             {%- for image in product.images -%}
-              {%- if loop_index == 4 and has_manual_size_guide == false -%}
-                <div class="product-gallery__slide" data-gallery-slide="4" data-color="" data-media-id="size-guide-slide">
-                  <div class="product-gallery__main-image" data-gallery-main-image>
-                    <img src="{{ size_guide_img_src }}" class="gallery-img-element gallery-img-portrait" alt="Size Guide" loading="lazy">
-                  </div>
-                </div>
-                {%- assign loop_index = loop_index | plus: 1 -%}
-              {%- endif -%}
               {%- assign img_color = '' -%}
               {%- for variant in product.variants -%}
                 {%- if variant.featured_image and variant.featured_image.src contains image.src -%}
@@ -101,16 +93,13 @@
               </div>
               {%- assign loop_index = loop_index | plus: 1 -%}
             {%- endfor -%}
-            {%- if loop_index <= 4 and has_manual_size_guide == false -%}
-              {%- for i in (loop_index..4) -%}
-                {%- if i == 4 -%}
-                  <div class="product-gallery__slide" data-gallery-slide="4" data-color="" data-media-id="size-guide-slide">
-                    <div class="product-gallery__main-image" data-gallery-main-image>
-                      <img src="{{ size_guide_img_src }}" class="gallery-img-element gallery-img-portrait" alt="Size Guide" loading="lazy">
-                    </div>
-                  </div>
-                {%- endif -%}
-              {%- endfor -%}
+            {%- comment -%} Always append size guide as the LAST slide {%- endcomment -%}
+            {%- if has_manual_size_guide == false -%}
+              <div class="product-gallery__slide" data-gallery-slide="{{ loop_index }}" data-color="" data-media-id="size-guide-slide">
+                <div class="product-gallery__main-image" data-gallery-main-image>
+                  <img src="{{ size_guide_img_src }}" class="gallery-img-element gallery-img-portrait" alt="Size Guide" loading="lazy">
+                </div>
+              </div>
             {%- endif -%}
           {%- else -%}
             <div class="product-gallery__slide is-active" data-gallery-slide="0">
@@ -130,40 +119,29 @@
         <div class="product-gallery__thumbs" data-gallery-thumbs>
           {%- assign thumb_index = 0 -%}
           {%- for image in product.images -%}
-            {%- if thumb_index == 4 and has_manual_size_guide == false -%}
-              <button
-                class="product-gallery__thumb"
-                data-thumb="{{ size_guide_img_src }}"
-                data-color=""
-                data-media-id="size-guide-slide"
-                aria-label="View size guide">
-                <img src="{{ size_guide_img_src }}" loading="lazy" alt="Size Guide" style="width: 100%; height: 100%; object-fit: cover;">
-              </button>
-              {%- assign thumb_index = thumb_index | plus: 1 -%}
+            {%- assign img_color = '' -%}
+            {%- for variant in product.variants -%}
+              {%- if variant.featured_image and variant.featured_image.src contains image.src -%}
+                {%- for option in product.options_with_values -%}
+                  {%- if option.name == 'Color' -%}
+                    {%- assign opt_idx = 'option' | append: option.position -%}
+                    {%- assign img_color = variant[opt_idx] -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+              {%- if img_color != blank -%}{%- break -%}{%- endif -%}
+            {%- endfor -%}
+            {%- if img_color == blank -%}
+              {%- for color_val in product.options_by_name['Color'].values -%}
+                {%- assign downcase_alt = image.alt | downcase | replace: '-', '' | replace: ' ', '' | replace: '.', '' -%}
+                {%- assign downcase_color = color_val | downcase | replace: '-', '' | replace: ' ', '' | replace: '.', '' -%}
+                {%- if downcase_alt contains downcase_color -%}
+                  {%- assign img_color = color_val -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
             {%- endif -%}
-             {%- assign img_color = '' -%}
-             {%- for variant in product.variants -%}
-               {%- if variant.featured_image and variant.featured_image.src contains image.src -%}
-                 {%- for option in product.options_with_values -%}
-                   {%- if option.name == 'Color' -%}
-                     {%- assign opt_idx = 'option' | append: option.position -%}
-                     {%- assign img_color = variant[opt_idx] -%}
-                     {%- break -%}
-                   {%- endif -%}
-                 {%- endfor -%}
-               {%- endif -%}
-               {%- if img_color != blank -%}{%- break -%}{%- endif -%}
-             {%- endfor -%}
-             {%- if img_color == blank -%}
-               {%- for color_val in product.options_by_name['Color'].values -%}
-                 {%- assign downcase_alt = image.alt | downcase | replace: '-', '' | replace: ' ', '' | replace: '.', '' -%}
-                 {%- assign downcase_color = color_val | downcase | replace: '-', '' | replace: ' ', '' | replace: '.', '' -%}
-                 {%- if downcase_alt contains downcase_color -%}
-                   {%- assign img_color = color_val -%}
-                   {%- break -%}
-                 {%- endif -%}
-               {%- endfor -%}
-             {%- endif -%}
             <button
               class="product-gallery__thumb{% if thumb_index == 0 %} is-active{% endif %}"
               data-thumb="{{ image | image_url: width: 1000 }}"
@@ -178,19 +156,16 @@
             </button>
             {%- assign thumb_index = thumb_index | plus: 1 -%}
           {%- endfor -%}
-          {%- if thumb_index <= 4 and has_manual_size_guide == false -%}
-            {%- for i in (thumb_index..4) -%}
-              {%- if i == 4 -%}
-                <button
-                  class="product-gallery__thumb"
-                  data-thumb="{{ size_guide_img_src }}"
-                  data-color=""
-                  data-media-id="size-guide-slide"
-                  aria-label="View size guide">
-                  <img src="{{ size_guide_img_src }}" loading="lazy" alt="Size Guide" style="width: 100%; height: 100%; object-fit: cover;">
-                </button>
-              {%- endif -%}
-            {%- endfor -%}
+          {%- comment -%} Always append size guide as the LAST thumb {%- endcomment -%}
+          {%- if has_manual_size_guide == false -%}
+            <button
+              class="product-gallery__thumb"
+              data-thumb="{{ size_guide_img_src }}"
+              data-color=""
+              data-media-id="size-guide-slide"
+              aria-label="View size guide">
+              <img src="{{ size_guide_img_src }}" loading="lazy" alt="Size Guide" style="width: 100%; height: 100%; object-fit: contain; background: #fff; padding: 2px;">
+            </button>
           {%- endif -%}
         </div>
       {%- endif -%}
@@ -319,16 +294,31 @@
                   {%- assign s_color = s_product.title | split: ' - ' | last -%}
                   {%- assign hex_color = '#111111' -%}
                   {%- if s_color == 'White' -%}{%- assign hex_color = '#FFFFFF' -%}
-                  {%- elsif s_color == 'Beige' -%}{%- assign hex_color = '#E4D5B7' -%}
+                  {%- elsif s_color == 'Beige' or s_color == 'Sand' or s_color == 'Cream' -%}{%- assign hex_color = '#E4D5B7' -%}
                   {%- elsif s_color == 'Pista' -%}{%- assign hex_color = '#C1F8C2' -%}
-                  {%- elsif s_color == 'Airforce' -%}{%- assign hex_color = '#5F8A96' -%}
-                  {%- elsif s_color == 'Peach' -%}{%- assign hex_color = '#FFE5B4' -%}
-                  {%- elsif s_color == 'Lavender' -%}{%- assign hex_color = '#E6E6FA' -%}
-                  {%- elsif s_color == 'Mustard' -%}{%- assign hex_color = '#E1AD01' -%}
-                  {%- elsif s_color == 'Onion Pink' -%}{%- assign hex_color = '#D1A3A4' -%}
-                  {%- elsif s_color == 'Wine' -%}{%- assign hex_color = '#722F37' -%}
-                  {%- elsif s_color == 'D. Grey' -%}{%- assign hex_color = '#5A5A5A' -%}
+                  {%- elsif s_color == 'Airforce' or s_color == 'Air Force' -%}{%- assign hex_color = '#5F8A96' -%}
+                  {%- elsif s_color == 'Peach' -%}{%- assign hex_color = '#FFCBA4' -%}
+                  {%- elsif s_color == 'Lavender' -%}{%- assign hex_color = '#B57BDB' -%}
+                  {%- elsif s_color == 'Mustard' or s_color == 'Yellow' -%}{%- assign hex_color = '#E1AD01' -%}
+                  {%- elsif s_color == 'Onion Pink' or s_color == 'Onion-Pink' -%}{%- assign hex_color = '#D1A3A4' -%}
+                  {%- elsif s_color == 'Pink' or s_color == 'Baby Pink' -%}{%- assign hex_color = '#F48FB1' -%}
+                  {%- elsif s_color == 'Wine' or s_color == 'Maroon' or s_color == 'Burgundy' -%}{%- assign hex_color = '#722F37' -%}
+                  {%- elsif s_color == 'D. Grey' or s_color == 'Dark Grey' or s_color == 'Charcoal' -%}{%- assign hex_color = '#3A3A3A' -%}
+                  {%- elsif s_color == 'Grey' or s_color == 'Gray' or s_color == 'L. Grey' or s_color == 'Light Grey' -%}{%- assign hex_color = '#9E9E9E' -%}
                   {%- elsif s_color == 'Black' -%}{%- assign hex_color = '#111111' -%}
+                  {%- elsif s_color == 'Navy' or s_color == 'Navy Blue' -%}{%- assign hex_color = '#1B2A4A' -%}
+                  {%- elsif s_color == 'Blue' or s_color == 'Royal Blue' -%}{%- assign hex_color = '#1565C0' -%}
+                  {%- elsif s_color == 'Sky Blue' or s_color == 'Light Blue' -%}{%- assign hex_color = '#87CEEB' -%}
+                  {%- elsif s_color == 'Red' -%}{%- assign hex_color = '#D32F2F' -%}
+                  {%- elsif s_color == 'Orange' -%}{%- assign hex_color = '#F57C00' -%}
+                  {%- elsif s_color == 'Green' or s_color == 'Olive' -%}{%- assign hex_color = '#388E3C' -%}
+                  {%- elsif s_color == 'Bottle Green' or s_color == 'Dark Green' -%}{%- assign hex_color = '#1B5E20' -%}
+                  {%- elsif s_color == 'Mint' or s_color == 'Mint Green' -%}{%- assign hex_color = '#A5D6A7' -%}
+                  {%- elsif s_color == 'Teal' -%}{%- assign hex_color = '#00897B' -%}
+                  {%- elsif s_color == 'Purple' or s_color == 'Violet' -%}{%- assign hex_color = '#7B1FA2' -%}
+                  {%- elsif s_color == 'Brown' or s_color == 'Coffee' -%}{%- assign hex_color = '#5D4037' -%}
+                  {%- elsif s_color == 'Rust' or s_color == 'Terracotta' -%}{%- assign hex_color = '#BF360C' -%}
+                  {%- elsif s_color == 'Off White' or s_color == 'Off-White' -%}{%- assign hex_color = '#F5F0E8' -%}
                   {%- endif -%}
 
                   <a href="{{ s_product.url }}" 
@@ -358,19 +348,34 @@
             {%- if option.name == 'Color' and settings.enable_color_swatches -%}
               <div class="product-option__swatches" role="group" aria-label="Select {{ option.name }}">
                 {%- for value in option.values -%}
-                  {%- assign hex_color = value | handle | replace: '-', '' -%}
-                  {%- assign check_val = value | downcase -%}
+                  {%- assign hex_color = '#111111' -%}
+                  {%- assign check_val = value | downcase | strip -%}
                   {%- if check_val == 'white' -%}{%- assign hex_color = '#FFFFFF' -%}
-                  {%- elsif check_val == 'beige' -%}{%- assign hex_color = '#E4D5B7' -%}
+                  {%- elsif check_val == 'beige' or check_val == 'sand' or check_val == 'cream' -%}{%- assign hex_color = '#E4D5B7' -%}
+                  {%- elsif check_val == 'off white' or check_val == 'off-white' -%}{%- assign hex_color = '#F5F0E8' -%}
                   {%- elsif check_val == 'pista' -%}{%- assign hex_color = '#C1F8C2' -%}
                   {%- elsif check_val == 'airforce' or check_val == 'air force' -%}{%- assign hex_color = '#5F8A96' -%}
-                  {%- elsif check_val == 'peach' -%}{%- assign hex_color = '#FFE5B4' -%}
-                  {%- elsif check_val == 'lavender' -%}{%- assign hex_color = '#E6E6FA' -%}
-                  {%- elsif check_val == 'mustard' -%}{%- assign hex_color = '#E1AD01' -%}
+                  {%- elsif check_val == 'peach' -%}{%- assign hex_color = '#FFCBA4' -%}
+                  {%- elsif check_val == 'lavender' -%}{%- assign hex_color = '#B57BDB' -%}
+                  {%- elsif check_val == 'mustard' or check_val == 'yellow' -%}{%- assign hex_color = '#E1AD01' -%}
                   {%- elsif check_val == 'onion pink' or check_val == 'onion-pink' -%}{%- assign hex_color = '#D1A3A4' -%}
-                  {%- elsif check_val == 'wine' -%}{%- assign hex_color = '#722F37' -%}
-                  {%- elsif check_val == 'd. grey' or check_val == 'd-grey' or check_val == 'dark grey' or check_val == 'dark-grey' -%}{%- assign hex_color = '#5A5A5A' -%}
+                  {%- elsif check_val == 'pink' or check_val == 'baby pink' or check_val == 'light pink' -%}{%- assign hex_color = '#F48FB1' -%}
+                  {%- elsif check_val == 'wine' or check_val == 'maroon' or check_val == 'burgundy' -%}{%- assign hex_color = '#722F37' -%}
+                  {%- elsif check_val == 'd. grey' or check_val == 'd-grey' or check_val == 'dark grey' or check_val == 'dark gray' or check_val == 'charcoal' -%}{%- assign hex_color = '#3A3A3A' -%}
+                  {%- elsif check_val == 'grey' or check_val == 'gray' or check_val == 'l. grey' or check_val == 'light grey' or check_val == 'light gray' -%}{%- assign hex_color = '#9E9E9E' -%}
                   {%- elsif check_val == 'black' -%}{%- assign hex_color = '#111111' -%}
+                  {%- elsif check_val == 'navy' or check_val == 'navy blue' -%}{%- assign hex_color = '#1B2A4A' -%}
+                  {%- elsif check_val == 'blue' or check_val == 'royal blue' -%}{%- assign hex_color = '#1565C0' -%}
+                  {%- elsif check_val == 'sky blue' or check_val == 'light blue' -%}{%- assign hex_color = '#87CEEB' -%}
+                  {%- elsif check_val == 'red' -%}{%- assign hex_color = '#D32F2F' -%}
+                  {%- elsif check_val == 'orange' -%}{%- assign hex_color = '#F57C00' -%}
+                  {%- elsif check_val == 'green' or check_val == 'olive' -%}{%- assign hex_color = '#388E3C' -%}
+                  {%- elsif check_val == 'bottle green' or check_val == 'dark green' -%}{%- assign hex_color = '#1B5E20' -%}
+                  {%- elsif check_val == 'mint' or check_val == 'mint green' -%}{%- assign hex_color = '#A5D6A7' -%}
+                  {%- elsif check_val == 'teal' -%}{%- assign hex_color = '#00897B' -%}
+                  {%- elsif check_val == 'purple' or check_val == 'violet' -%}{%- assign hex_color = '#7B1FA2' -%}
+                  {%- elsif check_val == 'brown' or check_val == 'coffee' -%}{%- assign hex_color = '#5D4037' -%}
+                  {%- elsif check_val == 'rust' or check_val == 'terracotta' -%}{%- assign hex_color = '#BF360C' -%}
                   {%- endif -%}
                   {%- assign opt_key = 'option' | append: option.position -%}
                   <label class="swatch-label color-swatch" title="{{ value }}">
