@@ -30,9 +30,9 @@
       {%- endif -%}
       {%- assign validity_seconds = 90 | times: 24 | times: 60 | times: 60 -%}
       {%- assign validity_timestamp = base_timestamp | plus: validity_seconds -%}
-      {%- assign card_number_seed = customer.id | default: 94819 -%}
-      {%- assign card_number_part1 = card_number_seed | modulo: 10000 -%}
-      {%- assign card_number_part2 = card_number_seed | divided_by: 10 | modulo: 10000 -%}
+      {%- assign card_id_raw = customer.id | default: 1001 -%}
+      {%- assign card_part1 = card_id_raw | modulo: 8999 | plus: 1000 -%}
+      {%- assign card_part2 = card_id_raw | slice: -4, 4 -%}
 
       <div class="account-card-wrap">
         <h2 class="account-section-title">My VIP Privilege Card</h2>
@@ -61,7 +61,7 @@
 
           <!-- Card Number -->
           <div class="vip-card__number">
-            TK-{{ card_number_part1 | default: '4820' | prepend: '0000' | slice: -4, 4 }}-{{ card_number_part2 | default: '9284' | prepend: '0000' | slice: -4, 4 }}
+            TK-{{ card_part1 }}-{{ card_part2 }}
           </div>
 
           <!-- Footer Info -->

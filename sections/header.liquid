@@ -236,62 +236,64 @@
     </div>
 
     <div class="account-drawer__body">
-      {%- assign base_timestamp = 'now' | date: '%s' | plus: 0 -%}
-      {%- if customer.orders.size > 0 -%}
-        {%- assign latest_order_date = customer.orders.first.created_at | date: '%s' | plus: 0 -%}
-        {%- assign base_timestamp = latest_order_date -%}
-      {%- endif -%}
-      {%- assign validity_seconds = 90 | times: 24 | times: 60 | times: 60 -%}
-      {%- assign validity_timestamp = base_timestamp | plus: validity_seconds -%}
-      {%- assign card_number_seed = customer.id | default: 94819 -%}
-      {%- assign card_number_part1 = card_number_seed | modulo: 10000 -%}
-      {%- assign card_number_part2 = card_number_seed | divided_by: 10 | modulo: 10000 -%}
-
-      <!-- Tokiyo VIP Privilege Card -->
-      <div class="account-drawer__card-section">
-        <div class="tokiyo-drawer-card">
-          <div class="drawer-card__glow-red"></div>
-          <div class="drawer-card__glow-gold"></div>
-
-          <div class="drawer-card__header">
-            <div class="drawer-card__brand">
-              <span class="drawer-card__title">TOKIYO</span>
-              <span class="drawer-card__sub">LIFESTYLE</span>
-            </div>
-            <span class="drawer-card__badge">BLACK TIER</span>
-          </div>
-
-          <div class="drawer-card__chip-row">
-            <div class="drawer-card__chip">
-              <div class="drawer-card__chip-inner"></div>
-            </div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-
-          <div class="drawer-card__number">
-            TK-{{ card_number_part1 | default: '4820' | prepend: '0000' | slice: -4, 4 }}-{{ card_number_part2 | default: '9284' | prepend: '0000' | slice: -4, 4 }}
-          </div>
-
-          <div class="drawer-card__footer">
-            <div>
-              <span class="drawer-card__lbl">MEMBER NAME</span>
-              <span class="drawer-card__val">{{ customer.name | default: 'VIP Guest Member' }}</span>
-            </div>
-            <div class="text-right">
-              <span class="drawer-card__lbl">VALID UNTIL</span>
-              <span class="drawer-card__val font-mono">{{ validity_timestamp | date: '%d/%m/%Y' }}</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="drawer-vip-info">
-          <span class="drawer-vip-icon">⚡</span>
-          <span>Validity auto-extends by <strong>+3 months</strong> on every purchase!</span>
-        </div>
-      </div>
 
       {%- if customer -%}
-        <!-- Logged-in Customer View -->
+        {%- comment -%} Logged-in Customer View: SHOW VIP PRIVILEGE CARD {%- endcomment -%}
+        {%- assign base_timestamp = 'now' | date: '%s' | plus: 0 -%}
+        {%- if customer.orders.size > 0 -%}
+          {%- assign latest_order_date = customer.orders.first.created_at | date: '%s' | plus: 0 -%}
+          {%- assign base_timestamp = latest_order_date -%}
+        {%- endif -%}
+        {%- assign validity_seconds = 90 | times: 24 | times: 60 | times: 60 -%}
+        {%- assign validity_timestamp = base_timestamp | plus: validity_seconds -%}
+        
+        {%- comment -%} Unique Serialized Card Number from Customer ID {%- endcomment -%}
+        {%- assign card_id_raw = customer.id | default: 1001 -%}
+        {%- assign card_part1 = card_id_raw | modulo: 8999 | plus: 1000 -%}
+        {%- assign card_part2 = card_id_raw | slice: -4, 4 -%}
+
+        <div class="account-drawer__card-section">
+          <div class="tokiyo-drawer-card">
+            <div class="drawer-card__glow-red"></div>
+            <div class="drawer-card__glow-gold"></div>
+
+            <div class="drawer-card__header">
+              <div class="drawer-card__brand">
+                <span class="drawer-card__title">TOKIYO</span>
+                <span class="drawer-card__sub">LIFESTYLE</span>
+              </div>
+              <span class="drawer-card__badge">BLACK TIER</span>
+            </div>
+
+            <div class="drawer-card__chip-row">
+              <div class="drawer-card__chip">
+                <div class="drawer-card__chip-inner"></div>
+              </div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+
+            <div class="drawer-card__number">
+              TK-{{ card_part1 }}-{{ card_part2 }}
+            </div>
+
+            <div class="drawer-card__footer">
+              <div>
+                <span class="drawer-card__lbl">MEMBER NAME</span>
+                <span class="drawer-card__val">{{ customer.name | default: 'VIP Member' }}</span>
+              </div>
+              <div class="text-right">
+                <span class="drawer-card__lbl">VALID UNTIL</span>
+                <span class="drawer-card__val font-mono">{{ validity_timestamp | date: '%d/%m/%Y' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="drawer-vip-info">
+            <span class="drawer-vip-icon">⚡</span>
+            <span>Validity auto-extends by <strong>+3 months</strong> on every purchase!</span>
+          </div>
+        </div>
+
         <div class="account-drawer__user-box">
           <h3>Welcome, {{ customer.first_name }} 👋</h3>
           <p>{{ customer.email }}</p>
@@ -301,11 +303,19 @@
             <a href="{{ routes.account_logout_url }}" class="button button--outline button--full account-drawer__logout-btn">Log Out</a>
           </div>
         </div>
+
       {%- else -%}
-        <!-- Guest Quick Login View -->
+        <!-- Guest View: Teaser & Quick Login (NO CARD SHOWN) -->
+        <div class="account-drawer__guest-teaser">
+          <div class="guest-privilege-badge">
+            <span class="guest-badge-icon">👑</span>
+            <span>Tokiyo VIP Privilege Pass</span>
+          </div>
+          <p class="guest-teaser-desc">Sign in to unlock your unique <strong>Tokiyo VIP Privilege Card</strong>, exclusive retail partner discounts & priority drop access!</p>
+        </div>
+
         <div class="account-drawer__login-box">
           <h3>Sign In / Create Account</h3>
-          <p class="account-drawer__subtitle">Access your order status, VIP rewards & fast checkout</p>
 
           {%- form 'customer_login', class: 'account-drawer__form' -%}
             <div class="form-field">
