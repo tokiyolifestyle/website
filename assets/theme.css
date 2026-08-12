@@ -1876,10 +1876,515 @@ html, body { padding-bottom: 0 !important; }
 }
 .form-success {
   background: #D1FAE5;
+}
+.floating-cart-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* --- Mobile Horizontal Left-to-Right Sliders for Homepage Sections --- */
+@media (max-width: 749px) {
+  /* Homepage product grid sliders (New Arrivals, Bestsellers) */
+  .template-index .product-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 16px !important;
+    padding-bottom: 12px !important;
+    padding-inline: 16px !important;
+    margin-inline: -16px !important;
+  }
+  .template-index .product-grid::-webkit-scrollbar {
+    display: none !important; /* Hide scrollbars for clean look */
+  }
+  .template-index .product-grid .product-card {
+    flex: 0 0 72% !important;
+    scroll-snap-align: start !important;
+    max-width: 72% !important;
+  }
+
+  /* Curated Collections sliders (Shop by Collection) */
+  .template-index .featured-collections .fc-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 12px !important;
+    padding-bottom: 12px !important;
+    padding-inline: 16px !important;
+    margin-inline: -16px !important;
+  }
+  .template-index .featured-collections .fc-grid::-webkit-scrollbar {
+    display: none !important;
+  }
+  .template-index .featured-collections .fc-card {
+    flex: 0 0 46% !important;
+    scroll-snap-align: start !important;
+    max-width: 46% !important;
+  }
+}
+
+/* ---- Customer Account / Login / Register Pages ---- */
+.customer-page {
+  padding-block: 3.5rem 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 68vh;
+  background: var(--color-background, #FFFFFF);
+}
+.customer-page__card {
+  width: 100%;
+  max-width: 440px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+}
+.customer-page__logo {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+.customer-logo-img {
+  max-width: 150px;
+  height: auto;
+  object-fit: contain;
+}
+.customer-page__title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #111111;
+  margin: 0 0 0.4rem;
+}
+.customer-page__subtitle {
+  font-size: 0.85rem;
+  color: #666666;
+  margin-bottom: 1.75rem;
+  line-height: 1.4;
+}
+.customer-page .form-field {
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+.customer-page .form-row {
+  display: flex;
+  gap: 1rem;
+}
+.customer-page .form-row .form-field {
+  flex: 1;
+}
+.customer-page .form-field label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #333333;
+  margin-bottom: 0.4rem;
+}
+.form-field__label-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+.form-field__label-wrap label {
+  margin-bottom: 0 !important;
+}
+.customer-page__forgot-link {
+  font-size: 0.72rem;
+  color: var(--color-accent, #ff0000);
+  text-decoration: underline;
+  font-weight: 600;
+}
+.customer-page .form-field input[type="email"],
+.customer-page .form-field input[type="password"],
+.customer-page .form-field input[type="text"] {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  background: #F9F9FB;
+  color: #111111;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.customer-page .form-field input:focus {
+  outline: none;
+  border-color: #111111;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+  background: #FFFFFF;
+}
+.input-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.password-toggle-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #888888;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+}
+.customer-page__btn {
+  margin-top: 0.5rem;
+  border-radius: 50px;
+  padding: 0.9rem 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.customer-page__footer-link {
+  margin-top: 1.5rem;
+  font-size: 0.825rem;
+  color: #666666;
+}
+.customer-page__footer-link a {
+  color: #111111;
+  font-weight: 700;
+  text-decoration: underline;
+}
+.form-errors {
+  background: #FEE2E2;
+  border: 1px solid #FCA5A5;
+  color: #991B1B;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+.form-success {
+  background: #D1FAE5;
   border: 1px solid #6EE7B7;
   color: #065F46;
   padding: 0.75rem;
   border-radius: 8px;
   font-size: 0.8rem;
   margin-bottom: 1.25rem;
+}
+
+/* ---- Account Dashboard & VIP Card Styling ---- */
+.account-dashboard {
+  padding-block: 3rem 5rem;
+}
+.account-dashboard__hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  margin-bottom: 2.5rem;
+}
+.account-dashboard__welcome {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.account-dashboard__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #111111;
+  color: #FFFFFF;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.account-dashboard__name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #111111;
+  margin: 0 0 0.2rem;
+}
+.account-dashboard__email {
+  font-size: 0.875rem;
+  color: #666666;
+  margin: 0;
+}
+.account-dashboard__hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.account-logout-btn {
+  background: var(--color-accent, #ff0000) !important;
+  border-color: var(--color-accent, #ff0000) !important;
+  color: #FFFFFF !important;
+}
+
+.account-dashboard__grid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+@media (max-width: 989px) {
+  .account-dashboard__grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.account-section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #111111;
+  margin-bottom: 1.25rem;
+}
+
+/* Tokiyo VIP Privilege Card */
+.account-card-wrap {
+  width: 100%;
+}
+.tokiyo-vip-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.586/1; /* Credit card aspect ratio */
+  border-radius: 18px;
+  background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 60%, #161616 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 0, 0, 0.12);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  color: #FFFFFF;
+}
+.vip-card__glow-red {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(255,0,0,0.22) 0%, transparent 70%);
+  pointer-events: none;
+}
+.vip-card__glow-gold {
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(255,153,51,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.vip-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 2;
+}
+.vip-card__brand {
+  display: flex;
+  flex-direction: column;
+}
+.vip-card__logo-img {
+  height: 22px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+.vip-card__brand-sub {
+  font-size: 0.55rem;
+  letter-spacing: 0.35em;
+  color: rgba(255,255,255,0.5);
+  margin-top: 2px;
+}
+.vip-card__badge {
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+  color: #000000;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.vip-card__chip-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
+  margin-top: 0.5rem;
+}
+.vip-card__chip {
+  width: 36px;
+  height: 26px;
+  background: linear-gradient(135deg, #ffd700, #b8860b);
+  border-radius: 5px;
+  padding: 3px;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.4);
+}
+.vip-card__chip-inner {
+  width: 100%; height: 100%;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 3px;
+}
+.vip-card__number {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: clamp(1.05rem, 3vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: 3px;
+  z-index: 2;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  margin-top: 0.5rem;
+}
+.vip-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  z-index: 2;
+}
+.vip-card__label {
+  display: block;
+  font-size: 0.55rem;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+.vip-card__val {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.vip-benefits-box {
+  margin-top: 1.25rem;
+  background: #F9F9FB;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.vip-benefit-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-size: 0.8rem;
+  color: #444444;
+  line-height: 1.4;
+}
+.vip-benefit-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* Order History List & Cards */
+.account-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.account-order-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.account-order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+.account-order-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.account-order-card__name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #111111;
+  text-decoration: none;
+}
+.account-order-card__date {
+  display: block;
+  font-size: 0.78rem;
+  color: #777777;
+  margin-top: 2px;
+}
+.account-order-card__status {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.status-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 50px;
+  background: #F3F4F6;
+  color: #374151;
+}
+.status-badge--paid, .status-badge--fulfilled {
+  background: #D1FAE5;
+  color: #065F46;
+}
+.status-badge--unfulfilled, .status-badge--pending {
+  background: #FEF3C7;
+  color: #92400E;
+}
+.account-order-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.account-order-card__total {
+  font-size: 0.875rem;
+  color: #444444;
+}
+.account-empty-orders {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #F9F9FB;
+  border-radius: 14px;
+  border: 1px dashed rgba(0,0,0,0.12);
+}
+.account-empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+.account-empty-orders h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+}
+.account-empty-orders p {
+  font-size: 0.875rem;
+  color: #666666;
+  margin-bottom: 1.5rem;
 }

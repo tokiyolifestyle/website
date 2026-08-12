@@ -1,16 +1,28 @@
-<div class="customer-page page-width customer-account">
-  <div class="customer-account__header">
-    <h1>{{ 'customer.account.title' | t }}</h1>
-    <a href="{{ routes.account_logout_url }}" class="button button--outline button--small">Log out</a>
-  </div>
-  <div class="customer-account__grid">
-    <div class="customer-account__info">
-      <h2>{{ 'customer.account.details' | t }}</h2>
-      <p>{{ customer.first_name }} {{ customer.last_name }}</p>
-      <p>{{ customer.email }}</p>
-      <a href="{{ routes.account_addresses_url }}" class="button button--outline button--small" style="margin-bottom: 1.5rem;">{{ 'customer.account.view_addresses' | t }}</a>
+<div class="account-dashboard page-width">
 
-      {%- comment -%} TOKIYO PRIVILEGE CARD (My Card) {%- endcomment -%}
+  {%- comment -%} Header & Welcome Banner {%- endcomment -%}
+  <div class="account-dashboard__hero">
+    <div class="account-dashboard__welcome">
+      <div class="account-dashboard__avatar">
+        {{ customer.first_name | slice: 0 | default: 'T' | upcase }}
+      </div>
+      <div>
+        <h1 class="account-dashboard__name">Welcome, {{ customer.first_name | default: 'Member' }} 👋</h1>
+        <p class="account-dashboard__email">{{ customer.email }}</p>
+      </div>
+    </div>
+    <div class="account-dashboard__hero-actions">
+      <a href="{{ routes.account_addresses_url }}" class="button button--outline button--small">Saved Addresses ({{ customer.addresses_count }})</a>
+      <a href="{{ routes.account_logout_url }}" class="button button--solid button--small account-logout-btn">Log Out</a>
+    </div>
+  </div>
+
+  <div class="account-dashboard__grid">
+
+    {%- comment -%} Left Column: VIP Privilege Card & Tier Benefits {%- endcomment -%}
+    <div class="account-dashboard__col-left">
+
+      {%- comment -%} TOKIYO PRIVILEGE VIP CARD {%- endcomment -%}
       {%- assign base_timestamp = 'now' | date: '%s' | plus: 0 -%}
       {%- if customer.orders.size > 0 -%}
         {%- assign latest_order_date = customer.orders.first.created_at | date: '%s' | plus: 0 -%}
@@ -21,98 +33,106 @@
       {%- assign card_number_seed = customer.id | default: 94819 -%}
       {%- assign card_number_part1 = card_number_seed | modulo: 10000 -%}
       {%- assign card_number_part2 = card_number_seed | divided_by: 10 | modulo: 10000 -%}
-      
-      <div class="tokiyo-card-section" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 2rem;">
-        <h3 style="margin-bottom: 1rem; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.1em; color: #888;">My Privilege Card</h3>
-        
-        <div class="tokiyo-privilege-card" style="
-          position: relative;
-          width: 100%;
-          max-width: 350px;
-          height: 200px;
-          border-radius: 16px;
-          background: linear-gradient(135deg, #1e1e1e 0%, #0d0d0d 100%);
-          border: 1px solid rgba(255,255,255,0.08);
-          box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 15px rgba(255, 0, 0, 0.1);
-          padding: 20px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          overflow: hidden;
-          color: #ffffff;
-        ">
-          <!-- Glow effects -->
-          <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(255,0,0,0.15) 0%, transparent 70%); pointer-events: none;"></div>
-          <div style="position: absolute; bottom: -50px; left: -50px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(255,153,51,0.1) 0%, transparent 70%); pointer-events: none;"></div>
-          
-          <!-- Header -->
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; z-index: 2;">
-            <div>
-              <span style="font-weight: 800; font-size: 1.1rem; letter-spacing: 0.05em;">TOKIYO</span>
-              <span style="display: block; font-size: 0.6rem; letter-spacing: 0.3em; color: #888; text-transform: uppercase;">Lifestyle</span>
+
+      <div class="account-card-wrap">
+        <h2 class="account-section-title">My VIP Privilege Card</h2>
+
+        <div class="tokiyo-vip-card">
+          <!-- Glass Reflection Effects -->
+          <div class="vip-card__glow-red"></div>
+          <div class="vip-card__glow-gold"></div>
+
+          <!-- Top Row -->
+          <div class="vip-card__header">
+            <div class="vip-card__brand">
+              <img src="{{ 'tokiyo-logo.jpeg' | asset_url }}" alt="Tokiyo Lifestyle" class="vip-card__logo-img">
+              <span class="vip-card__brand-sub">VIP MEMBER</span>
             </div>
-            <span style="font-size: 0.65rem; background: linear-gradient(90deg, #FF9933, #FFFFFF, #128807); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; border: 1px solid rgba(255,255,255,0.15); padding: 3px 8px; border-radius: 4px; letter-spacing: 0.05em;">PRIVILEGE</span>
+            <span class="vip-card__badge">BLACK TIER</span>
           </div>
 
           <!-- Chip & Contactless -->
-          <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px; z-index: 2;">
-            <div style="width: 32px; height: 24px; background: linear-gradient(135deg, #ffd700, #b8860b); border-radius: 4px; position: relative;">
-              <div style="position: absolute; inset: 4px; border: 1px solid rgba(0,0,0,0.2); border-radius: 2px;"></div>
+          <div class="vip-card__chip-row">
+            <div class="vip-card__chip">
+              <div class="vip-card__chip-inner"></div>
             </div>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
 
           <!-- Card Number -->
-          <div style="font-family: monospace; font-size: 1.15rem; letter-spacing: 2px; margin-top: 15px; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+          <div class="vip-card__number">
             TK-{{ card_number_part1 | default: '4820' | prepend: '0000' | slice: -4, 4 }}-{{ card_number_part2 | default: '9284' | prepend: '0000' | slice: -4, 4 }}
           </div>
 
           <!-- Footer Info -->
-          <div style="display: flex; justify-content: space-between; align-items: flex-end; z-index: 2;">
+          <div class="vip-card__footer">
             <div>
-              <span style="display: block; font-size: 0.55rem; color: #666; text-transform: uppercase; letter-spacing: 1px;">Card Holder</span>
-              <span style="font-size: 0.85rem; font-weight: 600;">{{ customer.name | default: 'Guest Member' }}</span>
+              <span class="vip-card__label">MEMBER NAME</span>
+              <span class="vip-card__val">{{ customer.name | default: 'VIP Guest' }}</span>
             </div>
-            <div style="text-align: right;">
-              <span style="display: block; font-size: 0.55rem; color: #666; text-transform: uppercase; letter-spacing: 1px;">Valid Thru</span>
-              <span style="font-size: 0.85rem; font-weight: 600; font-family: monospace;">{{ validity_timestamp | date: '%d/%m/%Y' }}</span>
+            <div class="text-right">
+              <span class="vip-card__label">VALID UNTIL</span>
+              <span class="vip-card__val font-mono">{{ validity_timestamp | date: '%d/%m/%Y' }}</span>
             </div>
           </div>
         </div>
-        
-        <!-- Info Alert -->
-        <div style="margin-top: 1rem; max-width: 350px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; font-size: 0.75rem; color: #aaa; line-height: 1.4;">
-          <p style="margin: 0; display: flex; align-items: center; gap: 8px;">
-            <span style="color: #ff0000;">⚡</span> 
-            <span>Validity automatically increases by <strong>3 months</strong> on every purchase!</span>
-          </p>
-          <p style="margin: 6px 0 0 0; font-size: 0.7rem; color: #888;">
-            Get exclusive discounts at all retail outlet partners and early access VIP sales.
-          </p>
+
+        <!-- VIP Benefits Badge -->
+        <div class="vip-benefits-box">
+          <div class="vip-benefit-item">
+            <span class="vip-benefit-icon">⚡</span>
+            <div>
+              <strong>Validity Extension:</strong> Extended by +3 months on every purchase automatically!
+            </div>
+          </div>
+          <div class="vip-benefit-item">
+            <span class="vip-benefit-icon">👑</span>
+            <div>
+              <strong>VIP Privileges:</strong> Priority dispatch, free size exchange & early access to new collection drops.
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
-    <div class="customer-account__orders">
-      <h2>{{ 'customer.orders.title' | t }}</h2>
+
+    {%- comment -%} Right Column: Orders & Account Details {%- endcomment -%}
+    <div class="account-dashboard__col-right">
+
+      <h2 class="account-section-title">Order History</h2>
+
       {%- if customer.orders.size > 0 -%}
-        <table class="orders-table">
-          <thead><tr><th>{{ 'customer.orders.order_number' | t }}</th><th>{{ 'customer.orders.date' | t }}</th><th>{{ 'customer.orders.payment_status' | t }}</th><th>{{ 'customer.orders.fulfillment_status' | t }}</th><th>{{ 'customer.orders.total' | t }}</th></tr></thead>
-          <tbody>
-            {%- for order in customer.orders -%}
-              <tr>
-                <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
-                <td>{{ order.created_at | date: '%b %d, %Y' }}</td>
-                <td>{{ order.financial_status_label }}</td>
-                <td>{{ order.fulfillment_status_label }}</td>
-                <td>{{ order.total_price | money }}</td>
-              </tr>
-            {%- endfor -%}
-          </tbody>
-        </table>
+        <div class="account-orders-list">
+          {%- for order in customer.orders -%}
+            <div class="account-order-card">
+              <div class="account-order-card__header">
+                <div>
+                  <a href="{{ order.customer_url }}" class="account-order-card__name">{{ order.name }}</a>
+                  <span class="account-order-card__date">{{ order.created_at | date: '%b %d, %Y' }}</span>
+                </div>
+                <div class="account-order-card__status">
+                  <span class="status-badge status-badge--{{ order.financial_status }}">{{ order.financial_status_label }}</span>
+                  <span class="status-badge status-badge--{{ order.fulfillment_status }}">{{ order.fulfillment_status_label }}</span>
+                </div>
+              </div>
+              <div class="account-order-card__footer">
+                <span class="account-order-card__total">Total: <strong>{{ order.total_price | money }}</strong> ({{ order.item_count }} item{% if order.item_count > 1 %}s{% endif %})</span>
+                <a href="{{ order.customer_url }}" class="button button--outline button--small">View Order →</a>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
       {%- else -%}
-        <p>{{ 'customer.orders.no_orders' | t }}</p>
-        <a href="/collections/all" class="button button--outline">{{ 'customer.orders.start_shopping' | t }}</a>
+        <div class="account-empty-orders">
+          <div class="account-empty-icon">🛍️</div>
+          <h3>No Orders Yet</h3>
+          <p>You haven't placed any orders yet. Start exploring our oversized streetwear collections!</p>
+          <a href="/collections/all" class="button button--solid">Explore Collections</a>
+        </div>
       {%- endif -%}
+
     </div>
+
   </div>
+
 </div>
