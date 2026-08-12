@@ -21,6 +21,15 @@
   {%- endif -%}
 {%- endif -%}
 
+{%- assign has_manual_size_guide = false -%}
+{%- for img in product.images -%}
+  {%- assign img_alt_down = img.alt | downcase -%}
+  {%- assign img_src_down = img.src | downcase -%}
+  {%- if img_alt_down contains 'size-guide' or img_alt_down contains 'size-chart' or img_alt_down contains 'sizeguide' or img_src_down contains 'size-guide' or img_src_down contains 'size-chart' or img_src_down contains 'sizeguide' -%}
+    {%- assign has_manual_size_guide = true -%}
+  {%- endif -%}
+{%- endfor -%}
+
 <div class="product-page" itemscope itemtype="https://schema.org/Product">
   <meta itemprop="name" content="{{ product.title | escape }}">
   <meta itemprop="sku" content="{{ current_variant.sku }}">
@@ -38,7 +47,7 @@
           {%- if product.images.size > 0 -%}
             {%- assign loop_index = 0 -%}
             {%- for image in product.images -%}
-              {%- if loop_index == 4 -%}
+              {%- if loop_index == 4 and has_manual_size_guide == false -%}
                 <div class="product-gallery__slide" data-gallery-slide="4" data-color="" data-media-id="size-guide-slide">
                   <div class="product-gallery__main-image" data-gallery-main-image>
                     <img src="{{ size_guide_img_src }}" class="gallery-img-element gallery-img-portrait" alt="Size Guide" loading="lazy">
@@ -92,7 +101,7 @@
               </div>
               {%- assign loop_index = loop_index | plus: 1 -%}
             {%- endfor -%}
-            {%- if loop_index <= 4 -%}
+            {%- if loop_index <= 4 and has_manual_size_guide == false -%}
               {%- for i in (loop_index..4) -%}
                 {%- if i == 4 -%}
                   <div class="product-gallery__slide" data-gallery-slide="4" data-color="" data-media-id="size-guide-slide">
@@ -121,7 +130,7 @@
         <div class="product-gallery__thumbs" data-gallery-thumbs>
           {%- assign thumb_index = 0 -%}
           {%- for image in product.images -%}
-            {%- if thumb_index == 4 -%}
+            {%- if thumb_index == 4 and has_manual_size_guide == false -%}
               <button
                 class="product-gallery__thumb"
                 data-thumb="{{ size_guide_img_src }}"
@@ -169,7 +178,7 @@
             </button>
             {%- assign thumb_index = thumb_index | plus: 1 -%}
           {%- endfor -%}
-          {%- if thumb_index <= 4 -%}
+          {%- if thumb_index <= 4 and has_manual_size_guide == false -%}
             {%- for i in (thumb_index..4) -%}
               {%- if i == 4 -%}
                 <button

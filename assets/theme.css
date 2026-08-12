@@ -850,6 +850,8 @@ section[class*="section-"] {
   }
   .site-header {
     position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
     background: var(--color-background, #FFFFFF);
     border-bottom: 1px solid var(--color-border);
   }
@@ -1506,13 +1508,13 @@ html, body { padding-bottom: 0 !important; }
 /* ---- WHATSAPP & FLOATING ACTIONS MOBILE POSITION ---- */
 @media (max-width: 749px) {
   .whatsapp-widget {
-    bottom: 80px !important;
+    bottom: 16px !important;
     right: 16px !important;
     width: 48px !important;
     height: 48px !important;
   }
   .floating-cart-btn {
-    bottom: 138px !important;
+    bottom: 74px !important;
     right: 16px !important;
     width: 48px !important;
     height: 48px !important;
