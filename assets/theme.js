@@ -64,11 +64,13 @@ function initAccountDrawer() {
     drawer.classList.add('is-open');
     drawer.removeAttribute('aria-hidden');
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('account-drawer-open');
   };
   const closeDrawer = () => {
     drawer.classList.remove('is-open');
     drawer.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    document.body.classList.remove('account-drawer-open');
   };
   $$('[data-account-drawer-toggle]').forEach(btn => btn.addEventListener('click', (e) => {
     e.preventDefault();

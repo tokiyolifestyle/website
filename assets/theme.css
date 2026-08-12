@@ -264,7 +264,16 @@ section[class*="section-"] { padding-block: 0; }
   .product-grid--3, .product-grid--4, .product-grid--5 { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ---- Site Header (Clean White, Compact) ---- */
+/* ---- Site Header (Clean White, Compact) ---- *//* Fix Shopify OS 2.0 parent wrapper containment issue for sticky header */
+.shopify-section-group-header-group,
+div[id*="main-header"],
+div[id*="header"],
+.shopify-section:has(.site-header) {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 99999 !important;
+}
+
 .site-header {
   background: rgba(255, 255, 255, 0.96);
   position: sticky !important;
@@ -2507,6 +2516,69 @@ html, body { padding-bottom: 0 !important; }
   align-items: flex-start;
   z-index: 2;
 }
+.site-footer__brand-desc {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #CCCCCC !important;
+  margin-bottom: 1.75rem;
+}
+.site-footer__social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #FFFFFF !important;
+  background: rgba(255,255,255,0.06);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+.site-footer__social a:hover {
+  background: var(--color-accent, #ff0000) !important;
+  color: #FFFFFF !important;
+  border-color: var(--color-accent, #ff0000) !important;
+  transform: translateY(-2px);
+}
+.site-footer__column h3 {
+  color: #FFFFFF !important;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.25rem;
+}
+.site-footer__column ul li a {
+  color: #DDDDDD !important;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+.site-footer__column ul li a:hover {
+  color: var(--color-accent, #ff0000) !important;
+}
+.site-footer__contact p,
+.site-footer__contact p a,
+.site-footer__address {
+  color: #FFFFFF !important;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.site-footer__contact p a:hover {
+  color: var(--color-accent, #ff0000) !important;
+}
+.site-footer__bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #BBBBBB !important;
+}
+.site-footer__legal a {
+  color: #CCCCCC !important;
+}
+.site-footer__legal a:hover {
+  color: var(--color-accent, #ff0000) !important;
+}
 .drawer-card__title {
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
@@ -2671,24 +2743,45 @@ html, body { padding-bottom: 0 !important; }
   padding: 1.25rem;
   color: #FFFFFF;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  margin-bottom: 0.5rem;
 }
 .guest-privilege-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: linear-gradient(90deg, #FFD700, #FFA500);
   color: #000000;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  padding: 4px 10px;
+  letter-spacing: 0.06em;
+  padding: 6px 12px;
   border-radius: 50px;
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.75rem;
   text-transform: uppercase;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.guest-badge-icon {
+  font-size: 0.85rem;
+  line-height: 1;
 }
 .guest-teaser-desc {
-  font-size: 0.8rem;
-  color: #CCCCCC;
-  line-height: 1.45;
+  font-size: 0.825rem;
+  color: #DDDDDD;
+  line-height: 1.5;
   margin: 0;
+}
+
+/* Hide floating cart & whatsapp buttons when account drawer is open to prevent UI overlapping */
+body.account-drawer-open .floating-cart-btn,
+body.account-drawer-open .floating-whatsapp,
+body.account-drawer-open [data-whatsapp-btn],
+body.account-drawer-open .mobile-bottom-nav {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.2s ease;
+}
+
+.account-drawer__inner {
+  padding-bottom: 4rem !important;
 }
