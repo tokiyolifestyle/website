@@ -260,11 +260,12 @@
 
       /* Setup initial position */
       if (isMobile()) {
-        mascot.style.bottom = 'auto';
-        mascot.style.left = '20px';
-        mascot.style.top = (window.innerHeight - 160) + 'px';
-        lastX = 20;
-        lastY = window.innerHeight - 160;
+        mascot.style.position = 'fixed';
+        mascot.style.bottom = '80px';
+        mascot.style.left = '16px';
+        mascot.style.top = 'auto';
+        lastX = 16;
+        lastY = window.innerHeight - 140;
       } else {
         mascot.style.left = lastX + 'px';
         mascot.style.top  = lastY + 'px';
@@ -292,6 +293,7 @@
       setTimeout(() => { showBubble("Welcome to Tokiyo! ✦"); }, 2500);
 
       function wander() {
+        if (isMobile()) return; // Keep mascot static in the corner on mobile
         if (!isMobile() && mascot.matches(':hover')) return;
 
         const W = window.innerWidth;
