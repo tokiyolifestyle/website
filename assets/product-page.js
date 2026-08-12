@@ -99,45 +99,22 @@ function initVariantPicker() {
 
     // Update the color name text under the label and filter the gallery:
     const selectedColorInput = picker.querySelector('input[data-option-name="Color"]:checked, input[name="Color"]:checked');
+    let colorVal = null;
     if (selectedColorInput) {
+      colorVal = selectedColorInput.value;
       document.querySelectorAll('[data-selected-color-name]').forEach(el => {
-        el.textContent = selectedColorInput.value;
+        el.textContent = colorVal;
       });
-      // Add smooth transition fade out
-      const mainGalleryEl = document.querySelector('.product-gallery__main');
-      if (mainGalleryEl) {
-        mainGalleryEl.style.opacity = '0.3';
-        mainGalleryEl.style.transition = 'opacity 0.2s ease';
-        setTimeout(() => {
-          filterGalleryByColor(selectedColorInput.value);
-          mainGalleryEl.style.opacity = '1';
-        }, 180);
-      } else {
-        filterGalleryByColor(selectedColorInput.value);
-      }
     } else {
-      // Fallback: check option positions for color
       const checkColorInput = picker.querySelector('[data-option-name="Color"]');
       if (checkColorInput) {
         const pos = parseInt(checkColorInput.getAttribute('data-option-position') || '1', 10) - 1;
-        const colorVal = variant.options[pos];
-        if (colorVal) {
-          filterGalleryByColor(colorVal);
-        }
+        colorVal = variant.options[pos];
       }
     }
 
-    // Scroll to the variant's featured media image if it exists:
-    if (variant.featured_media && variant.featured_media.id) {
-      const targetThumb = document.querySelector(`[data-gallery-thumbs] [data-media-id="${variant.featured_media.id}"]`);
-      if (targetThumb) {
-        targetThumb.click();
-      }
-    } else if (variant.featured_image && variant.featured_image.id) {
-      const targetThumb = document.querySelector(`[data-gallery-thumbs] [data-media-id="${variant.featured_image.id}"]`);
-      if (targetThumb) {
-        targetThumb.click();
-      }
+    if (colorVal) {
+      filterGalleryByColor(colorVal, variant);
     }
 
     /* Update URL without reload */
@@ -162,7 +139,7 @@ function initVariantPicker() {
 }
 
 /* ---- Filter Gallery by Color ---- */
-function filterGalleryByColor(selectedColor) {
+function filterGalleryByColor(selectedColor, variant) {
   const track = document.querySelector('[data-gallery-track]');
   const thumbs = document.querySelector('[data-gallery-thumbs]');
   if (!track) return;
@@ -172,23 +149,11 @@ function filterGalleryByColor(selectedColor) {
 
   const cleanColor = selectedColor ? selectedColor.toLowerCase().trim() : '';
 
-  if (!cleanColor) {
-    slides.forEach(slide => {
-      slide.classList.remove('is-hidden');
-      slide.style.display = '';
-    });
-    allThumbs.forEach(thumb => {
-      thumb.classList.remove('is-hidden');
-      thumb.style.display = '';
-    });
-    return;
-  }
-
   // Filter slides
   slides.forEach(slide => {
     const imgColor = slide.getAttribute('data-color') ? slide.getAttribute('data-color').toLowerCase().trim() : '';
     const isSizeGuide = slide.getAttribute('data-media-id') === 'size-guide-slide';
-    if (isSizeGuide || !imgColor || imgColor === cleanColor) {
+    if (!cleanColor || isSizeGuide || !imgColor || imgColor === cleanColor) {
       slide.classList.remove('is-hidden');
       slide.style.display = '';
     } else {
@@ -201,7 +166,7 @@ function filterGalleryByColor(selectedColor) {
   allThumbs.forEach(thumb => {
     const imgColor = thumb.getAttribute('data-color') ? thumb.getAttribute('data-color').toLowerCase().trim() : '';
     const isSizeGuide = thumb.getAttribute('data-media-id') === 'size-guide-slide';
-    if (isSizeGuide || !imgColor || imgColor === cleanColor) {
+    if (!cleanColor || isSizeGuide || !imgColor || imgColor === cleanColor) {
       thumb.classList.remove('is-hidden');
       thumb.style.display = '';
     } else {
@@ -210,12 +175,20 @@ function filterGalleryByColor(selectedColor) {
     }
   });
 
-  // Re-sync slider track
+  // Select target thumbnail (variant featured media or first visible product image)
   const visibleThumbs = allThumbs.filter(t => !t.classList.contains('is-hidden'));
   if (visibleThumbs.length > 0) {
-    // Make sure we select the first product image, not the size guide if it's first
-    const firstProductThumb = visibleThumbs.find(t => t.getAttribute('data-media-id') !== 'size-guide-slide') || visibleThumbs[0];
-    firstProductThumb.click();
+    let targetThumb = null;
+    if (variant && (variant.featured_media || variant.featured_image)) {
+      const mediaId = String(variant.featured_media?.id || variant.featured_image?.id);
+      targetThumb = visibleThumbs.find(t => t.getAttribute('data-media-id') === mediaId);
+    }
+    if (!targetThumb) {
+      targetThumb = visibleThumbs.find(t => t.getAttribute('data-media-id') !== 'size-guide-slide') || visibleThumbs[0];
+    }
+    if (targetThumb) {
+      targetThumb.click();
+    }
   }
 }
 
@@ -264,7 +237,7 @@ function initGallery() {
       visibleThumbs[currentIndex].classList.add('is-active');
     }
 
-    // Scroll active thumbnail horizontally inside container only (does NOT scroll window/page)
+    // Scroll active thumbnail horizontally inside container only
     if (visibleThumbs[currentIndex] && thumbs) {
       const thumb = visibleThumbs[currentIndex];
       thumbs.scrollTo({
@@ -309,44 +282,61 @@ function initGallery() {
     }
   }
 
-  // Zoom Modal handled by inline script in main-product.liquid
-  // (moved outside gallery overflow container for correct fixed positioning)
+  // Zoom Modal integration
+  if (zoomModal) {
+    if (zoomModal.parentNode !== document.body) {
+      document.body.appendChild(zoomModal);
+    }
+    const zoomImg = zoomModal.querySelector('[data-zoom-image]');
 
-  /* ---- Auto-slide every 4 seconds ---- */
-  let autoSlideTimer = null;
-  let resumeTimer = null;
+    function openZoomModal(imgSrc) {
+      if (!imgSrc || !zoomImg) return;
+      const hiResSrc = imgSrc.replace(/&width=\d+/, '&width=1800').replace(/\?width=\d+/, '?width=1800');
+      zoomImg.src = '';
+      zoomImg.src = hiResSrc || imgSrc;
+      zoomModal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
 
-  function startAutoSlide() {
-    stopAutoSlide();
-    const visibleSlides = getVisibleSlides();
-    if (visibleSlides.length <= 1) return;
-    autoSlideTimer = setInterval(() => {
-      // Only auto-slide if gallery is currently visible in viewport
-      const rect = gallery.getBoundingClientRect();
-      if (rect.bottom > 0 && rect.top < window.innerHeight) {
-        goToSlide(currentIndex + 1);
+    function closeZoomModal() {
+      zoomModal.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    // Main gallery click -> opens zoom modal (both desktop & mobile)
+    gallery.addEventListener('click', e => {
+      if (e.target.closest('[data-gallery-thumbs]')) return;
+      
+      const zoomToggle = e.target.closest('[data-zoom-toggle]');
+      const mainImg = e.target.closest('.product-gallery__main-image') || e.target.closest('.product-gallery__slide');
+      
+      if (zoomToggle || mainImg || e.target.tagName === 'IMG') {
+        let imgEl = e.target.tagName === 'IMG' ? e.target : null;
+        if (!imgEl && mainImg) imgEl = mainImg.querySelector('img');
+        if (!imgEl) {
+          const visibleSlides = getVisibleSlides();
+          const activeSlide = visibleSlides[currentIndex] || visibleSlides[0];
+          if (activeSlide) imgEl = activeSlide.querySelector('img');
+        }
+        if (imgEl) {
+          const src = imgEl.currentSrc || imgEl.src || imgEl.getAttribute('src');
+          if (src) openZoomModal(src);
+        }
       }
-    }, 4000);
-  }
+    });
 
-  function stopAutoSlide() {
-    if (autoSlideTimer) { clearInterval(autoSlideTimer); autoSlideTimer = null; }
-    if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
-  }
+    zoomModal.addEventListener('click', e => {
+      if (e.target.closest('[data-zoom-close]') || e.target.closest('[data-zoom-backdrop]') || e.target === zoomModal) {
+        closeZoomModal();
+      }
+    });
 
-  function pauseAndResume() {
-    stopAutoSlide();
-    resumeTimer = setTimeout(startAutoSlide, 8000);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && zoomModal.classList.contains('is-open')) {
+        closeZoomModal();
+      }
+    });
   }
-
-  // Pause auto-slide on user interaction (swipe or thumb click)
-  gallery.addEventListener('touchstart', pauseAndResume, { passive: true });
-  if (thumbs) {
-    thumbs.addEventListener('click', pauseAndResume);
-  }
-
-  // Start auto-slide on load
-  startAutoSlide();
 }
 
 /* ---- Delivery checker ---- */

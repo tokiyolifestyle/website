@@ -170,64 +170,7 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Zoom modal moved outside gallery to avoid overflow:hidden clipping {%- endcomment -%}
-      <script>
-        const zoomModal = document.querySelector('[data-zoom-modal]');
-        if (zoomModal) {
-          if (zoomModal.parentNode !== document.body) {
-            document.body.appendChild(zoomModal);
-          }
-          const zoomImg = zoomModal.querySelector('[data-zoom-image]');
-
-          function openZoomModal(imgSrc) {
-            if (!imgSrc || !zoomImg) return;
-            const hiResSrc = imgSrc.replace(/&width=\d+/, '&width=1800').replace(/\?width=\d+/, '?width=1800');
-            zoomImg.src = '';
-            zoomImg.src = hiResSrc || imgSrc;
-            zoomModal.classList.add('is-open');
-            document.body.style.overflow = 'hidden';
-          }
-
-          function closeZoomModal() {
-            zoomModal.classList.remove('is-open');
-            document.body.style.overflow = '';
-          }
-
-          const gallery = document.querySelector('[data-product-gallery]');
-          if (gallery) {
-            gallery.addEventListener('click', e => {
-              if (e.target.closest('[data-gallery-thumbs]')) return;
-              let imgEl = null;
-              if (e.target.tagName === 'IMG') {
-                imgEl = e.target;
-              } else {
-                const mainImgDiv = e.target.closest('.product-gallery__main-image');
-                if (mainImgDiv) imgEl = mainImgDiv.querySelector('img');
-              }
-              if (!imgEl) {
-                const activeSlide = gallery.querySelector('.product-gallery__slide.is-active');
-                if (activeSlide) imgEl = activeSlide.querySelector('img');
-              }
-              if (imgEl) {
-                const src = imgEl.currentSrc || imgEl.src || imgEl.getAttribute('src');
-                if (src) openZoomModal(src);
-              }
-            });
-          }
-
-          zoomModal.addEventListener('click', e => {
-            if (e.target.closest('[data-zoom-close]') || e.target.closest('[data-zoom-backdrop]') || e.target === zoomModal) {
-              closeZoomModal();
-            }
-          });
-
-          document.addEventListener('keydown', e => {
-            if (e.key === 'Escape' && zoomModal.classList.contains('is-open')) {
-              closeZoomModal();
-            }
-          });
-        }
-      </script>
+      {%- comment -%} Gallery HTML end {%- endcomment -%}
     </div>
 
     {%- comment -%}====== RIGHT: Product Info ======{%- endcomment -%}
