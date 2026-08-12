@@ -425,7 +425,9 @@
         </div>
       </div>
 
-      {%- comment -%} Instant filter auto-applies without needing an Apply button {%- endcomment -%}
+      <div class="collection-filters__footer-apply" style="position: sticky; bottom: 0; background: #FFFFFF; padding: 1.25rem 0 0; border-top: 1px solid rgba(0,0,0,0.06); z-index: 10;">
+        <button class="button button--solid" data-filter-apply style="width: 100%; justify-content: center; font-weight: 700; text-transform: uppercase;">Apply Filters</button>
+      </div>
     </aside>
 
     {%- comment -%} Product grid {%- endcomment -%}
@@ -770,6 +772,29 @@
       opacity: 1;
       transform: translateY(0);
     }
+  @media (max-width: 749px) {
+    .collection-page__toolbar {
+      position: fixed !important;
+      bottom: 60px !important;
+      left: 0 !important;
+      right: 0 !important;
+      background: #FFFFFF !important;
+      border-top: 1px solid rgba(0,0,0,0.08) !important;
+      border-bottom: none !important;
+      z-index: 9999 !important;
+      margin: 0 !important;
+      padding: 10px 16px !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      box-shadow: 0 -4px 15px rgba(0,0,0,0.05) !important;
+    }
+    .collection-toolbar__left {
+      gap: 0.75rem !important;
+    }
+    .collection-toolbar__right {
+      gap: 0.75rem !important;
+    }
   }
 </style>
 
@@ -933,13 +958,12 @@
       applyClientFilters();
     }
 
-    document.querySelectorAll('[data-filter-input], .filter-price-inputs input').forEach(input => {
-      input.addEventListener('change', triggerFilterUpdate);
-    });
-
-    document.querySelector('[data-filter-apply]')?.addEventListener('click', () => {
-      triggerFilterUpdate();
-      closeFilters();
+    /* Do not auto-apply on input change; wait for user to click Apply Filters button */
+    document.querySelectorAll('[data-filter-apply]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        triggerFilterUpdate();
+        closeFilters();
+      });
     });
 
     /* Handle browser back/forward */

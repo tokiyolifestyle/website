@@ -372,6 +372,16 @@
         "default": true
       },
       {
+        "type": "image_picker",
+        "id": "men_size_guide_image",
+        "label": "Men's Oversized Size Guide Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "women_size_guide_image",
+        "label": "Women's Oversized Size Guide Image"
+      },
+      {
         "type": "checkbox",
         "id": "enable_color_swatches",
         "label": "Enable color swatches",

@@ -18,15 +18,58 @@
     <nav class="site-header__nav" aria-label="Primary">
       <ul class="site-header__nav-list" role="list">
         {%- for link in section.settings.main_menu.links -%}
-          <li class="site-header__nav-item{% if link.links.size > 0 %} has-dropdown{% endif %}">
-            <a href="{{ link.url }}" class="site-header__nav-link{% if link.active or link.child_active %} is-active{% endif %}" {% if link.links.size > 0 %}aria-haspopup="true" aria-expanded="false" data-mega-menu-trigger="{{ link.handle }}"{% endif %}>
-              {{ link.title }}
-              {%- if link.links.size > 0 -%}{% render 'icon-chevron-down' %}{%- endif -%}
-            </a>
-            {%- if link.links.size > 0 -%}
-              {% render 'mega-menu', link: link %}
-            {%- endif -%}
-          </li>
+          {%- assign is_catalog = false -%}
+          {%- assign check_title = link.title | downcase -%}
+          {%- if check_title == 'catalog' or check_title == 'catalogue' or check_title == 'categories' -%}
+            {%- assign is_catalog = true -%}
+          {%- endif -%}
+
+          {%- if is_catalog -%}
+            <li class="site-header__nav-item has-dropdown">
+              <a href="/collections" class="site-header__nav-link" aria-haspopup="true" aria-expanded="false" data-mega-menu-trigger="categories">
+                Categories
+                {% render 'icon-chevron-down' %}
+              </a>
+              <div class="mega-menu" id="MegaMenu-categories" data-mega-menu>
+                <div class="mega-menu__inner page-width">
+                  <div class="mega-menu__columns">
+                    <div class="mega-menu__column">
+                      <a href="/collections/men-oversized" class="mega-menu__column-title">Men's Oversized</a>
+                      <ul class="mega-menu__list" role="list">
+                        <li><a href="/collections/men-oversized-graphic-print">Graphic Print</a></li>
+                        <li><a href="/collections/men-oversized-anime">Anime</a></li>
+                        <li><a href="/collections/men-oversized-streetwear">Streetwear</a></li>
+                        <li><a href="/collections/men-oversized-story-wear">Story Wear</a></li>
+                        <li><a href="/collections/men-oversized-minimal">Minimal</a></li>
+                        <li><a href="/collections/men-oversized-solid-basics">Solid Basics</a></li>
+                      </ul>
+                    </div>
+                    <div class="mega-menu__column">
+                      <a href="/collections/women-oversized" class="mega-menu__column-title">Women's Oversized</a>
+                      <ul class="mega-menu__list" role="list">
+                        <li><a href="/collections/women-oversized-graphic-print">Graphic Print</a></li>
+                        <li><a href="/collections/women-oversized-anime">Anime</a></li>
+                        <li><a href="/collections/women-oversized-streetwear">Streetwear</a></li>
+                        <li><a href="/collections/women-oversized-story-wear">Story Wear</a></li>
+                        <li><a href="/collections/women-oversized-minimal">Minimal</a></li>
+                        <li><a href="/collections/women-oversized-solid-basics">Solid Basics</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          {%- else -%}
+            <li class="site-header__nav-item{% if link.links.size > 0 %} has-dropdown{% endif %}">
+              <a href="{{ link.url }}" class="site-header__nav-link{% if link.active or link.child_active %} is-active{% endif %}" {% if link.links.size > 0 %}aria-haspopup="true" aria-expanded="false" data-mega-menu-trigger="{{ link.handle }}"{% endif %}>
+                {{ link.title }}
+                {%- if link.links.size > 0 -%}{% render 'icon-chevron-down' %}{%- endif -%}
+              </a>
+              {%- if link.links.size > 0 -%}
+                {% render 'mega-menu', link: link %}
+              {%- endif -%}
+            </li>
+          {%- endif -%}
         {%- endfor -%}
         
         <li class="site-header__nav-item">
@@ -48,7 +91,7 @@
         </button>
       {%- endif -%}
 
-      <a href="{{ routes.account_url }}" class="site-header__icon-btn hide-mobile" aria-label="{{ 'sections.header.account' | t }}">
+      <a href="{{ routes.account_url }}" class="site-header__icon-btn" aria-label="{{ 'sections.header.account' | t }}">
         {% render 'icon-account' %}
       </a>
 
@@ -59,7 +102,7 @@
         </a>
       {%- endif -%}
 
-      <button class="site-header__icon-btn" data-cart-drawer-toggle aria-label="{{ 'sections.header.cart' | t }}">
+      <button class="site-header__icon-btn hide-mobile" data-cart-drawer-toggle aria-label="{{ 'sections.header.cart' | t }}">
         {% render 'icon-cart' %}
         {%- assign cart_item_count = 0 -%}
         {%- for item in cart.items -%}
@@ -81,19 +124,58 @@
   </div>
   <ul class="mobile-nav__list" role="list">
     {%- for link in section.settings.main_menu.links -%}
-      <li class="mobile-nav__item">
-        <a href="{{ link.url }}" class="mobile-nav__link">{{ link.title }}</a>
-        {%- if link.links.size > 0 -%}
-          <button class="mobile-nav__expand" aria-label="Expand {{ link.title }}" data-mobile-submenu-toggle>
+      {%- assign is_catalog = false -%}
+      {%- assign check_title = link.title | downcase -%}
+      {%- if check_title == 'catalog' or check_title == 'catalogue' or check_title == 'categories' -%}
+        {%- assign is_catalog = true -%}
+      {%- endif -%}
+
+      {%- if is_catalog -%}
+        <li class="mobile-nav__item">
+          <a href="/collections" class="mobile-nav__link">Categories</a>
+          <button class="mobile-nav__expand" aria-label="Expand Categories" data-mobile-submenu-toggle>
             {% render 'icon-chevron-down' %}
           </button>
           <ul class="mobile-nav__sublist" role="list">
-            {%- for child_link in link.links -%}
-              <li><a href="{{ child_link.url }}">{{ child_link.title }}</a></li>
-            {%- endfor -%}
+            <li class="mobile-nav__subitem-group" style="padding: 5px 0;">
+              <span style="font-weight: 700; color: #fff; font-size: 0.9rem; padding: 5px 15px; display: block;">Men's Oversized</span>
+              <ul style="list-style: none; padding-left: 15px;">
+                <li><a href="/collections/men-oversized-graphic-print" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Graphic Print</a></li>
+                <li><a href="/collections/men-oversized-anime" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Anime</a></li>
+                <li><a href="/collections/men-oversized-streetwear" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Streetwear</a></li>
+                <li><a href="/collections/men-oversized-story-wear" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Story Wear</a></li>
+                <li><a href="/collections/men-oversized-minimal" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Minimal</a></li>
+                <li><a href="/collections/men-oversized-solid-basics" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Solid Basics</a></li>
+              </ul>
+            </li>
+            <li class="mobile-nav__subitem-group" style="padding: 5px 0; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">
+              <span style="font-weight: 700; color: #fff; font-size: 0.9rem; padding: 5px 15px; display: block;">Women's Oversized</span>
+              <ul style="list-style: none; padding-left: 15px;">
+                <li><a href="/collections/women-oversized-graphic-print" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Graphic Print</a></li>
+                <li><a href="/collections/women-oversized-anime" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Anime</a></li>
+                <li><a href="/collections/women-oversized-streetwear" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Streetwear</a></li>
+                <li><a href="/collections/women-oversized-story-wear" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Story Wear</a></li>
+                <li><a href="/collections/women-oversized-minimal" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Minimal</a></li>
+                <li><a href="/collections/women-oversized-solid-basics" style="padding: 4px 15px; display: block; font-size: 0.85rem; color: #ccc;">Solid Basics</a></li>
+              </ul>
+            </li>
           </ul>
-        {%- endif -%}
-      </li>
+        </li>
+      {%- else -%}
+        <li class="mobile-nav__item">
+          <a href="{{ link.url }}" class="mobile-nav__link">{{ link.title }}</a>
+          {%- if link.links.size > 0 -%}
+            <button class="mobile-nav__expand" aria-label="Expand {{ link.title }}" data-mobile-submenu-toggle>
+              {% render 'icon-chevron-down' %}
+            </button>
+            <ul class="mobile-nav__sublist" role="list">
+              {%- for child_link in link.links -%}
+                <li><a href="{{ child_link.url }}">{{ child_link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </li>
+      {%- endif -%}
     {%- endfor -%}
     
     <li class="mobile-nav__item">

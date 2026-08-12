@@ -8,59 +8,61 @@
     {%- for block in section.blocks -%}
       {%- if block.type == 'slide' -%}
         <div class="hero-carousel__slide {% if forloop.first %}is-active{% endif %}" data-hero-slide="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
-          <div class="hero-carousel__media">
-            {%- if block.settings.video_url != blank -%}
-              <video class="hero-carousel__video" autoplay muted loop playsinline aria-hidden="true">
-                <source src="{{ block.settings.video_url }}" type="video/mp4">
-              </video>
-            {%- elsif block.settings.image != blank -%}
-              <picture>
-                {%- if block.settings.image_mobile != blank -%}
-                  <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 750 }}">
-                {%- endif -%}
-                {%- if forloop.first -%}
-                  {{ block.settings.image | image_url: width: 1920 | image_tag:
-                    loading: 'eager',
-                    fetchpriority: 'high',
-                    widths: '750, 1100, 1440, 1920',
-                    sizes: '100vw',
-                    class: 'hero-carousel__img',
-                    data-parallax-img: '',
-                    alt: block.settings.image.alt | default: block.settings.heading | escape
-                  }}
-                {%- else -%}
-                  {{ block.settings.image | image_url: width: 1920 | image_tag:
-                    loading: 'lazy',
-                    fetchpriority: 'low',
-                    widths: '750, 1100, 1440, 1920',
-                    sizes: '100vw',
-                    class: 'hero-carousel__img',
-                    data-parallax-img: '',
-                    alt: block.settings.image.alt | default: block.settings.heading | escape
-                  }}
-                {%- endif -%}
-              </picture>
-            {%- else -%}
-              {%- assign slide_index = forloop.index0 | modulo: 6 | plus: 1 -%}
-              {%- case slide_index -%}
-                {%- when 1 -%}
-                  {%- assign fallback_image_url = 'hero-slide-1.png' | asset_url -%}
-                {%- when 2 -%}
-                  {%- assign fallback_image_url = 'hero-slide-2.png' | asset_url -%}
-                {%- when 3 -%}
-                  {%- assign fallback_image_url = 'hero-slide-3.png' | asset_url -%}
-                {%- when 4 -%}
-                  {%- assign fallback_image_url = 'hero-slide-4.png' | asset_url -%}
-                {%- when 5 -%}
-                  {%- assign fallback_image_url = 'hero-slide-5.png' | asset_url -%}
-                {%- when 6 -%}
-                  {%- assign fallback_image_url = 'hero-slide-6.png' | asset_url -%}
-              {%- endcase -%}
-              <img src="{{ fallback_image_url }}" class="hero-carousel__img" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" alt="{{ block.settings.heading | escape }}">
-            {%- endif -%}
-            <div class="hero-carousel__overlay" style="opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};"></div>
-            <div class="hero-carousel__gradient"></div>
-          </div>
+          <a href="{{ block.settings.cta_link | default: '#' }}" class="hero-carousel__media-link" aria-label="Explore {{ block.settings.heading | escape }}">
+            <div class="hero-carousel__media">
+              {%- if block.settings.video_url != blank -%}
+                <video class="hero-carousel__video" autoplay muted loop playsinline aria-hidden="true">
+                  <source src="{{ block.settings.video_url }}" type="video/mp4">
+                </video>
+              {%- elsif block.settings.image != blank -%}
+                <picture>
+                  {%- if block.settings.image_mobile != blank -%}
+                    <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 750 }}">
+                  {%- endif -%}
+                  {%- if forloop.first -%}
+                    {{ block.settings.image | image_url: width: 1920 | image_tag:
+                      loading: 'eager',
+                      fetchpriority: 'high',
+                      widths: '750, 1100, 1440, 1920',
+                      sizes: '100vw',
+                      class: 'hero-carousel__img',
+                      data-parallax-img: '',
+                      alt: block.settings.image.alt | default: block.settings.heading | escape
+                    }}
+                  {%- else -%}
+                    {{ block.settings.image | image_url: width: 1920 | image_tag:
+                      loading: 'lazy',
+                      fetchpriority: 'low',
+                      widths: '750, 1100, 1440, 1920',
+                      sizes: '100vw',
+                      class: 'hero-carousel__img',
+                      data-parallax-img: '',
+                      alt: block.settings.image.alt | default: block.settings.heading | escape
+                    }}
+                  {%- endif -%}
+                </picture>
+              {%- else -%}
+                {%- assign slide_index = forloop.index0 | modulo: 6 | plus: 1 -%}
+                {%- case slide_index -%}
+                  {%- when 1 -%}
+                    {%- assign fallback_image_url = 'hero-slide-1.png' | asset_url -%}
+                  {%- when 2 -%}
+                    {%- assign fallback_image_url = 'hero-slide-2.png' | asset_url -%}
+                  {%- when 3 -%}
+                    {%- assign fallback_image_url = 'hero-slide-3.png' | asset_url -%}
+                  {%- when 4 -%}
+                    {%- assign fallback_image_url = 'hero-slide-4.png' | asset_url -%}
+                  {%- when 5 -%}
+                    {%- assign fallback_image_url = 'hero-slide-5.png' | asset_url -%}
+                  {%- when 6 -%}
+                    {%- assign fallback_image_url = 'hero-slide-6.png' | asset_url -%}
+                {%- endcase -%}
+                <img src="{{ fallback_image_url }}" class="hero-carousel__img" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" alt="{{ block.settings.heading | escape }}">
+              {%- endif -%}
+              <div class="hero-carousel__overlay" style="opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+              <div class="hero-carousel__gradient"></div>
+            </div>
+          </a>
 
           <div class="hero-carousel__content page-width hero-carousel__content--{{ block.settings.content_alignment | default: section.settings.content_alignment }}">
             {%- if block.settings.eyebrow != blank -%}
@@ -209,7 +211,7 @@
     animation: heroContentIn 0.6s 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
   .hero-carousel__heading {
-    font-size: clamp(2.25rem, 7vw, 5rem);
+    font-size: clamp(1.6rem, 5vw, 3.25rem);
     font-weight: 700;
     line-height: 1.05;
     margin-bottom: 1.25rem;
@@ -220,7 +222,7 @@
     animation: heroContentIn 0.8s 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
   .hero-carousel__subheading {
-    font-size: 1rem;
+    font-size: 0.875rem;
     max-width: 480px;
     margin-bottom: 2.5rem;
     color: rgba(255,255,255,0.6);

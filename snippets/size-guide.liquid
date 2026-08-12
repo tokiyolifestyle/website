@@ -1,27 +1,33 @@
 <div class="size-guide">
   <h4>Size Guide</h4>
-  <p class="size-guide__note">Measurements are in inches. If you're between sizes, we recommend sizing up.</p>
-  <div class="size-guide__table-wrap">
-    <table class="size-guide__table">
-      <thead>
-        <tr>
-          <th>Size</th>
-          <th>Chest</th>
-          <th>Waist</th>
-          <th>Hips</th>
-          <th>Length</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>XS</td><td>34–35</td><td>26–27</td><td>36–37</td><td>27</td></tr>
-        <tr><td>S</td><td>36–37</td><td>28–29</td><td>38–39</td><td>27.5</td></tr>
-        <tr><td>M</td><td>38–39</td><td>30–31</td><td>40–41</td><td>28</td></tr>
-        <tr><td>L</td><td>40–41</td><td>32–33</td><td>42–43</td><td>28.5</td></tr>
-        <tr><td>XL</td><td>42–43</td><td>34–35</td><td>44–45</td><td>29</td></tr>
-        <tr><td>XXL</td><td>44–46</td><td>36–38</td><td>46–48</td><td>29.5</td></tr>
-      </tbody>
-    </table>
-  </div>
+  {%- if size_guide_img_src != blank -%}
+    <div class="size-guide__image-wrap" style="text-align: center; margin-top: 1rem;">
+      <img src="{{ size_guide_img_src }}" alt="Size Guide Chart" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid rgba(0,0,0,0.12);">
+    </div>
+  {%- else -%}
+    <p class="size-guide__note">Measurements are in inches. If you're between sizes, we recommend sizing up.</p>
+    <div class="size-guide__table-wrap">
+      <table class="size-guide__table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Chest</th>
+            <th>Waist</th>
+            <th>Hips</th>
+            <th>Length</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>XS</td><td>34–35</td><td>26–27</td><td>36–37</td><td>27</td></tr>
+          <tr><td>S</td><td>36–37</td><td>28–29</td><td>38–39</td><td>27.5</td></tr>
+          <tr><td>M</td><td>38–39</td><td>30–31</td><td>40–41</td><td>28</td></tr>
+          <tr><td>L</td><td>40–41</td><td>32–33</td><td>42–43</td><td>28.5</td></tr>
+          <tr><td>XL</td><td>42–43</td><td>34–35</td><td>44–45</td><td>29</td></tr>
+          <tr><td>XXL</td><td>44–46</td><td>36–38</td><td>46–48</td><td>29.5</td></tr>
+        </tbody>
+      </table>
+    </div>
+  {%- endif -%}
 </div>
 
 <style>

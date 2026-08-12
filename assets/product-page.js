@@ -320,7 +320,8 @@ function initGallery() {
           const activeSlide = visibleSlides && visibleSlides.length ? visibleSlides[currentIndex] : document.querySelector('.product-gallery__slide.is-active');
           const activeImg = activeSlide ? activeSlide.querySelector('img') : null;
           if (activeImg) {
-            openZoomModal(activeImg.src || activeImg.getAttribute('src'));
+            const imgSrc = activeImg.currentSrc || activeImg.src || activeImg.getAttribute('src');
+            openZoomModal(imgSrc);
           }
         }
       });

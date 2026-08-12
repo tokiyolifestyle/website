@@ -51,6 +51,8 @@
     "show_delivery_checker": true,
     "show_cod_badge": true,
     "enable_size_guide": true,
+    "men_size_guide_image": "",
+    "women_size_guide_image": "",
     "enable_color_swatches": true,
     "enable_wishlist": true,
     "enable_compare": true,

@@ -424,6 +424,18 @@
         "subtitle": "Handpicked collections for every mood and style."
       }
     },
+    "new-collection": {
+      "type": "trending-products",
+      "settings": {
+        "eyebrow": "Fresh Drops",
+        "title": "New Arrivals",
+        "collection": "",
+        "limit": 8,
+        "columns": 4,
+        "cta_label": "View All Drops",
+        "cta_link": "/collections/all"
+      }
+    },
     "trending-products": {
       "type": "trending-products",
       "settings": {
@@ -552,11 +564,12 @@
   "order": [
     "hero-banner",
     "category-icons",
+    "new-collection",
     "scrolling-text-1",
     "inaugural-offer-banner",
-    "featured-collections",
     "trending-products",
     "scrolling-text-2",
+    "featured-collections",
     "image-with-text",
     "featured-reviews",
     "newsletter"

@@ -1,15 +1,15 @@
 {%- comment -%} Announcement Bar — Auto-scroll Marquee {%- endcomment -%}
 
 {%- if section.blocks.size > 0 -%}
-<div class="announcement-bar" data-announcement-bar style="background:var(--color-primary); color:#FFFFFF; display:block; overflow:hidden; padding:0.4rem 0; margin:0; line-height:1;">
+<div class="announcement-bar" data-announcement-bar>
   <div class="announcement-bar__track" style="animation-duration: {{ section.settings.speed | default: 75 }}s;">
     {%- for block in section.blocks -%}
       {%- for i in (1..2) -%}
         <div class="announcement-bar__item" {{ block.shopify_attributes }}>
           {%- if block.settings.link != blank -%}
-            <a href="{{ block.settings.link }}">★&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;★</a>
+            <a href="{{ block.settings.link }}">🇮🇳&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;🇮🇳</a>
           {%- else -%}
-            <p>★&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;★</p>
+            <p>🇮🇳&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;🇮🇳</p>
           {%- endif -%}
         </div>
       {%- endfor -%}
@@ -19,15 +19,54 @@
       {%- for i in (1..2) -%}
         <div class="announcement-bar__item" aria-hidden="true">
           {%- if block.settings.link != blank -%}
-            <a href="{{ block.settings.link }}">★&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;★</a>
+            <a href="{{ block.settings.link }}">🇮🇳&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;🇮🇳</a>
           {%- else -%}
-            <p>★&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;★</p>
+            <p>🇮🇳&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;🇮🇳</p>
           {%- endif -%}
         </div>
       {%- endfor -%}
     {%- endfor -%}
   </div>
 </div>
+
+<style>
+  .announcement-bar {
+    background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #128807 100%) !important;
+    color: #111111 !important;
+    font-weight: 800 !important;
+    text-shadow: 0 0 5px rgba(255,255,255,0.8);
+    display: block;
+    overflow: hidden;
+    padding: 0.5rem 0;
+    margin: 0;
+    line-height: 1;
+    position: relative;
+    border-bottom: 2px solid rgba(0,0,0,0.08);
+  }
+  .announcement-bar a {
+    color: #111111 !important;
+    text-decoration: none;
+    font-weight: 800;
+  }
+  .announcement-bar__track {
+    display: flex;
+    white-space: nowrap;
+    animation: announcement-scroll linear infinite;
+    width: max-content;
+  }
+  .announcement-bar__item {
+    padding: 0 2rem;
+    flex-shrink: 0;
+  }
+  .announcement-bar__item p {
+    margin: 0;
+    color: #111111;
+  }
+  @keyframes announcement-scroll {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+  }
+</style>
 {%- endif -%}
 
 {% schema %}

@@ -1,6 +1,26 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
+{%- assign is_women = false -%}
+{%- if product.title contains 'Women' or product.tags contains 'Women' or product.tags contains 'women' -%}
+  {%- assign is_women = true -%}
+{%- endif -%}
+
+{%- assign size_guide_img_src = '' -%}
+{%- if is_women -%}
+  {%- if settings.women_size_guide_image != blank -%}
+    {%- assign size_guide_img_src = settings.women_size_guide_image | image_url: width: 1000 -%}
+  {%- else -%}
+    {%- assign size_guide_img_src = 'women-oversized-size-guide.png' | asset_url -%}
+  {%- endif -%}
+{%- else -%}
+  {%- if settings.men_size_guide_image != blank -%}
+    {%- assign size_guide_img_src = settings.men_size_guide_image | image_url: width: 1000 -%}
+  {%- else -%}
+    {%- assign size_guide_img_src = 'men-oversized-size-guide.png' | asset_url -%}
+  {%- endif -%}
+{%- endif -%}
+
 <div class="product-page" itemscope itemtype="https://schema.org/Product">
   <meta itemprop="name" content="{{ product.title | escape }}">
   <meta itemprop="sku" content="{{ current_variant.sku }}">
@@ -16,7 +36,16 @@
       <div class="product-gallery__main">
         <div class="product-gallery__slider-track" data-gallery-track>
           {%- if product.images.size > 0 -%}
+            {%- assign loop_index = 0 -%}
             {%- for image in product.images -%}
+              {%- if loop_index == 4 -%}
+                <div class="product-gallery__slide" data-gallery-slide="4" data-color="" data-media-id="size-guide-slide">
+                  <div class="product-gallery__main-image" data-gallery-main-image>
+                    <img src="{{ size_guide_img_src }}" class="gallery-img-element gallery-img-portrait" alt="Size Guide" loading="lazy">
+                  </div>
+                </div>
+                {%- assign loop_index = loop_index | plus: 1 -%}
+              {%- endif -%}
               {%- assign img_color = '' -%}
               {%- for variant in product.variants -%}
                 {%- if variant.featured_image and variant.featured_image.src contains image.src -%}
@@ -40,7 +69,7 @@
                   {%- endif -%}
                 {%- endfor -%}
               {%- endif -%}
-              <div class="product-gallery__slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide="{{ forloop.index0 }}" data-color="{{ img_color | escape }}" data-media-id="{{ image.id }}">
+              <div class="product-gallery__slide{% if loop_index == 0 %} is-active{% endif %}" data-gallery-slide="{{ loop_index }}" data-color="{{ img_color | escape }}" data-media-id="{{ image.id }}">
                 <div class="product-gallery__main-image" data-gallery-main-image>
                   {%- if image.aspect_ratio > 1.0 -%}
                     {{ image | image_url: width: 1000 | image_tag:
@@ -61,7 +90,19 @@
                   {%- endif -%}
                 </div>
               </div>
+              {%- assign loop_index = loop_index | plus: 1 -%}
             {%- endfor -%}
+            {%- if loop_index <= 4 -%}
+              {%- for i in (loop_index..4) -%}
+                {%- if i == 4 -%}
+                  <div class="product-gallery__slide" data-gallery-slide="4" data-color="" data-media-id="size-guide-slide">
+                    <div class="product-gallery__main-image" data-gallery-main-image>
+                      <img src="{{ size_guide_img_src }}" class="gallery-img-element gallery-img-portrait" alt="Size Guide" loading="lazy">
+                    </div>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
           {%- else -%}
             <div class="product-gallery__slide is-active" data-gallery-slide="0">
               <div class="product-gallery__main-image">{{ 'product-apparel-1' | placeholder_svg_tag }}</div>
@@ -78,7 +119,19 @@
 
       {%- if product.images.size > 1 -%}
         <div class="product-gallery__thumbs" data-gallery-thumbs>
+          {%- assign thumb_index = 0 -%}
           {%- for image in product.images -%}
+            {%- if thumb_index == 4 -%}
+              <button
+                class="product-gallery__thumb"
+                data-thumb="{{ size_guide_img_src }}"
+                data-color=""
+                data-media-id="size-guide-slide"
+                aria-label="View size guide">
+                <img src="{{ size_guide_img_src }}" loading="lazy" alt="Size Guide" style="width: 100%; height: 100%; object-fit: cover;">
+              </button>
+              {%- assign thumb_index = thumb_index | plus: 1 -%}
+            {%- endif -%}
              {%- assign img_color = '' -%}
              {%- for variant in product.variants -%}
                {%- if variant.featured_image and variant.featured_image.src contains image.src -%}
@@ -103,18 +156,33 @@
                {%- endfor -%}
              {%- endif -%}
             <button
-              class="product-gallery__thumb{% if forloop.first %} is-active{% endif %}"
+              class="product-gallery__thumb{% if thumb_index == 0 %} is-active{% endif %}"
               data-thumb="{{ image | image_url: width: 1000 }}"
               data-color="{{ img_color | escape }}"
               data-media-id="{{ image.id }}"
-              aria-label="View image {{ forloop.index }}">
+              aria-label="View image {{ thumb_index | plus: 1 }}">
               {{ image | image_url: width: 160 | image_tag:
                 loading: 'lazy',
                 widths: '80, 160',
                 alt: image.alt | default: product.title | escape
               }}
             </button>
+            {%- assign thumb_index = thumb_index | plus: 1 -%}
           {%- endfor -%}
+          {%- if thumb_index <= 4 -%}
+            {%- for i in (thumb_index..4) -%}
+              {%- if i == 4 -%}
+                <button
+                  class="product-gallery__thumb"
+                  data-thumb="{{ size_guide_img_src }}"
+                  data-color=""
+                  data-media-id="size-guide-slide"
+                  aria-label="View size guide">
+                  <img src="{{ size_guide_img_src }}" loading="lazy" alt="Size Guide" style="width: 100%; height: 100%; object-fit: cover;">
+                </button>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
         </div>
       {%- endif -%}
 
@@ -282,17 +350,18 @@
               <div class="product-option__swatches" role="group" aria-label="Select {{ option.name }}">
                 {%- for value in option.values -%}
                   {%- assign hex_color = value | handle | replace: '-', '' -%}
-                  {%- if value == 'White' -%}{%- assign hex_color = '#FFFFFF' -%}
-                  {%- elsif value == 'Beige' -%}{%- assign hex_color = '#E4D5B7' -%}
-                  {%- elsif value == 'Pista' -%}{%- assign hex_color = '#C1F8C2' -%}
-                  {%- elsif value == 'Airforce' -%}{%- assign hex_color = '#5F8A96' -%}
-                  {%- elsif value == 'Peach' -%}{%- assign hex_color = '#FFE5B4' -%}
-                  {%- elsif value == 'Lavender' -%}{%- assign hex_color = '#E6E6FA' -%}
-                  {%- elsif value == 'Mustard' -%}{%- assign hex_color = '#E1AD01' -%}
-                  {%- elsif value == 'Onion Pink' -%}{%- assign hex_color = '#D1A3A4' -%}
-                  {%- elsif value == 'Wine' -%}{%- assign hex_color = '#722F37' -%}
-                  {%- elsif value == 'D. Grey' -%}{%- assign hex_color = '#5A5A5A' -%}
-                  {%- elsif value == 'Black' -%}{%- assign hex_color = '#111111' -%}
+                  {%- assign check_val = value | downcase -%}
+                  {%- if check_val == 'white' -%}{%- assign hex_color = '#FFFFFF' -%}
+                  {%- elsif check_val == 'beige' -%}{%- assign hex_color = '#E4D5B7' -%}
+                  {%- elsif check_val == 'pista' -%}{%- assign hex_color = '#C1F8C2' -%}
+                  {%- elsif check_val == 'airforce' or check_val == 'air force' -%}{%- assign hex_color = '#5F8A96' -%}
+                  {%- elsif check_val == 'peach' -%}{%- assign hex_color = '#FFE5B4' -%}
+                  {%- elsif check_val == 'lavender' -%}{%- assign hex_color = '#E6E6FA' -%}
+                  {%- elsif check_val == 'mustard' -%}{%- assign hex_color = '#E1AD01' -%}
+                  {%- elsif check_val == 'onion pink' or check_val == 'onion-pink' -%}{%- assign hex_color = '#D1A3A4' -%}
+                  {%- elsif check_val == 'wine' -%}{%- assign hex_color = '#722F37' -%}
+                  {%- elsif check_val == 'd. grey' or check_val == 'd-grey' or check_val == 'dark grey' or check_val == 'dark-grey' -%}{%- assign hex_color = '#5A5A5A' -%}
+                  {%- elsif check_val == 'black' -%}{%- assign hex_color = '#111111' -%}
                   {%- endif -%}
                   {%- assign opt_key = 'option' | append: option.position -%}
                   <label class="swatch-label color-swatch" title="{{ value }}">
@@ -334,7 +403,7 @@
 
         {%- if settings.enable_size_guide -%}
           <div id="SizeGuidePanel" class="size-guide-panel" hidden>
-            {% render 'size-guide' %}
+            {% render 'size-guide', size_guide_img_src: size_guide_img_src %}
           </div>
         {%- endif -%}
       </div>

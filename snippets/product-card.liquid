@@ -17,21 +17,33 @@
   <a href="{{ product.url }}" class="product-card__link" aria-label="{{ product.title | escape }}">
     <div class="product-card__media{% if settings.card_image_ratio == 'square' %} is-square{% endif %}">
 
-      {%- if product.featured_media -%}
-        {{ product.featured_media | image_url: width: 600 | image_tag:
+      {%- assign card_media = current_variant.featured_media | default: product.featured_media -%}
+      {%- if card_media -%}
+        {{ card_media | image_url: width: 600 | image_tag:
           loading: loading_attr,
           widths: '300, 400, 600',
           sizes: '(max-width:749px) 50vw, 25vw',
           class: 'product-card__image product-card__image--primary',
-          alt: product.featured_media.alt | default: product.title | escape
+          alt: card_media.alt | default: product.title | escape
         }}
         {%- if settings.show_secondary_image and product.images.size > 1 -%}
-          {{ product.images[1] | image_url: width: 600 | image_tag:
+          {%- assign sec_image = product.images[1] -%}
+          {%- if current_variant.featured_media -%}
+            {%- assign var_color = current_variant.options[0] | downcase -%}
+            {%- for img in product.images -%}
+              {%- assign img_alt_dn = img.alt | downcase -%}
+              {%- if img.id != current_variant.featured_media.id and img_alt_dn contains var_color -%}
+                {%- assign sec_image = img -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+          {{ sec_image | image_url: width: 600 | image_tag:
             loading: 'lazy',
             widths: '300, 400, 600',
             sizes: '(max-width:749px) 50vw, 25vw',
             class: 'product-card__image product-card__image--secondary',
-            alt: product.images[1].alt | default: product.title | escape
+            alt: sec_image.alt | default: product.title | escape
           }}
         {%- endif -%}
       {%- else -%}
@@ -130,7 +142,21 @@
     {%- if color_option != blank and color_option.values.size > 1 -%}
       <div class="product-card__swatches" aria-label="Colors">
         {%- for value in color_option.values limit: 4 -%}
-          <span class="swatch" style="background-color:{{ value | handle | replace: '-', '' }};" title="{{ value }}"></span>
+          {%- assign hex_color = value | handle | replace: '-', '' -%}
+          {%- assign check_val = value | downcase -%}
+          {%- if check_val == 'white' -%}{%- assign hex_color = '#FFFFFF' -%}
+          {%- elsif check_val == 'beige' -%}{%- assign hex_color = '#E4D5B7' -%}
+          {%- elsif check_val == 'pista' -%}{%- assign hex_color = '#C1F8C2' -%}
+          {%- elsif check_val == 'airforce' or check_val == 'air force' -%}{%- assign hex_color = '#5F8A96' -%}
+          {%- elsif check_val == 'peach' -%}{%- assign hex_color = '#FFE5B4' -%}
+          {%- elsif check_val == 'lavender' -%}{%- assign hex_color = '#E6E6FA' -%}
+          {%- elsif check_val == 'mustard' -%}{%- assign hex_color = '#E1AD01' -%}
+          {%- elsif check_val == 'onion pink' or check_val == 'onion-pink' -%}{%- assign hex_color = '#D1A3A4' -%}
+          {%- elsif check_val == 'wine' -%}{%- assign hex_color = '#722F37' -%}
+          {%- elsif check_val == 'd. grey' or check_val == 'd-grey' or check_val == 'dark grey' or check_val == 'dark-grey' -%}{%- assign hex_color = '#5A5A5A' -%}
+          {%- elsif check_val == 'black' -%}{%- assign hex_color = '#111111' -%}
+          {%- endif -%}
+          <span class="swatch" style="background-color:{{ hex_color }}; border: 1px solid rgba(0,0,0,0.12);" title="{{ value }}"></span>
         {%- endfor -%}
         {%- if color_option.values.size > 4 -%}
           <span class="swatch--more">+{{ color_option.values.size | minus: 4 }}</span>

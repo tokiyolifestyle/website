@@ -21,7 +21,7 @@
       <div class="catg-universe__title-underline"></div>
     </div>
 
-    {%- comment -%} ═══ Quick Icon Strip (LimeRoad style) ═══ {%- endcomment -%}
+    {%- comment -%} ═══ Quick Icon Strip (LimeRoad style) HELD FOR LATER ═══
     <div class="catg-quickstrip" data-quickstrip>
       <div class="catg-quickstrip__track">
         {%- assign seen_labels = '' -%}
@@ -92,6 +92,7 @@
         {%- endfor -%}
       </div>
     </div>
+    {%- endcomment -%}
  
     {%- comment -%} ═══ Gender Tabs — Futuristic pill style ═══ {%- endcomment -%}
     <div class="catg-universe__tabs" role="tablist">
@@ -198,6 +199,7 @@
         </div>
       </div>
  
+      {%- comment -%}
       {%- comment -%} Regular Section {%- endcomment -%}
       <div class="catg-universe__section">
         <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
@@ -289,6 +291,7 @@
           </div>
         </div>
       </div>
+      {%- endcomment -%}
     </div>
  
     {%- comment -%} ═══ WOMEN'S PANEL ═══ {%- endcomment -%}
@@ -381,6 +384,7 @@
           </div>
         </div>
       </div>
+      {%- comment -%}
       {%- comment -%} Regular — use capture to check if any cards actually render {%- endcomment -%}
       {%- capture women_regular_cards_html -%}
         {%- for block in section.blocks -%}
@@ -443,6 +447,7 @@
         </div>
       </div>
       {%- endunless -%}
+      {%- endcomment -%}
     </div>
   </div>
 </section>

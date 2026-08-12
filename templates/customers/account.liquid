@@ -8,7 +8,89 @@
       <h2>{{ 'customer.account.details' | t }}</h2>
       <p>{{ customer.first_name }} {{ customer.last_name }}</p>
       <p>{{ customer.email }}</p>
-      <a href="{{ routes.account_addresses_url }}" class="button button--outline button--small">{{ 'customer.account.view_addresses' | t }}</a>
+      <a href="{{ routes.account_addresses_url }}" class="button button--outline button--small" style="margin-bottom: 1.5rem;">{{ 'customer.account.view_addresses' | t }}</a>
+
+      {%- comment -%} TOKIYO PRIVILEGE CARD (My Card) {%- endcomment -%}
+      {%- assign base_timestamp = 'now' | date: '%s' | plus: 0 -%}
+      {%- if customer.orders.size > 0 -%}
+        {%- assign latest_order_date = customer.orders.first.created_at | date: '%s' | plus: 0 -%}
+        {%- assign base_timestamp = latest_order_date -%}
+      {%- endif -%}
+      {%- assign validity_seconds = 90 | times: 24 | times: 60 | times: 60 -%}
+      {%- assign validity_timestamp = base_timestamp | plus: validity_seconds -%}
+      {%- assign card_number_seed = customer.id | default: 94819 -%}
+      {%- assign card_number_part1 = card_number_seed | modulo: 10000 -%}
+      {%- assign card_number_part2 = card_number_seed | divided_by: 10 | modulo: 10000 -%}
+      
+      <div class="tokiyo-card-section" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 2rem;">
+        <h3 style="margin-bottom: 1rem; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.1em; color: #888;">My Privilege Card</h3>
+        
+        <div class="tokiyo-privilege-card" style="
+          position: relative;
+          width: 100%;
+          max-width: 350px;
+          height: 200px;
+          border-radius: 16px;
+          background: linear-gradient(135deg, #1e1e1e 0%, #0d0d0d 100%);
+          border: 1px solid rgba(255,255,255,0.08);
+          box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 15px rgba(255, 0, 0, 0.1);
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          overflow: hidden;
+          color: #ffffff;
+        ">
+          <!-- Glow effects -->
+          <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(255,0,0,0.15) 0%, transparent 70%); pointer-events: none;"></div>
+          <div style="position: absolute; bottom: -50px; left: -50px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(255,153,51,0.1) 0%, transparent 70%); pointer-events: none;"></div>
+          
+          <!-- Header -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; z-index: 2;">
+            <div>
+              <span style="font-weight: 800; font-size: 1.1rem; letter-spacing: 0.05em;">TOKIYO</span>
+              <span style="display: block; font-size: 0.6rem; letter-spacing: 0.3em; color: #888; text-transform: uppercase;">Lifestyle</span>
+            </div>
+            <span style="font-size: 0.65rem; background: linear-gradient(90deg, #FF9933, #FFFFFF, #128807); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; border: 1px solid rgba(255,255,255,0.15); padding: 3px 8px; border-radius: 4px; letter-spacing: 0.05em;">PRIVILEGE</span>
+          </div>
+
+          <!-- Chip & Contactless -->
+          <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px; z-index: 2;">
+            <div style="width: 32px; height: 24px; background: linear-gradient(135deg, #ffd700, #b8860b); border-radius: 4px; position: relative;">
+              <div style="position: absolute; inset: 4px; border: 1px solid rgba(0,0,0,0.2); border-radius: 2px;"></div>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+
+          <!-- Card Number -->
+          <div style="font-family: monospace; font-size: 1.15rem; letter-spacing: 2px; margin-top: 15px; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+            TK-{{ card_number_part1 | default: '4820' | prepend: '0000' | slice: -4, 4 }}-{{ card_number_part2 | default: '9284' | prepend: '0000' | slice: -4, 4 }}
+          </div>
+
+          <!-- Footer Info -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; z-index: 2;">
+            <div>
+              <span style="display: block; font-size: 0.55rem; color: #666; text-transform: uppercase; letter-spacing: 1px;">Card Holder</span>
+              <span style="font-size: 0.85rem; font-weight: 600;">{{ customer.name | default: 'Guest Member' }}</span>
+            </div>
+            <div style="text-align: right;">
+              <span style="display: block; font-size: 0.55rem; color: #666; text-transform: uppercase; letter-spacing: 1px;">Valid Thru</span>
+              <span style="font-size: 0.85rem; font-weight: 600; font-family: monospace;">{{ validity_timestamp | date: '%d/%m/%Y' }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Info Alert -->
+        <div style="margin-top: 1rem; max-width: 350px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; font-size: 0.75rem; color: #aaa; line-height: 1.4;">
+          <p style="margin: 0; display: flex; align-items: center; gap: 8px;">
+            <span style="color: #ff0000;">⚡</span> 
+            <span>Validity automatically increases by <strong>3 months</strong> on every purchase!</span>
+          </p>
+          <p style="margin: 6px 0 0 0; font-size: 0.7rem; color: #888;">
+            Get exclusive discounts at all retail outlet partners and early access VIP sales.
+          </p>
+        </div>
+      </div>
     </div>
     <div class="customer-account__orders">
       <h2>{{ 'customer.orders.title' | t }}</h2>

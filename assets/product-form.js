@@ -7,6 +7,9 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', function () {
+    if (document.querySelector('[data-product-gallery]') || document.querySelector('[data-variant-picker]')) {
+      return;
+    }
     initVariantSelectors();
     initGallery();
     initQuantitySelector();
