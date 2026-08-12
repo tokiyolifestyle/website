@@ -26,13 +26,16 @@
 
           {%- if is_catalog -%}
             <li class="site-header__nav-item has-dropdown">
-              <a href="/collections" class="site-header__nav-link" aria-haspopup="true" aria-expanded="false" data-mega-menu-trigger="categories">
+              <a href="/collections/all" class="site-header__nav-link" aria-haspopup="true" aria-expanded="false" data-mega-menu-trigger="categories">
                 Categories
                 {% render 'icon-chevron-down' %}
               </a>
               <div class="mega-menu" id="MegaMenu-categories" data-mega-menu>
                 <div class="mega-menu__inner page-width">
                   <div class="mega-menu__columns">
+                    <div class="mega-menu__column">
+                      <a href="/collections/all" class="mega-menu__column-title mega-menu__column-title--all">Shop All Products →</a>
+                    </div>
                     <div class="mega-menu__column">
                       <a href="/collections/men-oversized" class="mega-menu__column-title">Men's Oversized</a>
                       <ul class="mega-menu__list" role="list">
@@ -131,18 +134,27 @@
       {%- endif -%}
 
       {%- if is_catalog -%}
-        <li class="mobile-nav__item">
-          <a href="/collections" class="mobile-nav__link">Categories</a>
-          <button class="mobile-nav__expand" aria-label="Expand Categories" data-mobile-submenu-toggle>
-            {% render 'icon-chevron-down' %}
+        <li class="mobile-nav__item mobile-nav__item--has-sub">
+          <button class="mobile-nav__row-btn" aria-expanded="false" data-mobile-submenu-toggle>
+            <span>Categories</span>
+            <span class="mobile-nav__arrow">
+              {% render 'icon-chevron-down' %}
+            </span>
           </button>
           <ul class="mobile-nav__sublist" role="list">
 
+            <!-- Shop All -->
+            <li class="mobile-nav__subitem">
+              <a href="/collections/all" class="mobile-nav__link mobile-nav__link--shop-all">🛍️ Shop All Products</a>
+            </li>
+
             <!-- Men's Oversized -->
-            <li class="mobile-nav__item mobile-nav__item--nested">
-              <a href="/collections/men-oversized" class="mobile-nav__link mobile-nav__link--sub">Men's Oversized</a>
-              <button class="mobile-nav__expand" aria-label="Expand Men's" data-mobile-submenu-toggle>
-                {% render 'icon-chevron-down' %}
+            <li class="mobile-nav__subitem mobile-nav__subitem--has-sub">
+              <button class="mobile-nav__row-btn mobile-nav__row-btn--sub" aria-expanded="false" data-mobile-submenu-toggle>
+                <span>Men's Oversized</span>
+                <span class="mobile-nav__arrow">
+                  {% render 'icon-chevron-down' %}
+                </span>
               </button>
               <ul class="mobile-nav__sublist mobile-nav__sublist--deep" role="list">
                 <li><a href="/collections/men-oversized-graphic-print" class="mobile-nav__link mobile-nav__link--deep">Graphic Print</a></li>
@@ -155,10 +167,12 @@
             </li>
 
             <!-- Women's Oversized -->
-            <li class="mobile-nav__item mobile-nav__item--nested">
-              <a href="/collections/women-oversized" class="mobile-nav__link mobile-nav__link--sub">Women's Oversized</a>
-              <button class="mobile-nav__expand" aria-label="Expand Women's" data-mobile-submenu-toggle>
-                {% render 'icon-chevron-down' %}
+            <li class="mobile-nav__subitem mobile-nav__subitem--has-sub">
+              <button class="mobile-nav__row-btn mobile-nav__row-btn--sub" aria-expanded="false" data-mobile-submenu-toggle>
+                <span>Women's Oversized</span>
+                <span class="mobile-nav__arrow">
+                  {% render 'icon-chevron-down' %}
+                </span>
               </button>
               <ul class="mobile-nav__sublist mobile-nav__sublist--deep" role="list">
                 <li><a href="/collections/women-oversized-graphic-print" class="mobile-nav__link mobile-nav__link--deep">Graphic Print</a></li>

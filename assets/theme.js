@@ -10,17 +10,9 @@ const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 function initHeader() {
   const header = $('[data-site-header]');
   if (!header) return;
-  let lastScroll = 0;
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     header.classList.toggle('is-scrolled', scrollY > 10);
-    /* Auto-hide header on scroll down, show on scroll up */
-    if (scrollY > 200) {
-      header.classList.toggle('is-hidden', scrollY > lastScroll && scrollY > 100);
-    } else {
-      header.classList.remove('is-hidden');
-    }
-    lastScroll = scrollY;
   }, { passive: true });
 }
 
@@ -50,11 +42,16 @@ function initMobileNav() {
   overlay  && overlay.addEventListener('click', closeNav);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
   $$('[data-mobile-submenu-toggle]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const sublist = btn.closest('.mobile-nav__item')?.querySelector('.mobile-nav__sublist');
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const parentLi = btn.closest('.mobile-nav__item, .mobile-nav__subitem');
+      if (!parentLi) return;
+      const sublist = parentLi.querySelector(':scope > .mobile-nav__sublist');
       if (!sublist) return;
       const open = sublist.classList.toggle('is-open');
       btn.setAttribute('aria-expanded', open);
+      btn.classList.toggle('is-open', open);
     });
   });
 }
