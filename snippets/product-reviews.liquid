@@ -466,34 +466,14 @@
   }
 </style>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCY-WiyDWBVfS64t_DAmh2NwukpXHkVzZQ",
-    authDomain: "tokiyolifestyle-website.firebaseapp.com",
-    projectId: "tokiyolifestyle-website",
-    storageBucket: "tokiyolifestyle-website.firebasestorage.app",
-    messagingSenderId: "270059975283",
-    appId: "1:270059975283:web:d0fe2cf5169ff72ec1b006",
-    measurementId: "G-XXH1MYLFKE"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db  = getFirestore(app);
-
+<script>
   (function() {
     const section = document.getElementById('ProductReviews');
     if (!section) return;
 
-    const productId = section.dataset.productId || 'default';
     const openBtn    = document.getElementById('OpenReviewFormBtn');
     const closeBtn   = document.getElementById('CloseReviewFormBtn');
     const formWrap   = document.getElementById('ReviewFormWrapper');
-    const form       = document.getElementById('ProductReviewForm');
-    const list       = document.getElementById('ProductReviewsList');
-    const alertBox   = document.getElementById('ReviewSuccessAlert');
     const starPicker = document.getElementById('StarPicker');
     const ratingInput = document.getElementById('ReviewRatingInput');
     const backdrop   = document.getElementById('ReviewModalBackdrop');
@@ -516,15 +496,19 @@
       document.body.style.overflow = '';
     }
 
+    // Expose to window for Firebase module script
+    window.openReviewModal = openModal;
+    window.closeReviewModal = closeModal;
+
     // Toggle Modal
     openBtn && openBtn.addEventListener('click', openModal);
     closeBtn && closeBtn.addEventListener('click', closeModal);
     backdrop && backdrop.addEventListener('click', closeModal);
 
     // Auto-open review modal & scroll when link has ?write_review=true or #write-review
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('write_review') === 'true' || window.location.hash === '#write-review' || window.location.hash === '#ProductReviews') {
-      setTimeout(() => {
+    function checkReviewTrigger() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('write_review') === 'true' || window.location.hash === '#write-review' || window.location.hash === '#ProductReviews') {
         const reviewSection = document.getElementById('ProductReviews');
         if (reviewSection) {
           reviewSection.scrollIntoView({ behavior: 'smooth' });
@@ -532,8 +516,18 @@
         if (urlParams.get('write_review') === 'true' || window.location.hash === '#write-review') {
           openModal();
         }
-      }, 400);
+      }
     }
+
+    // Run on load with a slight delay to ensure elements are fully rendered
+    if (document.readyState === 'complete') {
+      setTimeout(checkReviewTrigger, 500);
+    } else {
+      window.addEventListener('load', () => setTimeout(checkReviewTrigger, 500));
+    }
+
+    // Support clicking anchor link / hash change without reloading the page
+    window.addEventListener('hashchange', checkReviewTrigger);
 
     // Interactive Star Picker
     if (starPicker) {
@@ -541,12 +535,47 @@
       stars.forEach(star => {
         star.addEventListener('click', () => {
           const val = parseInt(star.dataset.value, 10);
-          ratingInput.value = val;
+          if (ratingInput) ratingInput.value = val;
           stars.forEach((s, idx) => {
             s.classList.toggle('is-active', idx < val);
           });
         });
       });
+    }
+  })();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCY-WiyDWBVfS64t_DAmh2NwukpXHkVzZQ",
+    authDomain: "tokiyolifestyle-website.firebaseapp.com",
+    projectId: "tokiyolifestyle-website",
+    storageBucket: "tokiyolifestyle-website.firebasestorage.app",
+    messagingSenderId: "270059975283",
+    appId: "1:270059975283:web:d0fe2cf5169ff72ec1b006",
+    measurementId: "G-XXH1MYLFKE"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+
+  (function() {
+    const section = document.getElementById('ProductReviews');
+    if (!section) return;
+
+    const productId = section.dataset.productId || 'default';
+    const form       = document.getElementById('ProductReviewForm');
+    const list       = document.getElementById('ProductReviewsList');
+    const alertBox   = document.getElementById('ReviewSuccessAlert');
+    const ratingInput = document.getElementById('ReviewRatingInput');
+
+    function closeModal() {
+      if (window.closeReviewModal) {
+        window.closeReviewModal();
+      }
     }
 
     // Image compression helper to keep Firestore document size small
