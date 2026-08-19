@@ -23,7 +23,9 @@ function getScreenshotPrices(designCode, size) {
     TOTM008: { sml: 649, xlxxl: 699, mrp: 999 },
     TOTM009: { sml: 649, xlxxl: 699, mrp: 999 },
     TOTM010: { sml: 649, xlxxl: 699, mrp: 999 },
-    TOTM011: { sml: 699, xlxxl: 749, mrp: 1099 }
+    TOTM011: { sml: 699, xlxxl: 749, mrp: 1099 },
+    TOTM045: { sml: 749, xlxxl: 799, mrp: 1299 },
+    TOTM046: { sml: 649, xlxxl: 699, mrp: 999 }
   };
 
   const mensRegular = {
@@ -64,7 +66,8 @@ function getScreenshotPrices(designCode, size) {
     TOTWO022: { sml: 599, xlxxl: 649, mrp: 899 },
     TOTWO023: { sml: 599, xlxxl: 649, mrp: 999 },
     TOTWO024: { sml: 599, xlxxl: 649, mrp: 999 },
-    TOTWO025: { sml: 649, xlxxl: 699, mrp: 1299 }
+    TOTWO025: { sml: 649, xlxxl: 699, mrp: 1299 },
+    TOTWO026: { sml: 599, xlxxl: 649, mrp: 999 }
   };
 
   let pricing = null;

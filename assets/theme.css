@@ -1705,7 +1705,7 @@ html, body { padding-bottom: 0 !important; }
     scroll-snap-type: x mandatory !important;
     scroll-behavior: smooth !important;
     -webkit-overflow-scrolling: touch !important;
-    gap: 16px !important;
+    gap: 10px !important;
     padding-bottom: 12px !important;
     padding-inline: 16px !important;
     margin-inline: -16px !important;
@@ -1714,9 +1714,9 @@ html, body { padding-bottom: 0 !important; }
     display: none !important; /* Hide scrollbars for clean look */
   }
   .template-index .product-grid .product-card {
-    flex: 0 0 72% !important;
+    flex: 0 0 calc(46% - 2px) !important;
     scroll-snap-align: start !important;
-    max-width: 72% !important;
+    max-width: calc(46% - 2px) !important;
   }
 
   /* Curated Collections sliders (Shop by Collection) */
@@ -1726,7 +1726,7 @@ html, body { padding-bottom: 0 !important; }
     scroll-snap-type: x mandatory !important;
     scroll-behavior: smooth !important;
     -webkit-overflow-scrolling: touch !important;
-    gap: 12px !important;
+    gap: 10px !important;
     padding-bottom: 12px !important;
     padding-inline: 16px !important;
     margin-inline: -16px !important;
@@ -1735,9 +1735,9 @@ html, body { padding-bottom: 0 !important; }
     display: none !important;
   }
   .template-index .featured-collections .fc-card {
-    flex: 0 0 46% !important;
+    flex: 0 0 calc(46% - 2px) !important;
     scroll-snap-align: start !important;
-    max-width: 46% !important;
+    max-width: calc(46% - 2px) !important;
   }
 }
 
@@ -1900,7 +1900,7 @@ html, body { padding-bottom: 0 !important; }
     scroll-snap-type: x mandatory !important;
     scroll-behavior: smooth !important;
     -webkit-overflow-scrolling: touch !important;
-    gap: 16px !important;
+    gap: 10px !important;
     padding-bottom: 12px !important;
     padding-inline: 16px !important;
     margin-inline: -16px !important;
@@ -1909,9 +1909,9 @@ html, body { padding-bottom: 0 !important; }
     display: none !important; /* Hide scrollbars for clean look */
   }
   .template-index .product-grid .product-card {
-    flex: 0 0 72% !important;
+    flex: 0 0 calc(46% - 2px) !important;
     scroll-snap-align: start !important;
-    max-width: 72% !important;
+    max-width: calc(46% - 2px) !important;
   }
 
   /* Curated Collections sliders (Shop by Collection) */
@@ -1921,7 +1921,7 @@ html, body { padding-bottom: 0 !important; }
     scroll-snap-type: x mandatory !important;
     scroll-behavior: smooth !important;
     -webkit-overflow-scrolling: touch !important;
-    gap: 12px !important;
+    gap: 10px !important;
     padding-bottom: 12px !important;
     padding-inline: 16px !important;
     margin-inline: -16px !important;
@@ -1930,9 +1930,9 @@ html, body { padding-bottom: 0 !important; }
     display: none !important;
   }
   .template-index .featured-collections .fc-card {
-    flex: 0 0 46% !important;
+    flex: 0 0 calc(46% - 2px) !important;
     scroll-snap-align: start !important;
-    max-width: 46% !important;
+    max-width: calc(46% - 2px) !important;
   }
 }
 
