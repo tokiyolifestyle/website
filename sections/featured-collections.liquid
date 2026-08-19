@@ -1,4 +1,4 @@
-{%- comment -%} Featured Collections — Premium Dark Cards {%- endcomment -%}
+{%- comment -%} Featured Collections — Premium Curated Grid {%- endcomment -%}
 
 <section class="featured-collections section-featured-collections">
   <div class="page-width">
@@ -6,31 +6,13 @@
       {%- if section.settings.eyebrow != blank -%}
         <p class="text-eyebrow">{{ section.settings.eyebrow }}</p>
       {%- endif -%}
-      <h2>{{ section.settings.title | default: 'Shop by Category' }}</h2>
-      <p>{{ section.settings.subtitle | default: 'Curated collections crafted for the modern lifestyle.' }}</p>
+      <h2>{{ section.settings.title | default: 'Curated for You' }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="section-header-subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
     </div>
 
     <div class="fc-grid stagger-children">
-      {%- comment -%} Fetch fallbacks {%- endcomment -%}
-      {%- assign men_oversized_col = collections['men-oversized'] -%}
-      {%- assign women_oversized_col = collections['women-oversized'] -%}
-      {%- assign men_regular_col = collections['men-regular'] -%}
-
-      {%- assign men_handles = '' -%}
-      {%- for p in men_oversized_col.products -%}
-        {%- assign men_handles = men_handles | append: p.handle | append: ',' -%}
-      {%- endfor -%}
-      {%- for p in men_regular_col.products -%}
-        {%- assign men_handles = men_handles | append: p.handle | append: ',' -%}
-      {%- endfor -%}
-      {%- assign men_array = men_handles | split: ',' -%}
-
-      {%- assign women_handles = '' -%}
-      {%- for p in women_oversized_col.products -%}
-        {%- assign women_handles = women_handles | append: p.handle | append: ',' -%}
-      {%- endfor -%}
-      {%- assign women_array = women_handles | split: ',' -%}
-
       {%- for block in section.blocks -%}
         {%- assign handle_part = block.settings.link | split: '/collections/' | last -%}
         {%- assign col = collections[handle_part] -%}
@@ -72,86 +54,130 @@
 </section>
 
 <style>
-  .featured-collections { padding: var(--spacing-sections, 48px) 0; background: #FFFFFF; }
+  .featured-collections {
+    padding: var(--spacing-sections, 56px) 0;
+    background: #FFFFFF;
+  }
+  .section-header-subtitle {
+    font-size: 0.95rem;
+    color: #666666;
+    margin-top: 0.35rem;
+  }
   .fc-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 16px;
+    margin-top: 2rem;
   }
   .fc-card {
     width: 100%;
-    position: relative; display: block; overflow: hidden;
-    aspect-ratio: 3 / 4;
-    background: #F5F5F5;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: #111111;
     border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
     transition: box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  @media(max-width:1200px){
-    .fc-grid {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-  }
-  @media(max-width:989px){
-    .fc-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-  }
-  @media(max-width:600px){
-    .fc-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
+    text-decoration: none;
   }
   .fc-card:hover {
-    box-shadow: 0 16px 36px rgba(197, 168, 128, 0.12);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
     transform: translateY(-4px);
   }
-  .fc-card__media { position:absolute; inset:0; }
-  .fc-card__img { width:100%; height:100%; object-fit:cover; transition:transform .7s cubic-bezier(.25,.46,.45,.94); }
-  .fc-card__placeholder {
-    width:100%; height:100%;
-    background: linear-gradient(160deg, #F5F5F5 0%, #EBEBEB 100%);
-    display:flex; align-items:center; justify-content:center;
-    position: relative;
-    overflow: hidden;
+  .fc-card__media { position: absolute; inset: 0; }
+  .fc-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
-  .fc-card__placeholder::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(0,0,0,0.02) 8px, rgba(0,0,0,0.02) 16px);
+  .fc-card:hover .fc-card__img { transform: scale(1.06); }
+  .fc-card__placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(160deg, #1A1A1A 0%, #0D0D0D 100%);
+    display: flex; align-items: center; justify-content: center;
   }
   .fc-card__placeholder-icon {
-    font-size:3rem; font-weight:800; color: var(--color-accent, #ff0000); opacity:0.25;
-    font-family: var(--font-heading);
-    z-index: 1;
+    font-size: 3rem; font-weight: 900; color: var(--color-accent, #ff0000); opacity: 0.3;
   }
   .fc-card__overlay {
-    position:absolute; inset:0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
-    transition: background .3s ease;
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 55%, transparent 100%);
+    transition: background 0.3s ease;
   }
-  .fc-card:hover .fc-card__overlay { background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 55%, transparent 100%); }
-  .fc-card:hover .fc-card__img { transform:scale(1.05); }
+  .fc-card:hover .fc-card__overlay {
+    background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+  }
   .fc-card__content {
-    position:absolute; bottom:0; left:0; right:0; padding:1.25rem;
-    z-index:2; color:#fff;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 1.25rem 1rem;
+    z-index: 2; color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
   }
   .fc-card__content h3 {
-    font-size:0.9375rem; font-weight:700; margin:0 0 0.25rem;
-    letter-spacing:0.06em; text-transform:uppercase; color:#fff;
+    font-size: 0.92rem;
+    font-weight: 800;
+    margin: 0 0 0.2rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    line-height: 1.25;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
   }
   .fc-card__cta {
-    font-size:0.6875rem; text-transform:uppercase; letter-spacing:0.1em;
-    color: var(--color-accent, #ff0000); font-weight:700;
-    opacity:0; transform:translateY(8px);
-    transition: opacity .3s ease, transform .3s ease;
-    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent, #ff0000);
+    font-weight: 800;
+    opacity: 0.9;
+    transform: translateY(0);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
-  .fc-card:hover .fc-card__cta { opacity:1; transform:translateY(0); }
+  .fc-card:hover .fc-card__cta {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+
+  /* Responsive Media Queries for Symmetrical Grid */
+  @media(max-width: 1199px) {
+    .fc-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  }
+  @media(max-width: 749px) {
+    .featured-collections { padding: 36px 0; }
+    .fc-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px !important;
+      margin-top: 1.25rem !important;
+      overflow: visible !important;
+    }
+    .fc-card {
+      aspect-ratio: 4 / 5 !important;
+      border-radius: 14px !important;
+      flex: none !important;
+      max-width: 100% !important;
+    }
+    .fc-card__content {
+      padding: 0.9rem 0.75rem !important;
+    }
+    .fc-card__content h3 {
+      font-size: 0.8rem !important;
+    }
+    .fc-card__cta {
+      font-size: 0.65rem !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
 </style>
 
 {% schema %}
@@ -160,30 +186,31 @@
   "tag": "section",
   "class": "section-featured-collections",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Explore" },
-    { "type": "text", "id": "title", "label": "Heading", "default": "Shop by Category" },
-    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Curated collections crafted for the modern lifestyle." }
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "Collections" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Curated for You" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Handpicked collections for every mood and style." }
   ],
   "blocks": [
     {
       "type": "collection",
-      "name": "Collection",
+      "name": "Collection Card",
       "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "Collection" },
-        { "type": "image_picker", "id": "image", "label": "Image" },
-        { "type": "url", "id": "link", "label": "Link" }
+        { "type": "text", "id": "title", "label": "Card title", "default": "Men's Oversized" },
+        { "type": "url", "id": "link", "label": "Collection link" }
       ]
     }
   ],
-  "presets": [{
-    "name": "Featured Collections",
-    "blocks": [
-      { "type": "collection", "settings": { "title": "Men's Essentials" } },
-      { "type": "collection", "settings": { "title": "Women's Oversized" } },
-      { "type": "collection", "settings": { "title": "Accessories" } },
-      { "type": "collection", "settings": { "title": "Footwear" } },
-      { "type": "collection", "settings": { "title": "Winterwear" } }
-    ]
-  }]
+  "presets": [
+    {
+      "name": "Featured Collections",
+      "blocks": [
+        { "type": "collection", "settings": { "title": "Men's Oversized", "link": "/collections/men-oversized" } },
+        { "type": "collection", "settings": { "title": "Women's Oversized", "link": "/collections/women-oversized" } },
+        { "type": "collection", "settings": { "title": "Anime Collection", "link": "/collections/men-oversized-anime" } },
+        { "type": "collection", "settings": { "title": "Streetwear Tees", "link": "/collections/men-oversized-streetwear" } },
+        { "type": "collection", "settings": { "title": "Minimal Basics", "link": "/collections/men-oversized-minimal" } }
+      ]
+    }
+  ]
 }
 {% endschema %}
