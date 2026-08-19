@@ -1061,12 +1061,47 @@
 
 <script>
   (function(){
-    /* Sort by */
+    /* Desktop Sort by Select */
     const sortSelect = document.querySelector('[data-sort-by]');
     sortSelect && sortSelect.addEventListener('change', () => {
       const url = new URL(window.location);
       url.searchParams.set('sort_by', sortSelect.value);
       window.location = url.toString();
+    });
+
+    /* Mobile Sort Bottom Sheet */
+    const sortSheet = document.getElementById('SortSheet');
+    const sortSheetBackdrop = document.getElementById('SortSheetBackdrop');
+    const sortSheetClose = document.getElementById('SortSheetClose');
+
+    function openSortSheet() {
+      if (!sortSheet) return;
+      sortSheet.classList.add('is-open');
+      sortSheet.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeSortSheet() {
+      if (!sortSheet) return;
+      sortSheet.classList.remove('is-open');
+      sortSheet.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('[data-sort-sheet-toggle]').forEach(btn => {
+      btn.addEventListener('click', openSortSheet);
+    });
+    sortSheetClose && sortSheetClose.addEventListener('click', closeSortSheet);
+    sortSheetBackdrop && sortSheetBackdrop.addEventListener('click', closeSortSheet);
+
+    document.querySelectorAll('[data-sort-value]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.sortValue;
+        if (val) {
+          const url = new URL(window.location);
+          url.searchParams.set('sort_by', val);
+          window.location = url.toString();
+        }
+      });
     });
 
     /* Grid / list toggle */
@@ -1079,13 +1114,15 @@
       });
     });
 
-    /* Filter toggle (mobile) */
-    const filterToggle = document.querySelector('[data-filter-toggle]');
-    const filters      = document.getElementById('CollectionFilters');
+    /* Filter toggle (both desktop & mobile) */
+    const filters = document.getElementById('CollectionFilters');
     const filterOverlay = document.querySelector('[data-filter-overlay]');
     function openFilters() { filters?.classList.add('is-open'); filterOverlay?.classList.add('is-open'); document.body.style.overflow='hidden'; }
     function closeFilters() { filters?.classList.remove('is-open'); filterOverlay?.classList.remove('is-open'); document.body.style.overflow=''; }
-    filterToggle && filterToggle.addEventListener('click', openFilters);
+
+    document.querySelectorAll('[data-filter-toggle]').forEach(btn => {
+      btn.addEventListener('click', openFilters);
+    });
     document.querySelector('[data-filter-close]')?.addEventListener('click', closeFilters);
     filterOverlay && filterOverlay.addEventListener('click', closeFilters);
 

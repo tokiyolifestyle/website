@@ -76,10 +76,19 @@
         {%- endfor -%}
         
         <li class="site-header__nav-item">
+          <a href="/pages/tokiyo-near-you" class="site-header__nav-link{% if request.path == '/pages/tokiyo-near-you' %} is-active{% endif %}" style="color: var(--color-accent, #ff0000); font-weight: 800;">📍 Tokiyo Near You</a>
+        </li>
+        <li class="site-header__nav-item">
+          <a href="/pages/membership-guide" class="site-header__nav-link{% if request.path == '/pages/membership-guide' %} is-active{% endif %}">VIP Guide</a>
+        </li>
+        <li class="site-header__nav-item">
           <a href="/pages/about-us" class="site-header__nav-link{% if request.path == '/pages/about-us' %} is-active{% endif %}">About Us</a>
         </li>
         <li class="site-header__nav-item">
           <a href="/pages/bulk-order" class="site-header__nav-link{% if request.path == '/pages/bulk-order' %} is-active{% endif %}">Bulk Order</a>
+        </li>
+        <li class="site-header__nav-item">
+          <a href="/pages/partner-with-us" class="site-header__nav-link{% if request.path == '/pages/partner-with-us' %} is-active{% endif %}">Partner With Us</a>
         </li>
         <li class="site-header__nav-item">
           <a href="/blogs/news" class="site-header__nav-link{% if request.path contains '/blogs/' %} is-active{% endif %}">Blogs</a>
@@ -330,6 +339,20 @@
           </div>
         </div>
       {%- endif -%}
+
+      <!-- Quick Ecosystem Links in Account Drawer -->
+      <div style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+        <a href="/pages/tokiyo-near-you" class="button button--outline button--full button--small" style="font-size: 0.78rem; font-weight: 800; border-radius: 50px; justify-content: center; gap: 0.5rem; text-decoration: none;">📍 Tokiyo Near You (Partner Map) →</a>
+        <a href="/pages/membership-guide" class="button button--outline button--full button--small" style="font-size: 0.78rem; font-weight: 800; border-radius: 50px; justify-content: center; gap: 0.5rem; text-decoration: none;">👑 VIP Membership Guide →</a>
+      </div>
+
+      <!-- Partner With Us Promo Box in Account Drawer -->
+      <div class="account-drawer__partner-box" style="margin-top: 1.25rem; padding: 1.25rem; background: rgba(255, 0, 0, 0.04); border: 1px dashed rgba(255, 0, 0, 0.25); border-radius: 12px; text-align: center;">
+        <span style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: var(--color-accent, #ff0000); display: block; margin-bottom: 0.35rem;">🤝 LOCAL BRAND PARTNERSHIP</span>
+        <h4 style="font-size: 0.95rem; font-weight: 800; color: #111111; margin: 0 0 0.4rem;">Own a local business? Partner with us!</h4>
+        <p style="font-size: 0.8rem; color: #555555; margin-bottom: 0.85rem; line-height: 1.4;">Offer discounts to Tokiyo VIP Card members & grow your brand reach across the city.</p>
+        <a href="/pages/partner-with-us" class="button button--solid button--full button--small" style="background: #111111; color: #FFFFFF; font-size: 0.75rem; border-radius: 50px;">Partner With Us →</a>
+      </div>
 
     </div>
   </div>

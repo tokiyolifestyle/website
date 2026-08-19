@@ -1,20 +1,255 @@
-<div class="quick-view-overlay overlay" data-quick-view-overlay></div>
-<div class="quick-view-modal modal" data-quick-view-modal id="QuickViewModal" role="dialog" aria-modal="true">
+<div class="quick-view-overlay" id="QuickAddOverlay" onclick="closeQuickAddModal()"></div>
+<div class="quick-view-modal" id="QuickAddModal" role="dialog" aria-modal="true" aria-hidden="true" style="display: none;">
   <div class="quick-view-modal__inner">
-    <button class="quick-view-modal__close" data-quick-view-close aria-label="Close">{% render 'icon-close' %}</button>
-    <div class="quick-view-modal__content" data-quick-view-content></div>
+    <button class="quick-view-modal__close" onclick="closeQuickAddModal()" aria-label="Close">✕</button>
+    <div class="quick-view-modal__content" id="QuickAddContent">
+      <!-- Dynamic Quick Add Modal Content Injected via JS -->
+    </div>
   </div>
 </div>
+
 <style>
-  .quick-view-overlay { position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90; }
-  .quick-view-modal { position:fixed;inset:0;z-index:91;display:flex;align-items:center;justify-content:center;padding:1.5rem; }
-  .quick-view-modal__inner { background:#fff;border-radius:16px;max-width:900px;width:100%;max-height:90vh;overflow-y:auto;position:relative; }
-  .quick-view-modal__close { position:absolute;top:1rem;right:1rem;width:36px;height:36px;border-radius:50%;background:#f5f5f5;display:flex;align-items:center;justify-content:center;z-index:2; }
-  .quick-view-modal__content { padding:2rem; }
+  .quick-view-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 190000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .quick-view-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .quick-view-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 190001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .quick-view-modal.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .quick-view-modal__inner {
+    background: #FFFFFF;
+    border-radius: 24px;
+    max-width: 720px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+  }
+
+  .quick-view-modal__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #F0F0F2;
+    border: none;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s;
+  }
+  .quick-view-modal__close:hover {
+    background: #111111;
+    color: #FFFFFF;
+  }
+
+  .quick-view-modal__content {
+    padding: 2.25rem 2rem;
+  }
+  @media(max-width: 639px) {
+    .quick-view-modal__content { padding: 1.5rem 1rem; }
+  }
+
+  /* Quick Add Internal Layout */
+  .quick-add-modal__grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  @media(max-width: 639px) {
+    .quick-add-modal__grid { grid-template-columns: 1fr; gap: 1.25rem; }
+  }
+
+  .quick-add-modal__media {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #F5F5F7;
+    aspect-ratio: 3/4;
+  }
+  .quick-add-modal__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .quick-add-modal__vendor {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent, #ff0000);
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .quick-add-modal__title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #111111;
+    margin-bottom: 0.5rem;
+    line-height: 1.25;
+  }
+
+  .quick-add-modal__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+    margin-bottom: 1.5rem;
+  }
+  .quick-add-modal__price .price-current {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #111111;
+  }
+  .quick-add-modal__price .price-compare {
+    font-size: 0.95rem;
+    color: #999999;
+    text-decoration: line-through;
+  }
+
+  .quick-add-modal__option-group {
+    margin-bottom: 1.35rem;
+  }
+  .quick-add-modal__option-group label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #333333;
+    margin-bottom: 0.65rem;
+  }
+
+  .size-buttons-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .size-pill {
+    padding: 0.65rem 1.1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.15);
+    background: #FFFFFF;
+    color: #111111;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .size-pill:hover {
+    border-color: #111111;
+  }
+  .size-pill.is-selected {
+    background: #111111;
+    color: #FFFFFF;
+    border-color: #111111;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .size-pill.is-disabled {
+    opacity: 0.4;
+    text-decoration: line-through;
+    cursor: not-allowed;
+  }
+
+  .quick-add-modal__qty {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .quick-add-modal__qty label {
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #333333;
+  }
+  .qty-picker {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .qty-btn {
+    width: 36px;
+    height: 36px;
+    background: #F5F5F7;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .qty-input {
+    width: 44px;
+    text-align: center;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    outline: none;
+  }
+
+  .quick-add-modal__submit-btn {
+    width: 100%;
+    padding: 1rem 1.75rem;
+    background: #111111;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  }
+  .quick-add-modal__submit-btn:hover {
+    background: var(--color-accent, #ff0000);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255,0,0,0.25);
+  }
 </style>
+
 {% schema %}
 {
-  "name": "Quick View Modal",
+  "name": "Quick Add Modal",
   "tag": "div",
   "class": "section-quick-view-modal"
 }

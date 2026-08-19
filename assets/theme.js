@@ -14,6 +14,36 @@ function initHeader() {
     const scrollY = window.scrollY;
     header.classList.toggle('is-scrolled', scrollY > 10);
   }, { passive: true });
+
+  // Mega menu click & hover handling for desktop
+  $$('[data-mega-menu-trigger]').forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      const parent = trigger.closest('.has-dropdown');
+      if (!parent) return;
+      const isOpen = parent.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+      // Close other open dropdowns
+      $$('.has-dropdown').forEach(other => {
+        if (other !== parent) {
+          other.classList.remove('is-open');
+          const otherTrigger = other.querySelector('[data-mega-menu-trigger]');
+          if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.has-dropdown')) {
+      $$('.has-dropdown').forEach(item => {
+        item.classList.remove('is-open');
+        const trig = item.querySelector('[data-mega-menu-trigger]');
+        if (trig) trig.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
 }
 
 /* ========== Mobile Nav ========== */
@@ -409,6 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuantitySelectors();
   initSectionSpacing();
   initShareButtons();
+  initQuickAddModal();
 });
 
 /* ========== Product Share Handler ========== */
@@ -434,10 +465,182 @@ function initShareButtons() {
   });
 }
 
+/* ========== Quick Add Modal Handler ========== */
+function initQuickAddModal() {
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-quick-add-trigger]');
+    if (!btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const productId = btn.dataset.productId;
+    const title = btn.dataset.productTitle;
+    const price = btn.dataset.productPrice;
+    const compare = btn.dataset.productCompare;
+    const image = btn.dataset.productImage;
+    const hasOnlyDefault = btn.dataset.hasOnlyDefault === 'true';
+    const defaultVariantId = btn.dataset.defaultVariantId;
+
+    const parent = btn.closest('.product-card__quick-add');
+    const jsonScript = parent ? parent.querySelector('.product-variants-json') : null;
+    let variants = [];
+    if (jsonScript) {
+      try { variants = JSON.parse(jsonScript.textContent); } catch(err){}
+    }
+
+    if (hasOnlyDefault || variants.length <= 1) {
+      quickAddToCart(defaultVariantId, 1, btn);
+      return;
+    }
+
+    renderAndOpenQuickAddModal({ title, price, compare, image, variants }, btn);
+  });
+}
+
+function quickAddToCart(variantId, quantity = 1, buttonEl = null) {
+  const originalText = buttonEl ? buttonEl.innerHTML : '';
+  if (buttonEl) {
+    buttonEl.innerHTML = '<span>Adding...</span>';
+    buttonEl.disabled = true;
+  }
+
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items: [{ id: parseInt(variantId, 10), quantity: quantity }] })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (buttonEl) {
+      buttonEl.innerHTML = '<span>Added ✓</span>';
+      setTimeout(() => {
+        buttonEl.innerHTML = originalText;
+        buttonEl.disabled = false;
+      }, 1500);
+    }
+    const cartToggle = document.querySelector('[data-cart-drawer-toggle]');
+    if (cartToggle) cartToggle.click();
+    closeQuickAddModal();
+  })
+  .catch(err => {
+    console.error('Cart add error:', err);
+    if (buttonEl) {
+      buttonEl.innerHTML = originalText;
+      buttonEl.disabled = false;
+    }
+  });
+}
+
+function renderAndOpenQuickAddModal(productData, triggerBtn) {
+  const overlay = document.getElementById('QuickAddOverlay');
+  const modal = document.getElementById('QuickAddModal');
+  const content = document.getElementById('QuickAddContent');
+  if (!modal || !content) return;
+
+  const { title, price, compare, image, variants } = productData;
+
+  let selectedVariant = variants.find(v => v.available) || variants[0];
+
+  let sizePillsHtml = variants.map((v) => {
+    const isAvail = v.available;
+    const isSelected = v.id === selectedVariant.id;
+    const sizeName = v.option1 || v.title;
+    return `
+      <button
+        type="button"
+        class="size-pill ${isSelected ? 'is-selected' : ''} ${!isAvail ? 'is-disabled' : ''}"
+        data-variant-id="${v.id}"
+        ${!isAvail ? 'disabled' : ''}>
+        ${sizeName}
+      </button>
+    `;
+  }).join('');
+
+  content.innerHTML = `
+    <div class="quick-add-modal__grid">
+      <div class="quick-add-modal__media">
+        <img src="${image}" alt="${title}" class="quick-add-modal__img">
+      </div>
+      <div class="quick-add-modal__info">
+        <span class="quick-add-modal__vendor">TOKIYO LIFESTYLE</span>
+        <h2 class="quick-add-modal__title">${title}</h2>
+        <div class="quick-add-modal__price">
+          <span class="price-current">${price}</span>
+          ${compare && compare !== price ? `<span class="price-compare">${compare}</span>` : ''}
+        </div>
+
+        <div class="quick-add-modal__option-group">
+          <label>Select Size / Variant:</label>
+          <div class="size-buttons-row" id="ModalSizeRow">
+            ${sizePillsHtml}
+          </div>
+        </div>
+
+        <div class="quick-add-modal__qty">
+          <label>Quantity:</label>
+          <div class="qty-picker">
+            <button type="button" class="qty-btn" id="ModalQtyMinus">-</button>
+            <input type="number" id="ModalQtyInput" value="1" min="1" class="qty-input" readonly>
+            <button type="button" class="qty-btn" id="ModalQtyPlus">+</button>
+          </div>
+        </div>
+
+        <button type="button" class="quick-add-modal__submit-btn" id="ModalSubmitBtn">
+          <span>Add to Cart →</span>
+        </button>
+      </div>
+    </div>
+  `;
+
+  let currentSelectedId = selectedVariant.id;
+  content.querySelectorAll('.size-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      if (pill.classList.contains('is-disabled')) return;
+      content.querySelectorAll('.size-pill').forEach(p => p.classList.remove('is-selected'));
+      pill.classList.add('is-selected');
+      currentSelectedId = pill.dataset.variantId;
+    });
+  });
+
+  const qtyInput = content.querySelector('#ModalQtyInput');
+  content.querySelector('#ModalQtyMinus')?.addEventListener('click', () => {
+    let val = parseInt(qtyInput.value, 10) || 1;
+    if (val > 1) qtyInput.value = val - 1;
+  });
+  content.querySelector('#ModalQtyPlus')?.addEventListener('click', () => {
+    let val = parseInt(qtyInput.value, 10) || 1;
+    qtyInput.value = val + 1;
+  });
+
+  const submitBtn = content.querySelector('#ModalSubmitBtn');
+  submitBtn?.addEventListener('click', () => {
+    const qty = parseInt(qtyInput.value, 10) || 1;
+    quickAddToCart(currentSelectedId, qty, submitBtn);
+  });
+
+  overlay?.classList.add('is-open');
+  modal.classList.add('is-open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeQuickAddModal() {
+  const overlay = document.getElementById('QuickAddOverlay');
+  const modal = document.getElementById('QuickAddModal');
+  if (overlay) overlay.classList.remove('is-open');
+  if (modal) {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+  document.body.style.overflow = '';
+}
+
 document.addEventListener('shopify:section:load', () => {
   initScrollAnimations();
   initAccordions();
   initTabs();
   initSliders();
   initQuantitySelectors();
+  initQuickAddModal();
 });
