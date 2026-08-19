@@ -1,0 +1,347 @@
+{%- comment -%} Tokiyo Lifestyle — Partner With Us Page Section {%- endcomment -%}
+
+<div class="partner-page page-width">
+  
+  <!-- Hero Section -->
+  <div class="partner-hero animate-on-scroll fade-up">
+    <span class="partner-eyebrow">Exclusive Business Collaboration</span>
+    <h1 class="partner-title">Partner With Tokiyo Lifestyle</h1>
+    <p class="partner-subtitle">
+      Are you a local cafe, gym, salon, fashion boutique, or lifestyle brand? Partner with Tokiyo Lifestyle to offer exclusive perks to our <strong>Tokiyo VIP Privilege Card</strong> members and connect with thousands of active youth in your city!
+    </p>
+  </div>
+
+  <!-- Benefits Grid -->
+  <div class="partner-benefits-grid animate-on-scroll fade-up">
+    <div class="partner-benefit-card">
+      <div class="partner-benefit-icon">🚀</div>
+      <h3>High Local Visibility</h3>
+      <p>Get featured on the Tokiyo Lifestyle VIP Portal, App, and social media channels reaching thousands of local customers.</p>
+    </div>
+
+    <div class="partner-benefit-card">
+      <div class="partner-benefit-icon">🎯</div>
+      <h3>Targeted Youth Audience</h3>
+      <p>Directly connect with passionate streetwear lovers, college students, and young professionals in your neighborhood.</p>
+    </div>
+
+    <div class="partner-benefit-card">
+      <div class="partner-benefit-icon">🤝</div>
+      <h3>Co-Marketing & Events</h3>
+      <p>Collaborate on pop-up events, co-branded merch drops, and social media campaigns to boost footfall.</p>
+    </div>
+
+    <div class="partner-benefit-card">
+      <div class="partner-benefit-icon">💎</div>
+      <h3>Zero Listing Fee</h3>
+      <p>Joining the Tokiyo Partner Network is 100% free with no hidden maintenance costs. Simply provide a VIP discount offer!</p>
+    </div>
+  </div>
+
+  <!-- Application Form Section -->
+  <div class="partner-form-wrap animate-on-scroll fade-up" id="PartnerForm">
+    <div class="partner-form-header">
+      <h2>Brand Partnership Application</h2>
+      <p>Fill out the form below and our team will get in touch with you within 24 hours to set up your partnership.</p>
+    </div>
+
+    <form id="TokiyoPartnerForm" class="partner-form" onsubmit="handlePartnerSubmit(event)">
+      <div class="form-row-2">
+        <div class="partner-field">
+          <label for="BrandName">Business / Brand Name *</label>
+          <input type="text" id="BrandName" name="brand_name" placeholder="e.g. Urban Grind Cafe" required>
+        </div>
+        <div class="partner-field">
+          <label for="BusinessCategory">Business Category *</label>
+          <select id="BusinessCategory" name="category" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="cafe_dining">Cafe & Dining / Restaurant</option>
+            <option value="fitness_gym">Gym & Fitness Center</option>
+            <option value="salon_beauty">Salon, Spa & Grooming</option>
+            <option value="fashion_retail">Fashion & Apparel</option>
+            <option value="entertainment_gaming">Gaming & Entertainment</option>
+            <option value="co_working">Co-Working & Study Hub</option>
+            <option value="other">Other Business</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div class="partner-field">
+          <label for="ContactPerson">Contact Person Name *</label>
+          <input type="text" id="ContactPerson" name="contact_person" placeholder="e.g. Rahul Sharma" required>
+        </div>
+        <div class="partner-field">
+          <label for="Phone">WhatsApp / Phone Number *</label>
+          <input type="tel" id="Phone" name="phone" placeholder="e.g. +91 98765 43210" required>
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div class="partner-field">
+          <label for="Email">Business Email Address *</label>
+          <input type="email" id="Email" name="email" placeholder="e.g. hello@yourbrand.com" required>
+        </div>
+        <div class="partner-field">
+          <label for="Location">City & Area / Location *</label>
+          <input type="text" id="Location" name="location" placeholder="e.g. Connaught Place, New Delhi" required>
+        </div>
+      </div>
+
+      <div class="partner-field">
+        <label for="VipOffer">Proposed Offer / Discount for Tokiyo VIP Members *</label>
+        <input type="text" id="VipOffer" name="vip_offer" placeholder="e.g. Flat 15% OFF on total bill / Buy 1 Get 1 Free on Beverages" required>
+      </div>
+
+      <div class="partner-field">
+        <label for="SocialLink">Instagram / Website / Google Maps Link (Optional)</label>
+        <input type="url" id="SocialLink" name="social_link" placeholder="e.g. https://instagram.com/yourbrand">
+      </div>
+
+      <div class="partner-field">
+        <label for="Message">Additional Message / Note</label>
+        <textarea id="Message" name="message" rows="4" placeholder="Tell us a little bit about your brand or any special collaboration ideas..."></textarea>
+      </div>
+
+      <button type="submit" class="partner-submit-btn">
+        <span>Submit Partnership Request</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </form>
+
+    <!-- Success Message Box -->
+    <div id="PartnerFormSuccess" class="partner-success-box" style="display: none;">
+      <div class="success-icon">🎉</div>
+      <h3>Application Received!</h3>
+      <p>Thank you for choosing to partner with <strong>Tokiyo Lifestyle</strong>. Our partnership manager will contact you on WhatsApp / Email within 24 hours.</p>
+      <a href="/pages/about-us" class="partner-success-btn">Learn More About Tokiyo →</a>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .partner-page {
+    padding-block: 3.5rem 5rem;
+    max-width: 1000px;
+    margin-inline: auto;
+  }
+  .partner-hero {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+  .partner-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-accent, #ff0000);
+    margin-bottom: 0.75rem;
+    background: rgba(255, 0, 0, 0.08);
+    padding: 0.35rem 1rem;
+    border-radius: 50px;
+  }
+  .partner-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #111111;
+    margin-bottom: 1rem;
+    line-height: 1.15;
+  }
+  .partner-subtitle {
+    font-size: 1.05rem;
+    color: #555555;
+    max-width: 720px;
+    margin-inline: auto;
+    line-height: 1.6;
+  }
+
+  /* Benefits Grid */
+  .partner-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 4rem;
+  }
+  @media(max-width: 989px) {
+    .partner-benefits-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media(max-width: 599px) {
+    .partner-benefits-grid { grid-template-columns: 1fr; }
+  }
+  .partner-benefit-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    border-radius: 16px;
+    padding: 1.75rem 1.25rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .partner-benefit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+    border-color: #111111;
+  }
+  .partner-benefit-icon {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
+  .partner-benefit-card h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #111111;
+    margin-bottom: 0.5rem;
+  }
+  .partner-benefit-card p {
+    font-size: 0.85rem;
+    color: #666666;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Form Container */
+  .partner-form-wrap {
+    background: #FFFFFF;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+  }
+  @media(max-width: 749px) {
+    .partner-form-wrap { padding: 2rem 1.25rem; }
+  }
+  .partner-form-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .partner-form-header h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #111111;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .partner-form-header p {
+    font-size: 0.9rem;
+    color: #666666;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  @media(max-width: 749px) {
+    .form-row-2 { grid-template-columns: 1fr; }
+  }
+
+  .partner-field {
+    margin-bottom: 1.25rem;
+  }
+  .partner-field label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #222222;
+    margin-bottom: 0.45rem;
+  }
+  .partner-field input,
+  .partner-field select,
+  .partner-field textarea {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.9rem;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 10px;
+    background: #F9F9FB;
+    color: #111111;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .partner-field input:focus,
+  .partner-field select:focus,
+  .partner-field textarea:focus {
+    outline: none;
+    border-color: #111111;
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.08);
+    background: #FFFFFF;
+  }
+
+  .partner-submit-btn {
+    width: 100%;
+    padding: 1.1rem 2rem;
+    margin-top: 1rem;
+    background: #111111;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  }
+  .partner-submit-btn:hover {
+    background: var(--color-accent, #ff0000);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255,0,0,0.25);
+  }
+
+  /* Success Box */
+  .partner-success-box {
+    text-align: center;
+    padding: 3rem 1.5rem;
+  }
+  .success-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+  .partner-success-box h3 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #111111;
+    margin-bottom: 0.75rem;
+  }
+  .partner-success-box p {
+    font-size: 1rem;
+    color: #555555;
+    max-width: 500px;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  .partner-success-btn {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    background: #111111;
+    color: #FFFFFF;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+</style>
+
+<script>
+  function handlePartnerSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('TokiyoPartnerForm');
+    const successBox = document.getElementById('PartnerFormSuccess');
+    if (form && successBox) {
+      form.style.display = 'none';
+      successBox.style.display = 'block';
+    }
+  }
+</script>

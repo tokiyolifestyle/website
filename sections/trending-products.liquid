@@ -1,80 +1,70 @@
-{%- comment -%} Trending Products — Dark Premium with Coming Soon {%- endcomment -%}
+{%- comment -%} Trending Products & New Arrivals — Dynamic Sorting {%- endcomment -%}
 
 <section class="trending-products section-trending-products">
   <div class="page-width">
     <div class="section-header-block animate-on-scroll fade-up">
-      <p class="text-eyebrow">{{ section.settings.eyebrow | default: 'Trending Now' }}</p>
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="text-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
       <h2>{{ section.settings.title | default: 'Bestsellers' }}</h2>
     </div>
 
-    {%- comment -%} Dynamically build mixed Men's and Women's products list {%- endcomment -%}
-    {%- assign men_oversized_col = collections['men-oversized'] -%}
-    {%- assign men_regular_col = collections['men-regular'] -%}
-    {%- assign women_oversized_col = collections['women-oversized'] -%}
-    
-    {%- assign men_handles = '' -%}
-    {%- assign women_handles = '' -%}
+    {%- assign sort_mode = section.settings.sort_by | default: 'auto' -%}
+    {%- assign title_dn = section.settings.title | downcase -%}
+    {%- assign eyebrow_dn = section.settings.eyebrow | downcase -%}
 
-    {%- comment -%} Get Men's products {%- endcomment -%}
-    {%- if men_oversized_col != blank -%}
-      {%- for p in men_oversized_col.products -%}
-        {%- assign men_handles = men_handles | append: p.handle | append: ',' -%}
-      {%- endfor -%}
-    {%- endif -%}
-    {%- if men_regular_col != blank -%}
-      {%- for p in men_regular_col.products -%}
-        {%- assign men_handles = men_handles | append: p.handle | append: ',' -%}
-      {%- endfor -%}
+    {%- assign is_new_arrivals = false -%}
+    {%- if sort_mode == 'created_descending' or title_dn contains 'new' or eyebrow_dn contains 'fresh' or eyebrow_dn contains 'new' -%}
+      {%- assign is_new_arrivals = true -%}
     {%- endif -%}
 
-    {%- comment -%} Get Women's products {%- endcomment -%}
-    {%- if women_oversized_col != blank -%}
-      {%- for p in women_oversized_col.products -%}
-        {%- assign women_handles = women_handles | append: p.handle | append: ',' -%}
-      {%- endfor -%}
+    {%- assign target_col = section.settings.collection -%}
+    {%- if target_col == blank -%}
+      {%- assign target_col = collections['all'] -%}
     {%- endif -%}
 
-    {%- assign men_handles_array = men_handles | split: ',' -%}
-    {%- assign women_handles_array = women_handles | split: ',' -%}
-    
     {%- assign max_limit = section.settings.limit | default: 8 -%}
     {%- assign rendered_count = 0 -%}
 
-    {%- assign has_products = false -%}
-    {%- if men_handles_array.size > 0 or women_handles_array.size > 0 -%}
-      {%- assign has_products = true -%}
+    {%- comment -%} Dynamically fetch product list {%- endcomment -%}
+    {%- assign raw_products = target_col.products -%}
+
+    {%- comment -%} If collections['all'] is empty or target collection is empty, aggregate from category collections {%- endcomment -%}
+    {%- if raw_products == blank or raw_products.size == 0 -%}
+      {%- assign men_oversized_col = collections['men-oversized'] -%}
+      {%- assign men_regular_col = collections['men-regular'] -%}
+      {%- assign women_oversized_col = collections['women-oversized'] -%}
+
+      {%- assign raw_products = men_oversized_col.products -%}
+      {%- if women_oversized_col != blank -%}
+        {%- assign raw_products = raw_products | concat: women_oversized_col.products -%}
+      {%- endif -%}
+      {%- if men_regular_col != blank -%}
+        {%- assign raw_products = raw_products | concat: men_regular_col.products -%}
+      {%- endif -%}
     {%- endif -%}
 
-    {%- if has_products -%}
-      <div class="product-grid product-grid--{{ section.settings.columns }}" data-product-grid>
-        {%- for i in (0..30) -%}
+    {%- if is_new_arrivals -%}
+      {%- comment -%} NEW ARRIVALS: Last Added First (Newest Products at position 1) {%- endcomment -%}
+      {%- assign sorted_products = raw_products | reverse -%}
+    {%- else -%}
+      {%- comment -%} BESTSELLERS: Highest clicks / best selling order {%- endcomment -%}
+      {%- assign sorted_products = raw_products -%}
+    {%- endif -%}
+
+    {%- assign valid_count = 0 -%}
+    {%- for p in sorted_products -%}
+      {%- if p.handle != 'cod-fee' -%}
+        {%- assign valid_count = valid_count | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if valid_count > 0 -%}
+      <div class="product-grid product-grid--{{ section.settings.columns | default: 4 }}" data-product-grid>
+        {%- for p in sorted_products -%}
           {%- if rendered_count >= max_limit -%}{%- break -%}{%- endif -%}
-          
-          {%- comment -%} Alternating between Men's and Women's {%- endcomment -%}
-          {%- assign select_men = true -%}
-          {%- assign mod_check = i | modulo: 2 -%}
-          {%- if mod_check == 1 -%}
-            {%- assign select_men = false -%}
-          {%- endif -%}
-
-          {%- assign target_product = blank -%}
-          {%- if select_men -%}
-            {%- comment -%} Use multiplier offset to skip identical color options of the same design {%- endcomment -%}
-            {%- assign m_idx = i | divided_by: 2 | times: 3 | modulo: men_handles_array.size -%}
-            {%- assign m_handle = men_handles_array[m_idx] -%}
-            {%- if m_handle != blank -%}
-              {%- assign target_product = all_products[m_handle] -%}
-            {%- endif -%}
-          {%- else -%}
-            {%- assign w_idx = i | divided_by: 2 | times: 3 | modulo: women_handles_array.size -%}
-            {%- assign w_handle = women_handles_array[w_idx] -%}
-            {%- if w_handle != blank -%}
-              {%- assign target_product = all_products[w_handle] -%}
-            {%- endif -%}
-          {%- endif -%}
-
-          {%- if target_product != blank and target_product.handle != 'cod-fee' -%}
-            {% render 'product-card', product: target_product, lazy: true %}
+          {%- if p != blank and p.handle != 'cod-fee' -%}
+            {% render 'product-card', product: p, lazy: true %}
             {%- assign rendered_count = rendered_count | plus: 1 -%}
           {%- endif -%}
         {%- endfor -%}
@@ -169,6 +159,12 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Trending Now" },
     { "type": "text", "id": "title", "label": "Heading", "default": "Bestsellers" },
     { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "select", "id": "sort_by", "label": "Sort Order", "options": [
+        { "value": "auto", "label": "Auto (Newest for New Arrivals, Bestselling for Bestsellers)" },
+        { "value": "created_descending", "label": "Newest First (Last Added First)" },
+        { "value": "best_selling", "label": "Best Selling / Most Clicks First" }
+      ], "default": "auto"
+    },
     { "type": "range", "id": "limit", "min": 4, "max": 12, "step": 1, "label": "Products to show", "default": 8 },
     { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Columns", "default": 4 },
     { "type": "text", "id": "cta_label", "label": "Button label", "default": "View All Products" },
