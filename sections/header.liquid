@@ -79,7 +79,7 @@
           <a href="/pages/tokiyo-near-you" class="site-header__nav-link{% if request.path == '/pages/tokiyo-near-you' %} is-active{% endif %}" style="color: var(--color-accent, #ff0000); font-weight: 800;">📍 Tokiyo Near You</a>
         </li>
         <li class="site-header__nav-item">
-          <a href="/pages/membership-guide" class="site-header__nav-link{% if request.path == '/pages/membership-guide' %} is-active{% endif %}">VIP Guide</a>
+          <a href="/pages/vip-membership-guide" class="site-header__nav-link{% if request.path contains 'membership-guide' %} is-active{% endif %}">VIP Guide</a>
         </li>
         <li class="site-header__nav-item">
           <a href="/pages/about-us" class="site-header__nav-link{% if request.path == '/pages/about-us' %} is-active{% endif %}">About Us</a>
@@ -343,7 +343,7 @@
       <!-- Quick Ecosystem Links in Account Drawer -->
       <div style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
         <a href="/pages/tokiyo-near-you" class="button button--outline button--full button--small" style="font-size: 0.78rem; font-weight: 800; border-radius: 50px; justify-content: center; gap: 0.5rem; text-decoration: none;">📍 Tokiyo Near You (Partner Map) →</a>
-        <a href="/pages/membership-guide" class="button button--outline button--full button--small" style="font-size: 0.78rem; font-weight: 800; border-radius: 50px; justify-content: center; gap: 0.5rem; text-decoration: none;">👑 VIP Membership Guide →</a>
+        <a href="/pages/vip-membership-guide" class="button button--outline button--full button--small" style="font-size: 0.78rem; font-weight: 800; border-radius: 50px; justify-content: center; gap: 0.5rem; text-decoration: none;">👑 VIP Membership Guide →</a>
       </div>
 
       <!-- Partner With Us Promo Box in Account Drawer -->
