@@ -67,7 +67,11 @@
         {%- endif -%}
       </div>
 
-      {%- if settings.enable_wishlist -%}
+      {%- comment -%} Live Viewers Indicator — shows on hover {%- endcomment -%}
+      <div class="product-card__live-viewers" aria-hidden="true">
+        <span class="live-dot"></span>
+        <span class="live-text"><span class="live-count"></span> people viewing</span>
+      </div>      {%- if settings.enable_wishlist -%}
         <button
           class="product-card__wishlist-btn"
           data-wishlist-toggle="{{ product.id }}"

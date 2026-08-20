@@ -420,6 +420,40 @@ function initSectionSpacing() {
   });
 }
 
+/* ========== Live Viewers Indicator ========== */
+function initLiveViewers() {
+  /* Random number between min and max (inclusive) */
+  function randBetween(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  /* Product Cards — assign a random viewer count to each card */
+  $$('.product-card__live-viewers').forEach(badge => {
+    const countEl = badge.querySelector('.live-count');
+    if (!countEl) return;
+    let base = randBetween(40, 100);
+    countEl.textContent = base;
+    /* Subtle fluctuation every 8-15s so it feels alive */
+    setInterval(() => {
+      const delta = randBetween(-3, 3);
+      base = Math.max(40, Math.min(100, base + delta));
+      countEl.textContent = base;
+    }, randBetween(8000, 15000));
+  });
+
+  /* Product Detail Page — single live count */
+  const pdpCount = document.getElementById('ProductLiveCount');
+  if (pdpCount) {
+    let pdpBase = randBetween(40, 100);
+    pdpCount.textContent = pdpBase;
+    setInterval(() => {
+      const delta = randBetween(-2, 4);
+      pdpBase = Math.max(40, Math.min(100, pdpBase + delta));
+      pdpCount.textContent = pdpBase;
+    }, randBetween(6000, 12000));
+  }
+}
+
 /* ========== Init All ========== */
 document.addEventListener('DOMContentLoaded', () => {
   initPageTransitions();
@@ -440,6 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSectionSpacing();
   initShareButtons();
   initQuickAddModal();
+  initLiveViewers();
 });
 
 /* ========== Product Share Handler ========== */
@@ -643,4 +678,5 @@ document.addEventListener('shopify:section:load', () => {
   initSliders();
   initQuantitySelectors();
   initQuickAddModal();
+  initLiveViewers();
 });

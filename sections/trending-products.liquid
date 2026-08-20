@@ -26,8 +26,14 @@
     {%- assign max_limit = section.settings.limit | default: 8 -%}
     {%- assign rendered_count = 0 -%}
 
-    {%- comment -%} Dynamically fetch product list {%- endcomment -%}
-    {%- assign raw_products = target_col.products -%}
+    {%- comment -%} Dynamically fetch product list with proper sort {%- endcomment -%}
+    {%- if is_new_arrivals -%}
+      {%- comment -%} NEW ARRIVALS: Fetch products sorted by created date descending (newest first) {%- endcomment -%}
+      {%- assign raw_products = target_col.products | sort: 'created_at' | reverse -%}
+    {%- else -%}
+      {%- comment -%} BESTSELLERS: Fetch products sorted by best-selling (most clicks/sales first) {%- endcomment -%}
+      {%- assign raw_products = target_col.products | sort: 'best-selling' -%}
+    {%- endif -%}
 
     {%- comment -%} If collections['all'] is empty or target collection is empty, aggregate from category collections {%- endcomment -%}
     {%- if raw_products == blank or raw_products.size == 0 -%}
@@ -42,13 +48,13 @@
       {%- if men_regular_col != blank -%}
         {%- assign raw_products = raw_products | concat: men_regular_col.products -%}
       {%- endif -%}
-    {%- endif -%}
 
-    {%- if is_new_arrivals -%}
-      {%- comment -%} NEW ARRIVALS: Last Added First (Newest Products at position 1) {%- endcomment -%}
-      {%- assign sorted_products = raw_products | reverse -%}
+      {%- if is_new_arrivals -%}
+        {%- assign sorted_products = raw_products | sort: 'created_at' | reverse -%}
+      {%- else -%}
+        {%- assign sorted_products = raw_products | sort: 'best-selling' -%}
+      {%- endif -%}
     {%- else -%}
-      {%- comment -%} BESTSELLERS: Highest clicks / best selling order {%- endcomment -%}
       {%- assign sorted_products = raw_products -%}
     {%- endif -%}
 

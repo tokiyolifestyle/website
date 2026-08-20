@@ -192,6 +192,14 @@
         </a>
       </div>
 
+      {%- comment -%} Live Viewers Indicator {%- endcomment -%}
+      <div class="product-info__live-viewers" id="ProductLiveViewers">
+        <span class="live-indicator-dot"></span>
+        <span class="live-indicator-text">
+          <strong class="live-indicator-count" id="ProductLiveCount"></strong> people are viewing this right now
+        </span>
+      </div>
+
       {%- comment -%} Price {%- endcomment -%}
       <div class="product-info__price" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
         <meta itemprop="priceCurrency" content="{{ cart.currency.iso_code }}">
