@@ -567,6 +567,26 @@ function quickAddToCart(variantId, quantity = 1, buttonEl = null) {
   });
 }
 
+// Color map for visual swatch dots
+function getQuickAddSwatchColor(name) {
+  const n = (name || '').toLowerCase().trim();
+  if (n.includes('white')) return '#FFFFFF';
+  if (n.includes('beige')) return '#E4D5B7';
+  if (n.includes('pista')) return '#C1F8C2';
+  if (n.includes('airforce') || n.includes('air force') || n.includes('blue')) return '#5F8A96';
+  if (n.includes('peach')) return '#FFE5B4';
+  if (n.includes('lavender')) return '#E6E6FA';
+  if (n.includes('mustard')) return '#E1AD01';
+  if (n.includes('onion')) return '#D1A3A4';
+  if (n.includes('wine')) return '#722F37';
+  if (n.includes('grey') || n.includes('gray')) return '#666666';
+  if (n.includes('black')) return '#111111';
+  if (n.includes('olive') || n.includes('green')) return '#556B2F';
+  if (n.includes('navy')) return '#000080';
+  if (n.includes('red') || n.includes('maroon')) return '#800000';
+  return '#888888';
+}
+
 function renderAndOpenQuickAddModal(productData, triggerBtn) {
   const overlay = document.getElementById('QuickAddOverlay');
   const modal = document.getElementById('QuickAddModal');
@@ -575,42 +595,112 @@ function renderAndOpenQuickAddModal(productData, triggerBtn) {
 
   const { title, price, compare, image, variants } = productData;
 
-  let selectedVariant = variants.find(v => v.available) || variants[0];
+  const sizeKeywords = ['xs', 's', 'm', 'l', 'xl', 'xxl', '2xl', '3xl', '4xl', 'free size'];
+  const rawOpt1List = [...new Set(variants.map(v => v.option1).filter(Boolean))];
+  const rawOpt2List = [...new Set(variants.map(v => v.option2).filter(Boolean))];
 
-  let sizePillsHtml = variants.map((v) => {
-    const isAvail = v.available;
-    const isSelected = v.id === selectedVariant.id;
-    const sizeName = v.option1 || v.title;
-    return `
-      <button
-        type="button"
-        class="size-pill ${isSelected ? 'is-selected' : ''} ${!isAvail ? 'is-disabled' : ''}"
-        data-variant-id="${v.id}"
-        ${!isAvail ? 'disabled' : ''}>
-        ${sizeName}
-      </button>
+  let hasColorAndSize = false;
+  let colors = [];
+  let sizes = [];
+  let colorOptKey = 'option1';
+  let sizeOptKey = 'option2';
+
+  if (rawOpt1List.length > 0 && rawOpt2List.length > 0) {
+    hasColorAndSize = true;
+    const opt1IsSize = rawOpt1List.some(val => sizeKeywords.includes(val.toLowerCase().trim()));
+    if (opt1IsSize) {
+      sizeOptKey = 'option1';
+      colorOptKey = 'option2';
+      sizes = rawOpt1List;
+      colors = rawOpt2List;
+    } else {
+      colorOptKey = 'option1';
+      sizeOptKey = 'option2';
+      colors = rawOpt1List;
+      sizes = rawOpt2List;
+    }
+  } else if (rawOpt1List.length > 0) {
+    sizes = rawOpt1List;
+    sizeOptKey = 'option1';
+  }
+
+  let selectedVariant = variants.find(v => v.available) || variants[0];
+  let activeColor = hasColorAndSize ? selectedVariant[colorOptKey] : null;
+  let activeSize = selectedVariant[sizeOptKey];
+  let currentSelectedId = selectedVariant.id;
+  let currentImage = selectedVariant.image || image;
+
+  let optionsHtml = '';
+
+  if (hasColorAndSize && colors.length > 1) {
+    const colorPills = colors.map(col => {
+      const isSelected = col === activeColor;
+      const hex = getQuickAddSwatchColor(col);
+      return `
+        <button type="button" class="color-pill ${isSelected ? 'is-selected' : ''}" data-color-name="${col}">
+          <span class="color-pill-dot" style="background-color:${hex};"></span>
+          <span>${col}</span>
+        </button>
+      `;
+    }).join('');
+
+    optionsHtml += `
+      <div class="quick-add-modal__option-group">
+        <label>Color: <span class="selected-opt-label" id="ModalColorLabel" style="font-weight:700; color:#ff0000; margin-left:4px;">${activeColor}</span></label>
+        <div class="color-buttons-row" id="ModalColorRow">
+          ${colorPills}
+        </div>
+      </div>
     `;
-  }).join('');
+  }
+
+  function generateSizePills(forColor) {
+    return sizes.map(sz => {
+      const matchingVariant = variants.find(v => {
+        if (hasColorAndSize && forColor) {
+          return v[colorOptKey] === forColor && v[sizeOptKey] === sz;
+        }
+        return v[sizeOptKey] === sz;
+      });
+
+      const isAvail = matchingVariant ? matchingVariant.available : false;
+      const isSelected = sz === activeSize;
+
+      return `
+        <button
+          type="button"
+          class="size-pill ${isSelected ? 'is-selected' : ''} ${!isAvail ? 'is-disabled' : ''}"
+          data-size-name="${sz}"
+          ${!matchingVariant ? 'disabled' : ''}>
+          ${sz}
+        </button>
+      `;
+    }).join('');
+  }
+
+  optionsHtml += `
+    <div class="quick-add-modal__option-group">
+      <label>Size: <span class="selected-opt-label" id="ModalSizeLabel" style="font-weight:700; color:#111111; margin-left:4px;">${activeSize || ''}</span></label>
+      <div class="size-buttons-row" id="ModalSizeRow">
+        ${generateSizePills(activeColor)}
+      </div>
+    </div>
+  `;
 
   content.innerHTML = `
     <div class="quick-add-modal__grid">
       <div class="quick-add-modal__media">
-        <img src="${image}" alt="${title}" class="quick-add-modal__img">
+        <img src="${currentImage}" alt="${title}" class="quick-add-modal__img" id="ModalProductImg">
       </div>
       <div class="quick-add-modal__info">
         <span class="quick-add-modal__vendor">TOKIYO LIFESTYLE</span>
         <h2 class="quick-add-modal__title">${title}</h2>
         <div class="quick-add-modal__price">
-          <span class="price-current">${price}</span>
-          ${compare && compare !== price ? `<span class="price-compare">${compare}</span>` : ''}
+          <span class="price-current" id="ModalPriceCurrent">${selectedVariant.price || price}</span>
+          ${(selectedVariant.compare_at_price || compare) && (selectedVariant.compare_at_price || compare) !== (selectedVariant.price || price) ? `<span class="price-compare" id="ModalPriceCompare">${selectedVariant.compare_at_price || compare}</span>` : ''}
         </div>
 
-        <div class="quick-add-modal__option-group">
-          <label>Select Size / Variant:</label>
-          <div class="size-buttons-row" id="ModalSizeRow">
-            ${sizePillsHtml}
-          </div>
-        </div>
+        ${optionsHtml}
 
         <div class="quick-add-modal__qty">
           <label>Quantity:</label>
@@ -628,15 +718,85 @@ function renderAndOpenQuickAddModal(productData, triggerBtn) {
     </div>
   `;
 
-  let currentSelectedId = selectedVariant.id;
-  content.querySelectorAll('.size-pill').forEach(pill => {
-    pill.addEventListener('click', () => {
-      if (pill.classList.contains('is-disabled')) return;
-      content.querySelectorAll('.size-pill').forEach(p => p.classList.remove('is-selected'));
-      pill.classList.add('is-selected');
-      currentSelectedId = pill.dataset.variantId;
+  function bindSizeEvents() {
+    content.querySelectorAll('.size-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        if (pill.classList.contains('is-disabled')) return;
+        content.querySelectorAll('.size-pill').forEach(p => p.classList.remove('is-selected'));
+        pill.classList.add('is-selected');
+        activeSize = pill.dataset.sizeName;
+        const sizeLabel = content.querySelector('#ModalSizeLabel');
+        if (sizeLabel) sizeLabel.textContent = activeSize;
+
+        const match = variants.find(v => {
+          if (hasColorAndSize && activeColor) {
+            return v[colorOptKey] === activeColor && v[sizeOptKey] === activeSize;
+          }
+          return v[sizeOptKey] === activeSize;
+        });
+
+        if (match) {
+          currentSelectedId = match.id;
+          if (match.image) {
+            const imgEl = content.querySelector('#ModalProductImg');
+            if (imgEl) imgEl.src = match.image;
+          }
+          if (match.price) {
+            const priceEl = content.querySelector('#ModalPriceCurrent');
+            if (priceEl) priceEl.textContent = match.price;
+          }
+        }
+      });
     });
-  });
+  }
+
+  bindSizeEvents();
+
+  if (hasColorAndSize) {
+    content.querySelectorAll('.color-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        content.querySelectorAll('.color-pill').forEach(p => p.classList.remove('is-selected'));
+        pill.classList.add('is-selected');
+        activeColor = pill.dataset.colorName;
+
+        const colorLabel = content.querySelector('#ModalColorLabel');
+        if (colorLabel) colorLabel.textContent = activeColor;
+
+        const colorVariant = variants.find(v => v[colorOptKey] === activeColor && v.image);
+        if (colorVariant && colorVariant.image) {
+          const imgEl = content.querySelector('#ModalProductImg');
+          if (imgEl) imgEl.src = colorVariant.image;
+        }
+
+        const sizeRow = content.querySelector('#ModalSizeRow');
+        if (sizeRow) {
+          sizeRow.innerHTML = generateSizePills(activeColor);
+          bindSizeEvents();
+        }
+
+        let currentMatch = variants.find(v => v[colorOptKey] === activeColor && v[sizeOptKey] === activeSize && v.available);
+        if (!currentMatch) {
+          currentMatch = variants.find(v => v[colorOptKey] === activeColor && v.available) || variants.find(v => v[colorOptKey] === activeColor);
+          if (currentMatch) {
+            activeSize = currentMatch[sizeOptKey];
+            const sizeLabel = content.querySelector('#ModalSizeLabel');
+            if (sizeLabel) sizeLabel.textContent = activeSize;
+            content.querySelectorAll('.size-pill').forEach(p => {
+              p.classList.toggle('is-selected', p.dataset.sizeName === activeSize);
+            });
+          }
+        }
+
+        if (currentMatch) {
+          currentSelectedId = currentMatch.id;
+          if (currentMatch.price) {
+            const priceEl = content.querySelector('#ModalPriceCurrent');
+            if (priceEl) priceEl.textContent = currentMatch.price;
+          }
+        }
+      });
+    });
+  }
 
   const qtyInput = content.querySelector('#ModalQtyInput');
   content.querySelector('#ModalQtyMinus')?.addEventListener('click', () => {
