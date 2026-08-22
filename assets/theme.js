@@ -718,6 +718,26 @@ function renderAndOpenQuickAddModal(productData, triggerBtn) {
     </div>
   `;
 
+  function updateSubmitButtonState(isAvailable) {
+    const submitBtn = content.querySelector('#ModalSubmitBtn');
+    if (!submitBtn) return;
+    if (isAvailable) {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('is-sold-out');
+      submitBtn.innerHTML = '<span>Add to Cart →</span>';
+      submitBtn.style.background = '#111111';
+      submitBtn.style.cursor = 'pointer';
+      submitBtn.style.opacity = '1';
+    } else {
+      submitBtn.disabled = true;
+      submitBtn.classList.add('is-sold-out');
+      submitBtn.innerHTML = '<span>Sold Out / Out of Stock ✕</span>';
+      submitBtn.style.background = '#888888';
+      submitBtn.style.cursor = 'not-allowed';
+      submitBtn.style.opacity = '0.7';
+    }
+  }
+
   function bindSizeEvents() {
     content.querySelectorAll('.size-pill').forEach(pill => {
       pill.addEventListener('click', () => {
@@ -745,12 +765,16 @@ function renderAndOpenQuickAddModal(productData, triggerBtn) {
             const priceEl = content.querySelector('#ModalPriceCurrent');
             if (priceEl) priceEl.textContent = match.price;
           }
+          updateSubmitButtonState(match.available);
+        } else {
+          updateSubmitButtonState(false);
         }
       });
     });
   }
 
   bindSizeEvents();
+  updateSubmitButtonState(selectedVariant ? selectedVariant.available : false);
 
   if (hasColorAndSize) {
     content.querySelectorAll('.color-pill').forEach(pill => {
@@ -774,25 +798,32 @@ function renderAndOpenQuickAddModal(productData, triggerBtn) {
           bindSizeEvents();
         }
 
+        // Try to find available size in newly selected color
         let currentMatch = variants.find(v => v[colorOptKey] === activeColor && v[sizeOptKey] === activeSize && v.available);
         if (!currentMatch) {
-          currentMatch = variants.find(v => v[colorOptKey] === activeColor && v.available) || variants.find(v => v[colorOptKey] === activeColor);
-          if (currentMatch) {
-            activeSize = currentMatch[sizeOptKey];
-            const sizeLabel = content.querySelector('#ModalSizeLabel');
-            if (sizeLabel) sizeLabel.textContent = activeSize;
-            content.querySelectorAll('.size-pill').forEach(p => {
-              p.classList.toggle('is-selected', p.dataset.sizeName === activeSize);
-            });
-          }
+          // If previous size is out of stock in this color, switch to first available size
+          currentMatch = variants.find(v => v[colorOptKey] === activeColor && v.available);
         }
 
         if (currentMatch) {
+          activeSize = currentMatch[sizeOptKey];
           currentSelectedId = currentMatch.id;
+          const sizeLabel = content.querySelector('#ModalSizeLabel');
+          if (sizeLabel) sizeLabel.textContent = activeSize;
+          content.querySelectorAll('.size-pill').forEach(p => {
+            p.classList.toggle('is-selected', p.dataset.sizeName === activeSize && !p.classList.contains('is-disabled'));
+          });
           if (currentMatch.price) {
             const priceEl = content.querySelector('#ModalPriceCurrent');
             if (priceEl) priceEl.textContent = currentMatch.price;
           }
+          updateSubmitButtonState(true);
+        } else {
+          // Entire color is sold out across all sizes
+          content.querySelectorAll('.size-pill').forEach(p => p.classList.remove('is-selected'));
+          const sizeLabel = content.querySelector('#ModalSizeLabel');
+          if (sizeLabel) sizeLabel.textContent = 'None Available';
+          updateSubmitButtonState(false);
         }
       });
     });
@@ -810,6 +841,10 @@ function renderAndOpenQuickAddModal(productData, triggerBtn) {
 
   const submitBtn = content.querySelector('#ModalSubmitBtn');
   submitBtn?.addEventListener('click', () => {
+    if (submitBtn.disabled) return;
+    const match = variants.find(v => v.id === parseInt(currentSelectedId, 10));
+    if (match && !match.available) return;
+
     const qty = parseInt(qtyInput.value, 10) || 1;
     quickAddToCart(currentSelectedId, qty, submitBtn);
   });
