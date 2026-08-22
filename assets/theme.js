@@ -654,9 +654,17 @@ function renderAndOpenQuickAddModal(productData, triggerBtn) {
     quickAddToCart(currentSelectedId, qty, submitBtn);
   });
 
-  overlay?.classList.add('is-open');
-  modal.classList.add('is-open');
-  modal.setAttribute('aria-hidden', 'false');
+  if (overlay) {
+    overlay.style.display = 'block';
+    requestAnimationFrame(() => overlay.classList.add('is-open'));
+  }
+  if (modal) {
+    modal.style.display = 'flex';
+    requestAnimationFrame(() => {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+    });
+  }
   document.body.style.overflow = 'hidden';
 }
 
@@ -668,6 +676,10 @@ function closeQuickAddModal() {
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
   }
+  setTimeout(() => {
+    if (overlay && !overlay.classList.contains('is-open')) overlay.style.display = 'none';
+    if (modal && !modal.classList.contains('is-open')) modal.style.display = 'none';
+  }, 300);
   document.body.style.overflow = '';
 }
 
