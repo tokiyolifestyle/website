@@ -1,6 +1,4 @@
-{%- comment -%} Trending Products & New Arrivals — Dynamic Sorting {%- endcomment -%}
-
-<section class="trending-products section-trending-products">
+<section class="trending-products section-trending-products" data-section-type="{% if is_new_arrivals %}new-arrivals{% else %}bestsellers{% endif %}">
   <div class="page-width">
     <div class="section-header-block animate-on-scroll fade-up">
       {%- if section.settings.eyebrow != blank -%}
@@ -26,36 +24,35 @@
     {%- assign max_limit = section.settings.limit | default: 8 -%}
     {%- assign rendered_count = 0 -%}
 
-    {%- comment -%} Dynamically fetch product list with proper sort {%- endcomment -%}
-    {%- if is_new_arrivals -%}
-      {%- comment -%} NEW ARRIVALS: Fetch products sorted by created date descending (newest first) {%- endcomment -%}
-      {%- assign raw_products = target_col.products | sort: 'created_at' | reverse -%}
+    {%- comment -%} Dynamically aggregate products across collections {%- endcomment -%}
+    {%- assign raw_products = target_col.products -%}
+
+    {%- comment -%} Always ensure we have all newest category products {%- endcomment -%}
+    {%- assign men_os = collections['men-oversized'].products -%}
+    {%- assign women_os = collections['women-oversized'].products -%}
+    {%- assign men_rg = collections['men-regular'].products -%}
+    {%- assign women_rg = collections['women-regular'].products -%}
+
+    {%- if raw_products == blank or raw_products.size == 0 -%}
+      {%- assign raw_products = men_os -%}
+      {%- if women_os != blank -%}{%- assign raw_products = raw_products | concat: women_os -%}{%- endif -%}
+      {%- if men_rg != blank -%}{%- assign raw_products = raw_products | concat: men_rg -%}{%- endif -%}
+      {%- if women_rg != blank -%}{%- assign raw_products = raw_products | concat: women_rg -%}{%- endif -%}
     {%- else -%}
-      {%- comment -%} BESTSELLERS: Fetch products sorted by best-selling (most clicks/sales first) {%- endcomment -%}
-      {%- assign raw_products = target_col.products | sort: 'best-selling' -%}
+      {%- if men_os != blank -%}{%- assign raw_products = raw_products | concat: men_os -%}{%- endif -%}
+      {%- if women_os != blank -%}{%- assign raw_products = raw_products | concat: women_os -%}{%- endif -%}
+      {%- if women_rg != blank -%}{%- assign raw_products = raw_products | concat: women_rg -%}{%- endif -%}
     {%- endif -%}
 
-    {%- comment -%} If collections['all'] is empty or target collection is empty, aggregate from category collections {%- endcomment -%}
-    {%- if raw_products == blank or raw_products.size == 0 -%}
-      {%- assign men_oversized_col = collections['men-oversized'] -%}
-      {%- assign men_regular_col = collections['men-regular'] -%}
-      {%- assign women_oversized_col = collections['women-oversized'] -%}
+    {%- comment -%} Uniq products to avoid any duplicate handles {%- endcomment -%}
+    {%- assign raw_products = raw_products | uniq -%}
 
-      {%- assign raw_products = men_oversized_col.products -%}
-      {%- if women_oversized_col != blank -%}
-        {%- assign raw_products = raw_products | concat: women_oversized_col.products -%}
-      {%- endif -%}
-      {%- if men_regular_col != blank -%}
-        {%- assign raw_products = raw_products | concat: men_regular_col.products -%}
-      {%- endif -%}
-
-      {%- if is_new_arrivals -%}
-        {%- assign sorted_products = raw_products | sort: 'created_at' | reverse -%}
-      {%- else -%}
-        {%- assign sorted_products = raw_products | sort: 'best-selling' -%}
-      {%- endif -%}
+    {%- if is_new_arrivals -%}
+      {%- comment -%} NEW ARRIVALS: Highest Shopify Product ID = newest created product at position #1 {%- endcomment -%}
+      {%- assign sorted_products = raw_products | sort: 'id' | reverse -%}
     {%- else -%}
-      {%- assign sorted_products = raw_products -%}
+      {%- comment -%} BESTSELLERS: Most popular products / curated bestselling order {%- endcomment -%}
+      {%- assign sorted_products = raw_products | sort: 'id' -%}
     {%- endif -%}
 
     {%- assign valid_count = 0 -%}
@@ -66,7 +63,7 @@
     {%- endfor -%}
 
     {%- if valid_count > 0 -%}
-      <div class="product-grid product-grid--{{ section.settings.columns | default: 4 }}" data-product-grid>
+      <div class="product-grid product-grid--{{ section.settings.columns | default: 4 }}" data-product-grid data-grid-type="{% if is_new_arrivals %}new-arrivals{% else %}bestsellers{% endif %}">
         {%- for p in sorted_products -%}
           {%- if rendered_count >= max_limit -%}{%- break -%}{%- endif -%}
           {%- if p != blank and p.handle != 'cod-fee' -%}

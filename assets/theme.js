@@ -475,6 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initShareButtons();
   initQuickAddModal();
   initLiveViewers();
+  initDynamicProductSorting();
 });
 
 /* ========== Product Share Handler ========== */
@@ -878,6 +879,83 @@ function closeQuickAddModal() {
   document.body.style.overflow = '';
 }
 
+/* ========== Dynamic Click-Weighted & Auto-Sorted Products Engine ========== */
+function initDynamicProductSorting() {
+  const STORAGE_KEY = 'tokiyo_product_clicks_v2';
+  
+  function getClickStats() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function recordProductClick(productId) {
+    if (!productId) return;
+    try {
+      const stats = getClickStats();
+      stats[productId] = (stats[productId] || 0) + 1;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+    } catch (e) {}
+  }
+
+  // Real-time Card Click Tracker
+  document.addEventListener('click', (e) => {
+    const card = e.target.closest('.product-card[data-product-id]');
+    if (card) {
+      const pId = card.getAttribute('data-product-id');
+      recordProductClick(pId);
+    }
+  });
+
+  // Track if customer is browsing Product Detail Page
+  const pdpForm = document.querySelector('[data-product-form], form[action*="/cart/add"]');
+  if (pdpForm) {
+    const currentId = pdpForm.querySelector('[name="id"]')?.value;
+    if (currentId) recordProductClick(currentId);
+  }
+
+  // 1. BESTSELLERS: Auto-sort cards by highest click volume & popularity
+  const bestsellersGrids = document.querySelectorAll('[data-grid-type="bestsellers"], [data-section-type="bestsellers"] [data-product-grid]');
+  const clickStats = getClickStats();
+
+  bestsellersGrids.forEach(grid => {
+    const cards = Array.from(grid.querySelectorAll('.product-card[data-product-id]'));
+    if (cards.length <= 1) return;
+
+    cards.sort((a, b) => {
+      const idA = a.getAttribute('data-product-id');
+      const idB = b.getAttribute('data-product-id');
+      const clicksA = clickStats[idA] || 0;
+      const clicksB = clickStats[idB] || 0;
+
+      // Higher clicks first
+      if (clicksB !== clicksA) {
+        return clicksB - clicksA;
+      }
+      return 0;
+    });
+
+    cards.forEach(card => grid.appendChild(card));
+  });
+
+  // 2. NEW ARRIVALS: Ensure newest Shopify product ID is always at position #1
+  const newArrivalsGrids = document.querySelectorAll('[data-grid-type="new-arrivals"], [data-section-type="new-arrivals"] [data-product-grid]');
+  newArrivalsGrids.forEach(grid => {
+    const cards = Array.from(grid.querySelectorAll('.product-card[data-product-id]'));
+    if (cards.length <= 1) return;
+
+    cards.sort((a, b) => {
+      const idA = parseInt(a.getAttribute('data-product-id'), 10) || 0;
+      const idB = parseInt(b.getAttribute('data-product-id'), 10) || 0;
+      return idB - idA;
+    });
+
+    cards.forEach(card => grid.appendChild(card));
+  });
+}
+
 document.addEventListener('shopify:section:load', () => {
   initScrollAnimations();
   initAccordions();
@@ -886,4 +964,5 @@ document.addEventListener('shopify:section:load', () => {
   initQuantitySelectors();
   initQuickAddModal();
   initLiveViewers();
+  initDynamicProductSorting();
 });
