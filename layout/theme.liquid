@@ -64,12 +64,14 @@
   <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'google-sheets-handler.js' | asset_url }}" defer="defer"></script>
 
   <script>
     document.documentElement.classList.remove('no-js');
     document.documentElement.classList.add('js');
     window.themeSettings = {
-      enablePageTransitions: {{ settings.enable_page_transitions | default: false }}
+      enablePageTransitions: {{ settings.enable_page_transitions | default: false }},
+      googleSheetsUrl: {{ settings.google_sheets_webhook_url | default: '' | json }}
     };
   </script>
 

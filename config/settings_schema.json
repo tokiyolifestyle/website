@@ -492,5 +492,20 @@
         "label": "Custom code (before </body>)"
       }
     ]
+  },
+  {
+    "name": "Google Sheets Integration",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Connect your website forms (Partner With Us, B2B Bulk Order, Contact Us, Newsletter) directly to Google Sheets."
+      },
+      {
+        "type": "text",
+        "id": "google_sheets_webhook_url",
+        "label": "Google Apps Script Web App URL",
+        "info": "Paste your deployed Google Apps Script Web App URL (https://script.google.com/macros/s/.../exec) to start collecting submissions automatically."
+      }
+    ]
   }
 ]
