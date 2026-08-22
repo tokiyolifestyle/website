@@ -7,150 +7,105 @@
     <span class="tny-eyebrow">📍 TOKIYO LOCAL PARTNER NETWORK</span>
     <h1 class="tny-title">Tokiyo Near You</h1>
     <p class="tny-subtitle">
-      Find top cafes, restaurants, gyms, hotels & local spots in your city where wearing Tokiyo or showing your <strong>Tokiyo VIP Card</strong> unlocks exclusive discounts!
+      We are actively partnering with top cafes, restaurants, gyms, salons & youth-favorite spots across Bhubaneswar, Odisha & beyond. Wearing Tokiyo or showing your <strong>Tokiyo VIP Card</strong> will unlock exclusive 5% instant discounts at partner locations!
     </p>
   </div>
 
-  <!-- Search & Filter Controls -->
-  <div class="tny-controls animate-on-scroll fade-up">
-    <div class="tny-search-bar">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="TnySearch" placeholder="Search cafes, restaurants, or locations (e.g. Patia, Bhubaneswar)..." onkeyup="filterPartners()">
-    </div>
+  <!-- Partner Network Launching Soon & Onboarding Box -->
+  <div class="tny-launch-card animate-on-scroll fade-up">
+    <div class="tny-launch-card__inner">
+      <div class="tny-launch-badge">
+        <span class="pulse-dot"></span>
+        <span>ONBOARDING PARTNER BUSINESSES</span>
+      </div>
+      <h2>Local Partner Network Launching Soon! 🚀</h2>
+      <p>
+        We are currently curating and verifying verified local brand partnerships in <strong>Bhubaneswar (Patia, KIIT, Saheed Nagar, Jaydev Vihar)</strong> and surrounding cities. Verified partner spots will appear right here with location maps and instant discount vouchers.
+      </p>
 
-    <div class="tny-filters">
-      <div class="tny-filter-group">
-        <label for="TnyState">State</label>
-        <select id="TnyState" onchange="filterPartners()">
-          <option value="all">All States</option>
-          <option value="Odisha" selected>Odisha</option>
-          <option value="Delhi">Delhi-NCR</option>
-          <option value="Maharashtra">Maharashtra</option>
-        </select>
+      <div class="tny-launch-categories">
+        <div class="tny-cat-pill">
+          <span class="cat-icon">☕</span>
+          <span class="cat-title">Cafes & Bistros</span>
+          <span class="cat-perk">5% OFF Total Bill</span>
+        </div>
+        <div class="tny-cat-pill">
+          <span class="cat-icon">🍽️</span>
+          <span class="cat-title">Restaurants & Lounges</span>
+          <span class="cat-perk">5% OFF Dine-in</span>
+        </div>
+        <div class="tny-cat-pill">
+          <span class="cat-icon">🏋️</span>
+          <span class="cat-title">Gyms & Fitness</span>
+          <span class="cat-perk">10% OFF Passes</span>
+        </div>
+        <div class="tny-cat-pill">
+          <span class="cat-icon">✂️</span>
+          <span class="cat-title">Salons & Grooming</span>
+          <span class="cat-perk">5% OFF Services</span>
+        </div>
+        <div class="tny-cat-pill">
+          <span class="cat-icon">🛍️</span>
+          <span class="cat-title">Lifestyle & Retail</span>
+          <span class="cat-perk">5% OFF Purchases</span>
+        </div>
       </div>
 
-      <div class="tny-filter-group">
-        <label for="TnyCity">City</label>
-        <select id="TnyCity" onchange="filterPartners()">
-          <option value="all">All Cities</option>
-          <option value="Bhubaneswar" selected>Bhubaneswar</option>
-          <option value="Cuttack">Cuttack</option>
-          <option value="Puri">Puri</option>
-        </select>
-      </div>
-
-      <div class="tny-filter-group">
-        <label for="TnyLocality">Locality / Area</label>
-        <select id="TnyLocality" onchange="filterPartners()">
-          <option value="all">All Localities</option>
-          <option value="Patia">Patia</option>
-          <option value="KIIT Campus">KIIT Campus</option>
-          <option value="Saheed Nagar">Saheed Nagar</option>
-          <option value="Jaydev Vihar">Jaydev Vihar</option>
-        </select>
-      </div>
-
-      <div class="tny-filter-group">
-        <label for="TnyCategory">Category</label>
-        <select id="TnyCategory" onchange="filterPartners()">
-          <option value="all">All Categories</option>
-          <option value="Cafe">Cafes & Dining</option>
-          <option value="Gym">Gym & Fitness</option>
-          <option value="Salon">Salon & Grooming</option>
-          <option value="Store">Shopping & Lifestyle</option>
-          <option value="Hotel">Hotels & Stays</option>
-        </select>
+      <!-- Call To Action Buttons -->
+      <div class="tny-launch-actions">
+        <a href="/pages/partner-with-us" class="tny-btn tny-btn--solid tny-btn--large">
+          🤝 Own a Business? Partner With Tokiyo →
+        </a>
+        <a href="/pages/vip-membership-guide" class="tny-btn tny-btn--outline tny-btn--large">
+          👑 View VIP Membership Rules
+        </a>
       </div>
     </div>
   </div>
 
-  <!-- Directory Cards Grid -->
-  <div class="tny-grid" id="PartnerGrid">
-    
-    <!-- Partner Card 1 -->
-    <div class="tny-card" data-state="Odisha" data-city="Bhubaneswar" data-locality="Patia" data-category="Cafe">
-      <div class="tny-card__badge">5% OFF MEMBER BENEFIT</div>
-      <div class="tny-card__img" style="background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80');"></div>
-      <div class="tny-card__body">
-        <span class="tny-card__cat">☕ Cafe & Dining</span>
-        <h3 class="tny-card__name">Urban Grind Cafe</h3>
-        <p class="tny-card__address">📍 KIIT Road, Patia, Bhubaneswar</p>
-        <div class="tny-card__meta">
-          <span>🕒 10:00 AM – 11:00 PM</span>
-          <span class="tny-card__offer-tag">5% OFF on total bill</span>
-        </div>
-        <div class="tny-card__actions">
-          <a href="https://maps.google.com/?q=Patia+Bhubaneswar" target="_blank" rel="noopener" class="tny-btn tny-btn--outline">Get Directions 🗺️</a>
-          <button type="button" class="tny-btn tny-btn--solid" onclick="openClaimModal('Urban Grind Cafe', '5% OFF on total bill')">Claim Benefit ⚡</button>
-        </div>
-      </div>
+  <!-- How It Works Section -->
+  <div class="tny-how-it-works animate-on-scroll fade-up">
+    <div class="tny-section-header">
+      <span class="tny-sub-eyebrow">SIMPLE 3-STEP PROCESS</span>
+      <h2>How Tokiyo Near You Works</h2>
     </div>
 
-    <!-- Partner Card 2 -->
-    <div class="tny-card" data-state="Odisha" data-city="Bhubaneswar" data-locality="Patia" data-category="Cafe">
-      <div class="tny-card__badge">5% OFF MEMBER BENEFIT</div>
-      <div class="tny-card__img" style="background-image: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80');"></div>
-      <div class="tny-card__body">
-        <span class="tny-card__cat">☕ Artisan Cafe</span>
-        <h3 class="tny-card__name">Roast & Toast Bistro</h3>
-        <p class="tny-card__address">📍 Near Infocity Gate, Patia, Bhubaneswar</p>
-        <div class="tny-card__meta">
-          <span>🕒 11:00 AM – 10:30 PM</span>
-          <span class="tny-card__offer-tag">5% OFF for Tokiyo Members</span>
-        </div>
-        <div class="tny-card__actions">
-          <a href="https://maps.google.com/?q=Infocity+Patia+Bhubaneswar" target="_blank" rel="noopener" class="tny-btn tny-btn--outline">Get Directions 🗺️</a>
-          <button type="button" class="tny-btn tny-btn--solid" onclick="openClaimModal('Roast & Toast Bistro', '5% OFF for Tokiyo Members')">Claim Benefit ⚡</button>
-        </div>
+    <div class="tny-steps-grid">
+      <div class="tny-step-card">
+        <div class="step-num">01</div>
+        <div class="step-icon">📍</div>
+        <h3>Find a Partner Spot</h3>
+        <p>Browse our directory or look for the <strong>"Tokiyo Partner"</strong> badge at cafes, restaurants, gyms & shops in your city.</p>
+      </div>
+
+      <div class="tny-step-card">
+        <div class="step-num">02</div>
+        <div class="step-icon">👑</div>
+        <h3>Show Card or Wear Tokiyo</h3>
+        <p>Show your digital/physical <strong>Tokiyo VIP Card</strong> or simply wear your Tokiyo streetwear at the billing counter.</p>
+      </div>
+
+      <div class="tny-step-card">
+        <div class="step-num">03</div>
+        <div class="step-icon">⚡</div>
+        <h3>Instant 5% Discount</h3>
+        <p>The partner applies your 5% member discount on the spot. No complicated points or coupons needed!</p>
       </div>
     </div>
-
-    <!-- Partner Card 3 -->
-    <div class="tny-card" data-state="Odisha" data-city="Bhubaneswar" data-locality="KIIT Campus" data-category="Gym">
-      <div class="tny-card__badge">10% OFF MEMBERSHIP</div>
-      <div class="tny-card__img" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80');"></div>
-      <div class="tny-card__body">
-        <span class="tny-card__cat">🏋️ Gym & Fitness</span>
-        <h3 class="tny-card__name">Iron Tribe Fitness Club</h3>
-        <p class="tny-card__address">📍 KIIT Square, Patia, Bhubaneswar</p>
-        <div class="tny-card__meta">
-          <span>🕒 6:00 AM – 10:00 PM</span>
-          <span class="tny-card__offer-tag">10% OFF Monthly Pass</span>
-        </div>
-        <div class="tny-card__actions">
-          <a href="https://maps.google.com/?q=KIIT+Square+Bhubaneswar" target="_blank" rel="noopener" class="tny-btn tny-btn--outline">Get Directions 🗺️</a>
-          <button type="button" class="tny-btn tny-btn--solid" onclick="openClaimModal('Iron Tribe Fitness Club', '10% OFF Monthly Pass')">Claim Benefit ⚡</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Partner Card 4 -->
-    <div class="tny-card" data-state="Odisha" data-city="Bhubaneswar" data-locality="Saheed Nagar" data-category="Salon">
-      <div class="tny-card__badge">5% OFF MEMBER BENEFIT</div>
-      <div class="tny-card__img" style="background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80');"></div>
-      <div class="tny-card__body">
-        <span class="tny-card__cat">✂️ Salon & Grooming</span>
-        <h3 class="tny-card__name">The Trend Studio Salon</h3>
-        <p class="tny-card__address">📍 Saheed Nagar Commercial Complex, Bhubaneswar</p>
-        <div class="tny-card__meta">
-          <span>🕒 10:00 AM – 8:30 PM</span>
-          <span class="tny-card__offer-tag">5% OFF Grooming Services</span>
-        </div>
-        <div class="tny-card__actions">
-          <a href="https://maps.google.com/?q=Saheed+Nagar+Bhubaneswar" target="_blank" rel="noopener" class="tny-btn tny-btn--outline">Get Directions 🗺️</a>
-          <button type="button" class="tny-btn tny-btn--solid" onclick="openClaimModal('The Trend Studio Salon', '5% OFF Grooming Services')">Claim Benefit ⚡</button>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- Empty Search Result -->
-  <div id="TnyEmpty" class="tny-empty" style="display: none;">
-    <div class="tny-empty-icon">🔍</div>
-    <h3>No Partner Spots Found</h3>
-    <p>We are adding new local cafes, gyms & spots in this area every week! Want your favorite spot listed?</p>
-    <a href="/pages/partner-with-us" class="tny-btn tny-btn--solid" style="display: inline-block; margin-top: 1rem;">Recommend a Partner Business →</a>
+  <!-- B2B Partner Recruitment Banner -->
+  <div class="tny-partner-cta animate-on-scroll fade-up">
+    <div class="tny-partner-cta__content">
+      <span class="tny-partner-cta__tag">FOR BUSINESS OWNERS</span>
+      <h2>Want to attract young fashion lovers to your spot?</h2>
+      <p>
+        Partner with Tokiyo Lifestyle with <strong>zero upfront cost</strong>. We list your brand on our app & website, drive loyal foot traffic of college students & youth, and feature you in our local marketing campaigns.
+      </p>
+      <a href="/pages/partner-with-us" class="tny-btn tny-btn--solid" style="background:#FFFFFF; color:#111111; font-weight:800;">
+        Apply For Brand Partnership →
+      </a>
+    </div>
   </div>
 
 </div>
@@ -162,8 +117,8 @@
     <button class="tny-modal__close" onclick="closeClaimModal()">✕</button>
     <div class="tny-modal__header">
       <span class="tny-modal__tag">TOKIYO VIP VERIFICATION</span>
-      <h2 id="ModalPartnerName">Partner Business</h2>
-      <p id="ModalPartnerOffer">5% OFF for Tokiyo VIP Members</p>
+      <h2 id="ModalPartnerName">Tokiyo Member Verification</h2>
+      <p id="ModalPartnerOffer">5% Instant Discount for Active Members</p>
     </div>
 
     <div class="tny-verification-pass">
@@ -212,7 +167,7 @@
   }
   .tny-hero {
     text-align: center;
-    max-width: 750px;
+    max-width: 780px;
     margin-inline: auto;
     margin-bottom: 3rem;
   }
@@ -241,213 +196,267 @@
     line-height: 1.6;
   }
 
-  /* Search & Filters */
-  .tny-controls {
+  /* Launching Soon Card */
+  .tny-launch-card {
     background: #FFFFFF;
     border: 1px solid rgba(0,0,0,0.08);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
-    border-radius: 20px;
-    padding: 1.75rem;
-    margin-bottom: 3rem;
-  }
-  .tny-search-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: #F5F5F7;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 12px;
-    padding: 0.75rem 1.25rem;
-    margin-bottom: 1.25rem;
-  }
-  .tny-search-bar input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font-size: 0.95rem;
-    outline: none;
-    color: #111111;
-  }
-  .tny-filters {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-  }
-  @media(max-width: 899px) {
-    .tny-filters { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media(max-width: 499px) {
-    .tny-filters { grid-template-columns: 1fr; }
-  }
-  .tny-filter-group label {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #666666;
-    margin-bottom: 0.35rem;
-  }
-  .tny-filter-group select {
-    width: 100%;
-    padding: 0.65rem 0.85rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border: 1px solid rgba(0,0,0,0.12);
-    border-radius: 8px;
-    background: #FFFFFF;
-    color: #111111;
-    outline: none;
-  }
-
-  /* Grid & Cards */
-  .tny-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.75rem;
-  }
-  @media(max-width: 989px) {
-    .tny-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media(max-width: 639px) {
-    .tny-grid { grid-template-columns: 1fr; }
-  }
-  .tny-card {
-    background: #FFFFFF;
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    box-shadow: 0 15px 45px rgba(0,0,0,0.05);
+    border-radius: 24px;
+    padding: 3.5rem 2.5rem;
+    text-align: center;
+    margin-bottom: 4rem;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
   }
-  .tny-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.1);
-    border-color: #111111;
-  }
-  .tny-card__badge {
+  .tny-launch-card::before {
+    content: '';
     position: absolute;
-    top: 12px;
-    right: 12px;
-    background: #111111;
-    color: #FFFFFF;
-    font-size: 0.65rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    padding: 0.35rem 0.75rem;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #ff0000, #ff5e62, #ff9966);
+  }
+  .tny-launch-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.25);
+    padding: 0.4rem 1rem;
     border-radius: 50px;
-    z-index: 2;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  }
-  .tny-card__img {
-    height: 180px;
-    background-size: cover;
-    background-position: center;
-  }
-  .tny-card__body {
-    padding: 1.35rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-  .tny-card__cat {
-    font-size: 0.72rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-accent, #ff0000);
-    margin-bottom: 0.35rem;
-  }
-  .tny-card__name {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: #111111;
-    margin-bottom: 0.4rem;
-  }
-  .tny-card__address {
-    font-size: 0.82rem;
-    color: #666666;
-    margin-bottom: 1rem;
-  }
-  .tny-card__meta {
-    background: #F9F9FB;
-    border: 1px solid rgba(0,0,0,0.05);
-    border-radius: 8px;
-    padding: 0.65rem 0.85rem;
-    font-size: 0.78rem;
-    color: #444444;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    margin-bottom: 1.25rem;
-    margin-top: auto;
-  }
-  .tny-card__offer-tag {
-    color: #0F52BA;
-    font-weight: 800;
-  }
-  .tny-card__actions {
-    display: flex;
-    gap: 0.65rem;
-  }
-  .tny-btn {
-    flex: 1;
-    padding: 0.75rem 0.5rem;
     font-size: 0.75rem;
     font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    color: #15803d;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.08em;
+  }
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 8px #22c55e;
+    animation: tnyPulse 1.8s infinite;
+  }
+  @keyframes tnyPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+  .tny-launch-card h2 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 900;
+    color: #111111;
+    margin-bottom: 1rem;
+  }
+  .tny-launch-card p {
+    font-size: 1rem;
+    color: #666666;
+    max-width: 680px;
+    margin-inline: auto;
+    line-height: 1.65;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Category Pills */
+  .tny-launch-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .tny-cat-pill {
+    background: #F9F9F9;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 16px;
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .tny-cat-pill:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    border-color: rgba(255,0,0,0.2);
+  }
+  .cat-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.2rem;
+  }
+  .cat-title {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #111111;
+  }
+  .cat-perk {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-accent, #ff0000);
+    background: rgba(255,0,0,0.06);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  /* Actions */
+  .tny-launch-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Buttons */
+  .tny-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.6rem;
+    font-size: 0.85rem;
+    font-weight: 700;
     border-radius: 50px;
     text-decoration: none;
-    text-align: center;
     cursor: pointer;
-    transition: all 0.2s;
+    border: none;
+    transition: all 0.3s ease;
   }
-  .tny-btn--outline {
-    border: 1px solid rgba(0,0,0,0.15);
-    color: #111111;
-    background: transparent;
-  }
-  .tny-btn--outline:hover {
-    background: #111111;
-    color: #FFFFFF;
-    border-color: #111111;
+  .tny-btn--large {
+    padding: 1rem 2rem;
+    font-size: 0.92rem;
   }
   .tny-btn--solid {
     background: #111111;
     color: #FFFFFF;
-    border: none;
   }
   .tny-btn--solid:hover {
     background: var(--color-accent, #ff0000);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255,0,0,0.25);
   }
-  .tny-btn--full { width: 100%; }
+  .tny-btn--outline {
+    background: transparent;
+    color: #111111;
+    border: 1.5px solid rgba(0,0,0,0.2);
+  }
+  .tny-btn--outline:hover {
+    border-color: #111111;
+    background: #111111;
+    color: #FFFFFF;
+  }
+  .tny-btn--full {
+    width: 100%;
+  }
 
-  /* Empty State */
-  .tny-empty {
-    text-align: center;
-    padding: 4rem 1.5rem;
-    background: #FFFFFF;
-    border-radius: 20px;
-    border: 1px dashed rgba(0,0,0,0.15);
+  /* How it works */
+  .tny-how-it-works {
+    margin-bottom: 4rem;
   }
-  .tny-empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .tny-section-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .tny-sub-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: #777777;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .tny-section-header h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 900;
+    color: #111111;
+  }
+  .tny-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .tny-step-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 20px;
+    padding: 2.25rem 1.75rem;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .tny-step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+  }
+  .step-num {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: rgba(0,0,0,0.06);
+    font-family: 'Outfit', sans-serif;
+  }
+  .step-icon {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
+  .tny-step-card h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #111111;
+    margin-bottom: 0.5rem;
+  }
+  .tny-step-card p {
+    font-size: 0.9rem;
+    color: #666666;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Partner CTA Banner */
+  .tny-partner-cta {
+    background: linear-gradient(135deg, #111111 0%, #1f1f1f 100%);
+    color: #FFFFFF;
+    border-radius: 24px;
+    padding: 3.5rem 2.5rem;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  }
+  .tny-partner-cta__content {
+    max-width: 680px;
+    margin-inline: auto;
+  }
+  .tny-partner-cta__tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: var(--color-accent, #ff0000);
+    display: inline-block;
+    margin-bottom: 0.75rem;
+  }
+  .tny-partner-cta h2 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 900;
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+  }
+  .tny-partner-cta p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
 
   /* Modal */
   .tny-modal {
     position: fixed;
     inset: 0;
-    z-index: 200000;
+    z-index: 999999;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 1rem;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
   }
   .tny-modal.is-open {
     opacity: 1;
@@ -456,45 +465,42 @@
   .tny-modal__backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.65);
-    backdrop-filter: blur(4px);
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
   }
   .tny-modal__card {
-    position: relative;
     background: #FFFFFF;
     border-radius: 24px;
     max-width: 440px;
     width: 100%;
     padding: 2.25rem 1.75rem;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    position: relative;
     z-index: 2;
     text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
   }
   .tny-modal__close {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    background: #F0F0F2;
+    top: 1rem;
+    right: 1rem;
+    background: none;
     border: none;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    font-size: 0.9rem;
+    font-size: 1.25rem;
     cursor: pointer;
+    color: #888888;
   }
   .tny-modal__tag {
     font-size: 0.65rem;
     font-weight: 800;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.15em;
     color: var(--color-accent, #ff0000);
     display: block;
     margin-bottom: 0.35rem;
   }
   .tny-modal__header h2 {
-    font-size: 1.35rem;
-    font-weight: 900;
-    color: #111111;
-    margin-bottom: 0.25rem;
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0 0 0.25rem;
   }
   .tny-modal__header p {
     font-size: 0.85rem;
@@ -544,46 +550,30 @@
     margin-bottom: 1rem;
     line-height: 1.4;
   }
+
+  /* Responsive */
+  @media (max-width: 850px) {
+    .tny-steps-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .tny-launch-card {
+      padding: 2.25rem 1.25rem;
+    }
+    .tny-launch-actions {
+      flex-direction: column;
+    }
+    .tny-btn--large {
+      width: 100%;
+    }
+  }
 </style>
 
 <script>
-  function filterPartners() {
-    const searchVal = document.getElementById('TnySearch').value.toLowerCase();
-    const stateVal = document.getElementById('TnyState').value;
-    const cityVal = document.getElementById('TnyCity').value;
-    const locVal = document.getElementById('TnyLocality').value;
-    const catVal = document.getElementById('TnyCategory').value;
-
-    const cards = document.querySelectorAll('.tny-card');
-    let count = 0;
-
-    cards.forEach(card => {
-      const cState = card.dataset.state;
-      const cCity = card.dataset.city;
-      const cLoc = card.dataset.locality;
-      const cCat = card.dataset.category;
-      const cText = card.innerText.toLowerCase();
-
-      let match = true;
-
-      if (stateVal !== 'all' && cState !== stateVal) match = false;
-      if (cityVal !== 'all' && cCity !== cityVal) match = false;
-      if (locVal !== 'all' && cLoc !== locVal) match = false;
-      if (catVal !== 'all' && cCat !== catVal) match = false;
-      if (searchVal && !cText.includes(searchVal)) match = false;
-
-      card.style.display = match ? 'flex' : 'none';
-      if (match) count++;
-    });
-
-    const empty = document.getElementById('TnyEmpty');
-    if (empty) empty.style.display = count === 0 ? 'block' : 'none';
-  }
-
   function openClaimModal(name, offer) {
     const modal = document.getElementById('ClaimModal');
-    document.getElementById('ModalPartnerName').innerText = name;
-    document.getElementById('ModalPartnerOffer').innerText = offer;
+    if (name) document.getElementById('ModalPartnerName').innerText = name;
+    if (offer) document.getElementById('ModalPartnerOffer').innerText = offer;
     if (modal) {
       modal.classList.add('is-open');
       modal.setAttribute('aria-hidden', 'false');
@@ -613,4 +603,3 @@
   "class": "section-tokiyo-near-you"
 }
 {% endschema %}
-
