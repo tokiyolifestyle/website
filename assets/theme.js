@@ -963,6 +963,11 @@ function initDynamicProductSorting() {
   });
 }
 
+// Immediate execution safeguard for dynamic product sorting
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  initDynamicProductSorting();
+}
+
 document.addEventListener('shopify:section:load', () => {
   initScrollAnimations();
   initAccordions();
