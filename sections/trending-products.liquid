@@ -16,24 +16,25 @@
       {%- assign is_new_arrivals = true -%}
     {%- endif -%}
 
-    {%- assign target_col = section.settings.collection -%}
-    {%- if target_col == blank -%}
-      {%- if is_new_arrivals -%}
-        {%- assign target_col = collections['new-arrivals'] -%}
-      {%- else -%}
-        {%- assign target_col = collections['all'] -%}
+    {%- assign target_handle = section.settings.collection.handle | default: section.settings.collection -%}
+    {%- if target_handle == blank and is_new_arrivals -%}
+      {%- assign target_handle = 'new-arrivals' -%}
+    {%- elsif target_handle == blank -%}
+      {%- assign target_handle = 'all' -%}
+    {%- endif -%}
+
+    {%- assign target_col = collections[target_handle] -%}
+    {%- assign sorted_products = target_col.products -%}
+
+    {%- if sorted_products == blank or sorted_products.size == 0 -%}
+      {%- assign sorted_products = collections['new-arrivals'].products -%}
+      {%- if sorted_products == blank or sorted_products.size == 0 -%}
+        {%- assign sorted_products = collections['all'].products -%}
       {%- endif -%}
     {%- endif -%}
 
     {%- assign max_limit = section.settings.limit | default: 8 -%}
     {%- assign rendered_count = 0 -%}
-
-    {%- assign sorted_products = target_col.products -%}
-    {%- if sorted_products == blank or sorted_products.size == 0 -%}
-      {%- assign men_os = collections['men-oversized'].products -%}
-      {%- assign women_os = collections['women-oversized'].products -%}
-      {%- assign sorted_products = women_os | concat: men_os -%}
-    {%- endif -%}
 
     {%- assign valid_count = 0 -%}
     {%- for p in sorted_products -%}
