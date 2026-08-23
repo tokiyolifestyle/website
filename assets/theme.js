@@ -930,14 +930,17 @@ function initDynamicProductSorting() {
       const clicksA = clickStats[idA] || 0;
       const clicksB = clickStats[idB] || 0;
 
-      // Higher clicks first
       if (clicksB !== clicksA) {
         return clicksB - clicksA;
       }
       return 0;
     });
 
-    cards.forEach(card => grid.appendChild(card));
+    const maxLimit = parseInt(grid.dataset.maxLimit, 10) || 8;
+    cards.forEach((card, idx) => {
+      card.style.display = idx < maxLimit ? '' : 'none';
+      grid.appendChild(card);
+    });
   });
 
   // 2. NEW ARRIVALS: Ensure newest Shopify product ID is always at position #1
@@ -952,7 +955,11 @@ function initDynamicProductSorting() {
       return idB - idA;
     });
 
-    cards.forEach(card => grid.appendChild(card));
+    const maxLimit = parseInt(grid.dataset.maxLimit, 10) || 8;
+    cards.forEach((card, idx) => {
+      card.style.display = idx < maxLimit ? '' : 'none';
+      grid.appendChild(card);
+    });
   });
 }
 

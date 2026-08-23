@@ -63,9 +63,10 @@
     {%- endfor -%}
 
     {%- if valid_count > 0 -%}
-      <div class="product-grid product-grid--{{ section.settings.columns | default: 4 }}" data-product-grid data-grid-type="{% if is_new_arrivals %}new-arrivals{% else %}bestsellers{% endif %}">
+      {%- assign pool_limit = max_limit | times: 3 | default: 24 -%}
+      <div class="product-grid product-grid--{{ section.settings.columns | default: 4 }}" data-product-grid data-grid-type="{% if is_new_arrivals %}new-arrivals{% else %}bestsellers{% endif %}" data-max-limit="{{ max_limit }}">
         {%- for p in sorted_products -%}
-          {%- if rendered_count >= max_limit -%}{%- break -%}{%- endif -%}
+          {%- if rendered_count >= pool_limit -%}{%- break -%}{%- endif -%}
           {%- if p != blank and p.handle != 'cod-fee' -%}
             {% render 'product-card', product: p, lazy: true %}
             {%- assign rendered_count = rendered_count | plus: 1 -%}
