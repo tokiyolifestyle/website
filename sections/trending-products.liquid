@@ -18,36 +18,21 @@
 
     {%- assign target_col = section.settings.collection -%}
     {%- if target_col == blank -%}
-      {%- assign target_col = collections['all'] -%}
+      {%- if is_new_arrivals -%}
+        {%- assign target_col = collections['new-arrivals'] -%}
+      {%- else -%}
+        {%- assign target_col = collections['all'] -%}
+      {%- endif -%}
     {%- endif -%}
 
     {%- assign max_limit = section.settings.limit | default: 8 -%}
     {%- assign rendered_count = 0 -%}
 
-    {%- comment -%} Dynamically aggregate products across category collections {%- endcomment -%}
-    {%- assign men_os = collections['men-oversized'].products -%}
-    {%- assign women_os = collections['women-oversized'].products -%}
-    {%- assign men_rg = collections['men-regular'].products -%}
-    {%- assign women_rg = collections['women-regular'].products -%}
-
-    {%- if section.settings.collection != blank -%}
-      {%- assign raw_products = section.settings.collection.products -%}
-    {%- else -%}
-      {%- assign raw_products = men_os -%}
-      {%- if women_os != blank -%}{%- assign raw_products = raw_products | concat: women_os -%}{%- endif -%}
-      {%- if men_rg != blank -%}{%- assign raw_products = raw_products | concat: men_rg -%}{%- endif -%}
-      {%- if women_rg != blank -%}{%- assign raw_products = raw_products | concat: women_rg -%}{%- endif -%}
-    {%- endif -%}
-
-    {%- comment -%} Uniq products to avoid any duplicate handles {%- endcomment -%}
-    {%- assign raw_products = raw_products | uniq -%}
-
-    {%- if is_new_arrivals -%}
-      {%- comment -%} NEW ARRIVALS: Highest Shopify Product ID = newest created product at position #1 {%- endcomment -%}
-      {%- assign sorted_products = raw_products | sort: 'id' | reverse -%}
-    {%- else -%}
-      {%- comment -%} BESTSELLERS: Most popular products / curated bestselling order {%- endcomment -%}
-      {%- assign sorted_products = raw_products | sort: 'id' -%}
+    {%- assign sorted_products = target_col.products -%}
+    {%- if sorted_products == blank or sorted_products.size == 0 -%}
+      {%- assign men_os = collections['men-oversized'].products -%}
+      {%- assign women_os = collections['women-oversized'].products -%}
+      {%- assign sorted_products = women_os | concat: men_os -%}
     {%- endif -%}
 
     {%- assign valid_count = 0 -%}

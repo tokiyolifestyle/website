@@ -429,11 +429,11 @@
       "settings": {
         "eyebrow": "Fresh Drops",
         "title": "New Arrivals",
-        "collection": "",
+        "collection": "new-arrivals",
         "limit": 8,
         "columns": 4,
         "cta_label": "View All Drops",
-        "cta_link": "/collections/all"
+        "cta_link": "/collections/new-arrivals"
       }
     },
     "trending-products": {
