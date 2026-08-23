@@ -17,17 +17,23 @@
     {%- endif -%}
 
     {%- assign target_handle = section.settings.collection.handle | default: section.settings.collection -%}
-    {%- if target_handle == blank and is_new_arrivals -%}
-      {%- assign target_handle = 'new-arrivals' -%}
-    {%- elsif target_handle == blank -%}
-      {%- assign target_handle = 'all' -%}
+    {%- if target_handle == blank -%}
+      {%- if is_new_arrivals -%}
+        {%- assign target_handle = 'new-arrivals' -%}
+      {%- else -%}
+        {%- assign target_handle = 'bestsellers' -%}
+      {%- endif -%}
     {%- endif -%}
 
     {%- assign target_col = collections[target_handle] -%}
     {%- assign sorted_products = target_col.products -%}
 
     {%- if sorted_products == blank or sorted_products.size == 0 -%}
-      {%- assign sorted_products = collections['new-arrivals'].products -%}
+      {%- if is_new_arrivals -%}
+        {%- assign sorted_products = collections['new-arrivals'].products -%}
+      {%- else -%}
+        {%- assign sorted_products = collections['bestsellers'].products -%}
+      {%- endif -%}
       {%- if sorted_products == blank or sorted_products.size == 0 -%}
         {%- assign sorted_products = collections['all'].products -%}
       {%- endif -%}

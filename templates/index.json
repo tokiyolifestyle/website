@@ -441,11 +441,11 @@
       "settings": {
         "eyebrow": "Trending Now",
         "title": "Bestsellers",
-        "collection": "",
+        "collection": "bestsellers",
         "limit": 8,
         "columns": 4,
         "cta_label": "View All Products",
-        "cta_link": "/collections/all"
+        "cta_link": "/collections/bestsellers"
       }
     },
     "scrolling-text-2": {
