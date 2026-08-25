@@ -688,7 +688,12 @@
       const imagePromises = [...files].slice(0, 3).map(file => compressImage(file));
       const imagesBase64 = await Promise.all(imagePromises);
 
-      // Save to Firebase Firestore
+      // Show loading state on submit button
+      const submitBtn = form.querySelector('[type="submit"]');
+      const originalBtnText = submitBtn ? submitBtn.textContent : '';
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting...'; }
+
+      // Save to Firebase Firestore — only render card if save succeeds
       try {
         await addDoc(collection(db, "reviews"), {
           productId: String(productId),
@@ -700,20 +705,24 @@
           date: dateStr,
           timestamp: Date.now()
         });
+
+        // ✅ Save succeeded — now show review on page
+        const card = createReviewCard(author, title, body, rating, dateStr, imagesBase64);
+        list.insertBefore(card, list.firstChild);
+
+        form.reset();
+        closeModal();
+
+        if (alertBox) {
+          alertBox.style.display = 'block';
+          setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
+        }
       } catch (err) {
         console.error("Firestore save error:", err);
-      }
-
-      // Render live on UI immediately
-      const card = createReviewCard(author, title, body, rating, dateStr, imagesBase64);
-      list.insertBefore(card, list.firstChild);
-
-      form.reset();
-      closeModal();
-
-      if (alertBox) {
-        alertBox.style.display = 'block';
-        setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
+        // ❌ Save failed — show error to user
+        alert('Sorry, there was a problem submitting your review. Please try again in a moment.');
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalBtnText; }
       }
     });
   })();
