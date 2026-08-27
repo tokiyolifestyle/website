@@ -7,9 +7,9 @@
       {%- for i in (1..2) -%}
         <div class="announcement-bar__item" {{ block.shopify_attributes }}>
           {%- if block.settings.link != blank -%}
-            <a href="{{ block.settings.link }}">🇮🇳&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;🇮🇳</a>
+            <a href="{{ block.settings.link }}">✦&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;✦</a>
           {%- else -%}
-            <p>🇮🇳&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;🇮🇳</p>
+            <p>✦&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;✦</p>
           {%- endif -%}
         </div>
       {%- endfor -%}
@@ -19,9 +19,9 @@
       {%- for i in (1..2) -%}
         <div class="announcement-bar__item" aria-hidden="true">
           {%- if block.settings.link != blank -%}
-            <a href="{{ block.settings.link }}">🇮🇳&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;🇮🇳</a>
+            <a href="{{ block.settings.link }}">✦&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;✦</a>
           {%- else -%}
-            <p>🇮🇳&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;🇮🇳</p>
+            <p>✦&nbsp;&nbsp;{{ block.settings.text }}&nbsp;&nbsp;✦</p>
           {%- endif -%}
         </div>
       {%- endfor -%}
@@ -31,25 +31,25 @@
 
 <style>
   .announcement-bar {
-    background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #128807 100%) !important;
-    color: #111111 !important;
-    font-weight: 800 !important;
-    text-shadow: -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff, 0 0 6px #fff !important;
+    background: #111111 !important;
     display: block;
     overflow: hidden;
-    padding: 0.5rem 0;
+    padding: 0.65rem 0;
     margin: 0;
     line-height: 1;
     position: relative;
-    border-bottom: 2px solid rgba(0,0,0,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
   .announcement-bar a,
   .announcement-bar__item,
   .announcement-bar__item p {
-    color: #111111 !important;
+    color: #FFFFFF !important;
     text-decoration: none;
-    font-weight: 800;
-    text-shadow: -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff, 0 0 6px #fff !important;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    text-shadow: none !important;
   }
   .announcement-bar__track {
     display: flex;
@@ -63,7 +63,6 @@
   }
   .announcement-bar__item p {
     margin: 0;
-    color: #111111;
   }
   @keyframes announcement-scroll {
     0% { transform: translate3d(0, 0, 0); }

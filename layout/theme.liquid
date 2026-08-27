@@ -150,24 +150,7 @@
 
   <!-- --- Animated Streetwear Chibi Mascot Wandering Widget --- -->
   <div id="TokiyoMascot" class="tokiyo-mascot" aria-hidden="true" style="display: none;">
-    <div class="tokiyo-mascot__bubble" id="MascotBubble">Happy Independence Day! 🇮🇳</div>
-    <div class="mascot-flag-container" style="position: absolute; top: -20px; right: -14px; width: 32px; height: auto; z-index: 10; pointer-events: none;">
-      <!-- SVG Indian Flag -->
-      <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" style="box-shadow: 0 2px 6px rgba(0,0,0,0.15); display: block;">
-        <rect width="900" height="600" fill="#fff"/>
-        <rect width="900" height="200" fill="#FF9933"/>
-        <rect y="400" width="900" height="200" fill="#128807"/>
-        <g transform="translate(450,300)">
-          <circle r="92" fill="none" stroke="#000080" stroke-width="8"/>
-          <circle r="16" fill="#000080"/>
-          {% for i in (1..24) %}
-            <line y2="-92" stroke="#000080" stroke-width="4" transform="rotate({{ i | times: 15 }})"/>
-          {% endfor %}
-        </g>
-      </svg>
-      <!-- Flag pole -->
-      <div style="position: absolute; left: 0; top: 0; width: 2.5px; height: 65px; background: #666;"></div>
-    </div>
+    <div class="tokiyo-mascot__bubble" id="MascotBubble">Welcome to Tokiyo! ✦</div>
     <img src="{{ 'tokiyo-mascot.png' | asset_url }}" alt="Tokiyo Chibi Mascot" id="MascotImg" loading="lazy">
   </div>
 
