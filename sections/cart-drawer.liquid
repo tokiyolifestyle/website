@@ -37,6 +37,15 @@
 
     <div class="cart-drawer__body" data-cart-body style="overflow-y: auto; -webkit-overflow-scrolling: touch;">
       {%- if cart.item_count > 0 -%}
+        {%- comment -%} Promo Code Notice {%- endcomment -%}
+        <div class="cart-drawer__promo-notice" style="margin-bottom: 1.25rem; padding: 0.75rem 1rem; background: #F8F8F9; border-radius: 8px; border: 1px dashed rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="font-size: 1rem; line-height: 1;">🎉</span>
+            <span style="font-size: 0.72rem; font-weight: 700; color: #111111; text-transform: uppercase; letter-spacing: 0.02em;">Code: TOKIYO10 active!</span>
+          </div>
+          <span style="font-size: 0.72rem; color: #111111; font-weight: 800;">10% OFF at Checkout</span>
+        </div>
+
         {%- for item in cart.items -%}
           {%- if item.variant_id == 48862017716468 -%}{%- continue -%}{%- endif -%}
           <div class="cart-item" data-cart-item="{{ item.key }}">
