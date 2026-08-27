@@ -1,6 +1,5 @@
 {%- comment -%} Announcement Bar — Auto-scroll Marquee {%- endcomment -%}
 
-{%- if section.blocks.size > 0 -%}
 <div class="announcement-bar" data-announcement-bar>
   <div class="announcement-bar__track" style="animation-duration: {{ section.settings.speed | default: 75 }}s;">
     {%- for block in section.blocks -%}
@@ -14,6 +13,13 @@
         </div>
       {%- endfor -%}
     {%- endfor -%}
+    {%- comment -%} Hardcoded Promo Slide {%- endcomment -%}
+    {%- for i in (1..2) -%}
+      <div class="announcement-bar__item">
+        <p>✦&nbsp;&nbsp;USE CODE: TOKIYO10 FOR 10% OFF YOUR FIRST ORDER&nbsp;&nbsp;✦</p>
+      </div>
+    {%- endfor -%}
+    
     {%- comment -%} Duplicate for seamless loop {%- endcomment -%}
     {%- for block in section.blocks -%}
       {%- for i in (1..2) -%}
@@ -25,6 +31,11 @@
           {%- endif -%}
         </div>
       {%- endfor -%}
+    {%- endfor -%}
+    {%- for i in (1..2) -%}
+      <div class="announcement-bar__item" aria-hidden="true">
+        <p>✦&nbsp;&nbsp;USE CODE: TOKIYO10 FOR 10% OFF YOUR FIRST ORDER&nbsp;&nbsp;✦</p>
+      </div>
     {%- endfor -%}
   </div>
 </div>
@@ -69,7 +80,6 @@
     100% { transform: translate3d(-50%, 0, 0); }
   }
 </style>
-{%- endif -%}
 
 {% schema %}
 {

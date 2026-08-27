@@ -216,6 +216,20 @@
         <div class="product-info__tax-label">Inclusive of all taxes</div>
       </div>
 
+      {%- comment -%} Promo Code Box {%- endcomment -%}
+      <div class="product-info__promo-code" style="margin: 1.25rem 0; padding: 0.85rem 1.15rem; background: #F8F8F9; border-radius: 12px; border: 1px dashed rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.1rem; line-height: 1;">🎫</span>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #111111;">10% OFF FIRST ORDER</span>
+            <span style="font-size: 0.68rem; color: #666666; font-weight: 500;">Valid for first 1,000 customers only</span>
+          </div>
+        </div>
+        <div style="background: #111111; color: #FFFFFF; font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 900; letter-spacing: 0.1em; padding: 0.45rem 0.85rem; border-radius: 6px; cursor: pointer; user-select: all; text-transform: uppercase;" onclick="navigator.clipboard.writeText('TOKIYO10'); alert('Code copied! 🎫');">
+          TOKIYO10
+        </div>
+      </div>
+
       {%- comment -%} Stock Indicator {%- endcomment -%}
       {%- if settings.show_stock_indicator -%}
         <div class="stock-indicator" data-stock-indicator>
