@@ -494,6 +494,27 @@
     ]
   },
   {
+    "name": "Google Analytics & GTM",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Integrate Google Analytics 4 (GA4) or Google Tag Manager (GTM) for full site tracking and ecommerce reporting."
+      },
+      {
+        "type": "text",
+        "id": "ga4_measurement_id",
+        "label": "Google Analytics 4 Measurement ID",
+        "info": "Example: G-XXXXXXXXXX (found in GA4 Admin -> Data Streams -> Web)"
+      },
+      {
+        "type": "text",
+        "id": "gtm_container_id",
+        "label": "Google Tag Manager Container ID",
+        "info": "Example: GTM-XXXXXXX"
+      }
+    ]
+  },
+  {
     "name": "Google Sheets Integration",
     "settings": [
       {
