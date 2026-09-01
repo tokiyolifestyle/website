@@ -67,11 +67,11 @@
             "bg_color": "#0a0a0a",
             "overlay_opacity": 50,
             "content_alignment": "right",
-            "eyebrow": "Best Sellers",
-            "heading": "Minimal",
-            "subheading": "Wear your favorite characters. Limited edition anime-inspired designs.",
-            "cta_label": "Shop Anime",
-            "cta_link": "shopify://products/tokiyo-lifestyle-women-oversized-t-shirt-tovwo018",
+            "eyebrow": "Trending Drops",
+            "heading": "Story Wear",
+            "subheading": "Wear your narrative. Express yourself with bold conceptual streetwear.",
+            "cta_label": "Shop Story Wear",
+            "cta_link": "/collections/men-oversized-story-wear",
             "cta2_label": "",
             "cta2_link": ""
           }
@@ -83,11 +83,11 @@
             "bg_color": "#0a0a0a",
             "overlay_opacity": 45,
             "content_alignment": "left",
-            "eyebrow": "Care & Comfort",
-            "heading": "Graphic Print",
-            "subheading": "Every tee is built to retain its shape and drape through endless wash cycles.",
-            "cta_label": "Shop Basics",
-            "cta_link": "shopify://products/tokiyo-lifestyle-oversized-t-shirt-totm003",
+            "eyebrow": "Exclusive Art",
+            "heading": "Signature & Embroidery",
+            "subheading": "Intricate embroidery and signature craft. High-density textures made to last.",
+            "cta_label": "Shop Signature",
+            "cta_link": "/collections/men-oversized-signature",
             "cta2_label": "",
             "cta2_link": ""
           }
@@ -103,7 +103,7 @@
             "heading": "Streetwear Redefined",
             "subheading": "Clean aesthetics, boxy fits, and bold graphics. Made for those who stand out.",
             "cta_label": "Explore Drops",
-            "cta_link": "shopify://products/tokiyo-lifestyle-women-oversized-t-shirt-tovwo020",
+            "cta_link": "/collections/women-oversized",
             "cta2_label": "",
             "cta2_link": ""
           }
@@ -126,21 +126,11 @@
     "category-icons": {
       "type": "category-icons",
       "blocks": {
-        "mc-os-gp": {
-          "type": "category",
-          "settings": {
-            "label": "Graphic Print",
-            "link": "",
-            "show_in_strip": true,
-            "gender": "men",
-            "fit": "oversized"
-          }
-        },
         "mc-os-an": {
           "type": "category",
           "settings": {
             "label": "Anime",
-            "link": "",
+            "link": "/collections/men-oversized-anime",
             "show_in_strip": true,
             "gender": "men",
             "fit": "oversized"
@@ -150,7 +140,7 @@
           "type": "category",
           "settings": {
             "label": "Streetwear",
-            "link": "",
+            "link": "/collections/men-oversized-streetwear",
             "show_in_strip": true,
             "gender": "men",
             "fit": "oversized"
@@ -160,79 +150,29 @@
           "type": "category",
           "settings": {
             "label": "Story Wear",
-            "link": "",
+            "link": "/collections/men-oversized-story-wear",
             "show_in_strip": true,
             "gender": "men",
             "fit": "oversized"
           }
         },
-        "mc-os-mn": {
+        "mc-os-sig": {
           "type": "category",
           "settings": {
-            "label": "Minimal",
-            "link": "",
+            "label": "Signature",
+            "link": "/collections/men-oversized-signature",
             "show_in_strip": true,
             "gender": "men",
             "fit": "oversized"
           }
         },
-        "mc-rg-gp": {
+        "mc-os-emb": {
           "type": "category",
           "settings": {
-            "label": "Graphic Print",
-            "link": "",
+            "label": "Embroidery",
+            "link": "/collections/men-oversized-embroidery",
             "show_in_strip": true,
             "gender": "men",
-            "fit": "regular"
-          }
-        },
-        "mc-rg-an": {
-          "type": "category",
-          "settings": {
-            "label": "Anime",
-            "link": "",
-            "show_in_strip": true,
-            "gender": "men",
-            "fit": "regular"
-          }
-        },
-        "mc-rg-sw": {
-          "type": "category",
-          "settings": {
-            "label": "Streetwear",
-            "link": "",
-            "show_in_strip": true,
-            "gender": "men",
-            "fit": "regular"
-          }
-        },
-        "mc-rg-st": {
-          "type": "category",
-          "settings": {
-            "label": "Story Wear",
-            "link": "",
-            "show_in_strip": true,
-            "gender": "men",
-            "fit": "regular"
-          }
-        },
-        "mc-rg-mn": {
-          "type": "category",
-          "settings": {
-            "label": "Minimal",
-            "link": "",
-            "show_in_strip": true,
-            "gender": "men",
-            "fit": "regular"
-          }
-        },
-        "wc-os-gp": {
-          "type": "category",
-          "settings": {
-            "label": "Graphic Print",
-            "link": "",
-            "show_in_strip": true,
-            "gender": "women",
             "fit": "oversized"
           }
         },
@@ -240,7 +180,7 @@
           "type": "category",
           "settings": {
             "label": "Anime",
-            "link": "",
+            "link": "/collections/women-oversized-anime",
             "show_in_strip": true,
             "gender": "women",
             "fit": "oversized"
@@ -250,7 +190,7 @@
           "type": "category",
           "settings": {
             "label": "Streetwear",
-            "link": "",
+            "link": "/collections/women-oversized-streetwear",
             "show_in_strip": true,
             "gender": "women",
             "fit": "oversized"
@@ -260,94 +200,33 @@
           "type": "category",
           "settings": {
             "label": "Story Wear",
-            "link": "",
+            "link": "/collections/women-oversized-story-wear",
             "show_in_strip": true,
             "gender": "women",
             "fit": "oversized"
           }
         },
-        "wc-os-mn": {
+        "wc-os-sig": {
           "type": "category",
           "settings": {
-            "label": "Minimal",
-            "link": "",
+            "label": "Signature",
+            "link": "/collections/women-oversized-signature",
             "show_in_strip": true,
             "gender": "women",
             "fit": "oversized"
-          }
-        },
-        "wc-rg-gp": {
-          "type": "category",
-          "settings": {
-            "label": "Graphic",
-            "link": "",
-            "show_in_strip": true,
-            "gender": "women",
-            "fit": "regular"
-          }
-        },
-        "wc-rg-an": {
-          "type": "category",
-          "settings": {
-            "label": "Anime",
-            "link": "",
-            "show_in_strip": true,
-            "gender": "women",
-            "fit": "regular"
-          }
-        },
-        "wc-rg-sw": {
-          "type": "category",
-          "settings": {
-            "label": "Streetwear",
-            "link": "",
-            "show_in_strip": true,
-            "gender": "women",
-            "fit": "regular"
-          }
-        },
-        "wc-rg-st": {
-          "type": "category",
-          "settings": {
-            "label": "Story Wear",
-            "link": "",
-            "show_in_strip": true,
-            "gender": "women",
-            "fit": "regular"
-          }
-        },
-        "wc-rg-mn": {
-          "type": "category",
-          "settings": {
-            "label": "Minimal",
-            "link": "",
-            "show_in_strip": true,
-            "gender": "women",
-            "fit": "regular"
           }
         }
       },
       "block_order": [
-        "mc-os-gp",
         "mc-os-an",
         "mc-os-sw",
         "mc-os-st",
-        "mc-os-mn",
-        "mc-rg-gp",
-        "mc-rg-an",
-        "mc-rg-sw",
-        "mc-rg-st",
-        "mc-rg-mn",
-        "wc-os-gp",
+        "mc-os-sig",
+        "mc-os-emb",
         "wc-os-an",
         "wc-os-sw",
         "wc-os-st",
-        "wc-os-mn",
-        "wc-rg-gp",
-        "wc-rg-an",
-        "wc-rg-sw",
-        "wc-rg-st",
-        "wc-rg-mn"
+        "wc-os-sig"
       ],
       "settings": {
         "eyebrow": "",
@@ -406,8 +285,8 @@
         "col-5": {
           "type": "collection",
           "settings": {
-            "title": "Minimal Collection",
-            "link": "/collections/men-oversized-minimal"
+            "title": "Signature & Story Wear",
+            "link": "/collections/men-oversized-signature"
           }
         }
       },
