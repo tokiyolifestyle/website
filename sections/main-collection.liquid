@@ -156,10 +156,10 @@
       {%- assign decoded_query = request.fullpath | split: '?' | last | replace: '%20', ' ' | replace: '%3A', ':' | replace: '%2F', '/' | replace: '%2C', ',' | replace: '+', ' ' -%}
 
       {%- assign gender_options = "Men,Women" | split: "," -%}
-      {%- assign style_options = "Oversized,Regular" | split: "," -%}
-      {%- assign category_options = "Graphic Print,Anime,Streetwear,Story Wear,Minimal" | split: "," -%}
+      {%- assign style_options = "Oversized" | split: "," -%}
+      {%- assign category_options = "Anime,Streetwear,Story Wear,Signature,Embroidery" | split: "," -%}
       {%- assign size_options = "XS,S,M,L,XL,XXL" | split: "," -%}
-      {%- assign color_options = "Black,White,Beige,Pista,Airforce,Peach,Lavender,Mustard,Onion Pink" | split: "," -%}
+      {%- assign color_options = "Black,White,Beige,Pista,Airforce,Peach,Lavender,Mustard,Dark Grey,Wine" | split: "," -%}
       {%- assign fabric_options = "100% Cotton,French Terry,Heavyweight Cotton" | split: "," -%}
       {%- assign brand_options = "Tokiyo Lifestyle,Tokiyo Originals" | split: "," -%}
 
