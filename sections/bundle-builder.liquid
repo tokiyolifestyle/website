@@ -1,5 +1,5 @@
 {%- comment -%}
-  TOKIYO LIFESTYLE — Interactive Festive Combo / Bundle Builder Section
+  TOKIYO LIFESTYLE - Interactive Festive Combo / Bundle Builder Section
   Self-contained bundle builder (inlined from snippet for reliability)
 {%- endcomment -%}
 
@@ -194,10 +194,12 @@
                         <span class="bundle-item-card__option-value" data-selected-size>M</span>
                       </div>
                       <div class="bundle-item-card__sizes">
+                        {%- assign has_size_m = false -%}
+                        {%- if option.values contains 'M' -%}{%- assign has_size_m = true -%}{%- endif -%}
                         {%- for val in option.values -%}
                           <button 
                             type="button" 
-                            class="bundle-size-btn {% if val == 'M' or forloop.first and option.values contains 'M' == false %}is-active{% endif %}" 
+                            class="bundle-size-btn {% if val == 'M' or forloop.first and has_size_m == false %}is-active{% endif %}" 
                             data-size-val="{{ val | escape }}"
                           >
                             {{ val }}
