@@ -37,16 +37,83 @@
 {%- assign handle_array = item_handles | split: ',' -%}
 {%- assign item_count = handle_array.size -%}
 
-<div class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ product.selected_or_first_available_variant.id }}" data-bundle-price="{{ product.price }}">
+{%- comment -%} ── Full-width Bundle Hero Banner ── {%- endcomment -%}
+<div class="bundle-hero" data-bundle-hero>
+  {%- comment -%} Animated background particles / glow {%- endcomment -%}
+  <div class="bundle-hero__bg" aria-hidden="true">
+    <div class="bundle-hero__glow bundle-hero__glow--1"></div>
+    <div class="bundle-hero__glow bundle-hero__glow--2"></div>
+    <div class="bundle-hero__sparks" id="BundleHeroSparks"></div>
+  </div>
+
+  <div class="bundle-hero__inner page-width">
+    <div class="bundle-hero__left">
+      <div class="bundle-hero__eyebrow">
+        <span class="bundle-hero__star">✦</span>
+        <span>{{ bundle_badge }}</span>
+      </div>
+      <h1 class="bundle-hero__title">{{ product.title }}</h1>
+      <p class="bundle-hero__sub">Choose your size &amp; color for each tee. Limited festive pricing.</p>
+
+      <div class="bundle-hero__perks">
+        <span>✓ Free Shipping on Prepaid</span>
+        <span>✓ 240 GSM Premium Cotton</span>
+        <span>✓ 7-Day Easy Replace</span>
+      </div>
+
+      <div class="bundle-hero__price-block">
+        <span class="bundle-hero__price">{{ product.price | money }}</span>
+        {%- if product.compare_at_price > product.price -%}
+          <span class="bundle-hero__compare">{{ product.compare_at_price | money }}</span>
+          {%- assign save_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+          <span class="bundle-hero__save">{{ save_pct }}% OFF</span>
+        {%- endif -%}
+      </div>
+
+      <a href="#bundle-selector" class="bundle-hero__cta">
+        Customize &amp; Add to Cart
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="bundle-hero__right">
+      {%- assign preview_count = 0 -%}
+      {%- for handle in handle_array -%}
+        {%- assign prev_p = all_products[handle] -%}
+        {%- if prev_p != blank and preview_count < 3 -%}
+          <div class="bundle-hero__tee bundle-hero__tee--{{ forloop.index }}">
+            {%- if prev_p.featured_image != blank -%}
+              <img
+                src="{{ prev_p.featured_image | image_url: width: 500 }}"
+                alt="{{ prev_p.title | escape }}"
+                class="bundle-hero__tee-img"
+                loading="eager"
+              >
+            {%- endif -%}
+            <span class="bundle-hero__tee-tag">{{ prev_p.title | truncate: 12, '' }}</span>
+          </div>
+          {%- assign preview_count = preview_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- comment -%} Scroll-down indicator {%- endcomment -%}
+  <a href="#bundle-selector" class="bundle-hero__scroll" aria-label="Scroll to customise">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </a>
+</div>
+
+<div id="bundle-selector" class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ product.selected_or_first_available_variant.id }}" data-bundle-price="{{ product.price }}">
   
-  {%- comment -%} Top Header {%- endcomment -%}
+  {%- comment -%} Section anchor header (compact, below hero) {%- endcomment -%}
   <div class="bundle-page__header">
     <div class="bundle-page__badge">
       <span class="bundle-page__badge-icon">✦</span>
       <span>{{ bundle_badge }}</span>
     </div>
-    <h1 class="bundle-page__title">{{ product.title }}</h1>
-    <p class="bundle-page__subtitle">Select your desired color and size for each item below to unlock this limited festive price.</p>
+    <h2 class="bundle-page__title" style="font-size:clamp(22px,3vw,32px);">Customise Your Bundle</h2>
+    <p class="bundle-page__subtitle">Select color &amp; size for each item — combo price unlocked automatically.</p>
   </div>
 
   <div class="bundle-page__layout">
@@ -205,6 +272,233 @@
 </div>
 
 <style>
+/* ═══════════════════════════════════════════
+   BUNDLE HERO BANNER
+═══════════════════════════════════════════ */
+.bundle-hero {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  background: #0a0a0a;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 749px) { .bundle-hero { min-height: 80vh; } }
+
+/* Animated background glows */
+.bundle-hero__bg { position: absolute; inset: 0; z-index: 0; }
+.bundle-hero__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  animation: bundleGlowPulse 5s ease-in-out infinite alternate;
+}
+.bundle-hero__glow--1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #ff0000 0%, transparent 70%);
+  top: -120px; left: -100px;
+  animation-delay: 0s;
+}
+.bundle-hero__glow--2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #ff4400 0%, transparent 70%);
+  bottom: -100px; right: -80px;
+  animation-delay: 2.5s;
+}
+@keyframes bundleGlowPulse {
+  from { opacity: 0.25; transform: scale(0.9); }
+  to   { opacity: 0.45; transform: scale(1.15); }
+}
+
+/* Inner layout */
+.bundle-hero__inner {
+  position: relative; z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+@media (max-width: 749px) {
+  .bundle-hero__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 48px;
+    padding-bottom: 40px;
+  }
+}
+
+/* Left — text content */
+.bundle-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,0,0,0.15);
+  border: 1px solid rgba(255,0,0,0.4);
+  color: #ff4444;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(255,0,0,0.2);
+}
+.bundle-hero__star { animation: bundleStar 1.8s ease-in-out infinite; }
+@keyframes bundleStar {
+  0%,100% { transform: scale(1) rotate(0deg); }
+  50%      { transform: scale(1.3) rotate(15deg); }
+}
+
+.bundle-hero__title {
+  font-size: clamp(28px, 4.5vw, 52px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+
+.bundle-hero__sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.bundle-hero__perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 28px;
+}
+.bundle-hero__perks span {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.bundle-hero__price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.bundle-hero__price {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+.bundle-hero__compare {
+  font-size: 20px;
+  color: rgba(255,255,255,0.35);
+  text-decoration: line-through;
+}
+.bundle-hero__save {
+  font-size: 13px;
+  font-weight: 800;
+  color: #00e676;
+  background: rgba(0,230,118,0.12);
+  border: 1px solid rgba(0,230,118,0.3);
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+}
+
+.bundle-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ff0000;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 32px rgba(255,0,0,0.35);
+}
+.bundle-hero__cta:hover {
+  background: #cc0000;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(255,0,0,0.45);
+}
+.bundle-hero__cta svg { transition: transform 0.2s; }
+.bundle-hero__cta:hover svg { transform: translateX(5px); }
+
+/* Right — tee preview cards */
+.bundle-hero__right {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  position: relative;
+  min-height: 340px;
+}
+.bundle-hero__tee {
+  position: absolute;
+  bottom: 0;
+  width: 180px;
+  transition: transform 0.3s ease;
+}
+.bundle-hero__tee--1 { left: 0;   z-index: 3; transform: rotate(-6deg); }
+.bundle-hero__tee--2 { left: 50%; transform: translateX(-50%) rotate(0deg); z-index: 4; }
+.bundle-hero__tee--3 { right: 0;  z-index: 3; transform: rotate(6deg); }
+.bundle-hero__tee:hover { transform: translateY(-12px) rotate(0deg) scale(1.05) !important; z-index: 10 !important; }
+
+.bundle-hero__tee-img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  display: block;
+}
+.bundle-hero__tee-tag {
+  display: block;
+  text-align: center;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 749px) {
+  .bundle-hero__right {
+    min-height: 220px;
+    order: -1;
+  }
+  .bundle-hero__tee { width: 120px; }
+}
+
+/* Scroll indicator */
+.bundle-hero__scroll {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  animation: bundleScrollBounce 2s ease-in-out infinite;
+}
+@keyframes bundleScrollBounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(8px); }
+}
+
 /* ─── Bundle Builder Aesthetics ─── */
 .bundle-page {
   padding-top: 40px;

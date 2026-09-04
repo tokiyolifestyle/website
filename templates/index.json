@@ -275,10 +275,9 @@
         "eyebrow": "Fresh Drops",
         "title": "New Arrivals",
         "collection": "new-arrivals",
-        "sort_by": "created_descending",
         "limit": 8,
         "columns": 4,
-        "cta_label": "Shop All Drops",
+        "cta_label": "View All Drops",
         "cta_link": "/collections/new-arrivals"
       }
     },
@@ -288,10 +287,9 @@
         "eyebrow": "Trending Now",
         "title": "Bestsellers",
         "collection": "bestsellers",
-        "sort_by": "best_selling",
         "limit": 8,
         "columns": 4,
-        "cta_label": "Shop All",
+        "cta_label": "View All Products",
         "cta_link": "/collections/bestsellers"
       }
     },
