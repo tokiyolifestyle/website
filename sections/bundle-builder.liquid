@@ -1,6 +1,6 @@
 {%- comment -%}
-  TOKIYO LIFESTYLE - Interactive Festive Combo / Bundle Builder Section
-  Self-contained bundle builder (inlined from snippet for reliability)
+  TOKIYO LIFESTYLE - Premium Interactive Festive Combo / Bundle Builder Section
+  Self-contained, high-performance, responsive layout
 {%- endcomment -%}
 
 {%- assign is_bundle = false -%}
@@ -14,19 +14,19 @@
 {%- case bundle_handle -%}
   {%- when 'womens-festive-trio-buy-3' -%}
     {%- assign item_handles = 'tokiyo-lifestyle-women-oversized-t-shirt-tovwo012,tokiyo-lifestyle-women-oversized-t-shirt-tovwo003,tokiyo-lifestyle-women-oversized-t-shirt-tovwo005' -%}
-    {%- assign bundle_badge = "Bappa's Blessings Special — Buy 3 @ ₹1969" -%}
+    {%- assign bundle_badge = "Bappa's Blessings Special — Buy 3 @ Rs. 1969" -%}
     {%- assign bundle_title_custom = "Women's Festive Trio (3 Oversized Tees)" -%}
   {%- when 'womens-festive-duo-buy-2' -%}
     {%- assign item_handles = 'tokiyo-lifestyle-women-oversized-t-shirt-tovwo003,tokiyo-lifestyle-women-oversized-t-shirt-tovwo005' -%}
-    {%- assign bundle_badge = "Festive Duo Special — Buy 2 @ ₹1349" -%}
+    {%- assign bundle_badge = "Festive Duo Special — Buy 2 @ Rs. 1349" -%}
     {%- assign bundle_title_custom = "Women's Festive Duo (2 Oversized Tees)" -%}
   {%- when 'mens-festive-duo-buy-2' -%}
     {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm038,tokiyo-lifestyle-oversized-t-shirt-totm008' -%}
-    {%- assign bundle_badge = "Festive Duo Special — Buy 2 @ ₹1269" -%}
+    {%- assign bundle_badge = "Festive Duo Special — Buy 2 @ Rs. 1269" -%}
     {%- assign bundle_title_custom = "Men's Festive Duo (2 Oversized Tees)" -%}
   {%- when 'mens-festive-trio-buy-3' -%}
     {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm038,tokiyo-lifestyle-oversized-t-shirt-totm006,tokiyo-lifestyle-oversized-t-shirt-totm008' -%}
-    {%- assign bundle_badge = "Festive Trio Special — Buy 3 @ ₹1869" -%}
+    {%- assign bundle_badge = "Festive Trio Special — Buy 3 @ Rs. 1869" -%}
     {%- assign bundle_title_custom = "Men's Festive Trio (3 Oversized Tees)" -%}
   {%- else -%}
     {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm038,tokiyo-lifestyle-oversized-t-shirt-totm008' -%}
@@ -34,29 +34,30 @@
     {%- assign bundle_title_custom = product.title -%}
 {%- endcase -%}
 
+{%- assign clean_product_title = product.title | replace: '₹', 'Rs. ' | replace: '(Buy', '— Buy' | replace: ')', '' -%}
+{%- assign clean_bundle_badge = bundle_badge | replace: '₹', 'Rs. ' -%}
+
 {%- assign handle_array = item_handles | split: ',' -%}
 {%- assign item_count = handle_array.size -%}
 
 {%- comment -%} ── Full-width Bundle Hero Banner ── {%- endcomment -%}
 <div class="bundle-hero" data-bundle-hero>
-  {%- comment -%} Animated background particles / glow {%- endcomment -%}
   <div class="bundle-hero__bg" aria-hidden="true">
     <div class="bundle-hero__glow bundle-hero__glow--1"></div>
     <div class="bundle-hero__glow bundle-hero__glow--2"></div>
-    <div class="bundle-hero__sparks" id="BundleHeroSparks"></div>
   </div>
 
   <div class="bundle-hero__inner page-width">
     <div class="bundle-hero__left">
       <div class="bundle-hero__eyebrow">
         <span class="bundle-hero__star">✦</span>
-        <span>{{ bundle_badge }}</span>
+        <span>{{ clean_bundle_badge }}</span>
       </div>
-      <h1 class="bundle-hero__title">{{ product.title }}</h1>
-      <p class="bundle-hero__sub">Choose your size &amp; color for each tee. Limited festive pricing.</p>
+      <h1 class="bundle-hero__title">{{ clean_product_title }}</h1>
+      <p class="bundle-hero__sub">Choose your size &amp; color for each tee below. Special combo pricing applied instantly.</p>
 
       <div class="bundle-hero__perks">
-        <span>✓ Free Shipping on Prepaid</span>
+        <span>✓ Free Shipping Prepaid</span>
         <span>✓ 240 GSM Premium Cotton</span>
         <span>✓ 7-Day Easy Replace</span>
       </div>
@@ -71,7 +72,7 @@
       </div>
 
       <a href="#bundle-selector" class="bundle-hero__cta">
-        Customize &amp; Add to Cart
+        BUILD YOUR BUNDLE
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
@@ -90,34 +91,28 @@
                 loading="eager"
               >
             {%- endif -%}
-            <span class="bundle-hero__tee-tag">{{ prev_p.title | truncate: 12, '' }}</span>
+            {%- assign tee_label = prev_p.title | replace: 'Tokiyo Lifestyle ', '' | replace: 'Women Oversized T-Shirt - ', '' | replace: 'Oversized T-Shirt - ', '' | replace: 'Oversized T-Shirt', '' | strip | truncate: 18 -%}
+            <span class="bundle-hero__tee-tag">{{ tee_label }}</span>
           </div>
           {%- assign preview_count = preview_count | plus: 1 -%}
         {%- endif -%}
       {%- endfor -%}
     </div>
   </div>
-
-  {%- comment -%} Scroll-down indicator {%- endcomment -%}
-  <a href="#bundle-selector" class="bundle-hero__scroll" aria-label="Scroll to customise">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-  </a>
 </div>
 
 <div id="bundle-selector" class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ product.selected_or_first_available_variant.id }}" data-bundle-price="{{ product.price }}">
   
-  {%- comment -%} Section anchor header (compact, below hero) {%- endcomment -%}
   <div class="bundle-page__header">
     <div class="bundle-page__badge">
       <span class="bundle-page__badge-icon">✦</span>
-      <span>{{ bundle_badge }}</span>
+      <span>FESTIVE COMBO OFFER</span>
     </div>
-    <h2 class="bundle-page__title" style="font-size:clamp(22px,3vw,32px);">Customise Your Bundle</h2>
-    <p class="bundle-page__subtitle">Select color &amp; size for each item — combo price unlocked automatically.</p>
+    <h2 class="bundle-page__title">Customise Your Bundle</h2>
+    <p class="bundle-page__subtitle">Select color &amp; size for each tee — discount automatically applied.</p>
   </div>
 
   <div class="bundle-page__layout">
-    {%- comment -%} Left / Center: The Item Selector Cards {%- endcomment -%}
     <div class="bundle-page__items">
       {%- for handle in handle_array -%}
         {%- assign bundled_product = all_products[handle] -%}
@@ -125,11 +120,10 @@
           <div class="bundle-item-card" data-bundle-item="{{ forloop.index }}" data-product-handle="{{ bundled_product.handle }}" data-product-title="{{ bundled_product.title }}">
             <div class="bundle-item-card__header">
               <span class="bundle-item-card__step">ITEM {{ forloop.index }} OF {{ item_count }}</span>
-              <span class="bundle-item-card__status" data-item-status>Select Color & Size</span>
+              <span class="bundle-item-card__status" data-item-status>Select Options</span>
             </div>
 
             <div class="bundle-item-card__body">
-              {%- comment -%} Item Image {%- endcomment -%}
               <div class="bundle-item-card__image-wrap">
                 <img 
                   src="{{ bundled_product.featured_image | image_url: width: 600 }}" 
@@ -140,18 +134,12 @@
                   width="300"
                   height="360"
                 >
-                <div class="bundle-item-card__img-overlay"></div>
               </div>
 
-              {%- comment -%} Item Controls {%- endcomment -%}
               <div class="bundle-item-card__details">
                 <h3 class="bundle-item-card__title">
                   <a href="{{ bundled_product.url }}" target="_blank" rel="noopener">{{ bundled_product.title }}</a>
                 </h3>
-
-                <script type="application/json" data-variants-json>
-                  {{ bundled_product.variants | json }}
-                </script>
 
                 {%- for option in bundled_product.options_with_values -%}
                   {%- if option.name == 'Color' or option.name == 'Colour' -%}
@@ -217,21 +205,19 @@
       {%- endfor -%}
     </div>
 
-    {%- comment -%} Right: Sticky Bundle Summary Card {%- endcomment -%}
     <div class="bundle-page__summary-wrap">
       <div class="bundle-summary-card">
         <div class="bundle-summary-card__festive-tag">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Festive Offer Summary
+          ✦ Festive Offer Summary
         </div>
 
-        <h3 class="bundle-summary-card__title">{{ bundle_title_custom }}</h3>
+        <h3 class="bundle-summary-card__title">{{ bundle_title_custom | replace: '₹', 'Rs. ' }}</h3>
 
         <div class="bundle-summary-card__breakdown" data-summary-breakdown>
           {%- for handle in handle_array -%}
             {%- assign bp = all_products[handle] -%}
             <div class="bundle-summary-card__row" data-summary-row="{{ forloop.index }}">
-              <span class="bundle-summary-card__item-name">{{ bp.title | truncate: 25 }}</span>
+              <span class="bundle-summary-card__item-name">{{ bp.title | replace: 'Tokiyo Lifestyle ', '' | truncate: 22 }}</span>
               <span class="bundle-summary-card__item-choice" data-summary-choice>Loading...</span>
             </div>
           {%- endfor -%}
@@ -251,7 +237,7 @@
             </div>
             {%- assign save_amt = product.compare_at_price | minus: product.price -%}
             <div class="bundle-summary-card__savings">
-              You Save {{ save_amt | money }} (Festive Discount)
+              You Save {{ save_amt | money }} (Festive Deal)
             </div>
           {%- endif -%}
         </div>
@@ -262,156 +248,140 @@
           <span>✓ Easy 7-Day Replacement</span>
         </div>
 
-        <button type="button" class="button button--solid button--full bundle-summary-card__btn" data-add-bundle-btn>
-          <span class="bundle-btn__text">Add Complete Bundle to Cart • {{ product.price | money }}</span>
+        <button type="button" class="bundle-summary-card__btn" data-add-bundle-btn>
+          <span class="bundle-btn__text">ADD BUNDLE TO CART • {{ product.price | money }}</span>
           <span class="bundle-btn__spinner" style="display:none;">Adding...</span>
         </button>
         
-        <p class="bundle-summary-card__footnote">Special combo deal will be directly reflected in your checkout.</p>
+        <p class="bundle-summary-card__footnote">Special combo deal will be reflected in checkout.</p>
       </div>
     </div>
   </div>
 </div>
 
 <style>
+/* Reset & Modern Typography Enforcement */
+.bundle-hero,
+.bundle-hero *,
+.bundle-page,
+.bundle-page * {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  box-sizing: border-box;
+}
+
 /* ═══════════════════════════════════════════
-   BUNDLE HERO BANNER
+   BUNDLE HERO BANNER (PREMIUM DARK)
 ═══════════════════════════════════════════ */
 .bundle-hero {
   position: relative;
   width: 100%;
-  min-height: 520px;
-  background: #0a0a0a;
+  min-height: 480px;
+  background: #080808;
   overflow: hidden;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
-@media (max-width: 749px) { .bundle-hero { min-height: 80vh; } }
 
-/* Animated background glows */
-.bundle-hero__bg { position: absolute; inset: 0; z-index: 0; }
+.bundle-hero__bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 .bundle-hero__glow {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.35;
-  animation: bundleGlowPulse 5s ease-in-out infinite alternate;
+  filter: blur(90px);
+  opacity: 0.28;
 }
 .bundle-hero__glow--1 {
-  width: 500px; height: 500px;
+  width: 450px; height: 450px;
   background: radial-gradient(circle, #ff0000 0%, transparent 70%);
-  top: -120px; left: -100px;
-  animation-delay: 0s;
+  top: -100px; left: -80px;
 }
 .bundle-hero__glow--2 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, #ff4400 0%, transparent 70%);
-  bottom: -100px; right: -80px;
-  animation-delay: 2.5s;
-}
-@keyframes bundleGlowPulse {
-  from { opacity: 0.25; transform: scale(0.9); }
-  to   { opacity: 0.45; transform: scale(1.15); }
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, #ff3300 0%, transparent 70%);
+  bottom: -80px; right: -60px;
 }
 
-/* Inner layout */
 .bundle-hero__inner {
   position: relative; z-index: 2;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
   align-items: center;
-  padding-top: 60px;
-  padding-bottom: 60px;
-}
-@media (max-width: 749px) {
-  .bundle-hero__inner {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding-top: 48px;
-    padding-bottom: 40px;
-  }
+  padding-top: 48px;
+  padding-bottom: 48px;
 }
 
-/* Left — text content */
 .bundle-hero__eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255,0,0,0.15);
-  border: 1px solid rgba(255,0,0,0.4);
+  background: rgba(255, 0, 0, 0.12);
+  border: 1px solid rgba(255, 0, 0, 0.35);
   color: #ff4444;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 6px 14px;
   border-radius: 999px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 20px rgba(255,0,0,0.2);
-}
-.bundle-hero__star { animation: bundleStar 1.8s ease-in-out infinite; }
-@keyframes bundleStar {
-  0%,100% { transform: scale(1) rotate(0deg); }
-  50%      { transform: scale(1.3) rotate(15deg); }
+  margin-bottom: 18px;
 }
 
 .bundle-hero__title {
-  font-size: clamp(28px, 4.5vw, 52px);
-  font-weight: 900;
-  color: #ffffff;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-size: clamp(24px, 4vw, 44px) !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.02em !important;
+  margin-top: 0;
   margin-bottom: 14px;
+  text-transform: uppercase;
 }
 
 .bundle-hero__sub {
-  font-size: 15px;
-  color: rgba(255,255,255,0.6);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
   line-height: 1.6;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .bundle-hero__perks {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 16px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 .bundle-hero__perks span {
   font-size: 12px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.55);
   font-weight: 600;
-  letter-spacing: 0.04em;
 }
 
 .bundle-hero__price-block {
   display: flex;
   align-items: baseline;
   gap: 12px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   flex-wrap: wrap;
 }
 .bundle-hero__price {
-  font-size: clamp(32px, 5vw, 48px);
-  font-weight: 900;
-  color: #ffffff;
-  letter-spacing: -0.02em;
+  font-size: clamp(28px, 4.5vw, 42px) !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
 }
 .bundle-hero__compare {
-  font-size: 20px;
-  color: rgba(255,255,255,0.35);
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.4);
   text-decoration: line-through;
 }
 .bundle-hero__save {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
   color: #00e676;
-  background: rgba(0,230,118,0.12);
-  border: 1px solid rgba(0,230,118,0.3);
+  background: rgba(0, 230, 118, 0.12);
+  border: 1px solid rgba(0, 230, 118, 0.3);
   padding: 3px 10px;
   border-radius: 999px;
-  letter-spacing: 0.06em;
 }
 
 .bundle-hero__cta {
@@ -419,135 +389,123 @@
   align-items: center;
   gap: 10px;
   background: #ff0000;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 16px 32px;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 8px 32px rgba(255,0,0,0.35);
+  padding: 15px 30px;
+  border-radius: 10px;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 25px rgba(255, 0, 0, 0.35);
 }
 .bundle-hero__cta:hover {
   background: #cc0000;
-  transform: translateY(-3px);
-  box-shadow: 0 14px 40px rgba(255,0,0,0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(255, 0, 0, 0.45);
 }
-.bundle-hero__cta svg { transition: transform 0.2s; }
-.bundle-hero__cta:hover svg { transform: translateX(5px); }
 
-/* Right — tee preview cards */
 .bundle-hero__right {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 0;
   position: relative;
-  min-height: 340px;
+  min-height: 300px;
 }
 .bundle-hero__tee {
   position: absolute;
   bottom: 0;
-  width: 180px;
+  width: 160px;
   transition: transform 0.3s ease;
 }
-.bundle-hero__tee--1 { left: 0;   z-index: 3; transform: rotate(-6deg); }
-.bundle-hero__tee--2 { left: 50%; transform: translateX(-50%) rotate(0deg); z-index: 4; }
-.bundle-hero__tee--3 { right: 0;  z-index: 3; transform: rotate(6deg); }
-.bundle-hero__tee:hover { transform: translateY(-12px) rotate(0deg) scale(1.05) !important; z-index: 10 !important; }
+.bundle-hero__tee--1 { left: 10px; z-index: 3; transform: rotate(-5deg); }
+.bundle-hero__tee--2 { left: 50%; transform: translateX(-50%); z-index: 4; }
+.bundle-hero__tee--3 { right: 10px; z-index: 3; transform: rotate(5deg); }
 
 .bundle-hero__tee-img {
   width: 100%;
   aspect-ratio: 4/5;
   object-fit: cover;
-  border-radius: 14px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  border-radius: 12px;
+  box-shadow: 0 16px 32px rgba(0,0,0,0.7);
   display: block;
 }
 .bundle-hero__tee-tag {
   display: block;
   text-align: center;
-  margin-top: 8px;
-  font-size: 11px;
+  margin-top: 6px;
+  font-size: 10px;
   font-weight: 800;
-  color: rgba(255,255,255,0.6);
-  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 749px) {
+  .bundle-hero__inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
   .bundle-hero__right {
-    min-height: 220px;
+    min-height: 200px;
     order: -1;
   }
-  .bundle-hero__tee { width: 120px; }
+  .bundle-hero__tee { width: 110px; }
+  .bundle-hero__cta {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
-/* Scroll indicator */
-.bundle-hero__scroll {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  color: rgba(255,255,255,0.4);
-  text-decoration: none;
-  animation: bundleScrollBounce 2s ease-in-out infinite;
-}
-@keyframes bundleScrollBounce {
-  0%,100% { transform: translateX(-50%) translateY(0); }
-  50%      { transform: translateX(-50%) translateY(8px); }
-}
-
-/* ─── Bundle Builder Aesthetics ─── */
+/* ═══════════════════════════════════════════
+   BUNDLE BUILDER SECTION
+═══════════════════════════════════════════ */
 .bundle-page {
   padding-top: 40px;
   padding-bottom: 80px;
 }
 .bundle-page__header {
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto 40px;
+  max-width: 700px;
+  margin: 0 auto 36px;
 }
 .bundle-page__badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 0, 0, 0.12);
-  border: 1px solid rgba(255, 0, 0, 0.35);
+  gap: 6px;
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
   color: #ff3333;
-  padding: 6px 16px;
+  padding: 5px 14px;
   border-radius: 999px;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 16px;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.15);
-}
-.bundle-page__badge-icon {
-  animation: pulse 1.8s infinite;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
 }
 .bundle-page__title {
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 12px;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-size: clamp(22px, 3.5vw, 34px) !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  margin: 0 0 10px !important;
+  text-transform: uppercase;
 }
 .bundle-page__subtitle {
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.6;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
 }
 
 .bundle-page__layout {
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 36px;
+  grid-template-columns: 1fr 370px;
+  gap: 32px;
   align-items: start;
 }
 
@@ -557,35 +515,29 @@
   }
 }
 
-/* ─── Item Selector Card ─── */
+/* ── Item Cards ── */
 .bundle-page__items {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 .bundle-item-card {
   background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 24px;
-  transition: border-color 0.25s, box-shadow 0.25s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 20px;
   position: relative;
-  overflow: hidden;
-}
-.bundle-item-card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 .bundle-item-card__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .bundle-item-card__step {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.1em;
   color: #ff3333;
@@ -593,138 +545,110 @@
 .bundle-item-card__status {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
-  font-weight: 500;
 }
 .bundle-item-card__status.is-ready {
   color: #00e676;
   font-weight: 700;
 }
+
 .bundle-item-card__body {
   display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 24px;
-  align-items: center;
+  grid-template-columns: 130px 1fr;
+  gap: 20px;
+  align-items: start;
 }
-@media (max-width: 600px) {
+@media (max-width: 550px) {
   .bundle-item-card__body {
-    grid-template-columns: 1fr;
+    grid-template-columns: 100px 1fr;
+    gap: 14px;
   }
 }
+
 .bundle-item-card__image-wrap {
   aspect-ratio: 4 / 5;
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
   background: #1a1a1a;
-  position: relative;
 }
 .bundle-item-card__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
 }
-.bundle-item-card:hover .bundle-item-card__img {
-  transform: scale(1.03);
-}
+
 .bundle-item-card__title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 16px;
-  line-height: 1.3;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin: 0 0 14px !important;
+  line-height: 1.35 !important;
 }
 .bundle-item-card__title a {
   color: inherit;
   text-decoration: none;
 }
-.bundle-item-card__title a:hover {
-  color: #ff3333;
-}
 
 .bundle-item-card__option-group {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .bundle-item-card__option-header {
   display: flex;
-  gap: 8px;
-  font-size: 13px;
+  gap: 6px;
+  font-size: 12px;
   margin-bottom: 8px;
 }
-.bundle-item-card__option-label {
-  color: rgba(255, 255, 255, 0.5);
-}
-.bundle-item-card__option-value {
-  color: #ffffff;
-  font-weight: 700;
-}
+.bundle-item-card__option-label { color: rgba(255, 255, 255, 0.5); }
+.bundle-item-card__option-value { color: #ffffff; font-weight: 700; }
 
-/* Swatches */
-.bundle-item-card__swatches {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.bundle-swatch {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #181818;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  padding: 6px 12px;
-  color: #e0e0e0;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.bundle-swatch:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: #222222;
-}
-.bundle-swatch.is-active {
-  border-color: #ff3333;
-  background: rgba(255, 0, 0, 0.1);
-  color: #ffffff;
-}
-.bundle-swatch__circle {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: inline-block;
-}
-.swatch-black { background-color: #111111; }
-.swatch-beige { background-color: #d6c6b2; }
-.swatch-white { background-color: #f5f5f5; }
-.swatch-peach { background-color: #f7a88e; }
-.swatch-lavender { background-color: #bfaee3; }
-.swatch-pista { background-color: #9cb89d; }
-.swatch-airforce { background-color: #245873; }
-.swatch-darkgrey { background-color: #404040; }
-
-/* Sizes */
+.bundle-item-card__swatches,
 .bundle-item-card__sizes {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
-.bundle-size-btn {
-  min-width: 44px;
-  height: 38px;
-  padding: 0 12px;
-  background: #181818;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+
+.bundle-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
-  color: #e0e0e0;
-  font-size: 13px;
+  padding: 6px 12px;
+  color: #dddddd;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.bundle-swatch.is-active {
+  border-color: #ff3333;
+  background: rgba(255, 0, 0, 0.15);
+  color: #ffffff;
+}
+.bundle-swatch__circle {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.swatch-black { background-color: #111; }
+.swatch-beige { background-color: #d6c6b2; }
+.swatch-white { background-color: #fff; }
+.swatch-peach { background-color: #f7a88e; }
+.swatch-lavender { background-color: #bfaee3; }
+
+.bundle-size-btn {
+  min-width: 40px;
+  height: 36px;
+  padding: 0 10px;
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #dddddd;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
-}
-.bundle-size-btn:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: #222222;
+  transition: all 0.18s;
 }
 .bundle-size-btn.is-active {
   background: #ffffff;
@@ -732,115 +656,125 @@
   border-color: #ffffff;
 }
 
-/* ─── Sticky Summary Card ─── */
+/* ── Sticky Summary Card ── */
 .bundle-page__summary-wrap {
   position: sticky;
-  top: 100px;
+  top: 90px;
+  margin-bottom: 40px;
 }
 .bundle-summary-card {
   background: #141414;
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  border-radius: 20px;
-  padding: 28px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.35);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
 }
 .bundle-summary-card__festive-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
   color: #ffd700;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .bundle-summary-card__title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 18px;
-  line-height: 1.25;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  margin: 0 0 16px !important;
+  line-height: 1.3 !important;
 }
 .bundle-summary-card__breakdown {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .bundle-summary-card__row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 13px;
+  font-size: 12px;
 }
-.bundle-summary-card__item-name {
-  color: rgba(255, 255, 255, 0.6);
-}
-.bundle-summary-card__item-choice {
-  font-weight: 700;
-  color: #ffffff;
-}
+.bundle-summary-card__item-name { color: rgba(255, 255, 255, 0.6); }
+.bundle-summary-card__item-choice { font-weight: 700; color: #ffffff; }
+
 .bundle-summary-card__divider {
   height: 1px;
   background: rgba(255, 255, 255, 0.08);
-  margin: 18px 0;
+  margin: 16px 0;
 }
-.bundle-summary-card__pricing {
-  margin-bottom: 20px;
-}
+
+.bundle-summary-card__pricing { margin-bottom: 16px; }
 .bundle-summary-card__price-row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
-.bundle-summary-card__price-label {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
-}
-.bundle-summary-card__price-val {
-  font-size: 28px;
-  font-weight: 900;
-  color: #ffffff;
-}
-.bundle-summary-card__compare-val {
-  font-size: 16px;
-  text-decoration: line-through;
-  color: rgba(255, 255, 255, 0.4);
-}
+.bundle-summary-card__price-label { font-size: 13px; color: rgba(255, 255, 255, 0.7); }
+.bundle-summary-card__price-val { font-size: 26px !important; font-weight: 900 !important; color: #ffffff !important; }
+.bundle-summary-card__compare-val { font-size: 14px; text-decoration: line-through; color: rgba(255, 255, 255, 0.4); }
 .bundle-summary-card__savings {
   display: inline-block;
   background: rgba(0, 230, 118, 0.12);
   border: 1px solid rgba(0, 230, 118, 0.3);
   color: #00e676;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 6px;
   margin-top: 4px;
 }
+
 .bundle-summary-card__perks {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.55);
-  margin-bottom: 24px;
+  gap: 5px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 20px;
 }
+
 .bundle-summary-card__btn {
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  padding: 16px 20px;
-  border-radius: 12px;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  padding: 16px 12px !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: block !important;
+  text-align: center !important;
 }
+.bundle-summary-card__btn:hover {
+  background: linear-gradient(135deg, #e60000 0%, #b30000 100%) !important;
+  box-shadow: 0 12px 28px rgba(255, 0, 0, 0.55) !important;
+}
+
 .bundle-summary-card__footnote {
   text-align: center;
-  font-size: 11px;
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.4);
-  margin-top: 12px;
-  line-height: 1.4;
+  margin-top: 10px;
+}
+
+@media (max-width: 749px) {
+  .bundle-summary-card {
+    padding: 20px 16px 24px;
+    margin-bottom: 80px; /* Leaves clear space for WhatsApp/Cart float buttons */
+  }
 }
 </style>
 
@@ -913,7 +847,7 @@
         if (card) {
           const statusSpan = card.querySelector('[data-item-status]');
           if (selections[num].color && selections[num].size) {
-            statusSpan.textContent = `✓ ${selections[num].color}, Size ${selections[num].size}`;
+            statusSpan.textContent = `✓ ${selections[num].color}, ${selections[num].size}`;
             statusSpan.classList.add('is-ready');
           }
         }
