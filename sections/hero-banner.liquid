@@ -64,24 +64,94 @@
             </div>
           </a>
 
-          <div class="hero-carousel__content page-width hero-carousel__content--{{ block.settings.content_alignment | default: section.settings.content_alignment }}">
-            {%- if block.settings.eyebrow != blank -%}
-              <p class="text-eyebrow hero-carousel__eyebrow">{{ block.settings.eyebrow }}</p>
-            {%- endif -%}
-            {%- if block.settings.heading != blank -%}
-              <h2 class="hero-carousel__heading">{{ block.settings.heading }}</h2>
-            {%- endif -%}
-            {%- if block.settings.subheading != blank -%}
-              <p class="hero-carousel__subheading">{{ block.settings.subheading }}</p>
-            {%- endif -%}
-            <div class="hero-carousel__ctas">
-              {%- if block.settings.cta_label != blank -%}
-                <a href="{{ block.settings.cta_link }}" class="button button--solid">{{ block.settings.cta_label }}</a>
+          {%- assign is_combo_slide = false -%}
+          {%- if block.settings.cta_link contains 'festive' or block.settings.heading contains 'Festive' or block.settings.heading contains 'Duo' or block.settings.heading contains 'Trio' -%}
+            {%- assign is_combo_slide = true -%}
+          {%- endif -%}
+
+          {%- assign combo_img1 = '' -%}
+          {%- assign combo_img2 = '' -%}
+          {%- assign combo_img3 = '' -%}
+          {%- assign combo_title1 = '' -%}
+          {%- assign combo_title2 = '' -%}
+          {%- assign combo_title3 = '' -%}
+          {%- assign combo_badge_txt = '' -%}
+
+          {%- if block.settings.cta_link contains 'mens-festive-duo' -%}
+            {%- assign combo_img1 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM038_AI_2.png?v=1788285909' -%}
+            {%- assign combo_title1 = 'TOTM038' -%}
+            {%- assign combo_img2 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM008_PE_1.png?v=1788284976' -%}
+            {%- assign combo_title2 = 'TOTM008' -%}
+            {%- assign combo_badge_txt = 'BUY 2 @ ₹1,269' -%}
+          {%- elsif block.settings.cta_link contains 'mens-festive-trio' -%}
+            {%- assign combo_img1 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM038_AI_2.png?v=1788285909' -%}
+            {%- assign combo_title1 = 'TOTM038' -%}
+            {%- assign combo_img2 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM006_AI_2.png?v=1788284927' -%}
+            {%- assign combo_title2 = 'TOTM006' -%}
+            {%- assign combo_img3 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM008_PE_1.png?v=1788284976' -%}
+            {%- assign combo_title3 = 'TOTM008' -%}
+            {%- assign combo_badge_txt = 'BUY 3 @ ₹1,869' -%}
+          {%- elsif block.settings.cta_link contains 'womens-festive-duo' -%}
+            {%- assign combo_img1 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO003_WH_1.png?v=1788286358' -%}
+            {%- assign combo_title1 = 'TOVWO003' -%}
+            {%- assign combo_img2 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO005_PE_1.png?v=1788286424' -%}
+            {%- assign combo_title2 = 'TOVWO005' -%}
+            {%- assign combo_badge_txt = 'BUY 2 @ ₹1,349' -%}
+          {%- elsif block.settings.cta_link contains 'womens-festive-trio' -%}
+            {%- assign combo_img1 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO012_BL_1.png?v=1788286604' -%}
+            {%- assign combo_title1 = 'TOVWO012' -%}
+            {%- assign combo_img2 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO003_WH_1.png?v=1788286358' -%}
+            {%- assign combo_title2 = 'TOVWO003' -%}
+            {%- assign combo_img3 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO005_PE_1.png?v=1788286424' -%}
+            {%- assign combo_title3 = 'TOVWO005' -%}
+            {%- assign combo_badge_txt = 'BUY 3 @ ₹1,969' -%}
+          {%- endif -%}
+
+          <div class="hero-carousel__content page-width hero-carousel__content--{{ block.settings.content_alignment | default: section.settings.content_alignment }} {% if is_combo_slide %}hero-carousel__content--combo{% endif %}">
+            <div class="hero-carousel__text-side">
+              {%- if block.settings.eyebrow != blank -%}
+                <p class="text-eyebrow hero-carousel__eyebrow">{{ block.settings.eyebrow }}</p>
               {%- endif -%}
-              {%- if block.settings.cta2_label != blank -%}
-                <a href="{{ block.settings.cta2_link }}" class="button button--white">{{ block.settings.cta2_label }}</a>
+              {%- if block.settings.heading != blank -%}
+                <h2 class="hero-carousel__heading">{{ block.settings.heading }}</h2>
               {%- endif -%}
+              {%- if block.settings.subheading != blank -%}
+                <p class="hero-carousel__subheading">{{ block.settings.subheading }}</p>
+              {%- endif -%}
+              <div class="hero-carousel__ctas">
+                {%- if block.settings.cta_label != blank -%}
+                  <a href="{{ block.settings.cta_link }}" class="button button--solid">{{ block.settings.cta_label }}</a>
+                {%- endif -%}
+                {%- if block.settings.cta2_label != blank -%}
+                  <a href="{{ block.settings.cta2_link }}" class="button button--white">{{ block.settings.cta2_label }}</a>
+                {%- endif -%}
+              </div>
             </div>
+
+            {%- if is_combo_slide and combo_img1 != blank -%}
+              <a href="{{ block.settings.cta_link }}" class="hero-combo-display" aria-label="Shop Combo">
+                <div class="hero-combo-display__pill">
+                  <span class="hero-combo-display__pill-icon">✦</span>
+                  <span>{{ combo_badge_txt }}</span>
+                </div>
+                <div class="hero-combo-display__cards">
+                  <div class="hero-combo-card hero-combo-card--1">
+                    <img src="{{ combo_img1 }}" alt="{{ combo_title1 }}" class="hero-combo-card__img" loading="eager">
+                    <span class="hero-combo-card__label">{{ combo_title1 }}</span>
+                  </div>
+                  <div class="hero-combo-card hero-combo-card--2">
+                    <img src="{{ combo_img2 }}" alt="{{ combo_title2 }}" class="hero-combo-card__img" loading="eager">
+                    <span class="hero-combo-card__label">{{ combo_title2 }}</span>
+                  </div>
+                  {%- if combo_img3 != blank -%}
+                    <div class="hero-combo-card hero-combo-card--3">
+                      <img src="{{ combo_img3 }}" alt="{{ combo_title3 }}" class="hero-combo-card__img" loading="eager">
+                      <span class="hero-combo-card__label">{{ combo_title3 }}</span>
+                    </div>
+                  {%- endif -%}
+                </div>
+              </a>
+            {%- endif -%}
           </div>
         </div>
       {%- endif -%}
@@ -243,6 +313,108 @@
   }
   .hero-carousel__content--center .hero-carousel__ctas { justify-content: center; }
   .hero-carousel__content--right .hero-carousel__ctas { justify-content: flex-end; }
+
+  /* Combo Showcase Layout */
+  .hero-carousel__content--combo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    pointer-events: auto;
+  }
+  .hero-carousel__text-side {
+    max-width: 540px;
+    flex: 1;
+  }
+  .hero-combo-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroContentIn 0.8s 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .hero-combo-display:hover {
+    transform: translateY(-4px) scale(1.02);
+  }
+  .hero-combo-display__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    color: #000000;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 999px;
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+  }
+  .hero-combo-display__pill-icon {
+    font-size: 14px;
+  }
+  .hero-combo-display__cards {
+    display: flex;
+    gap: 12px;
+  }
+  .hero-combo-card {
+    width: 130px;
+    height: 160px;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    background: #141414;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
+  }
+  .hero-combo-card:hover {
+    border-color: rgba(255, 215, 0, 0.6);
+    transform: translateY(-4px);
+  }
+  .hero-combo-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-combo-card__label {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    right: 6px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    padding: 3px 6px;
+    border-radius: 6px;
+  }
+  @media (max-width: 989px) {
+    .hero-carousel__content--combo {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      bottom: 4rem;
+    }
+    .hero-combo-display__cards {
+      gap: 8px;
+    }
+    .hero-combo-card {
+      width: 95px;
+      height: 120px;
+    }
+    .hero-combo-display__pill {
+      font-size: 11px;
+      padding: 4px 12px;
+    }
+  }
 
   .hero-carousel__slide:not(.is-active) .hero-carousel__eyebrow,
   .hero-carousel__slide:not(.is-active) .hero-carousel__heading,

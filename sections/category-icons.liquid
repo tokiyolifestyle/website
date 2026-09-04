@@ -94,7 +94,7 @@
     </div>
     {%- endcomment -%}
  
-    {%- comment -%} ═══ Gender Tabs — Futuristic pill style ═══ {%- endcomment -%}
+    {%- comment -%} ═══ Gender Tabs — Futuristic pill style with SHOP ALL ═══ {%- endcomment -%}
     <div class="catg-universe__tabs" role="tablist">
       <div class="catg-universe__tabs-bg" data-tab-slider></div>
       <button class="catg-universe__tab is-active" role="tab" aria-selected="true" data-catg-tab="men" id="utab-men">
@@ -105,6 +105,10 @@
         <span class="catg-universe__tab-text">WOMEN'S</span>
         <span class="catg-universe__tab-glow"></span>
       </button>
+      <a href="/collections/all" class="catg-universe__tab catg-universe__tab--all" id="utab-all" title="Shop All Products">
+        <span class="catg-universe__tab-text">SHOP ALL ➔</span>
+        <span class="catg-universe__tab-glow"></span>
+      </a>
     </div>
  
     {%- comment -%} ═══ MEN'S PANEL ═══ {%- endcomment -%}
@@ -447,7 +451,35 @@
         </div>
       </div>
       {%- endunless -%}
-      {%- endcomment -%}
+    </div>
+
+    {%- comment -%} ═══ Dynamic 7-8 Product Discovery Grid (Shuffles on Every Refresh) ═══ {%- endcomment -%}
+    <div class="catg-discovery-section" id="CatgDiscoverySection">
+      <div class="catg-discovery-header">
+        <div class="catg-discovery-header__left">
+          <span class="catg-discovery-badge">✦ FRESH DISCOVERY</span>
+          <h3 class="catg-discovery-title">Trending Daily Picks</h3>
+          <p class="catg-discovery-subtitle">Curated streetwear styles that update every time you visit. Refresh to explore new picks!</p>
+        </div>
+        <div class="catg-discovery-header__right">
+          <button type="button" class="catg-discovery-shuffle-btn" id="ShuffleDropsBtn" aria-label="Shuffle Picks">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+            <span>Shuffle Picks</span>
+          </button>
+          <a href="/collections/all" class="catg-discovery-all-link">Shop All Catalog ➔</a>
+        </div>
+      </div>
+
+      <div class="catg-discovery-grid product-grid product-grid--4" id="RandomDiscoveryGrid">
+        {%- assign discovery_pool = collections['all'].products -%}
+        {%- for p in discovery_pool -%}
+          {%- if p.handle != 'cod-fee' and p.type != 'Combo Bundle' and p.available -%}
+            <div class="catg-discovery-card-wrapper" data-discovery-item style="display: none;">
+              {% render 'product-card', product: p, lazy: true %}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
     </div>
   </div>
 </section>
@@ -602,7 +634,7 @@
   .catg-universe__tabs-bg {
     position: absolute;
     top: 4px; bottom: 4px; left: 4px;
-    width: calc(50% - 4px);
+    width: calc(33.333% - 4px);
     background: var(--color-primary, #0C0C0E);
     border-radius: 50px;
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -614,10 +646,10 @@
   .catg-universe__tab {
     position: relative;
     z-index: 1;
-    padding: 0.75rem 2.5rem;
-    font-size: 0.75rem;
+    padding: 0.65rem 1.8rem;
+    font-size: 0.72rem;
     font-weight: 800;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     border: none;
     background: none;
@@ -625,9 +657,19 @@
     transition: color 0.4s ease;
     color: var(--color-text-muted, #767674);
     border-radius: 50px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .catg-universe__tab.is-active { color: #FFFFFF; }
   .catg-universe__tab:not(.is-active):hover { color: var(--color-primary, #0C0C0E); }
+  .catg-universe__tab--all {
+    color: var(--color-accent, #ff0000) !important;
+  }
+  .catg-universe__tab--all:hover {
+    background: rgba(255, 0, 0, 0.08);
+  }
   .catg-universe__tab-glow {
     position: absolute;
     inset: 0;
@@ -657,7 +699,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.25rem;
+    padding: 0.85rem 1.1rem;
     background: #FFFFFF;
     border-radius: 12px;
     cursor: pointer;
@@ -669,10 +711,10 @@
     border-color: rgba(197, 168, 128, 0.2);
     box-shadow: 0 4px 20px rgba(0,0,0,0.03);
   }
-  .catg-universe__section-left { display: flex; align-items: center; gap: 1rem; }
+  .catg-universe__section-left { display: flex; align-items: center; gap: 0.85rem; }
   .catg-universe__section-icon {
-    width: 44px; height: 44px;
-    border-radius: 10px;
+    width: 38px; height: 38px;
+    border-radius: 8px;
     background: linear-gradient(135deg, var(--color-primary, #0C0C0E), #1a1a1a);
     display: flex; align-items: center; justify-content: center;
     color: var(--color-accent, #ff0000);
@@ -683,14 +725,14 @@
     transform: rotate(-5deg) scale(1.05);
   }
   .catg-universe__section-badge {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     color: var(--color-primary, #0C0C0E);
     display: block;
   }
   .catg-universe__section-sub {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--color-text-muted, #767674);
     display: block;
     margin-top: 1px;
@@ -712,35 +754,36 @@
   }
   .catg-universe__section-body.is-open {
     max-height: 1500px; opacity: 1;
-    padding: 1.25rem 0 0.5rem;
+    padding: 1rem 0 0.5rem;
   }
 
-  /* ═══ 3D Card Grid ═══ */
+  /* ═══ 3D Card Grid (Made 3-4 points smaller & more compact) ═══ */
   .catg-universe__grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(5, minmax(0, 185px));
+    justify-content: center;
+    gap: 12px;
   }
   @media(max-width: 767px) {
     .catg-universe__grid {
       display: flex;
       overflow-x: auto;
       scrollbar-width: none;
-      padding-bottom: 1rem;
-      padding-inline: 1rem;
+      padding-bottom: 0.75rem;
+      padding-inline: 0.75rem;
       margin-inline: 0;
-      gap: 10px;
+      gap: 8px;
     }
     .catg-universe__grid::-webkit-scrollbar {
       display: none;
     }
     .catg-card-3d {
-      width: calc(46% - 2px);
+      width: calc(38% - 2px);
       flex-shrink: 0;
     }
   }
 
-  /* ═══ 3D Tilt Card — THE STAR ═══ */
+  /* ═══ 3D Tilt Card — Made 3-4 points smaller ═══ */
   .catg-card-3d {
     perspective: 800px;
     display: block;
@@ -748,9 +791,15 @@
   }
   .catg-card-3d__inner {
     position: relative;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 4 / 5;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
     transform-style: preserve-3d;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -970,6 +1019,86 @@
     75% { transform: translate(var(--px3, 25px), var(--py3, 10px)) scale(1.1); }
   }
 
+  /* ═══ Dynamic 7-8 Product Discovery Grid ═══ */
+  .catg-discovery-section {
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .catg-discovery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .catg-discovery-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #ff0000;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .catg-discovery-title {
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 800;
+    color: #0c0c0e;
+    margin: 0 0 4px;
+    line-height: 1.2;
+  }
+  .catg-discovery-subtitle {
+    font-size: 13px;
+    color: #767674;
+    margin: 0;
+  }
+  .catg-discovery-header__right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .catg-discovery-shuffle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f0efed;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0c0c0e;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .catg-discovery-shuffle-btn:hover {
+    background: #0c0c0e;
+    color: #ffffff;
+    border-color: #0c0c0e;
+  }
+  .catg-discovery-shuffle-btn.is-spinning svg {
+    animation: spinIcon 0.6s ease-in-out;
+  }
+  @keyframes spinIcon {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .catg-discovery-all-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ff0000;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+  .catg-discovery-all-link:hover {
+    text-decoration: underline;
+    transform: translateX(3px);
+  }
+  .catg-discovery-grid {
+    margin-bottom: 1rem;
+  }
+
   /* Register CSS custom property for conic-gradient animation */
   @property --glow-angle {
     syntax: '<angle>';
@@ -1173,8 +1302,50 @@
         }
       }, 30);
     });
+  /* ═══ Dynamic 7-8 Product Discovery Shuffle (Randomizes on every refresh) ═══ */
+  function initRandomDiscoveryGrid() {
+    const grid = document.getElementById('RandomDiscoveryGrid');
+    if (!grid) return;
+
+    const allItems = Array.from(grid.querySelectorAll('[data-discovery-item]'));
+    if (allItems.length === 0) return;
+
+    function shuffleAndShow() {
+      // Fisher-Yates shuffle
+      const shuffled = [...allItems];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = shuffled[i];
+        shuffled[i] = shuffled[j];
+        shuffled[j] = temp;
+      }
+
+      // Hide all items first
+      allItems.forEach(el => el.style.display = 'none');
+
+      // Pick 8 items and re-append in new random order
+      const targetCount = Math.min(8, shuffled.length);
+      for (let k = 0; k < targetCount; k++) {
+        const item = shuffled[k];
+        item.style.display = '';
+        grid.appendChild(item);
+      }
+    }
+
+    // Run automatically on page load / refresh
+    shuffleAndShow();
+
+    // Also support manual shuffle button click
+    const shuffleBtn = document.getElementById('ShuffleDropsBtn');
+    if (shuffleBtn) {
+      shuffleBtn.addEventListener('click', function() {
+        this.classList.add('is-spinning');
+        setTimeout(() => this.classList.remove('is-spinning'), 600);
+        shuffleAndShow();
+      });
+    }
   }
-  initGridAutoScroll();
+  initRandomDiscoveryGrid();
 
 })();
 </script>

@@ -35,7 +35,11 @@
         {%- assign sorted_products = collections['bestsellers'].products -%}
       {%- endif -%}
       {%- if sorted_products == blank or sorted_products.size == 0 -%}
-        {%- assign sorted_products = collections['all'].products -%}
+        {%- if is_new_arrivals -%}
+          {%- assign sorted_products = collections['all'].products | reverse -%}
+        {%- else -%}
+          {%- assign sorted_products = collections['all'].products -%}
+        {%- endif -%}
       {%- endif -%}
     {%- endif -%}
 
@@ -44,7 +48,7 @@
 
     {%- assign valid_count = 0 -%}
     {%- for p in sorted_products -%}
-      {%- if p.handle != 'cod-fee' -%}
+      {%- if p.handle != 'cod-fee' and p.type != 'Combo Bundle' -%}
         {%- assign valid_count = valid_count | plus: 1 -%}
       {%- endif -%}
     {%- endfor -%}
@@ -54,7 +58,7 @@
       <div class="product-grid product-grid--{{ section.settings.columns | default: 4 }}" data-product-grid data-grid-type="{% if is_new_arrivals %}new-arrivals{% else %}bestsellers{% endif %}" data-max-limit="{{ max_limit }}">
         {%- for p in sorted_products -%}
           {%- if rendered_count >= pool_limit -%}{%- break -%}{%- endif -%}
-          {%- if p != blank and p.handle != 'cod-fee' -%}
+          {%- if p != blank and p.handle != 'cod-fee' and p.type != 'Combo Bundle' -%}
             {% render 'product-card', product: p, lazy: true %}
             {%- assign rendered_count = rendered_count | plus: 1 -%}
           {%- endif -%}

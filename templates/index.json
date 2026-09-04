@@ -12,110 +12,76 @@
     "hero-banner": {
       "type": "hero-banner",
       "blocks": {
-        "slide-1": {
+        "slide-men-duo": {
           "type": "slide",
           "settings": {
             "video_url": "",
             "bg_color": "#0a0a0a",
-            "overlay_opacity": 45,
+            "overlay_opacity": 40,
             "content_alignment": "left",
-            "eyebrow": "Anime Collection",
-            "heading": "Redefine Your Style",
-            "subheading": "Premium fashion crafted for those who dare to stand out. Explore the new collection.",
-            "cta_label": "Shop Now",
-            "cta_link": "shopify://products/tokiyo-lifestyle-oversized-t-shirt-totm001",
-            "cta2_label": "Explore Collections",
-            "cta2_link": "/collections"
+            "eyebrow": "Bappa’s Blessings • Men's Duo Deal",
+            "heading": "Men's Festive Duo — Buy 2 @ ₹1,269",
+            "subheading": "Curated pairing: TOTM038 (Airforce) + TOTM008 (Black). Choose custom size & color for both tees. Limited festive drop.",
+            "cta_label": "Claim Duo Deal • ₹1,269",
+            "cta_link": "/products/mens-festive-duo-buy-2",
+            "cta2_label": "View All Drops",
+            "cta2_link": "/collections/all"
           }
         },
-        "slide-2": {
+        "slide-men-trio": {
           "type": "slide",
           "settings": {
             "video_url": "",
             "bg_color": "#0a0a0a",
-            "overlay_opacity": 50,
-            "content_alignment": "center",
-            "eyebrow": "Limited Edition",
-            "heading": "Oversized Excellence",
-            "subheading": "Drop-shoulder fits that redefine comfort. Premium 240 GSM cotton, bold graphics.",
-            "cta_label": "Shop Oversized",
-            "cta_link": "shopify://products/tokiyo-lifestyle-women-oversized-t-shirt-tovwo024",
-            "cta2_label": "",
-            "cta2_link": ""
-          }
-        },
-        "slide-3": {
-          "type": "slide",
-          "settings": {
-            "video_url": "",
-            "bg_color": "#0a0a0a",
-            "overlay_opacity": 45,
+            "overlay_opacity": 40,
             "content_alignment": "left",
-            "eyebrow": "New Arrivals",
-            "heading": "Streetwear Drops",
-            "subheading": "Urban aesthetics meets premium quality. Your street, your rules.",
-            "cta_label": "Explore Now",
-            "cta_link": "/collections/all",
-            "cta2_label": "",
-            "cta2_link": ""
+            "eyebrow": "Festive Mega Deal • Men's 3-Pack",
+            "heading": "Men's Festive Trio — Buy 3 @ ₹1,869",
+            "subheading": "3 iconic oversized drops: TOTM038 + TOTM006 + TOTM008 at just ₹623 each. Premium 240 GSM heavy cotton.",
+            "cta_label": "Claim Trio Deal • ₹1,869",
+            "cta_link": "/products/mens-festive-trio-buy-3",
+            "cta2_label": "Men's Oversized",
+            "cta2_link": "/collections/men-oversized"
           }
         },
-        "slide-4": {
+        "slide-women-duo": {
           "type": "slide",
           "settings": {
             "video_url": "",
             "bg_color": "#0a0a0a",
-            "overlay_opacity": 50,
-            "content_alignment": "right",
-            "eyebrow": "Trending Drops",
-            "heading": "Story Wear",
-            "subheading": "Wear your narrative. Express yourself with bold conceptual streetwear.",
-            "cta_label": "Shop Story Wear",
-            "cta_link": "/collections/men-oversized-story-wear",
-            "cta2_label": "",
-            "cta2_link": ""
-          }
-        },
-        "slide-5": {
-          "type": "slide",
-          "settings": {
-            "video_url": "",
-            "bg_color": "#0a0a0a",
-            "overlay_opacity": 45,
+            "overlay_opacity": 40,
             "content_alignment": "left",
-            "eyebrow": "Exclusive Art",
-            "heading": "Signature & Embroidery",
-            "subheading": "Intricate embroidery and signature craft. High-density textures made to last.",
-            "cta_label": "Shop Signature",
-            "cta_link": "/collections/men-oversized-signature",
-            "cta2_label": "",
-            "cta2_link": ""
+            "eyebrow": "Festive Special • Women's Duo Deal",
+            "heading": "Women's Festive Duo — Buy 2 @ ₹1,349",
+            "subheading": "Curated streetwear combo: TOVWO003 + TOVWO005. Ultra-soft boxy fits with vibrant festival graphics.",
+            "cta_label": "Claim Duo Deal • ₹1,349",
+            "cta_link": "/products/womens-festive-duo-buy-2",
+            "cta2_label": "Women's Drops",
+            "cta2_link": "/collections/women-oversized"
           }
         },
-        "slide-6": {
+        "slide-women-trio": {
           "type": "slide",
           "settings": {
             "video_url": "",
             "bg_color": "#0a0a0a",
-            "overlay_opacity": 50,
-            "content_alignment": "center",
-            "eyebrow": "Designed in India",
-            "heading": "Streetwear Redefined",
-            "subheading": "Clean aesthetics, boxy fits, and bold graphics. Made for those who stand out.",
-            "cta_label": "Explore Drops",
-            "cta_link": "/collections/women-oversized",
-            "cta2_label": "",
-            "cta2_link": ""
+            "overlay_opacity": 40,
+            "content_alignment": "left",
+            "eyebrow": "Bappa’s Blessings • Grand Combo",
+            "heading": "Women's Festive Trio — Buy 3 @ ₹1,969",
+            "subheading": "Exclusive 3-Tee festive combo: TOVWO012 + TOVWO003 + TOVWO005. Mix & match colors and sizes freely.",
+            "cta_label": "Claim Trio Deal • ₹1,969",
+            "cta_link": "/products/womens-festive-trio-buy-3",
+            "cta2_label": "Explore Catalog",
+            "cta2_link": "/collections/all"
           }
         }
       },
       "block_order": [
-        "slide-1",
-        "slide-2",
-        "slide-3",
-        "slide-4",
-        "slide-5",
-        "slide-6"
+        "slide-men-duo",
+        "slide-men-trio",
+        "slide-women-duo",
+        "slide-women-trio"
       ],
       "settings": {
         "hero_height": 70,

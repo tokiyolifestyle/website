@@ -30,6 +30,10 @@
   {%- endif -%}
 {%- endfor -%}
 
+{%- if product.type == 'Combo Bundle' or product.tags contains 'bundle' or product.template_suffix == 'bundle' -%}
+  {% render 'bundle-builder' %}
+{%- else -%}
+
 <div class="product-page" itemscope itemtype="https://schema.org/Product">
   <meta itemprop="name" content="{{ product.title | escape }}">
   <meta itemprop="sku" content="{{ current_variant.sku }}">
@@ -940,6 +944,7 @@
 </style>
 
 <script src="{{ 'product-page.js' | asset_url }}" defer></script>
+{%- endif -%}
 
 {% schema %}
 {

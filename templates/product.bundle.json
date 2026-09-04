@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "bundle-builder",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
