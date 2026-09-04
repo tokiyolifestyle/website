@@ -496,9 +496,11 @@
   }
   @media (max-width: 749px) {
     .catg-universe {
-      padding: 0 0 0.5rem 0 !important;
+      padding: 0 0 0.25rem 0 !important;
       margin-top: -0.75rem !important;
     }
+    .catg-universe__header { margin-bottom: 1rem; }
+    .catg-universe__section-body.is-open { padding: 0.5rem 0 0.25rem; }
   }
   .catg-universe__particles {
     position: absolute;
@@ -769,16 +771,16 @@
       display: flex;
       overflow-x: auto;
       scrollbar-width: none;
-      padding-bottom: 0.75rem;
-      padding-inline: 0.75rem;
+      padding-bottom: 0.5rem;
+      padding-inline: 0.5rem;
       margin-inline: 0;
-      gap: 8px;
+      gap: 6px;
     }
     .catg-universe__grid::-webkit-scrollbar {
       display: none;
     }
     .catg-card-3d {
-      width: calc(38% - 2px);
+      width: calc(26% - 2px);
       flex-shrink: 0;
     }
   }
