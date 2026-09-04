@@ -1,80 +1,107 @@
-<section class="trending-products section-trending-products" data-section-type="{% if is_new_arrivals %}new-arrivals{% else %}bestsellers{% endif %}">
+{%- comment -%}
+  TOKIYO — Trending / New-Arrivals product grid
+  Products are rendered server-side in full, then JS randomly picks
+  `max_limit` of them to display — so every page refresh shows a
+  fresh, shuffled set.
+{%- endcomment -%}
+
+{%- assign sort_mode   = section.settings.sort_by  | default: 'auto' -%}
+{%- assign title_dn    = section.settings.title    | downcase -%}
+{%- assign eyebrow_dn  = section.settings.eyebrow  | downcase -%}
+
+{%- assign is_new_arrivals = false -%}
+{%- if sort_mode == 'created_descending' or title_dn contains 'new' or eyebrow_dn contains 'fresh' or eyebrow_dn contains 'new' -%}
+  {%- assign is_new_arrivals = true -%}
+{%- endif -%}
+
+{%- assign target_handle = section.settings.collection.handle | default: section.settings.collection -%}
+{%- if target_handle == blank -%}
+  {%- assign target_handle = is_new_arrivals | default: false | json -%}
+  {%- if is_new_arrivals -%}{%- assign target_handle = 'new-arrivals' -%}{%- else -%}{%- assign target_handle = 'bestsellers' -%}{%- endif -%}
+{%- endif -%}
+
+{%- assign target_col      = collections[target_handle] -%}
+{%- assign sorted_products = target_col.products -%}
+
+{%- if sorted_products == blank or sorted_products.size == 0 -%}
+  {%- if is_new_arrivals -%}
+    {%- assign sorted_products = collections['new-arrivals'].products -%}
+  {%- else -%}
+    {%- assign sorted_products = collections['bestsellers'].products -%}
+  {%- endif -%}
+  {%- if sorted_products == blank or sorted_products.size == 0 -%}
+    {%- assign sorted_products = collections['all'].products -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign max_limit  = section.settings.limit | default: 8 -%}
+{%- assign cta_link   = section.settings.cta_link  | default: '/collections/all' -%}
+{%- assign cta_label  = section.settings.cta_label | default: 'Shop All' -%}
+{%- assign section_id = section.id -%}
+
+{%- comment -%} Count valid products {%- endcomment -%}
+{%- assign valid_count = 0 -%}
+{%- for p in sorted_products -%}
+  {%- if p.handle != 'cod-fee' and p.type != 'Combo Bundle' -%}
+    {%- assign valid_count = valid_count | plus: 1 -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<section
+  class="trending-products section-trending-products"
+  id="section-{{ section_id }}"
+  data-section-type="{% if is_new_arrivals %}new-arrivals{% else %}bestsellers{% endif %}"
+  data-max-limit="{{ max_limit }}"
+>
   <div class="page-width">
-    <div class="section-header-block animate-on-scroll fade-up">
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="text-eyebrow">{{ section.settings.eyebrow }}</p>
-      {%- endif -%}
-      <h2>{{ section.settings.title | default: 'Bestsellers' }}</h2>
+
+    {%- comment -%} ── Section Header ── {%- endcomment -%}
+    <div class="tp-header animate-on-scroll fade-up">
+      <div class="tp-header__left">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="text-eyebrow tp-eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="tp-title">{{ section.settings.title | default: 'Bestsellers' }}</h2>
+      </div>
+      <a href="{{ cta_link }}" class="tp-shop-all" aria-label="Shop all {{ section.settings.title }}">
+        <span>{{ cta_label }}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
     </div>
 
-    {%- assign sort_mode = section.settings.sort_by | default: 'auto' -%}
-    {%- assign title_dn = section.settings.title | downcase -%}
-    {%- assign eyebrow_dn = section.settings.eyebrow | downcase -%}
-
-    {%- assign is_new_arrivals = false -%}
-    {%- if sort_mode == 'created_descending' or title_dn contains 'new' or eyebrow_dn contains 'fresh' or eyebrow_dn contains 'new' -%}
-      {%- assign is_new_arrivals = true -%}
-    {%- endif -%}
-
-    {%- assign target_handle = section.settings.collection.handle | default: section.settings.collection -%}
-    {%- if target_handle == blank -%}
-      {%- if is_new_arrivals -%}
-        {%- assign target_handle = 'new-arrivals' -%}
-      {%- else -%}
-        {%- assign target_handle = 'bestsellers' -%}
-      {%- endif -%}
-    {%- endif -%}
-
-    {%- assign target_col = collections[target_handle] -%}
-    {%- assign sorted_products = target_col.products -%}
-
-    {%- if sorted_products == blank or sorted_products.size == 0 -%}
-      {%- if is_new_arrivals -%}
-        {%- assign sorted_products = collections['new-arrivals'].products -%}
-      {%- else -%}
-        {%- assign sorted_products = collections['bestsellers'].products -%}
-      {%- endif -%}
-      {%- if sorted_products == blank or sorted_products.size == 0 -%}
-        {%- if is_new_arrivals -%}
-          {%- assign sorted_products = collections['all'].products | reverse -%}
-        {%- else -%}
-          {%- assign sorted_products = collections['all'].products -%}
-        {%- endif -%}
-      {%- endif -%}
-    {%- endif -%}
-
-    {%- assign max_limit = section.settings.limit | default: 8 -%}
-    {%- assign rendered_count = 0 -%}
-
-    {%- assign valid_count = 0 -%}
-    {%- for p in sorted_products -%}
-      {%- if p.handle != 'cod-fee' and p.type != 'Combo Bundle' -%}
-        {%- assign valid_count = valid_count | plus: 1 -%}
-      {%- endif -%}
-    {%- endfor -%}
-
     {%- if valid_count > 0 -%}
-      {%- assign pool_limit = max_limit | times: 3 | default: 24 -%}
-      <div class="product-grid product-grid--{{ section.settings.columns | default: 4 }}" data-product-grid data-grid-type="{% if is_new_arrivals %}new-arrivals{% else %}bestsellers{% endif %}" data-max-limit="{{ max_limit }}">
+      {%- comment -%}
+        Render ALL valid products but hide them — JS picks a random
+        subset of `max_limit` to show on every page load.
+      {%- endcomment -%}
+      <div
+        class="product-grid product-grid--{{ section.settings.columns | default: 4 }} tp-grid"
+        id="tp-grid-{{ section_id }}"
+        data-product-grid
+        data-grid-type="{% if is_new_arrivals %}new-arrivals{% else %}bestsellers{% endif %}"
+        data-max-limit="{{ max_limit }}"
+        data-columns="{{ section.settings.columns | default: 4 }}"
+      >
+        {%- assign pool_limit = 50 -%}
+        {%- assign rendered = 0 -%}
         {%- for p in sorted_products -%}
-          {%- if rendered_count >= pool_limit -%}{%- break -%}{%- endif -%}
+          {%- if rendered >= pool_limit -%}{%- break -%}{%- endif -%}
           {%- if p != blank and p.handle != 'cod-fee' and p.type != 'Combo Bundle' -%}
-            {% render 'product-card', product: p, lazy: true %}
-            {%- assign rendered_count = rendered_count | plus: 1 -%}
+            <div class="tp-pool-card" style="display:none;" data-pool-card>
+              {% render 'product-card', product: p, lazy: true %}
+            </div>
+            {%- assign rendered = rendered | plus: 1 -%}
           {%- endif -%}
         {%- endfor -%}
       </div>
     {%- else -%}
-      {%- comment -%} Coming Soon Products Placeholder {%- endcomment -%}
+      {%- comment -%} Placeholder grid when no products exist yet {%- endcomment -%}
       <div class="product-grid product-grid--{{ section.settings.columns | default: 4 }} stagger-children">
-        {%- assign placeholder_products = "Oversized Tee,Cargo Pants,Puffer Jacket,Sneakers,Crossbody Bag,Denim Jacket,Wide Leg Pants,Beanie Cap,Hoodie,Chain Necklace" | split: "," -%}
-        {%- assign placeholder_prices = "1499,2499,3999,2999,1999,3499,2299,999,2799,1299" | split: "," -%}
-        {%- assign placeholder_compare = "2499,3999,5999,4499,3499,4999,3499,1499,3999,1999" | split: "," -%}
-        {%- assign placeholder_ratings = "4.8,4.6,4.9,4.7,4.5,4.8,4.4,4.3,4.9,4.6" | split: "," -%}
-        {%- assign placeholder_reviews = "124,89,56,203,67,145,78,34,187,92" | split: "," -%}
-        {%- assign placeholder_cats = "Men's,Men's,Winterwear,Footwear,Accessories,Men's,Women's,Accessories,Winterwear,Accessories" | split: "," -%}
-
-        {%- for item in placeholder_products limit: section.settings.limit -%}
+        {%- assign placeholder_products = "Oversized Tee,Cargo Pants,Puffer Jacket,Sneakers,Crossbody Bag,Denim Jacket,Wide Leg Pants,Beanie Cap" | split: "," -%}
+        {%- assign placeholder_prices   = "1499,2499,3999,2999,1999,3499,2299,999"   | split: "," -%}
+        {%- assign placeholder_compare  = "2499,3999,5999,4499,3499,4999,3499,1499"  | split: "," -%}
+        {%- assign placeholder_cats     = "Men's,Men's,Winterwear,Footwear,Accessories,Men's,Women's,Accessories" | split: "," -%}
+        {%- for item in placeholder_products limit: max_limit -%}
           <div class="product-card">
             <div class="product-card__media">
               <div class="coming-soon-placeholder">
@@ -94,40 +121,79 @@
                 <span class="price--sale">₹{{ placeholder_prices[forloop.index0] }}</span>
                 <span class="price--compare">₹{{ placeholder_compare[forloop.index0] }}</span>
               </div>
-              <div class="product-card__rating">
-                <div class="product-card__stars">
-                  {%- for i in (1..5) -%}
-                    <svg viewBox="0 0 20 20"><path d="M10 1l2.39 6.56H19l-5.3 4.04 1.97 6.56L10 14.24l-5.67 3.92 1.97-6.56L1 7.56h6.61z"/></svg>
-                  {%- endfor -%}
-                </div>
-                <span class="product-card__rating-count">{{ placeholder_ratings[forloop.index0] }} ({{ placeholder_reviews[forloop.index0] }})</span>
-              </div>
             </div>
           </div>
         {%- endfor -%}
       </div>
     {%- endif -%}
 
-    {%- if section.settings.cta_label != blank -%}
-      <div style="text-align:center;margin-top:3rem;" class="animate-on-scroll fade-up">
-        <a href="{{ section.settings.cta_link | default: '/collections/all' }}" class="button button--outline">{{ section.settings.cta_label }}</a>
-      </div>
-    {%- endif -%}
   </div>
 </section>
 
 <style>
-  .trending-products { padding: var(--spacing-sections, 64px) 0; background: var(--color-background, #FFFFFF); }
+  /* ── Section wrapper ── */
+  .trending-products {
+    padding: var(--spacing-sections, 64px) 0;
+    background: var(--color-background, #FFFFFF);
+  }
 
+  /* ── Header row ── */
+  .tp-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .tp-header__left { flex: 1; min-width: 0; }
+  .tp-eyebrow { margin-bottom: 6px; }
+  .tp-title {
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.15;
+  }
+
+  /* ── Shop-all pill button ── */
+  .tp-shop-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: 1.5px solid var(--color-accent, #ff0000);
+    color: var(--color-accent, #ff0000);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+    flex-shrink: 0;
+  }
+  .tp-shop-all:hover {
+    background: var(--color-accent, #ff0000);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,0,0,0.25);
+  }
+  .tp-shop-all svg { transition: transform 0.2s; }
+  .tp-shop-all:hover svg { transform: translateX(4px); }
+
+  /* ── Pool cards (JS controls visibility) ── */
+  .tp-pool-card { display: none; }
+  .tp-pool-card.is-visible { display: block; }
+
+  /* ── Placeholder ── */
   .coming-soon-placeholder {
     width:100%; height:100%; aspect-ratio:3/4;
     background: #F4F4F3;
     display:flex; align-items:center; justify-content:center;
     position:relative;
   }
-  .coming-soon-placeholder__inner {
-    text-align:center; z-index:1;
-  }
+  .coming-soon-placeholder__inner { text-align:center; z-index:1; }
   .coming-soon-placeholder__icon {
     display:block; margin-bottom:0.5rem;
     color: var(--color-accent, #ff0000); opacity:0.6;
@@ -136,14 +202,56 @@
     font-size:0.6875rem; text-transform:uppercase; letter-spacing:0.15em;
     color: var(--color-text-muted, #767674); font-weight:600;
   }
-
-  .coming-soon-placeholder .badge--new {
-    position:absolute; top:12px; left:12px;
-  }
   .product-card__media .badge--new {
     position:absolute; top:12px; left:12px; z-index:2;
   }
 </style>
+
+<script>
+(function () {
+  function initTpGrid(section) {
+    const gridId    = section.id;
+    const grid      = document.getElementById('tp-grid-' + gridId.replace('section-',''));
+    if (!grid || grid.dataset.tpInit) return;
+    grid.dataset.tpInit = '1';
+
+    const maxLimit  = parseInt(grid.dataset.maxLimit) || 8;
+    const pool      = Array.from(grid.querySelectorAll('[data-pool-card]'));
+
+    if (!pool.length) return;
+
+    // Fisher-Yates shuffle
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+
+    // Show only maxLimit, hide the rest
+    pool.forEach(function (card, idx) {
+      if (idx < maxLimit) {
+        card.classList.add('is-visible');
+        card.style.display = '';
+        // Re-order in DOM so visible cards are first
+        grid.appendChild(card);
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  function initAll() {
+    document.querySelectorAll('[id^="section-"][data-max-limit]').forEach(function (section) {
+      initTpGrid(section);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
+})();
+</script>
 
 {% schema %}
 {
@@ -151,19 +259,22 @@
   "tag": "section",
   "class": "section-trending-products",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Trending Now" },
-    { "type": "text", "id": "title", "label": "Heading", "default": "Bestsellers" },
+    { "type": "text",       "id": "eyebrow",    "label": "Eyebrow",            "default": "Trending Now" },
+    { "type": "text",       "id": "title",      "label": "Heading",            "default": "Bestsellers" },
     { "type": "collection", "id": "collection", "label": "Collection" },
-    { "type": "select", "id": "sort_by", "label": "Sort Order", "options": [
-        { "value": "auto", "label": "Auto (Newest for New Arrivals, Bestselling for Bestsellers)" },
-        { "value": "created_descending", "label": "Newest First (Last Added First)" },
-        { "value": "best_selling", "label": "Best Selling / Most Clicks First" }
-      ], "default": "auto"
+    {
+      "type": "select", "id": "sort_by", "label": "Sort Order",
+      "options": [
+        { "value": "auto",               "label": "Auto" },
+        { "value": "created_descending", "label": "Newest First" },
+        { "value": "best_selling",       "label": "Best Selling" }
+      ],
+      "default": "auto"
     },
-    { "type": "range", "id": "limit", "min": 4, "max": 12, "step": 1, "label": "Products to show", "default": 8 },
-    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Columns", "default": 4 },
-    { "type": "text", "id": "cta_label", "label": "Button label", "default": "View All Products" },
-    { "type": "url", "id": "cta_link", "label": "Button link" }
+    { "type": "range", "id": "limit",   "min": 4, "max": 12, "step": 1, "label": "Products to show (random)", "default": 8 },
+    { "type": "range", "id": "columns", "min": 2, "max": 5,  "step": 1, "label": "Columns",                   "default": 4 },
+    { "type": "text", "id": "cta_label", "label": "Shop All button label", "default": "Shop All" },
+    { "type": "url",  "id": "cta_link",  "label": "Shop All button link" }
   ],
   "presets": [{ "name": "Trending Products" }]
 }

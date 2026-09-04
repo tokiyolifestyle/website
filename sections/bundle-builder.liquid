@@ -1,9 +1,685 @@
 {%- comment -%}
   TOKIYO LIFESTYLE — Interactive Festive Combo / Bundle Builder Section
-  Delegates to snippets/bundle-builder.liquid
+  Self-contained bundle builder (inlined from snippet for reliability)
 {%- endcomment -%}
 
-{% render 'bundle-builder' %}
+{%- assign is_bundle = false -%}
+{%- if product.type == 'Combo Bundle' or product.tags contains 'bundle' -%}
+  {%- assign is_bundle = true -%}
+{%- endif -%}
+
+{%- assign bundle_handle = product.handle -%}
+{%- assign item_handles = '' -%}
+
+{%- case bundle_handle -%}
+  {%- when 'womens-festive-trio-buy-3' -%}
+    {%- assign item_handles = 'tokiyo-lifestyle-women-oversized-t-shirt-tovwo012,tokiyo-lifestyle-women-oversized-t-shirt-tovwo003,tokiyo-lifestyle-women-oversized-t-shirt-tovwo005' -%}
+    {%- assign bundle_badge = "Bappa's Blessings Special — Buy 3 @ ₹1969" -%}
+    {%- assign bundle_title_custom = "Women's Festive Trio (3 Oversized Tees)" -%}
+  {%- when 'womens-festive-duo-buy-2' -%}
+    {%- assign item_handles = 'tokiyo-lifestyle-women-oversized-t-shirt-tovwo003,tokiyo-lifestyle-women-oversized-t-shirt-tovwo005' -%}
+    {%- assign bundle_badge = "Festive Duo Special — Buy 2 @ ₹1349" -%}
+    {%- assign bundle_title_custom = "Women's Festive Duo (2 Oversized Tees)" -%}
+  {%- when 'mens-festive-duo-buy-2' -%}
+    {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm038,tokiyo-lifestyle-oversized-t-shirt-totm008' -%}
+    {%- assign bundle_badge = "Festive Duo Special — Buy 2 @ ₹1269" -%}
+    {%- assign bundle_title_custom = "Men's Festive Duo (2 Oversized Tees)" -%}
+  {%- when 'mens-festive-trio-buy-3' -%}
+    {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm038,tokiyo-lifestyle-oversized-t-shirt-totm006,tokiyo-lifestyle-oversized-t-shirt-totm008' -%}
+    {%- assign bundle_badge = "Festive Trio Special — Buy 3 @ ₹1869" -%}
+    {%- assign bundle_title_custom = "Men's Festive Trio (3 Oversized Tees)" -%}
+  {%- else -%}
+    {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm038,tokiyo-lifestyle-oversized-t-shirt-totm008' -%}
+    {%- assign bundle_badge = "Festive Combo Offer" -%}
+    {%- assign bundle_title_custom = product.title -%}
+{%- endcase -%}
+
+{%- assign handle_array = item_handles | split: ',' -%}
+{%- assign item_count = handle_array.size -%}
+
+<div class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ product.selected_or_first_available_variant.id }}" data-bundle-price="{{ product.price }}">
+  
+  {%- comment -%} Top Header {%- endcomment -%}
+  <div class="bundle-page__header">
+    <div class="bundle-page__badge">
+      <span class="bundle-page__badge-icon">✦</span>
+      <span>{{ bundle_badge }}</span>
+    </div>
+    <h1 class="bundle-page__title">{{ product.title }}</h1>
+    <p class="bundle-page__subtitle">Select your desired color and size for each item below to unlock this limited festive price.</p>
+  </div>
+
+  <div class="bundle-page__layout">
+    {%- comment -%} Left / Center: The Item Selector Cards {%- endcomment -%}
+    <div class="bundle-page__items">
+      {%- for handle in handle_array -%}
+        {%- assign bundled_product = all_products[handle] -%}
+        {%- if bundled_product != blank -%}
+          <div class="bundle-item-card" data-bundle-item="{{ forloop.index }}" data-product-handle="{{ bundled_product.handle }}" data-product-title="{{ bundled_product.title }}">
+            <div class="bundle-item-card__header">
+              <span class="bundle-item-card__step">ITEM {{ forloop.index }} OF {{ item_count }}</span>
+              <span class="bundle-item-card__status" data-item-status>Select Color & Size</span>
+            </div>
+
+            <div class="bundle-item-card__body">
+              {%- comment -%} Item Image {%- endcomment -%}
+              <div class="bundle-item-card__image-wrap">
+                <img 
+                  src="{{ bundled_product.featured_image | image_url: width: 600 }}" 
+                  alt="{{ bundled_product.title | escape }}" 
+                  class="bundle-item-card__img" 
+                  data-item-image
+                  loading="eager"
+                  width="300"
+                  height="360"
+                >
+                <div class="bundle-item-card__img-overlay"></div>
+              </div>
+
+              {%- comment -%} Item Controls {%- endcomment -%}
+              <div class="bundle-item-card__details">
+                <h3 class="bundle-item-card__title">
+                  <a href="{{ bundled_product.url }}" target="_blank" rel="noopener">{{ bundled_product.title }}</a>
+                </h3>
+
+                <script type="application/json" data-variants-json>
+                  {{ bundled_product.variants | json }}
+                </script>
+
+                {%- for option in bundled_product.options_with_values -%}
+                  {%- if option.name == 'Color' or option.name == 'Colour' -%}
+                    <div class="bundle-item-card__option-group" data-option-group="color">
+                      <div class="bundle-item-card__option-header">
+                        <span class="bundle-item-card__option-label">Color:</span>
+                        <span class="bundle-item-card__option-value" data-selected-color>{{ option.values.first }}</span>
+                      </div>
+                      <div class="bundle-item-card__swatches">
+                        {%- for val in option.values -%}
+                          {%- assign val_lower = val | downcase | replace: ' ', '' -%}
+                          {%- assign color_img_url = '' -%}
+                          {%- for v in bundled_product.variants -%}
+                            {%- if v.options contains val and v.image != blank -%}
+                              {%- assign color_img_url = v.image | image_url: width: 600 -%}
+                              {%- break -%}
+                            {%- endif -%}
+                          {%- endfor -%}
+                          <button 
+                            type="button" 
+                            class="bundle-swatch {% if forloop.first %}is-active{% endif %}" 
+                            data-swatch-val="{{ val | escape }}" 
+                            data-swatch-img="{{ color_img_url }}"
+                            aria-label="Select {{ val }}"
+                          >
+                            <span class="bundle-swatch__circle swatch-{{ val_lower }}"></span>
+                            <span class="bundle-swatch__name">{{ val }}</span>
+                          </button>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- for option in bundled_product.options_with_values -%}
+                  {%- if option.name == 'Size' -%}
+                    <div class="bundle-item-card__option-group" data-option-group="size">
+                      <div class="bundle-item-card__option-header">
+                        <span class="bundle-item-card__option-label">Size:</span>
+                        <span class="bundle-item-card__option-value" data-selected-size>M</span>
+                      </div>
+                      <div class="bundle-item-card__sizes">
+                        {%- for val in option.values -%}
+                          <button 
+                            type="button" 
+                            class="bundle-size-btn {% if val == 'M' or forloop.first and option.values contains 'M' == false %}is-active{% endif %}" 
+                            data-size-val="{{ val | escape }}"
+                          >
+                            {{ val }}
+                          </button>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Right: Sticky Bundle Summary Card {%- endcomment -%}
+    <div class="bundle-page__summary-wrap">
+      <div class="bundle-summary-card">
+        <div class="bundle-summary-card__festive-tag">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Festive Offer Summary
+        </div>
+
+        <h3 class="bundle-summary-card__title">{{ bundle_title_custom }}</h3>
+
+        <div class="bundle-summary-card__breakdown" data-summary-breakdown>
+          {%- for handle in handle_array -%}
+            {%- assign bp = all_products[handle] -%}
+            <div class="bundle-summary-card__row" data-summary-row="{{ forloop.index }}">
+              <span class="bundle-summary-card__item-name">{{ bp.title | truncate: 25 }}</span>
+              <span class="bundle-summary-card__item-choice" data-summary-choice>Loading...</span>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="bundle-summary-card__divider"></div>
+
+        <div class="bundle-summary-card__pricing">
+          <div class="bundle-summary-card__price-row">
+            <span class="bundle-summary-card__price-label">Bundle Price:</span>
+            <span class="bundle-summary-card__price-val">{{ product.price | money }}</span>
+          </div>
+          {%- if product.compare_at_price > product.price -%}
+            <div class="bundle-summary-card__price-row bundle-summary-card__price-row--compare">
+              <span class="bundle-summary-card__price-label">Total Value:</span>
+              <span class="bundle-summary-card__compare-val">{{ product.compare_at_price | money }}</span>
+            </div>
+            {%- assign save_amt = product.compare_at_price | minus: product.price -%}
+            <div class="bundle-summary-card__savings">
+              You Save {{ save_amt | money }} (Festive Discount)
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="bundle-summary-card__perks">
+          <span>✓ Free Shipping on Prepaid Orders</span>
+          <span>✓ 100% Premium 240 GSM Cotton</span>
+          <span>✓ Easy 7-Day Replacement</span>
+        </div>
+
+        <button type="button" class="button button--solid button--full bundle-summary-card__btn" data-add-bundle-btn>
+          <span class="bundle-btn__text">Add Complete Bundle to Cart • {{ product.price | money }}</span>
+          <span class="bundle-btn__spinner" style="display:none;">Adding...</span>
+        </button>
+        
+        <p class="bundle-summary-card__footnote">Special combo deal will be directly reflected in your checkout.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ─── Bundle Builder Aesthetics ─── */
+.bundle-page {
+  padding-top: 40px;
+  padding-bottom: 80px;
+}
+.bundle-page__header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+.bundle-page__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 0, 0, 0.12);
+  border: 1px solid rgba(255, 0, 0, 0.35);
+  color: #ff3333;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.15);
+}
+.bundle-page__badge-icon {
+  animation: pulse 1.8s infinite;
+}
+.bundle-page__title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 12px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.bundle-page__subtitle {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+}
+
+.bundle-page__layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 36px;
+  align-items: start;
+}
+
+@media (max-width: 989px) {
+  .bundle-page__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Item Selector Card ─── */
+.bundle-page__items {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.bundle-item-card {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.bundle-item-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.bundle-item-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.bundle-item-card__step {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #ff3333;
+}
+.bundle-item-card__status {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+}
+.bundle-item-card__status.is-ready {
+  color: #00e676;
+  font-weight: 700;
+}
+.bundle-item-card__body {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 24px;
+  align-items: center;
+}
+@media (max-width: 600px) {
+  .bundle-item-card__body {
+    grid-template-columns: 1fr;
+  }
+}
+.bundle-item-card__image-wrap {
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1a1a1a;
+  position: relative;
+}
+.bundle-item-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.bundle-item-card:hover .bundle-item-card__img {
+  transform: scale(1.03);
+}
+.bundle-item-card__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+.bundle-item-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+.bundle-item-card__title a:hover {
+  color: #ff3333;
+}
+
+.bundle-item-card__option-group {
+  margin-bottom: 16px;
+}
+.bundle-item-card__option-header {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.bundle-item-card__option-label {
+  color: rgba(255, 255, 255, 0.5);
+}
+.bundle-item-card__option-value {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Swatches */
+.bundle-item-card__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.bundle-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #181818;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: #e0e0e0;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.bundle-swatch:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: #222222;
+}
+.bundle-swatch.is-active {
+  border-color: #ff3333;
+  background: rgba(255, 0, 0, 0.1);
+  color: #ffffff;
+}
+.bundle-swatch__circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: inline-block;
+}
+.swatch-black { background-color: #111111; }
+.swatch-beige { background-color: #d6c6b2; }
+.swatch-white { background-color: #f5f5f5; }
+.swatch-peach { background-color: #f7a88e; }
+.swatch-lavender { background-color: #bfaee3; }
+.swatch-pista { background-color: #9cb89d; }
+.swatch-airforce { background-color: #245873; }
+.swatch-darkgrey { background-color: #404040; }
+
+/* Sizes */
+.bundle-item-card__sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.bundle-size-btn {
+  min-width: 44px;
+  height: 38px;
+  padding: 0 12px;
+  background: #181818;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #e0e0e0;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.bundle-size-btn:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: #222222;
+}
+.bundle-size-btn.is-active {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+/* ─── Sticky Summary Card ─── */
+.bundle-page__summary-wrap {
+  position: sticky;
+  top: 100px;
+}
+.bundle-summary-card {
+  background: #141414;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 0, 0, 0.1);
+}
+.bundle-summary-card__festive-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #ffd700;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.bundle-summary-card__title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 18px;
+  line-height: 1.25;
+}
+.bundle-summary-card__breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.bundle-summary-card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+.bundle-summary-card__item-name {
+  color: rgba(255, 255, 255, 0.6);
+}
+.bundle-summary-card__item-choice {
+  font-weight: 700;
+  color: #ffffff;
+}
+.bundle-summary-card__divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 18px 0;
+}
+.bundle-summary-card__pricing {
+  margin-bottom: 20px;
+}
+.bundle-summary-card__price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.bundle-summary-card__price-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.bundle-summary-card__price-val {
+  font-size: 28px;
+  font-weight: 900;
+  color: #ffffff;
+}
+.bundle-summary-card__compare-val {
+  font-size: 16px;
+  text-decoration: line-through;
+  color: rgba(255, 255, 255, 0.4);
+}
+.bundle-summary-card__savings {
+  display: inline-block;
+  background: rgba(0, 230, 118, 0.12);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+  color: #00e676;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+.bundle-summary-card__perks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 24px;
+}
+.bundle-summary-card__btn {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: 16px 20px;
+  border-radius: 12px;
+}
+.bundle-summary-card__footnote {
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 12px;
+  line-height: 1.4;
+}
+</style>
+
+<script>
+(function() {
+  function setupBundleBuilder() {
+    const container = document.querySelector('[data-bundle-builder]');
+    if (!container || container.dataset.initialized) return;
+    container.dataset.initialized = 'true';
+
+    const itemCards = container.querySelectorAll('[data-bundle-item]');
+    const breakdownContainer = container.querySelector('[data-summary-breakdown]');
+    const addBtn = container.querySelector('[data-add-bundle-btn]');
+    const bundleVariantId = container.dataset.bundleVariantId;
+
+    const selections = {};
+
+    itemCards.forEach(function(card) {
+      const itemNum = card.dataset.bundleItem;
+      const title = card.dataset.productTitle;
+      const activeSwatch = card.querySelector('.bundle-swatch.is-active');
+      const activeSize = card.querySelector('.bundle-size-btn.is-active');
+
+      selections[itemNum] = {
+        title: title,
+        color: activeSwatch ? activeSwatch.dataset.swatchVal : '',
+        size: activeSize ? activeSize.dataset.sizeVal : 'M',
+        colorImg: activeSwatch ? activeSwatch.dataset.swatchImg : ''
+      };
+
+      card.querySelectorAll('.bundle-swatch').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          card.querySelectorAll('.bundle-swatch').forEach(s => s.classList.remove('is-active'));
+          this.classList.add('is-active');
+          const colorVal = this.dataset.swatchVal;
+          const colorImg = this.dataset.swatchImg;
+          card.querySelector('[data-selected-color]').textContent = colorVal;
+          selections[itemNum].color = colorVal;
+          if (colorImg) {
+            const imgElem = card.querySelector('[data-item-image]');
+            if (imgElem) imgElem.src = colorImg;
+          }
+          updateSummary();
+        });
+      });
+
+      card.querySelectorAll('.bundle-size-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          card.querySelectorAll('.bundle-size-btn').forEach(s => s.classList.remove('is-active'));
+          this.classList.add('is-active');
+          const sizeVal = this.dataset.sizeVal;
+          card.querySelector('[data-selected-size]').textContent = sizeVal;
+          selections[itemNum].size = sizeVal;
+          updateSummary();
+        });
+      });
+    });
+
+    function updateSummary() {
+      Object.keys(selections).forEach(function(num) {
+        if (breakdownContainer) {
+          const row = breakdownContainer.querySelector(`[data-summary-row="${num}"]`);
+          if (row) {
+            const choiceSpan = row.querySelector('[data-summary-choice]');
+            const item = selections[num];
+            choiceSpan.textContent = `${item.color} / ${item.size}`;
+          }
+        }
+        const card = container.querySelector(`[data-bundle-item="${num}"]`);
+        if (card) {
+          const statusSpan = card.querySelector('[data-item-status]');
+          if (selections[num].color && selections[num].size) {
+            statusSpan.textContent = `✓ ${selections[num].color}, Size ${selections[num].size}`;
+            statusSpan.classList.add('is-ready');
+          }
+        }
+      });
+    }
+
+    updateSummary();
+
+    if (addBtn) {
+      addBtn.addEventListener('click', function() {
+        const btnText = addBtn.querySelector('.bundle-btn__text');
+        const btnSpinner = addBtn.querySelector('.bundle-btn__spinner');
+        btnText.style.display = 'none';
+        btnSpinner.style.display = 'inline-block';
+        addBtn.disabled = true;
+
+        const properties = { "_is_bundle": "true" };
+        Object.keys(selections).forEach(function(num) {
+          const sel = selections[num];
+          properties[`Item ${num}`] = `${sel.title} (${sel.color} / ${sel.size})`;
+        });
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: [{ id: parseInt(bundleVariantId), quantity: 1, properties: properties }]
+          })
+        })
+        .then(res => res.json())
+        .then(cartData => {
+          btnText.style.display = 'inline-block';
+          btnSpinner.style.display = 'none';
+          addBtn.disabled = false;
+          if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+            window.CartDrawer.open();
+          } else if (document.querySelector('[data-cart-drawer]')) {
+            document.querySelector('[data-cart-drawer]').classList.add('is-open');
+            document.body.classList.add('cart-drawer-open');
+            document.dispatchEvent(new CustomEvent('cart:updated', { detail: cartData }));
+          } else {
+            window.location.href = '/cart';
+          }
+        })
+        .catch(err => {
+          console.error("Error adding bundle to cart:", err);
+          btnText.style.display = 'inline-block';
+          btnSpinner.style.display = 'none';
+          addBtn.disabled = false;
+          alert("Could not add bundle to cart. Please try again.");
+        });
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupBundleBuilder);
+  } else {
+    setupBundleBuilder();
+  }
+})();
+</script>
 
 {% schema %}
 {
