@@ -53,7 +53,31 @@ window.syncCartPayment = function() {
     }
   }
 
-  const subtotalCents = window.cartSubtotalCents || 0;
+  // Retrieve accurate subtotal in cents
+  let subtotalCents = null;
+  if (typeof explicitSubtotalCents === 'number') {
+    subtotalCents = explicitSubtotalCents;
+    window.cartSubtotalCents = subtotalCents;
+  } else {
+    // Try reading from DOM elements with data-cart-subtotal
+    const drawerSubtotalEl = document.getElementById('DrawerTotalPriceDisplay') || document.getElementById('CartDrawer');
+    const pageSubtotalEl = document.getElementById('CartTotalPriceDisplay') || document.querySelector('.cart-page');
+    
+    if (drawerSubtotalEl && drawerSubtotalEl.dataset.cartSubtotal !== undefined) {
+      subtotalCents = parseFloat(drawerSubtotalEl.dataset.cartSubtotal);
+    } else if (pageSubtotalEl && pageSubtotalEl.dataset.cartSubtotal !== undefined) {
+      subtotalCents = parseFloat(pageSubtotalEl.dataset.cartSubtotal);
+    } else if (window.cartSubtotalCents !== undefined && window.cartSubtotalCents !== null) {
+      subtotalCents = window.cartSubtotalCents;
+    }
+  }
+
+  if (subtotalCents === null || isNaN(subtotalCents)) {
+    subtotalCents = window.cartSubtotalCents || 0;
+  } else {
+    window.cartSubtotalCents = subtotalCents;
+  }
+
   const subtotalRs = subtotalCents / 100;
   
   let codFee = 0;
@@ -68,7 +92,14 @@ window.syncCartPayment = function() {
 
   const subtotalPriceEl = document.getElementById('DrawerTotalPriceDisplay');
   if (subtotalPriceEl) {
-    subtotalPriceEl.innerText = formattedPrice;
+    // Only update if subtotal is known or display is not already formatted
+    if (subtotalCents > 0 || (subtotalPriceEl.dataset.cartSubtotal && subtotalPriceEl.dataset.cartSubtotal === '0')) {
+      subtotalPriceEl.innerText = formattedPrice;
+    } else if (subtotalPriceEl.dataset.cartSubtotal) {
+      const elCents = parseFloat(subtotalPriceEl.dataset.cartSubtotal) || 0;
+      const elTotal = (elCents / 100) + codFee;
+      subtotalPriceEl.innerText = '₹' + elTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
   }
   const codFeeRow = document.getElementById('CartCodFeeRow');
   if (codFeeRow) {
@@ -77,7 +108,13 @@ window.syncCartPayment = function() {
 
   const cartTotalPriceEl = document.getElementById('CartTotalPriceDisplay');
   if (cartTotalPriceEl) {
-    cartTotalPriceEl.innerText = formattedPrice;
+    if (subtotalCents > 0 || (cartTotalPriceEl.dataset.cartSubtotal && cartTotalPriceEl.dataset.cartSubtotal === '0')) {
+      cartTotalPriceEl.innerText = formattedPrice;
+    } else if (cartTotalPriceEl.dataset.cartSubtotal) {
+      const elCents = parseFloat(cartTotalPriceEl.dataset.cartSubtotal) || 0;
+      const elTotal = (elCents / 100) + codFee;
+      cartTotalPriceEl.innerText = '₹' + elTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
   }
   const cartCodFeeRow = document.getElementById('CartCodFeeSummaryRow');
   if (cartCodFeeRow) {
@@ -274,6 +311,10 @@ class TokiyoCart {
 
       const subtotalWithoutCod = subtotalCents / 100;
       const needsCodFee = method === 'cod' && subtotalWithoutCod < 1199;
+      window.cartSubtotalCents = subtotalCents;
+      if (typeof window.syncCartPayment === 'function') {
+        window.syncCartPayment(subtotalCents);
+      }
 
       let cartChanged = false;
       if (needsCodFee && !hasCodFee) {
@@ -341,8 +382,21 @@ class TokiyoCart {
       const cart = await this.getCart();
       this.updateCount(cart);
 
+      let subtotalCents = 0;
+      if (cart && cart.items) {
+        cart.items.forEach(item => {
+          if (Number(item.variant_id) !== Number(this.codFeeVariantId)) {
+            subtotalCents += item.final_line_price;
+          }
+        });
+      }
+      window.cartSubtotalCents = subtotalCents;
+
       // Re-update message & progress displays on page
       this.recoverPaymentMethod();
+      if (typeof window.syncCartPayment === 'function') {
+        window.syncCartPayment(subtotalCents);
+      }
     } catch(err) {
       console.error('Cart refresh failed:', err);
     }
