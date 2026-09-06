@@ -122,7 +122,7 @@
           <div class="cart-page__summary-divider"></div>
           <div class="cart-page__summary-row cart-page__summary-total">
             <span>Total</span>
-            <span id="CartTotalPriceDisplay">{{ cart_subtotal_cents | money }}</span>
+            <span id="CartTotalPriceDisplay" data-cart-subtotal="{{ cart_subtotal_cents }}">{{ cart_subtotal_cents | money }}</span>
           </div>
           <p class="cart-page__summary-note">Price is inclusive of GST.</p>
 

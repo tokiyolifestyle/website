@@ -1,4 +1,4 @@
-<{%- assign cart_item_count = 0 -%}
+{%- assign cart_item_count = 0 -%}
 {%- assign cart_subtotal_cents = 0 -%}
 {%- for item in cart.items -%}
   {%- if item.variant_id == 48862017716468 -%}{%- continue -%}{%- endif -%}
@@ -8,7 +8,7 @@
 
 <div class="cart-drawer-overlay" data-cart-overlay></div>
 
-<div class="cart-drawer" data-cart-drawer id="CartDrawer" aria-label="Cart" role="dialog" aria-modal="true" style="transform: translateX(100%); visibility: hidden;">
+<div class="cart-drawer" data-cart-drawer id="CartDrawer" data-cart-subtotal="{{ cart_subtotal_cents }}" aria-label="Cart" role="dialog" aria-modal="true" style="transform: translateX(100%); visibility: hidden;">
   <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm" style="display: flex; flex-direction: column; height: 100%; width: 100%; overflow: hidden; margin: 0;">
     {%- comment -%} Header stays fixed, everything below scrolls as one unit {%- endcomment -%}
     <div class="cart-drawer__header">
@@ -151,7 +151,7 @@
 
         <div class="cart-drawer__subtotal" style="font-size: 1.1rem; margin-bottom: 0.75rem;">
           <span>{{ 'sections.cart.subtotal' | t }}</span>
-          <span id="DrawerTotalPriceDisplay">{{ cart_subtotal_cents | money }}</span>
+          <span id="DrawerTotalPriceDisplay" data-cart-subtotal="{{ cart_subtotal_cents }}">{{ cart_subtotal_cents | money }}</span>
         </div>
 
         <script>
