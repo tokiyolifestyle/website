@@ -758,12 +758,17 @@
     padding: 1rem 0 0.5rem;
   }
 
-  /* ═══ 3D Card Grid (Made 3-4 points smaller & more compact) ═══ */
+  /* ═══ 3D Card Grid (Full-width grid on desktop, scroll track on mobile) ═══ */
   .catg-universe__grid {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 185px));
-    justify-content: center;
-    gap: 12px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+  @media(min-width: 768px) and (max-width: 1024px) {
+    .catg-universe__grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
   }
   @media(max-width: 767px) {
     .catg-universe__grid {
@@ -784,23 +789,18 @@
     }
   }
 
-  /* ═══ 3D Tilt Card — Made 3-4 points smaller ═══ */
+  /* ═══ 3D Tilt Card ═══ */
   .catg-card-3d {
     perspective: 800px;
     display: block;
     text-decoration: none;
+    width: 100%;
   }
   .catg-card-3d__inner {
     position: relative;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
     aspect-ratio: 4 / 5;
-    transform-style: preserve-3d;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    will-change: transform;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-  }
     transform-style: preserve-3d;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                 box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
