@@ -1,1 +1,1002 @@
-Kept the current branch version; the incoming branch repeats the same hero carousel logic, styles, and schema, so the final banner implementation is effectively the same.
+{%- comment -%}
+  Hero Banner Carousel — LimeRoad-style auto-sliding banner
+  Multiple slides with auto-play, dots, swipe, parallax
+{%- endcomment -%}
+
+<section class="hero-carousel" style="--hero-height:{{ section.settings.hero_height }}vh;" data-hero-carousel>
+  <div class="hero-carousel__track" data-hero-track>
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'slide' -%}
+        {%- assign is_combo_slide = false -%}
+        {%- if block.settings.cta_link contains 'festive' or block.settings.heading contains 'Festive' or block.settings.heading contains 'Duo' or block.settings.heading contains 'Trio' -%}
+          {%- assign is_combo_slide = true -%}
+        {%- endif -%}
+
+        <div class="hero-carousel__slide {% if forloop.first %}is-active{% endif %} {% if is_combo_slide %}hero-carousel__slide--combo{% endif %}" data-hero-slide="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.cta_link | default: '#' }}" class="hero-carousel__media-link" aria-label="Explore {{ block.settings.heading | escape }}">
+            <div class="hero-carousel__media">
+              {%- if is_combo_slide -%}
+                {%- comment -%} Luxury Festive Stage Background (replaces giant human photo) {%- endcomment -%}
+                <div class="hero-carousel__combo-stage-bg">
+                  <div class="hero-carousel__ambient-glow"></div>
+                  <div class="hero-carousel__gold-ring"></div>
+                  <div class="hero-carousel__stage-grid"></div>
+                </div>
+              {%- elsif block.settings.video_url != blank -%}
+                <video class="hero-carousel__video" autoplay muted loop playsinline aria-hidden="true">
+                  <source src="{{ block.settings.video_url }}" type="video/mp4">
+                </video>
+              {%- elsif block.settings.image != blank -%}
+                <picture>
+                  {%- if block.settings.image_mobile != blank -%}
+                    <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 750 }}">
+                  {%- endif -%}
+                  {%- if forloop.first -%}
+                    {{ block.settings.image | image_url: width: 1920 | image_tag:
+                      loading: 'eager',
+                      fetchpriority: 'high',
+                      widths: '750, 1100, 1440, 1920',
+                      sizes: '100vw',
+                      class: 'hero-carousel__img',
+                      data-parallax-img: '',
+                      alt: block.settings.image.alt | default: block.settings.heading | escape
+                    }}
+                  {%- else -%}
+                    {{ block.settings.image | image_url: width: 1920 | image_tag:
+                      loading: 'lazy',
+                      fetchpriority: 'low',
+                      widths: '750, 1100, 1440, 1920',
+                      sizes: '100vw',
+                      class: 'hero-carousel__img',
+                      data-parallax-img: '',
+                      alt: block.settings.image.alt | default: block.settings.heading | escape
+                    }}
+                  {%- endif -%}
+                </picture>
+              {%- else -%}
+                {%- assign slide_index = forloop.index0 | modulo: 6 | plus: 1 -%}
+                {%- case slide_index -%}
+                  {%- when 1 -%}
+                    {%- assign fallback_image_url = 'hero-slide-1.png' | asset_url -%}
+                  {%- when 2 -%}
+                    {%- assign fallback_image_url = 'hero-slide-2.png' | asset_url -%}
+                  {%- when 3 -%}
+                    {%- assign fallback_image_url = 'hero-slide-3.png' | asset_url -%}
+                  {%- when 4 -%}
+                    {%- assign fallback_image_url = 'hero-slide-4.png' | asset_url -%}
+                  {%- when 5 -%}
+                    {%- assign fallback_image_url = 'hero-slide-5.png' | asset_url -%}
+                  {%- when 6 -%}
+                    {%- assign fallback_image_url = 'hero-slide-6.png' | asset_url -%}
+                {%- endcase -%}
+                <img src="{{ fallback_image_url }}" class="hero-carousel__img" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" alt="{{ block.settings.heading | escape }}">
+              {%- endif -%}
+              <div class="hero-carousel__overlay" style="opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+              <div class="hero-carousel__gradient"></div>
+            </div>
+          </a>
+
+          {%- assign combo_img1 = '' -%}
+          {%- assign combo_img2 = '' -%}
+          {%- assign combo_img3 = '' -%}
+          {%- assign combo_title1 = '' -%}
+          {%- assign combo_title2 = '' -%}
+          {%- assign combo_title3 = '' -%}
+          {%- assign combo_badge_txt = '' -%}
+
+          {%- if block.settings.cta_link contains 'womens-festive-duo' -%}
+            {%- assign combo_img1 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO003_WH_1.png?v=1788286358' -%}
+            {%- assign combo_title1 = 'TOVWO003' -%}
+            {%- assign combo_img2 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO005_PE_1.png?v=1788286424' -%}
+            {%- assign combo_title2 = 'TOVWO005' -%}
+            {%- assign combo_badge_txt = 'BUY 2 @ ₹1,349' -%}
+          {%- elsif block.settings.cta_link contains 'womens-festive-trio' -%}
+            {%- assign combo_img1 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO012_BL_1.png?v=1788286604' -%}
+            {%- assign combo_title1 = 'TOVWO012' -%}
+            {%- assign combo_img2 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO003_WH_1.png?v=1788286358' -%}
+            {%- assign combo_title2 = 'TOVWO003' -%}
+            {%- assign combo_img3 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO005_PE_1.png?v=1788286424' -%}
+            {%- assign combo_title3 = 'TOVWO005' -%}
+            {%- assign combo_badge_txt = 'BUY 3 @ ₹1,969' -%}
+          {%- elsif block.settings.cta_link contains 'mens-festive-duo' -%}
+            {%- assign combo_img1 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM038_AI_2.png?v=1788285909' -%}
+            {%- assign combo_title1 = 'TOTM038' -%}
+            {%- assign combo_img2 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM008_PE_1.png?v=1788284976' -%}
+            {%- assign combo_title2 = 'TOTM008' -%}
+            {%- assign combo_badge_txt = 'BUY 2 @ ₹1,269' -%}
+          {%- elsif block.settings.cta_link contains 'mens-festive-trio' -%}
+            {%- assign combo_img1 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM038_AI_2.png?v=1788285909' -%}
+            {%- assign combo_title1 = 'TOTM038' -%}
+            {%- assign combo_img2 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM006_AI_2.png?v=1788284927' -%}
+            {%- assign combo_title2 = 'TOTM006' -%}
+            {%- assign combo_img3 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM008_PE_1.png?v=1788284976' -%}
+            {%- assign combo_title3 = 'TOTM008' -%}
+            {%- assign combo_badge_txt = 'BUY 3 @ ₹1,869' -%}
+          {%- endif -%}
+
+          <div class="hero-carousel__content page-width hero-carousel__content--{{ block.settings.content_alignment | default: section.settings.content_alignment }} {% if is_combo_slide %}hero-carousel__content--combo{% endif %}">
+            <div class="hero-carousel__text-side">
+              {%- if block.settings.eyebrow != blank -%}
+                <p class="text-eyebrow hero-carousel__eyebrow">{{ block.settings.eyebrow }}</p>
+              {%- endif -%}
+              {%- if block.settings.heading != blank -%}
+                <h2 class="hero-carousel__heading">{{ block.settings.heading }}</h2>
+              {%- endif -%}
+              {%- if block.settings.subheading != blank -%}
+                <p class="hero-carousel__subheading">{{ block.settings.subheading }}</p>
+              {%- endif -%}
+              <div class="hero-carousel__ctas">
+                {%- if block.settings.cta_label != blank -%}
+                  <a href="{{ block.settings.cta_link }}" class="button button--solid">{{ block.settings.cta_label }}</a>
+                {%- endif -%}
+                {%- if block.settings.cta2_label != blank -%}
+                  <a href="{{ block.settings.cta2_link }}" class="button button--white">{{ block.settings.cta2_label }}</a>
+                {%- endif -%}
+              </div>
+            </div>
+
+            {%- if is_combo_slide and combo_img1 != blank -%}
+              <a href="{{ block.settings.cta_link }}" class="hero-combo-display {% if combo_img3 != blank %}hero-combo-display--trio{% else %}hero-combo-display--duo{% endif %}" aria-label="Shop Combo">
+                <div class="hero-combo-display__pill">
+                  <span class="hero-combo-display__pill-icon">✦</span>
+                  <span>{{ combo_badge_txt }}</span>
+                </div>
+                <div class="hero-combo-display__cards">
+                  <div class="hero-combo-card hero-combo-card--1">
+                    <img src="{{ combo_img1 }}" alt="{{ combo_title1 }}" class="hero-combo-card__img" loading="eager">
+                    <span class="hero-combo-card__label">{{ combo_title1 }}</span>
+                  </div>
+                  <div class="hero-combo-connector">+</div>
+                  <div class="hero-combo-card hero-combo-card--2">
+                    <img src="{{ combo_img2 }}" alt="{{ combo_title2 }}" class="hero-combo-card__img" loading="eager">
+                    <span class="hero-combo-card__label">{{ combo_title2 }}</span>
+                  </div>
+                  {%- if combo_img3 != blank -%}
+                    <div class="hero-combo-connector">+</div>
+                    <div class="hero-combo-card hero-combo-card--3">
+                      <img src="{{ combo_img3 }}" alt="{{ combo_title3 }}" class="hero-combo-card__img" loading="eager">
+                      <span class="hero-combo-card__label">{{ combo_title3 }}</span>
+                    </div>
+                  {%- endif -%}
+                </div>
+                <div class="hero-combo-display__tap-hint">
+                  <span>⚡ Tap to Customize Sizes & Colors</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} Navigation Dots {%- endcomment -%}
+  {%- assign slide_count = 0 -%}
+  {%- for block in section.blocks -%}{%- if block.type == 'slide' -%}{%- assign slide_count = slide_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+  {%- if slide_count > 1 -%}
+    <div class="hero-carousel__dots" data-hero-dots>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'slide' -%}
+          <button class="hero-carousel__dot {% if forloop.first %}is-active{% endif %}" data-hero-dot="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}">
+            <span class="hero-carousel__dot-fill"></span>
+          </button>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Arrow Navigation {%- endcomment -%}
+    <button class="hero-carousel__arrow hero-carousel__arrow--prev" data-hero-prev aria-label="Previous slide">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="hero-carousel__arrow hero-carousel__arrow--next" data-hero-next aria-label="Next slide">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 6 15 12 9 18"/></svg>
+    </button>
+
+    {%- comment -%} Progress Bar {%- endcomment -%}
+    <div class="hero-carousel__progress">
+      <div class="hero-carousel__progress-bar" data-hero-progress></div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Scroll Indicator {%- endcomment -%}
+  <div class="hero-carousel__scroll-indicator">
+    <span></span>
+  </div>
+</section>
+
+<style>
+  /* ========== Hero Carousel ========== */
+  .hero-carousel {
+    position: relative;
+    height: var(--hero-height, 68vh);
+    min-height: 520px;
+    overflow: hidden;
+    background: #0A0A0A;
+  }
+
+  /* Track */
+  .hero-carousel__track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Slide */
+  .hero-carousel__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility 0.8s;
+    display: flex;
+    align-items: flex-end;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .hero-carousel__slide.is-active {
+    opacity: 1;
+    z-index: 3;
+    pointer-events: auto;
+    visibility: visible;
+  }
+  .hero-carousel__slide.is-exiting {
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  /* Media */
+  .hero-carousel__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-carousel__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35% !important;
+    transition: transform 8s linear;
+  }
+  .hero-carousel__slide.is-active .hero-carousel__img {
+    transform: scale(1.05);
+  }
+  .hero-carousel__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-carousel__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.05) !important;
+    opacity: 0.1 !important;
+  }
+  .hero-carousel__gradient {
+    display: none !important;
+  }
+
+
+  /* Content */
+  .hero-carousel__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-bottom: 3.5rem;
+  }
+  .hero-carousel__content--center { text-align: center; }
+  .hero-carousel__content--right { text-align: right; }
+  .hero-carousel__eyebrow {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroContentIn 0.6s 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .hero-carousel__heading {
+    font-size: clamp(1.6rem, 5vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 1.25rem;
+    color: #fff;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: heroContentIn 0.8s 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .hero-carousel__subheading {
+    font-size: 0.875rem;
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroContentIn 0.7s 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .hero-carousel__content--center .hero-carousel__subheading { margin-inline: auto; }
+  .hero-carousel__ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroContentIn 0.7s 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .hero-carousel__content--center .hero-carousel__ctas { justify-content: center; }
+  .hero-carousel__content--right .hero-carousel__ctas { justify-content: flex-end; }
+
+  /* ============================================================
+     Luxury Festive Stage & Hero Combo Showcase
+     ============================================================ */
+  .hero-carousel__slide--combo {
+    align-items: center;
+  }
+
+  /* Deep luxury dark stage background */
+  .hero-carousel__combo-stage-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 72% 50%, #20080a 0%, #140507 35%, #0c0c0e 70%, #060607 100%);
+    overflow: hidden;
+  }
+
+  .hero-carousel__ambient-glow {
+    position: absolute;
+    right: 4%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 680px;
+    height: 680px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(235, 30, 42, 0.32) 0%, rgba(255, 175, 0, 0.18) 35%, rgba(235, 30, 42, 0.05) 55%, transparent 75%);
+    filter: blur(45px);
+    pointer-events: none;
+    animation: heroStageBreathe 7s ease-in-out infinite alternate;
+  }
+
+  .hero-carousel__gold-ring {
+    position: absolute;
+    right: 7%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 530px;
+    height: 530px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 215, 0, 0.22);
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.08), inset 0 0 45px rgba(255, 80, 0, 0.08);
+    pointer-events: none;
+    animation: heroRingFloat 12s ease-in-out infinite alternate;
+  }
+
+  .hero-carousel__stage-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse at 72% 50%, black 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 72% 50%, black 20%, transparent 75%);
+    pointer-events: none;
+  }
+
+  @keyframes heroStageBreathe {
+    0% { transform: translateY(-50%) scale(0.92); opacity: 0.75; }
+    100% { transform: translateY(-50%) scale(1.06); opacity: 1; }
+  }
+
+  @keyframes heroRingFloat {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(180deg); }
+  }
+
+  /* Content Layout for Combo */
+  .hero-carousel__content--combo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    pointer-events: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .hero-carousel__text-side {
+    max-width: 520px;
+    flex: 1;
+    z-index: 2;
+  }
+
+  /* Hero Combo Showcase Stage */
+  .hero-combo-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 5;
+    padding: 12px;
+    border-radius: 28px;
+    background: radial-gradient(circle at 50% 30%, rgba(255, 215, 0, 0.04), transparent 70%);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity: 0;
+    transform: translateY(24px);
+    animation: heroContentIn 0.8s 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  .hero-combo-display:hover {
+    transform: translateY(-6px);
+  }
+
+  /* Price & Deal Pill */
+  .hero-combo-display__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ffd700 0%, #ff9500 50%, #eb1e2a 100%);
+    color: #000000;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 22px;
+    border-radius: 999px;
+    box-shadow: 0 6px 25px rgba(255, 170, 0, 0.45);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .hero-combo-display:hover .hero-combo-display__pill {
+    transform: scale(1.04);
+    box-shadow: 0 8px 30px rgba(255, 170, 0, 0.65);
+  }
+
+  .hero-combo-display__pill-icon {
+    font-size: 14px;
+    color: #000000;
+  }
+
+  /* Cards Cluster */
+  .hero-combo-display__cards {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+  }
+
+  /* Plus Connector */
+  .hero-combo-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #0f0f12;
+    border: 1.5px solid rgba(255, 215, 0, 0.65);
+    color: #ffd700;
+    font-size: 20px;
+    font-weight: 900;
+    box-shadow: 0 0 16px rgba(255, 215, 0, 0.35);
+    flex-shrink: 0;
+    z-index: 3;
+    pointer-events: none;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .hero-combo-display:hover .hero-combo-connector {
+    transform: rotate(90deg) scale(1.08);
+    border-color: #ffd700;
+  }
+
+  /* Individual Product Card */
+  .hero-combo-card {
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(180deg, #18181b 0%, #0d0d10 100%);
+    border: 1.5px solid rgba(255, 215, 0, 0.35);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85), 0 0 20px rgba(255, 140, 0, 0.15);
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* Duo Size (2 big cards) */
+  .hero-combo-display--duo .hero-combo-card {
+    width: 220px;
+    height: 275px;
+  }
+
+  /* Trio Size (3 cards) */
+  .hero-combo-display--trio .hero-combo-card {
+    width: 175px;
+    height: 235px;
+  }
+
+  .hero-combo-card:hover {
+    border-color: rgba(255, 215, 0, 0.85);
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 24px 55px rgba(0, 0, 0, 0.95), 0 0 32px rgba(255, 215, 0, 0.35);
+  }
+
+  .hero-combo-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .hero-combo-card:hover .hero-combo-card__img {
+    transform: scale(1.07);
+  }
+
+  .hero-combo-card__label {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    background: rgba(10, 10, 12, 0.85);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-align: center;
+    padding: 5px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* Interactive Tap Hint */
+  .hero-combo-display__tap-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    transition: all 0.25s ease;
+  }
+
+  .hero-combo-display:hover .hero-combo-display__tap-hint {
+    background: rgba(255, 215, 0, 0.18);
+    color: #ffd700;
+    border-color: rgba(255, 215, 0, 0.45);
+    transform: translateY(-2px);
+  }
+
+  /* Responsive styling */
+  @media (max-width: 989px) {
+    .hero-carousel {
+      height: auto !important;
+      min-height: 560px;
+    }
+    .hero-carousel__slide--combo {
+      align-items: flex-start;
+      padding-top: 1.5rem;
+      padding-bottom: 3.5rem;
+    }
+    .hero-carousel__content--combo {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+    .hero-carousel__text-side {
+      max-width: 100%;
+      text-align: center;
+    }
+    .hero-carousel__heading {
+      font-size: clamp(1.5rem, 6vw, 2.2rem);
+      margin-bottom: 0.75rem;
+    }
+    .hero-carousel__subheading {
+      font-size: 0.8rem;
+      margin-bottom: 1.5rem;
+      margin-inline: auto;
+    }
+    .hero-carousel__ctas {
+      justify-content: center;
+    }
+    .hero-combo-display--duo .hero-combo-card {
+      width: 140px;
+      height: 180px;
+    }
+    .hero-combo-display--trio .hero-combo-card {
+      width: 105px;
+      height: 135px;
+    }
+    .hero-combo-connector {
+      width: 28px;
+      height: 28px;
+      font-size: 15px;
+    }
+    .hero-carousel__ambient-glow {
+      right: 50%;
+      transform: translate(50%, -50%);
+      width: 400px;
+      height: 400px;
+    }
+    .hero-carousel__gold-ring {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-combo-display--duo .hero-combo-card {
+      width: 122px;
+      height: 155px;
+    }
+    .hero-combo-display--trio .hero-combo-card {
+      width: 86px;
+      height: 114px;
+    }
+    .hero-combo-connector {
+      width: 22px;
+      height: 22px;
+      font-size: 13px;
+    }
+    .hero-combo-display__pill {
+      font-size: 11px;
+      padding: 5px 14px;
+    }
+    .hero-combo-display__tap-hint {
+      font-size: 11px;
+      padding: 4px 12px;
+    }
+  }
+
+  .hero-carousel__slide:not(.is-active) .hero-carousel__eyebrow,
+  .hero-carousel__slide:not(.is-active) .hero-carousel__heading,
+  .hero-carousel__slide:not(.is-active) .hero-carousel__subheading,
+  .hero-carousel__slide:not(.is-active) .hero-carousel__ctas {
+    animation: none;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  @keyframes heroContentIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- Dots ---- */
+  .hero-carousel__dots {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+  }
+  .hero-carousel__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .hero-carousel__dot.is-active {
+    width: 36px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.2);
+  }
+  .hero-carousel__dot-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-accent, #ff0000);
+    transform: scaleX(0);
+    transform-origin: left;
+    border-radius: inherit;
+  }
+  .hero-carousel__dot.is-active .hero-carousel__dot-fill {
+    animation: dotProgress var(--hero-speed, 5s) linear forwards;
+  }
+  @keyframes dotProgress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* ---- Arrows ---- */
+  .hero-carousel__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+  }
+  .hero-carousel:hover .hero-carousel__arrow {
+    opacity: 1;
+  }
+  .hero-carousel__arrow:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-50%) scale(1.1);
+  }
+  .hero-carousel__arrow--prev { left: 1.5rem; }
+  .hero-carousel__arrow--next { right: 1.5rem; }
+
+  /* ---- Progress Bar ---- */
+  .hero-carousel__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    z-index: 10;
+  }
+  .hero-carousel__progress-bar {
+    height: 100%;
+    background: var(--color-accent, #ff0000);
+    width: 0%;
+    animation: heroProgress var(--hero-speed, 5s) linear forwards;
+  }
+  @keyframes heroProgress {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+
+  /* ---- Scroll Indicator ---- */
+  .hero-carousel__scroll-indicator {
+    position: absolute;
+    bottom: 5.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  .hero-carousel__scroll-indicator span {
+    display: block;
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--color-accent, #ff0000), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* ---- Responsive ---- */
+  @media(max-width: 749px) {
+    .hero-carousel {
+      height: auto !important;
+      min-height: 570px !important;
+      max-height: none !important;
+    }
+    .hero-carousel__slide--combo {
+      min-height: 570px !important;
+      align-items: flex-start !important;
+    }
+    .hero-carousel__content--combo {
+      padding-top: 1.75rem !important;
+      padding-bottom: 3.8rem !important;
+    }
+    .hero-carousel__heading {
+      font-size: 1.4rem !important;
+      line-height: 1.15 !important;
+      margin-bottom: 0.5rem !important;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+    }
+    .hero-carousel__subheading {
+      font-size: 0.76rem !important;
+      margin-bottom: 1.1rem !important;
+      line-height: 1.5 !important;
+      max-width: 92% !important;
+      margin-inline: auto !important;
+      display: block !important;
+      opacity: 0.85 !important;
+    }
+    .hero-carousel__ctas {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 8px !important;
+      justify-content: center !important;
+      margin-bottom: 1rem !important;
+    }
+    .hero-carousel__ctas .button {
+      padding: 9px 14px !important;
+      font-size: 11px !important;
+      white-space: nowrap !important;
+    }
+    .hero-combo-display {
+      margin-bottom: 0.5rem !important;
+    }
+    .hero-carousel__arrow {
+      display: none !important;
+    }
+    .hero-carousel__dots {
+      bottom: 1rem !important;
+      z-index: 25 !important;
+    }
+    .hero-carousel__scroll-indicator {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+(function(){
+  const carousel = document.querySelector('[data-hero-carousel]');
+  if(!carousel) return;
+
+  const slides = carousel.querySelectorAll('[data-hero-slide]');
+  const dots = carousel.querySelectorAll('[data-hero-dot]');
+  const progress = carousel.querySelector('[data-hero-progress]');
+  const prevBtn = carousel.querySelector('[data-hero-prev]');
+  const nextBtn = carousel.querySelector('[data-hero-next]');
+
+  if(slides.length < 2) return;
+
+  let current = 0;
+  const speed = {{ section.settings.autoplay_speed | default: 5 }} * 1000;
+  let autoplayTimer = null;
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  carousel.style.setProperty('--hero-speed', (speed / 1000) + 's');
+
+  function goToSlide(index, direction) {
+    if(index === current) return;
+    const prev = current;
+    current = index;
+
+    /* Reset content animations */
+    slides.forEach((s, i) => {
+      s.classList.remove('is-active', 'is-exiting');
+      if(i === prev) s.classList.add('is-exiting');
+    });
+    slides[current].classList.add('is-active');
+
+    /* Force re-trigger content animations */
+    const content = slides[current].querySelectorAll('.hero-carousel__eyebrow, .hero-carousel__heading, .hero-carousel__subheading, .hero-carousel__ctas');
+    content.forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight; /* trigger reflow */
+      el.style.animation = '';
+    });
+
+    /* Update dots */
+    dots.forEach((d, i) => {
+      d.classList.toggle('is-active', i === current);
+      const fill = d.querySelector('.hero-carousel__dot-fill');
+      if(fill) {
+        fill.style.animation = 'none';
+        fill.offsetHeight;
+        if(i === current) fill.style.animation = '';
+      }
+    });
+
+    /* Reset progress */
+    if(progress) {
+      progress.style.animation = 'none';
+      progress.offsetHeight;
+      progress.style.animation = '';
+    }
+
+    resetAutoplay();
+  }
+
+  function nextSlide() {
+    goToSlide((current + 1) % slides.length, 'next');
+  }
+  function prevSlide() {
+    goToSlide((current - 1 + slides.length) % slides.length, 'prev');
+  }
+
+  function resetAutoplay() {
+    clearInterval(autoplayTimer);
+    autoplayTimer = setInterval(nextSlide, speed);
+  }
+
+  /* Events */
+  if(prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); });
+  if(nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); });
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => { goToSlide(parseInt(dot.dataset.heroDot)); });
+  });
+
+  /* Touch/Swipe */
+  carousel.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+  carousel.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if(Math.abs(diff) > 50) {
+      diff > 0 ? nextSlide() : prevSlide();
+    }
+  }, { passive: true });
+
+  /* Parallax on scroll */
+  window.addEventListener('scroll', () => {
+    const rect = carousel.getBoundingClientRect();
+    if(rect.bottom > 0) {
+      const scrolled = window.scrollY;
+      const rate = scrolled * 0.3;
+      const activeMedia = slides[current]?.querySelector('.hero-carousel__media');
+      if(activeMedia) {
+        activeMedia.style.transform = `translateY(${rate}px)`;
+      }
+      carousel.style.opacity = Math.max(0, 1 - (scrolled / (carousel.offsetHeight * 0.8)));
+    }
+  }, { passive: true });
+
+  /* Pause on hover */
+  carousel.addEventListener('mouseenter', () => { clearInterval(autoplayTimer); });
+  carousel.addEventListener('mouseleave', () => { resetAutoplay(); });
+
+  /* Start autoplay */
+  resetAutoplay();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hero Carousel",
+  "tag": "section",
+  "class": "section-hero-carousel",
+  "settings": [
+    { "type": "range", "id": "hero_height", "min": 40, "max": 100, "step": 5, "unit": "vh", "label": "Banner height", "default": 65 },
+    { "type": "select", "id": "content_alignment", "label": "Default content alignment", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}], "default": "left" },
+    { "type": "range", "id": "autoplay_speed", "min": 3, "max": 10, "step": 1, "unit": "s", "label": "Auto-play speed", "default": 5 }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Background image" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile background image (Optional)" },
+        { "type": "text", "id": "video_url", "label": "Video URL (.mp4)", "info": "Overrides image if set" },
+        { "type": "color", "id": "bg_color", "label": "Fallback background color", "default": "#0A0A0A" },
+        { "type": "range", "id": "overlay_opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "label": "Overlay darkness", "default": 45 },
+        { "type": "select", "id": "content_alignment", "label": "Content alignment", "options": [{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}], "default": "left" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "New Collection" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Redefine Your Style" },
+        { "type": "text", "id": "subheading", "label": "Subheading", "default": "Premium fashion crafted for those who dare to stand out." },
+        { "type": "text", "id": "cta_label", "label": "Primary button label", "default": "Shop Now" },
+        { "type": "url", "id": "cta_link", "label": "Primary button link" },
+        { "type": "text", "id": "cta2_label", "label": "Secondary button label" },
+        { "type": "url", "id": "cta2_link", "label": "Secondary button link" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Hero Carousel",
+    "blocks": [
+      { "type": "slide", "settings": { "eyebrow": "Summer '26 Collection", "heading": "Redefine Your Style", "subheading": "Premium fashion crafted for those who dare to stand out. Explore the new collection.", "cta_label": "Shop Now", "cta_link": "/collections/all", "cta2_label": "Explore Collections", "overlay_opacity": 45, "content_alignment": "left" } },
+      { "type": "slide", "settings": { "eyebrow": "Limited Edition", "heading": "Oversized Excellence", "subheading": "Drop-shoulder fits that redefine comfort. Premium cotton, bold graphics.", "cta_label": "Shop Oversized", "cta_link": "/collections/all", "overlay_opacity": 50, "content_alignment": "center" } },
+      { "type": "slide", "settings": { "eyebrow": "New Arrivals", "heading": "Streetwear Drops", "subheading": "Urban aesthetics meets premium quality. Your street, your rules.", "cta_label": "Explore Now", "cta_link": "/collections/all", "overlay_opacity": 45, "content_alignment": "left" } },
+      { "type": "slide", "settings": { "eyebrow": "Best Sellers", "heading": "Anime Collection", "subheading": "Wear your favorite characters. Limited edition anime-inspired designs.", "cta_label": "Shop Anime", "cta_link": "/collections/all", "overlay_opacity": 50, "content_alignment": "right" } }
+    ]
+  }]
+}
+{% endschema %}
+
