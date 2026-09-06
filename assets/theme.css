@@ -1702,9 +1702,10 @@ html, body { padding-bottom: 0 !important; }
 
 /* --- Mobile Horizontal Left-to-Right Sliders for Homepage Sections & Mobile Product Card Polish --- */
 @media (max-width: 749px) {
-  /* Homepage product grid sliders (New Arrivals, Bestsellers) — except discovery grid */
-  .template-index .product-grid:not(.catg-discovery-grid) {
+  /* Homepage product grid sliders (New Arrivals, Bestsellers, Trending Daily Picks) */
+  .template-index .product-grid {
     display: flex !important;
+    flex-wrap: nowrap !important;
     overflow-x: auto !important;
     scroll-snap-type: x mandatory !important;
     scroll-behavior: smooth !important;
@@ -1714,10 +1715,11 @@ html, body { padding-bottom: 0 !important; }
     padding-inline: 16px !important;
     margin-inline: -16px !important;
   }
-  .template-index .product-grid:not(.catg-discovery-grid)::-webkit-scrollbar {
+  .template-index .product-grid::-webkit-scrollbar {
     display: none !important;
   }
-  .template-index .product-grid:not(.catg-discovery-grid) > .product-card {
+  .template-index .product-grid > .product-card,
+  .template-index .product-grid > .catg-discovery-card-wrapper {
     flex: 0 0 168px !important;
     min-width: 168px !important;
     max-width: 168px !important;
