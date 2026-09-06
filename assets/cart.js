@@ -300,10 +300,12 @@ class TokiyoCart {
       
       let subtotalCents = 0;
       let hasCodFee = false;
+      let codItemKey = null;
       
       cart.items.forEach(item => {
         if (Number(item.variant_id) === Number(this.codFeeVariantId)) {
           hasCodFee = true;
+          codItemKey = item.key;
         } else {
           subtotalCents += item.final_line_price;
         }
@@ -324,11 +326,11 @@ class TokiyoCart {
           body: JSON.stringify({ items: [{ id: this.codFeeVariantId, quantity: 1 }] })
         });
         cartChanged = true;
-      } else if (!needsCodFee && hasCodFee) {
+      } else if (!needsCodFee && hasCodFee && codItemKey) {
         await fetch('/cart/change.js', {
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
-          body: JSON.stringify({ id: String(this.codFeeVariantId), quantity: 0 })
+          body: JSON.stringify({ id: codItemKey, quantity: 0 })
         });
         cartChanged = true;
       }
