@@ -805,23 +805,22 @@
         }
 
         function onSuccessAdd(data) {
-          fetch('/cart.js')
-            .then(r => r.json())
-            .then(cart => {
-              document.querySelectorAll('.cart-count-bubble, [data-cart-count], .cart-count, .cart-icon-bubble').forEach(el => {
-                el.textContent = cart.item_count;
-                el.removeAttribute('aria-hidden');
-              });
-            }).catch(e => console.log(e));
-
-          if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+          if (window.TokiyoCart && typeof window.TokiyoCart.openDrawer === 'function') {
+            window.TokiyoCart.openDrawer();
+          } else if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
             window.CartDrawer.open();
-          } else if (document.querySelector('[data-cart-drawer]')) {
-            document.querySelector('[data-cart-drawer]').classList.add('is-open');
-            document.body.classList.add('cart-drawer-open');
-            document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
+          } else if (typeof window.openCartDrawer === 'function') {
+            window.openCartDrawer();
           } else {
-            window.location.href = '/cart';
+            const toggle = document.querySelector('[data-cart-drawer-toggle]');
+            if (toggle) {
+              toggle.click();
+            } else if (document.querySelector('[data-cart-drawer]')) {
+              document.querySelector('[data-cart-drawer]').classList.add('is-open');
+              document.body.classList.add('cart-drawer-open');
+            } else {
+              window.location.href = '/cart';
+            }
           }
         }
 
