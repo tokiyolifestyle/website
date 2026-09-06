@@ -36,8 +36,8 @@
     {%- assign bundle_title_custom = product.title -%}
 {%- endcase -%}
 
-{%- assign clean_product_title = product.title | replace: '₹', 'Rs. ' | replace: '(Buy', '— Buy' | replace: ')', '' -%}
-{%- assign clean_bundle_badge = bundle_badge | replace: '₹', 'Rs. ' -%}
+{%- assign clean_product_title = bundle_title_custom | default: product.title -%}
+{%- assign clean_bundle_badge = bundle_badge -%}
 
 {%- assign handle_array = item_handles | split: ',' -%}
 {%- assign item_count = handle_array.size -%}
@@ -48,36 +48,13 @@
 {%- assign bundle_var_id = product.selected_or_first_available_variant.id | default: product.variants.first.id -%}
 <div id="bundle-selector" class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ bundle_var_id }}" data-bundle-price="{{ product.price }}">
   
-  {%- comment -%} Ganesh Puja Special Header (Direct Top Section) {%- endcomment -%}
-  <div class="bundle-page__header bundle-ganesh-header">
-    <div class="ganesh-header__banner">
-      <div class="ganesh-header__left-mascot">
-        <img src="{{ 'mooshak-namaste.jpg' | asset_url }}" alt="Mooshak Ji Namaste" class="ganesh-header__mooshak-img" loading="eager">
-        <span class="ganesh-header__mascot-tag">Mooshak Ji 🙏</span>
-      </div>
-
-      <div class="ganesh-header__center">
-        <div class="bundle-page__badge ganesh-badge">
-          <span class="ganesh-star">🐘</span>
-          <span>{{ clean_bundle_badge }}</span>
-        </div>
-        <h1 class="bundle-page__title ganesh-title">{{ clean_product_title }}</h1>
-        <p class="bundle-page__subtitle">Select color &amp; size for each tee below — Bappa's festive combo offer unlocked!</p>
-
-        <div class="ganesh-header__modak-perks">
-          <span class="modak-pill">🥮 Bappa's Modak Deal</span>
-          <span class="modak-pill">✓ Free Prepaid Delivery</span>
-          <span class="modak-pill">✓ 240 GSM Premium Cotton</span>
-        </div>
-      </div>
-
-      <div class="ganesh-header__right-anime">
-        <div class="anime-avatar-wrap">
-          <img src="https://cdn.shopify.com/s/files/1/0887/7234/6164/files/anime-boy-avatar.png?v=1700000000" alt="Tokiyo Anime Character" class="ganesh-header__anime-img" onerror="this.style.display='none'">
-          <span class="ganesh-header__anime-tag">Tokiyo Anime ✦</span>
-        </div>
-      </div>
+  <div class="bundle-page__header">
+    <div class="bundle-page__badge">
+      <span class="bundle-page__badge-icon">✦</span>
+      <span>{{ clean_bundle_badge }}</span>
     </div>
+    <h1 class="bundle-page__title">{{ clean_product_title }}</h1>
+    <p class="bundle-page__subtitle">Select color &amp; size for each tee below — festive combo offer unlocked!</p>
   </div>
 
   <div class="bundle-page__layout">
