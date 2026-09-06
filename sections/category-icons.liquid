@@ -349,7 +349,8 @@
                         {%- endif -%}
                       {%- endif -%}
                     {%- endif -%}
-                {%- if card_image == blank -%}
+                  {%- endfor -%}
+                {%- endif -%}
                   {%- assign card_image = fallback_collection.products.first.featured_image -%}
                 {%- endif -%}
                 {%- if card_image == blank -%}
