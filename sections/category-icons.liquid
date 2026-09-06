@@ -1243,6 +1243,38 @@
   }
   hideEmptySections();
 
+  /* ═══ Gender Tab Switching Handler ═══ */
+  function initCatgTabs() {
+    const tabs = document.querySelectorAll('[data-catg-tab]');
+    const panels = document.querySelectorAll('[data-catg-panel]');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetGender = this.getAttribute('data-catg-tab');
+        if (!targetGender) return;
+
+        tabs.forEach(t => {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        this.classList.add('is-active');
+        this.setAttribute('aria-selected', 'true');
+
+        panels.forEach(panel => {
+          if (panel.getAttribute('data-catg-panel') === targetGender) {
+            panel.classList.add('is-active');
+            panel.style.display = 'block';
+          } else {
+            panel.classList.remove('is-active');
+            panel.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+  initCatgTabs();
+
   /* ═══ Auto-scroll Quickstrip on Mobile ═══ */
   function initQuickstripAutoScroll() {
     const track = document.querySelector('.catg-quickstrip__track');

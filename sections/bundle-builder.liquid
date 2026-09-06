@@ -45,7 +45,8 @@
 {%- comment -%} ── Festive Snow & Sparkle Rain Container ── {%- endcomment -%}
 <div class="festive-rain-container" id="FestiveRainContainer" aria-hidden="true"></div>
 
-<div id="bundle-selector" class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ product.selected_or_first_available_variant.id }}" data-bundle-price="{{ product.price }}">
+{%- assign bundle_var_id = product.selected_or_first_available_variant.id | default: product.variants.first.id -%}
+<div id="bundle-selector" class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ bundle_var_id }}" data-bundle-price="{{ product.price }}">
   
   {%- comment -%} Ganesh Puja Special Header (Direct Top Section) {%- endcomment -%}
   <div class="bundle-page__header bundle-ganesh-header">
@@ -778,11 +779,20 @@
           properties[`Item ${num}`] = `${sel.title} (${sel.color} / ${sel.size})`;
         });
 
+        const targetVarId = parseInt(bundleVariantId) || parseInt("{{ product.variants.first.id }}");
+        if (!targetVarId || isNaN(targetVarId)) {
+          btnText.style.display = 'inline-block';
+          btnSpinner.style.display = 'none';
+          addBtn.disabled = false;
+          alert("Selected variant is currently unavailable. Please refresh.");
+          return;
+        }
+
         fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            items: [{ id: parseInt(bundleVariantId), quantity: 1, properties: properties }]
+            items: [{ id: targetVarId, quantity: 1, properties: properties }]
           })
         })
         .then(res => res.json())
@@ -790,6 +800,17 @@
           btnText.style.display = 'inline-block';
           btnSpinner.style.display = 'none';
           addBtn.disabled = false;
+
+          // Update header cart count bubbles everywhere
+          fetch('/cart.js')
+            .then(r => r.json())
+            .then(cart => {
+              document.querySelectorAll('.cart-count-bubble, [data-cart-count], .cart-count, .cart-icon-bubble').forEach(el => {
+                el.textContent = cart.item_count;
+                el.removeAttribute('aria-hidden');
+              });
+            }).catch(e => console.log(e));
+
           if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
             window.CartDrawer.open();
           } else if (document.querySelector('[data-cart-drawer]')) {
