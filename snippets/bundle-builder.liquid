@@ -135,7 +135,7 @@
                         {%- for val in option.values -%}
                           <button 
                             type="button" 
-                            class="bundle-size-btn {% if val == 'M' or forloop.first and option.values contains 'M' == false %}is-active{% endif %}" 
+                            class="bundle-size-btn {% if val == 'M' or forloop.first %}is-active{% endif %}" 
                             data-size-val="{{ val | escape }}"
                           >
                             {{ val }}
@@ -653,31 +653,85 @@
         btnSpinner.style.display = 'inline-block';
         addBtn.disabled = true;
 
-        const properties = {
-          "_is_bundle": "true"
-        };
+        const properties = { "_is_bundle": "true" };
+        const itemsToAdd = [];
 
-        Object.keys(selections).forEach(function(num) {
-          const sel = selections[num];
-          properties[`Item ${num}`] = `${sel.title} (${sel.color} / ${sel.size})`;
+        itemCards.forEach(function(card) {
+          const itemNum = card.dataset.bundleItem;
+          const sel = selections[itemNum];
+          if (!sel) return;
+          properties[`Item ${itemNum}`] = `${sel.title} (${sel.color} / ${sel.size})`;
+
+          const variantsJson = card.querySelector('[data-variants-json]');
+          if (variantsJson) {
+            try {
+              const variants = JSON.parse(variantsJson.textContent);
+              const targetColor = (sel.color || '').toLowerCase().trim();
+              const targetSize = (sel.size || '').toLowerCase().trim();
+              const match = variants.find(v => {
+                const opts = v.options.map(o => String(o).toLowerCase().trim());
+                const colorMatch = !targetColor || opts.some(o => o === targetColor || targetColor.includes(o) || o.includes(targetColor));
+                const sizeMatch = !targetSize || opts.some(o => o === targetSize);
+                return colorMatch && sizeMatch;
+              }) || variants.find(v => v.available) || variants[0];
+
+              if (match && match.id) {
+                itemsToAdd.push({
+                  id: parseInt(match.id),
+                  quantity: 1,
+                  properties: {
+                    "_bundle_title": "{{ bundle_title_custom | default: product.title | escape }}",
+                    "Selected Color": sel.color,
+                    "Selected Size": sel.size
+                  }
+                });
+              }
+            } catch(e) {
+              console.error("Variant parse error:", e);
+            }
+          }
         });
 
-        const payload = {
-          items: [
-            {
-              id: parseInt(bundleVariantId),
-              quantity: 1,
-              properties: properties
-            }
-          ]
-        };
+        const targetVarId = parseInt(bundleVariantId) || parseInt("{{ product.variants.first.id }}");
+        let payloadItems = [];
+
+        if (targetVarId && !isNaN(targetVarId)) {
+          payloadItems.push({ id: targetVarId, quantity: 1, properties: properties });
+        } else if (itemsToAdd.length > 0) {
+          payloadItems = itemsToAdd;
+        } else {
+          btnText.style.display = 'inline-block';
+          btnSpinner.style.display = 'none';
+          addBtn.disabled = false;
+          alert("Please select color and size for all items.");
+          return;
+        }
+
+        function onSuccessAdd(data) {
+          fetch('/cart.js')
+            .then(r => r.json())
+            .then(cart => {
+              document.querySelectorAll('.cart-count-bubble, [data-cart-count], .cart-count, .cart-icon-bubble').forEach(el => {
+                el.textContent = cart.item_count;
+                el.removeAttribute('aria-hidden');
+              });
+            }).catch(e => console.log(e));
+
+          if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+            window.CartDrawer.open();
+          } else if (document.querySelector('[data-cart-drawer]')) {
+            document.querySelector('[data-cart-drawer]').classList.add('is-open');
+            document.body.classList.add('cart-drawer-open');
+            document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
+          } else {
+            window.location.href = '/cart';
+          }
+        }
 
         fetch('/cart/add.js', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: payloadItems })
         })
         .then(res => res.json())
         .then(cartData => {
@@ -685,16 +739,28 @@
           btnSpinner.style.display = 'none';
           addBtn.disabled = false;
 
-          // Open cart drawer
-          if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
-            window.CartDrawer.open();
-          } else if (document.querySelector('[data-cart-drawer]')) {
-            document.querySelector('[data-cart-drawer]').classList.add('is-open');
-            document.body.classList.add('cart-drawer-open');
-            document.dispatchEvent(new CustomEvent('cart:updated', { detail: cartData }));
-          } else {
-            window.location.href = '/cart';
+          if (cartData.status && cartData.status >= 400) {
+            if (payloadItems.length === 1 && itemsToAdd.length > 0) {
+              return fetch('/cart/add.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ items: itemsToAdd })
+              })
+              .then(r => r.json())
+              .then(secondTryData => {
+                if (secondTryData.status && secondTryData.status >= 400) {
+                  alert("Could not add items to cart: " + (secondTryData.description || secondTryData.message));
+                  return;
+                }
+                onSuccessAdd(secondTryData);
+              });
+            } else {
+              alert("Could not add bundle to cart: " + (cartData.description || cartData.message));
+              return;
+            }
           }
+
+          onSuccessAdd(cartData);
         })
         .catch(err => {
           console.error("Error adding bundle to cart:", err);
