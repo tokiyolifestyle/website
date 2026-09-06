@@ -7,10 +7,22 @@
   <div class="hero-carousel__track" data-hero-track>
     {%- for block in section.blocks -%}
       {%- if block.type == 'slide' -%}
-        <div class="hero-carousel__slide {% if forloop.first %}is-active{% endif %}" data-hero-slide="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+        {%- assign is_combo_slide = false -%}
+        {%- if block.settings.cta_link contains 'festive' or block.settings.heading contains 'Festive' or block.settings.heading contains 'Duo' or block.settings.heading contains 'Trio' -%}
+          {%- assign is_combo_slide = true -%}
+        {%- endif -%}
+
+        <div class="hero-carousel__slide {% if forloop.first %}is-active{% endif %} {% if is_combo_slide %}hero-carousel__slide--combo{% endif %}" data-hero-slide="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
           <a href="{{ block.settings.cta_link | default: '#' }}" class="hero-carousel__media-link" aria-label="Explore {{ block.settings.heading | escape }}">
             <div class="hero-carousel__media">
-              {%- if block.settings.video_url != blank -%}
+              {%- if is_combo_slide -%}
+                {%- comment -%} Luxury Festive Stage Background (replaces giant human photo) {%- endcomment -%}
+                <div class="hero-carousel__combo-stage-bg">
+                  <div class="hero-carousel__ambient-glow"></div>
+                  <div class="hero-carousel__gold-ring"></div>
+                  <div class="hero-carousel__stage-grid"></div>
+                </div>
+              {%- elsif block.settings.video_url != blank -%}
                 <video class="hero-carousel__video" autoplay muted loop playsinline aria-hidden="true">
                   <source src="{{ block.settings.video_url }}" type="video/mp4">
                 </video>
@@ -63,11 +75,6 @@
               <div class="hero-carousel__gradient"></div>
             </div>
           </a>
-
-          {%- assign is_combo_slide = false -%}
-          {%- if block.settings.cta_link contains 'festive' or block.settings.heading contains 'Festive' or block.settings.heading contains 'Duo' or block.settings.heading contains 'Trio' -%}
-            {%- assign is_combo_slide = true -%}
-          {%- endif -%}
 
           {%- assign combo_img1 = '' -%}
           {%- assign combo_img2 = '' -%}
@@ -129,7 +136,7 @@
             </div>
 
             {%- if is_combo_slide and combo_img1 != blank -%}
-              <a href="{{ block.settings.cta_link }}" class="hero-combo-display" aria-label="Shop Combo">
+              <a href="{{ block.settings.cta_link }}" class="hero-combo-display {% if combo_img3 != blank %}hero-combo-display--trio{% else %}hero-combo-display--duo{% endif %}" aria-label="Shop Combo">
                 <div class="hero-combo-display__pill">
                   <span class="hero-combo-display__pill-icon">✦</span>
                   <span>{{ combo_badge_txt }}</span>
@@ -139,16 +146,22 @@
                     <img src="{{ combo_img1 }}" alt="{{ combo_title1 }}" class="hero-combo-card__img" loading="eager">
                     <span class="hero-combo-card__label">{{ combo_title1 }}</span>
                   </div>
+                  <div class="hero-combo-connector">+</div>
                   <div class="hero-combo-card hero-combo-card--2">
                     <img src="{{ combo_img2 }}" alt="{{ combo_title2 }}" class="hero-combo-card__img" loading="eager">
                     <span class="hero-combo-card__label">{{ combo_title2 }}</span>
                   </div>
                   {%- if combo_img3 != blank -%}
+                    <div class="hero-combo-connector">+</div>
                     <div class="hero-combo-card hero-combo-card--3">
                       <img src="{{ combo_img3 }}" alt="{{ combo_title3 }}" class="hero-combo-card__img" loading="eager">
                       <span class="hero-combo-card__label">{{ combo_title3 }}</span>
                     </div>
                   {%- endif -%}
+                </div>
+                <div class="hero-combo-display__tap-hint">
+                  <span>⚡ Tap to Customize Sizes & Colors</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
               </a>
             {%- endif -%}
@@ -196,8 +209,8 @@
   /* ========== Hero Carousel ========== */
   .hero-carousel {
     position: relative;
-    height: var(--hero-height, 65vh);
-    min-height: 380px;
+    height: var(--hero-height, 68vh);
+    min-height: 520px;
     overflow: hidden;
     background: #0A0A0A;
   }
@@ -314,18 +327,91 @@
   .hero-carousel__content--center .hero-carousel__ctas { justify-content: center; }
   .hero-carousel__content--right .hero-carousel__ctas { justify-content: flex-end; }
 
-  /* Combo Showcase Layout */
+  /* ============================================================
+     Luxury Festive Stage & Hero Combo Showcase
+     ============================================================ */
+  .hero-carousel__slide--combo {
+    align-items: center;
+  }
+
+  /* Deep luxury dark stage background */
+  .hero-carousel__combo-stage-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 72% 50%, #20080a 0%, #140507 35%, #0c0c0e 70%, #060607 100%);
+    overflow: hidden;
+  }
+
+  .hero-carousel__ambient-glow {
+    position: absolute;
+    right: 4%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 680px;
+    height: 680px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(235, 30, 42, 0.32) 0%, rgba(255, 175, 0, 0.18) 35%, rgba(235, 30, 42, 0.05) 55%, transparent 75%);
+    filter: blur(45px);
+    pointer-events: none;
+    animation: heroStageBreathe 7s ease-in-out infinite alternate;
+  }
+
+  .hero-carousel__gold-ring {
+    position: absolute;
+    right: 7%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 530px;
+    height: 530px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 215, 0, 0.22);
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.08), inset 0 0 45px rgba(255, 80, 0, 0.08);
+    pointer-events: none;
+    animation: heroRingFloat 12s ease-in-out infinite alternate;
+  }
+
+  .hero-carousel__stage-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse at 72% 50%, black 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 72% 50%, black 20%, transparent 75%);
+    pointer-events: none;
+  }
+
+  @keyframes heroStageBreathe {
+    0% { transform: translateY(-50%) scale(0.92); opacity: 0.75; }
+    100% { transform: translateY(-50%) scale(1.06); opacity: 1; }
+  }
+
+  @keyframes heroRingFloat {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(180deg); }
+  }
+
+  /* Content Layout for Combo */
   .hero-carousel__content--combo {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 30px;
+    gap: 40px;
     pointer-events: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
+
   .hero-carousel__text-side {
-    max-width: 540px;
+    max-width: 520px;
     flex: 1;
+    z-index: 2;
   }
+
+  /* Hero Combo Showcase Stage */
   .hero-combo-display {
     display: flex;
     flex-direction: column;
@@ -333,91 +419,239 @@
     gap: 14px;
     text-decoration: none;
     flex-shrink: 0;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    z-index: 5;
+    padding: 12px;
+    border-radius: 28px;
+    background: radial-gradient(circle at 50% 30%, rgba(255, 215, 0, 0.04), transparent 70%);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     opacity: 0;
-    transform: translateY(20px);
-    animation: heroContentIn 0.8s 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform: translateY(24px);
+    animation: heroContentIn 0.8s 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   }
+
   .hero-combo-display:hover {
-    transform: translateY(-4px) scale(1.02);
+    transform: translateY(-6px);
   }
+
+  /* Price & Deal Pill */
   .hero-combo-display__pill {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    gap: 8px;
+    background: linear-gradient(135deg, #ffd700 0%, #ff9500 50%, #eb1e2a 100%);
     color: #000000;
     font-size: 13px;
-    font-weight: 800;
+    font-weight: 900;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 6px 16px;
+    padding: 8px 22px;
     border-radius: 999px;
-    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 6px 25px rgba(255, 170, 0, 0.45);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
+
+  .hero-combo-display:hover .hero-combo-display__pill {
+    transform: scale(1.04);
+    box-shadow: 0 8px 30px rgba(255, 170, 0, 0.65);
+  }
+
   .hero-combo-display__pill-icon {
     font-size: 14px;
+    color: #000000;
   }
+
+  /* Cards Cluster */
   .hero-combo-display__cards {
     display: flex;
-    gap: 14px;
+    align-items: center;
+    gap: 12px;
+    position: relative;
   }
+
+  /* Plus Connector */
+  .hero-combo-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #0f0f12;
+    border: 1.5px solid rgba(255, 215, 0, 0.65);
+    color: #ffd700;
+    font-size: 20px;
+    font-weight: 900;
+    box-shadow: 0 0 16px rgba(255, 215, 0, 0.35);
+    flex-shrink: 0;
+    z-index: 3;
+    pointer-events: none;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .hero-combo-display:hover .hero-combo-connector {
+    transform: rotate(90deg) scale(1.08);
+    border-color: #ffd700;
+  }
+
+  /* Individual Product Card */
   .hero-combo-card {
-    width: 165px;
-    height: 205px;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
     position: relative;
-    background: #141414;
-    border: 1.5px solid rgba(255, 215, 0, 0.4);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
-    transition: all 0.3s ease;
+    background: linear-gradient(180deg, #18181b 0%, #0d0d10 100%);
+    border: 1.5px solid rgba(255, 215, 0, 0.35);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85), 0 0 20px rgba(255, 140, 0, 0.15);
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
-  @media (max-width: 749px) {
-    .hero-combo-card {
-      width: 125px;
-      height: 155px;
-      border-radius: 12px;
-    }
+
+  /* Duo Size (2 big cards) */
+  .hero-combo-display--duo .hero-combo-card {
+    width: 220px;
+    height: 275px;
   }
+
+  /* Trio Size (3 cards) */
+  .hero-combo-display--trio .hero-combo-card {
+    width: 175px;
+    height: 235px;
+  }
+
   .hero-combo-card:hover {
-    border-color: rgba(255, 215, 0, 0.6);
-    transform: translateY(-4px);
+    border-color: rgba(255, 215, 0, 0.85);
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 24px 55px rgba(0, 0, 0, 0.95), 0 0 32px rgba(255, 215, 0, 0.35);
   }
+
   .hero-combo-card__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
   }
+
+  .hero-combo-card:hover .hero-combo-card__img {
+    transform: scale(1.07);
+  }
+
   .hero-combo-card__label {
     position: absolute;
-    bottom: 6px;
-    left: 6px;
-    right: 6px;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(4px);
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    background: rgba(10, 10, 12, 0.85);
+    backdrop-filter: blur(8px);
     color: #ffffff;
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
     text-align: center;
-    padding: 3px 6px;
-    border-radius: 6px;
+    padding: 5px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
   }
+
+  /* Interactive Tap Hint */
+  .hero-combo-display__tap-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    transition: all 0.25s ease;
+  }
+
+  .hero-combo-display:hover .hero-combo-display__tap-hint {
+    background: rgba(255, 215, 0, 0.18);
+    color: #ffd700;
+    border-color: rgba(255, 215, 0, 0.45);
+    transform: translateY(-2px);
+  }
+
+  /* Responsive styling */
   @media (max-width: 989px) {
+    .hero-carousel {
+      height: auto !important;
+      min-height: 560px;
+    }
+    .hero-carousel__slide--combo {
+      align-items: flex-start;
+      padding-top: 1.5rem;
+      padding-bottom: 3.5rem;
+    }
     .hero-carousel__content--combo {
       flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
-      bottom: 4rem;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
     }
-    .hero-combo-display__cards {
-      gap: 8px;
+    .hero-carousel__text-side {
+      max-width: 100%;
+      text-align: center;
     }
-    .hero-combo-card {
-      width: 95px;
-      height: 120px;
+    .hero-carousel__heading {
+      font-size: clamp(1.5rem, 6vw, 2.2rem);
+      margin-bottom: 0.75rem;
+    }
+    .hero-carousel__subheading {
+      font-size: 0.8rem;
+      margin-bottom: 1.5rem;
+      margin-inline: auto;
+    }
+    .hero-carousel__ctas {
+      justify-content: center;
+    }
+    .hero-combo-display--duo .hero-combo-card {
+      width: 140px;
+      height: 180px;
+    }
+    .hero-combo-display--trio .hero-combo-card {
+      width: 105px;
+      height: 135px;
+    }
+    .hero-combo-connector {
+      width: 28px;
+      height: 28px;
+      font-size: 15px;
+    }
+    .hero-carousel__ambient-glow {
+      right: 50%;
+      transform: translate(50%, -50%);
+      width: 400px;
+      height: 400px;
+    }
+    .hero-carousel__gold-ring {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-combo-display--duo .hero-combo-card {
+      width: 122px;
+      height: 155px;
+    }
+    .hero-combo-display--trio .hero-combo-card {
+      width: 86px;
+      height: 114px;
+    }
+    .hero-combo-connector {
+      width: 22px;
+      height: 22px;
+      font-size: 13px;
     }
     .hero-combo-display__pill {
+      font-size: 11px;
+      padding: 5px 14px;
+    }
+    .hero-combo-display__tap-hint {
       font-size: 11px;
       padding: 4px 12px;
     }
