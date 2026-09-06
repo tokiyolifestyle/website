@@ -1,6 +1,8 @@
 {%- comment -%}
-  TOKIYO LIFESTYLE — Interactive Festive Combo / Bundle Builder
-  Allows selecting Color and Size for each item in the combo and adding to cart
+  TOKIYO LIFESTYLE - Ganesh Puja Festive Combo / Bundle Builder Section
+  - Hero image removed (shows bundle customization directly)
+  - Ganesh Puja Theme: Ganesha & Mooshak (Namaste Mouse) + Golden Modak + Anime Avatar
+  - Animated Festive Snow & Sparkle Rain Effect
 {%- endcomment -%}
 
 {%- assign is_bundle = false -%}
@@ -14,44 +16,48 @@
 {%- case bundle_handle -%}
   {%- when 'womens-festive-trio-buy-3' -%}
     {%- assign item_handles = 'tokiyo-lifestyle-women-oversized-t-shirt-tovwo012,tokiyo-lifestyle-women-oversized-t-shirt-tovwo003,tokiyo-lifestyle-women-oversized-t-shirt-tovwo005' -%}
-    {%- assign bundle_badge = "Bappa’s Blessings Special — Buy 3 @ ₹1969" -%}
+    {%- assign bundle_badge = "Bappa's Blessings Special — Buy 3 @ Rs. 1969" -%}
     {%- assign bundle_title_custom = "Women's Festive Trio (3 Oversized Tees)" -%}
   {%- when 'womens-festive-duo-buy-2' -%}
     {%- assign item_handles = 'tokiyo-lifestyle-women-oversized-t-shirt-tovwo003,tokiyo-lifestyle-women-oversized-t-shirt-tovwo005' -%}
-    {%- assign bundle_badge = "Festive Duo Special — Buy 2 @ ₹1349" -%}
+    {%- assign bundle_badge = "Ganesh Utsav Special — Buy 2 @ Rs. 1349" -%}
     {%- assign bundle_title_custom = "Women's Festive Duo (2 Oversized Tees)" -%}
   {%- when 'mens-festive-duo-buy-2' -%}
     {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm038,tokiyo-lifestyle-oversized-t-shirt-totm008' -%}
-    {%- assign bundle_badge = "Festive Duo Special — Buy 2 @ ₹1269" -%}
+    {%- assign bundle_badge = "Ganesh Utsav Special — Buy 2 @ Rs. 1269" -%}
     {%- assign bundle_title_custom = "Men's Festive Duo (2 Oversized Tees)" -%}
   {%- when 'mens-festive-trio-buy-3' -%}
     {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm038,tokiyo-lifestyle-oversized-t-shirt-totm006,tokiyo-lifestyle-oversized-t-shirt-totm008' -%}
-    {%- assign bundle_badge = "Festive Trio Special — Buy 3 @ ₹1869" -%}
+    {%- assign bundle_badge = "Bappa's Blessings Special — Buy 3 @ Rs. 1869" -%}
     {%- assign bundle_title_custom = "Men's Festive Trio (3 Oversized Tees)" -%}
   {%- else -%}
-    {%- comment -%} Fallback: check product description or tags {%- endcomment -%}
     {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm038,tokiyo-lifestyle-oversized-t-shirt-totm008' -%}
-    {%- assign bundle_badge = "Festive Combo Offer" -%}
+    {%- assign bundle_badge = "Bappa's Festive Combo Offer" -%}
     {%- assign bundle_title_custom = product.title -%}
 {%- endcase -%}
+
+{%- assign clean_product_title = bundle_title_custom | default: product.title -%}
+{%- assign clean_bundle_badge = bundle_badge -%}
 
 {%- assign handle_array = item_handles | split: ',' -%}
 {%- assign item_count = handle_array.size -%}
 
-<div class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ product.selected_or_first_available_variant.id }}" data-bundle-price="{{ product.price }}">
+{%- comment -%} ── Festive Snow & Sparkle Rain Container ── {%- endcomment -%}
+<div class="festive-rain-container" id="FestiveRainContainer" aria-hidden="true"></div>
+
+{%- assign bundle_var_id = product.selected_or_first_available_variant.id | default: product.variants.first.id -%}
+<div id="bundle-selector" class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ bundle_var_id }}" data-bundle-price="{{ product.price }}">
   
-  {%- comment -%} Top Breadcrumbs & Header {%- endcomment -%}
   <div class="bundle-page__header">
     <div class="bundle-page__badge">
       <span class="bundle-page__badge-icon">✦</span>
-      <span>{{ bundle_badge }}</span>
+      <span>{{ clean_bundle_badge }}</span>
     </div>
-    <h1 class="bundle-page__title">{{ product.title }}</h1>
-    <p class="bundle-page__subtitle">Select your desired color and size for each item below to unlock this limited festive price.</p>
+    <h1 class="bundle-page__title">{{ clean_product_title }}</h1>
+    <p class="bundle-page__subtitle">Select color &amp; size for each tee below — festive combo offer unlocked!</p>
   </div>
 
   <div class="bundle-page__layout">
-    {%- comment -%} Left / Center: The Item Selector Cards {%- endcomment -%}
     <div class="bundle-page__items">
       {%- for handle in handle_array -%}
         {%- assign bundled_product = all_products[handle] -%}
@@ -59,11 +65,10 @@
           <div class="bundle-item-card" data-bundle-item="{{ forloop.index }}" data-product-handle="{{ bundled_product.handle }}" data-product-title="{{ bundled_product.title }}">
             <div class="bundle-item-card__header">
               <span class="bundle-item-card__step">ITEM {{ forloop.index }} OF {{ item_count }}</span>
-              <span class="bundle-item-card__status" data-item-status>Select Color & Size</span>
+              <span class="bundle-item-card__status" data-item-status>Select Options</span>
             </div>
 
             <div class="bundle-item-card__body">
-              {%- comment -%} Item Image {%- endcomment -%}
               <div class="bundle-item-card__image-wrap">
                 <img 
                   src="{{ bundled_product.featured_image | image_url: width: 600 }}" 
@@ -74,21 +79,13 @@
                   width="300"
                   height="360"
                 >
-                <div class="bundle-item-card__img-overlay"></div>
               </div>
 
-              {%- comment -%} Item Controls {%- endcomment -%}
               <div class="bundle-item-card__details">
                 <h3 class="bundle-item-card__title">
                   <a href="{{ bundled_product.url }}" target="_blank" rel="noopener">{{ bundled_product.title }}</a>
                 </h3>
 
-                {%- comment -%} Hidden Variant Data for JS {%- endcomment -%}
-                <script type="application/json" data-variants-json>
-                  {{ bundled_product.variants | json }}
-                </script>
-
-                {%- comment -%} Color Selection {%- endcomment -%}
                 {%- for option in bundled_product.options_with_values -%}
                   {%- if option.name == 'Color' or option.name == 'Colour' -%}
                     <div class="bundle-item-card__option-group" data-option-group="color">
@@ -99,7 +96,6 @@
                       <div class="bundle-item-card__swatches">
                         {%- for val in option.values -%}
                           {%- assign val_lower = val | downcase | replace: ' ', '' -%}
-                          {%- comment -%} Find variant image for this color {%- endcomment -%}
                           {%- assign color_img_url = '' -%}
                           {%- for v in bundled_product.variants -%}
                             {%- if v.options contains val and v.image != blank -%}
@@ -123,7 +119,6 @@
                   {%- endif -%}
                 {%- endfor -%}
 
-                {%- comment -%} Size Selection {%- endcomment -%}
                 {%- for option in bundled_product.options_with_values -%}
                   {%- if option.name == 'Size' -%}
                     <div class="bundle-item-card__option-group" data-option-group="size">
@@ -132,10 +127,12 @@
                         <span class="bundle-item-card__option-value" data-selected-size>M</span>
                       </div>
                       <div class="bundle-item-card__sizes">
+                        {%- assign has_size_m = false -%}
+                        {%- if option.values contains 'M' -%}{%- assign has_size_m = true -%}{%- endif -%}
                         {%- for val in option.values -%}
                           <button 
                             type="button" 
-                            class="bundle-size-btn {% if val == 'M' or forloop.first %}is-active{% endif %}" 
+                            class="bundle-size-btn {% if val == 'M' or forloop.first and has_size_m == false %}is-active{% endif %}" 
                             data-size-val="{{ val | escape }}"
                           >
                             {{ val }}
@@ -153,22 +150,19 @@
       {%- endfor -%}
     </div>
 
-    {%- comment -%} Right / Bottom: Sticky Bundle Summary Card {%- endcomment -%}
     <div class="bundle-page__summary-wrap">
-      <div class="bundle-summary-card">
+      <div class="bundle-summary-card ganesh-summary-card">
         <div class="bundle-summary-card__festive-tag">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Festive Offer Summary
+          🥮 Bappa's Festive Summary
         </div>
 
-        <h3 class="bundle-summary-card__title">{{ bundle_title_custom }}</h3>
+        <h3 class="bundle-summary-card__title">{{ bundle_title_custom | replace: '₹', 'Rs. ' }}</h3>
 
-        {%- comment -%} Live Selection Breakdown {%- endcomment -%}
         <div class="bundle-summary-card__breakdown" data-summary-breakdown>
           {%- for handle in handle_array -%}
             {%- assign bp = all_products[handle] -%}
             <div class="bundle-summary-card__row" data-summary-row="{{ forloop.index }}">
-              <span class="bundle-summary-card__item-name">{{ bp.title | truncate: 25 }}</span>
+              <span class="bundle-summary-card__item-name">{{ bp.title | replace: 'Tokiyo Lifestyle ', '' | truncate: 22 }}</span>
               <span class="bundle-summary-card__item-choice" data-summary-choice>Loading...</span>
             </div>
           {%- endfor -%}
@@ -176,7 +170,6 @@
 
         <div class="bundle-summary-card__divider"></div>
 
-        {%- comment -%} Pricing Details {%- endcomment -%}
         <div class="bundle-summary-card__pricing">
           <div class="bundle-summary-card__price-row">
             <span class="bundle-summary-card__price-label">Bundle Price:</span>
@@ -189,7 +182,7 @@
             </div>
             {%- assign save_amt = product.compare_at_price | minus: product.price -%}
             <div class="bundle-summary-card__savings">
-              You Save {{ save_amt | money }} (Festive Discount)
+              You Save {{ save_amt | money }} (Ganesh Utsav Offer)
             </div>
           {%- endif -%}
         </div>
@@ -200,66 +193,185 @@
           <span>✓ Easy 7-Day Replacement</span>
         </div>
 
-        {%- comment -%} Add to Cart Button {%- endcomment -%}
-        <button type="button" class="button button--solid button--full bundle-summary-card__btn" data-add-bundle-btn>
-          <span class="bundle-btn__text">Add Complete Bundle to Cart • {{ product.price | money }}</span>
+        <button type="button" class="bundle-summary-card__btn ganesh-btn" data-add-bundle-btn>
+          <span class="bundle-btn__text">ADD BUNDLE TO CART • {{ product.price | money }}</span>
           <span class="bundle-btn__spinner" style="display:none;">Adding...</span>
         </button>
         
-        <p class="bundle-summary-card__footnote">Special combo deal will be directly reflected in your checkout.</p>
+        <p class="bundle-summary-card__footnote">Ganpati Bappa Morya! Offer auto-applied in cart.</p>
       </div>
     </div>
   </div>
 </div>
 
 <style>
-/* ─── Bundle Builder Aesthetics ─── */
-.bundle-page {
-  padding-top: 40px;
-  padding-bottom: 80px;
-}
-.bundle-page__header {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto 40px;
-}
-.bundle-page__badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 0, 0, 0.12);
-  border: 1px solid rgba(255, 0, 0, 0.35);
-  color: #ff3333;
-  padding: 6px 16px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 16px;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.15);
-}
-.bundle-page__badge-icon {
-  animation: pulse 1.8s infinite;
-}
-.bundle-page__title {
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 12px;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
-.bundle-page__subtitle {
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.6;
+/* Reset & Modern Typography Enforcement */
+.bundle-page,
+.bundle-page * {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  box-sizing: border-box;
 }
 
+/* ═══════════════════════════════════════════
+   GANESH PUJA FESTIVE HEADER (NO HERO IMAGE)
+═══════════════════════════════════════════ */
+.bundle-page {
+  padding-top: 24px;
+  padding-bottom: 80px;
+}
+
+.ganesh-header__banner {
+  display: grid;
+  grid-template-columns: 140px 1fr 120px;
+  gap: 20px;
+  align-items: center;
+  background: linear-gradient(135deg, #140d07 0%, #1e1107 50%, #0d0d0d 100%);
+  border: 1.5px solid rgba(255, 180, 0, 0.4);
+  border-radius: 20px;
+  padding: 24px 28px;
+  box-shadow: 0 12px 36px rgba(255, 120, 0, 0.15), inset 0 0 30px rgba(255, 180, 0, 0.05);
+  margin-bottom: 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ganesh-header__left-mascot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.ganesh-header__mooshak-img {
+  width: 95px;
+  height: 95px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+.ganesh-header__mooshak-img:hover {
+  transform: scale(1.08) rotate(3deg);
+}
+.ganesh-header__mascot-tag {
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffd700;
+  margin-top: 6px;
+  letter-spacing: 0.04em;
+}
+
+.ganesh-header__center {
+  text-align: center;
+}
+
+.ganesh-badge {
+  background: rgba(255, 180, 0, 0.15) !important;
+  border: 1px solid rgba(255, 215, 0, 0.4) !important;
+  color: #ffd700 !important;
+}
+
+.ganesh-title {
+  color: #ffffff !important;
+  font-size: clamp(22px, 3.5vw, 36px) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em !important;
+  margin: 10px 0 !important;
+}
+
+.ganesh-header__modak-perks {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.modak-pill {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffe0b2;
+  background: rgba(255, 152, 0, 0.15);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.ganesh-header__right-anime {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.anime-avatar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ganesh-header__anime-img {
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ff4444;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+.ganesh-header__anime-tag {
+  font-size: 10px;
+  font-weight: 800;
+  color: #ff6666;
+  margin-top: 6px;
+}
+
+@media (max-width: 749px) {
+  .ganesh-header__banner {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .ganesh-header__left-mascot { order: -2; }
+  .ganesh-header__right-anime { display: none; } /* Hide secondary on small mobile */
+  .ganesh-header__mooshak-img { width: 80px; height: 80px; }
+}
+
+/* ═══════════════════════════════════════════
+   FLOATING FESTIVE SNOW & SPARKLES RAIN
+═══════════════════════════════════════════ */
+.festive-rain-container {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 99999;
+  overflow: hidden;
+}
+
+.festive-flake {
+  position: absolute;
+  top: -40px;
+  color: #ffffff;
+  user-select: none;
+  pointer-events: none;
+  animation: festiveFall linear infinite;
+}
+
+@keyframes festiveFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   BUNDLE CARDS & SUMMARY
+═══════════════════════════════════════════ */
 .bundle-page__layout {
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 36px;
+  grid-template-columns: 1fr 370px;
+  gap: 32px;
   align-items: start;
 }
 
@@ -269,35 +381,28 @@
   }
 }
 
-/* ─── Item Selector Card ─── */
 .bundle-page__items {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 .bundle-item-card {
   background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 24px;
-  transition: border-color 0.25s, box-shadow 0.25s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 20px;
   position: relative;
-  overflow: hidden;
-}
-.bundle-item-card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 .bundle-item-card__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .bundle-item-card__step {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.1em;
   color: #ff3333;
@@ -305,138 +410,100 @@
 .bundle-item-card__status {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
-  font-weight: 500;
 }
 .bundle-item-card__status.is-ready {
   color: #00e676;
   font-weight: 700;
 }
+
 .bundle-item-card__body {
   display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 24px;
-  align-items: center;
+  grid-template-columns: 130px 1fr;
+  gap: 20px;
+  align-items: start;
 }
-@media (max-width: 600px) {
+@media (max-width: 550px) {
   .bundle-item-card__body {
-    grid-template-columns: 1fr;
+    grid-template-columns: 100px 1fr;
+    gap: 14px;
   }
 }
+
 .bundle-item-card__image-wrap {
   aspect-ratio: 4 / 5;
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
   background: #1a1a1a;
-  position: relative;
 }
 .bundle-item-card__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
 }
-.bundle-item-card:hover .bundle-item-card__img {
-  transform: scale(1.03);
-}
+
 .bundle-item-card__title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 16px;
-  line-height: 1.3;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin: 0 0 14px !important;
+  line-height: 1.35 !important;
 }
-.bundle-item-card__title a {
-  color: inherit;
-  text-decoration: none;
-}
-.bundle-item-card__title a:hover {
-  color: #ff3333;
-}
+.bundle-item-card__title a { color: inherit; text-decoration: none; }
 
-.bundle-item-card__option-group {
-  margin-bottom: 16px;
-}
-.bundle-item-card__option-header {
-  display: flex;
-  gap: 8px;
-  font-size: 13px;
-  margin-bottom: 8px;
-}
-.bundle-item-card__option-label {
-  color: rgba(255, 255, 255, 0.5);
-}
-.bundle-item-card__option-value {
-  color: #ffffff;
-  font-weight: 700;
-}
+.bundle-item-card__option-group { margin-bottom: 14px; }
+.bundle-item-card__option-header { display: flex; gap: 6px; font-size: 12px; margin-bottom: 8px; }
+.bundle-item-card__option-label { color: rgba(255, 255, 255, 0.5); }
+.bundle-item-card__option-value { color: #ffffff; font-weight: 700; }
 
-/* Swatches */
-.bundle-item-card__swatches {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.bundle-swatch {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #181818;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  padding: 6px 12px;
-  color: #e0e0e0;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.bundle-swatch:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: #222222;
-}
-.bundle-swatch.is-active {
-  border-color: #ff3333;
-  background: rgba(255, 0, 0, 0.1);
-  color: #ffffff;
-}
-.bundle-swatch__circle {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: inline-block;
-}
-.swatch-black { background-color: #111111; }
-.swatch-beige { background-color: #d6c6b2; }
-.swatch-white { background-color: #f5f5f5; }
-.swatch-peach { background-color: #f7a88e; }
-.swatch-lavender { background-color: #bfaee3; }
-.swatch-pista { background-color: #9cb89d; }
-.swatch-airforce { background-color: #245873; }
-.swatch-darkgrey { background-color: #404040; }
-
-/* Sizes */
+.bundle-item-card__swatches,
 .bundle-item-card__sizes {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
-.bundle-size-btn {
-  min-width: 44px;
-  height: 38px;
-  padding: 0 12px;
-  background: #181818;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+
+.bundle-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
-  color: #e0e0e0;
-  font-size: 13px;
+  padding: 6px 12px;
+  color: #dddddd;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.bundle-swatch.is-active {
+  border-color: #ff3333;
+  background: rgba(255, 0, 0, 0.15);
+  color: #ffffff;
+}
+.bundle-swatch__circle {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.swatch-black { background-color: #111; }
+.swatch-beige { background-color: #d6c6b2; }
+.swatch-white { background-color: #fff; }
+.swatch-peach { background-color: #f7a88e; }
+.swatch-lavender { background-color: #bfaee3; }
+
+.bundle-size-btn {
+  min-width: 40px;
+  height: 36px;
+  padding: 0 10px;
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #dddddd;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
-}
-.bundle-size-btn:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: #222222;
+  transition: all 0.18s;
 }
 .bundle-size-btn.is-active {
   background: #ffffff;
@@ -444,121 +511,162 @@
   border-color: #ffffff;
 }
 
-/* ─── Sticky Summary Card ─── */
+/* Summary Card */
 .bundle-page__summary-wrap {
   position: sticky;
-  top: 100px;
+  top: 90px;
+  margin-bottom: 40px;
 }
-.bundle-summary-card {
+.ganesh-summary-card {
   background: #141414;
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  border-radius: 20px;
-  padding: 28px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 0, 0, 0.1);
+  border: 1.5px solid rgba(255, 180, 0, 0.4);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
 }
 .bundle-summary-card__festive-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
   color: #ffd700;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .bundle-summary-card__title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 18px;
-  line-height: 1.25;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  margin: 0 0 16px !important;
+  line-height: 1.3 !important;
 }
 .bundle-summary-card__breakdown {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .bundle-summary-card__row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 13px;
+  font-size: 12px;
 }
-.bundle-summary-card__item-name {
-  color: rgba(255, 255, 255, 0.6);
-}
-.bundle-summary-card__item-choice {
-  font-weight: 700;
-  color: #ffffff;
-}
+.bundle-summary-card__item-name { color: rgba(255, 255, 255, 0.6); }
+.bundle-summary-card__item-choice { font-weight: 700; color: #ffffff; }
+
 .bundle-summary-card__divider {
   height: 1px;
   background: rgba(255, 255, 255, 0.08);
-  margin: 18px 0;
+  margin: 16px 0;
 }
-.bundle-summary-card__pricing {
-  margin-bottom: 20px;
-}
+
+.bundle-summary-card__pricing { margin-bottom: 16px; }
 .bundle-summary-card__price-row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
-.bundle-summary-card__price-label {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
-}
-.bundle-summary-card__price-val {
-  font-size: 28px;
-  font-weight: 900;
-  color: #ffffff;
-}
-.bundle-summary-card__compare-val {
-  font-size: 16px;
-  text-decoration: line-through;
-  color: rgba(255, 255, 255, 0.4);
-}
+.bundle-summary-card__price-label { font-size: 13px; color: rgba(255, 255, 255, 0.7); }
+.bundle-summary-card__price-val { font-size: 26px !important; font-weight: 900 !important; color: #ffffff !important; }
+.bundle-summary-card__compare-val { font-size: 14px; text-decoration: line-through; color: rgba(255, 255, 255, 0.4); }
 .bundle-summary-card__savings {
   display: inline-block;
   background: rgba(0, 230, 118, 0.12);
   border: 1px solid rgba(0, 230, 118, 0.3);
   color: #00e676;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 6px;
   margin-top: 4px;
 }
+
 .bundle-summary-card__perks {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.55);
-  margin-bottom: 24px;
+  gap: 5px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 20px;
 }
-.bundle-summary-card__btn {
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  padding: 16px 20px;
-  border-radius: 12px;
+
+.ganesh-btn {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  padding: 16px 12px !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: block !important;
+  text-align: center !important;
 }
+.ganesh-btn:hover {
+  background: linear-gradient(135deg, #e60000 0%, #b30000 100%) !important;
+  box-shadow: 0 12px 28px rgba(255, 0, 0, 0.55) !important;
+}
+
 .bundle-summary-card__footnote {
   text-align: center;
-  font-size: 11px;
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.4);
-  margin-top: 12px;
-  line-height: 1.4;
+  margin-top: 10px;
+}
+
+@media (max-width: 749px) {
+  .ganesh-summary-card {
+    padding: 20px 16px 24px;
+    margin-bottom: 80px;
+  }
 }
 </style>
 
 <script>
 (function() {
+  // ── Festive Snow & Sparkles Rain Script ──
+  function createFestiveRain() {
+    const container = document.getElementById('FestiveRainContainer');
+    if (!container) return;
+
+    const symbols = ['❄', '✦', '🥮', '🌸', '✨', '✦', '❄', '✨'];
+    const particleCount = 28;
+
+    for (let i = 0; i < particleCount; i++) {
+      const flake = document.createElement('span');
+      flake.className = 'festive-flake';
+      flake.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      
+      const leftPos = Math.random() * 100;
+      const duration = 5 + Math.random() * 8;
+      const delay = Math.random() * 8;
+      const size = 12 + Math.random() * 16;
+      const opacity = 0.4 + Math.random() * 0.5;
+
+      flake.style.left = leftPos + 'vw';
+      flake.style.animationDuration = duration + 's';
+      flake.style.animationDelay = delay + 's';
+      flake.style.fontSize = size + 'px';
+      flake.style.opacity = opacity;
+
+      container.appendChild(flake);
+    }
+  }
+
   function setupBundleBuilder() {
+    createFestiveRain();
+
     const container = document.querySelector('[data-bundle-builder]');
     if (!container || container.dataset.initialized) return;
     container.dataset.initialized = 'true';
@@ -583,37 +691,29 @@
         colorImg: activeSwatch ? activeSwatch.dataset.swatchImg : ''
       };
 
-      // Color Swatch click
       card.querySelectorAll('.bundle-swatch').forEach(function(btn) {
         btn.addEventListener('click', function() {
           card.querySelectorAll('.bundle-swatch').forEach(s => s.classList.remove('is-active'));
           this.classList.add('is-active');
-
           const colorVal = this.dataset.swatchVal;
           const colorImg = this.dataset.swatchImg;
-
           card.querySelector('[data-selected-color]').textContent = colorVal;
           selections[itemNum].color = colorVal;
-
           if (colorImg) {
             const imgElem = card.querySelector('[data-item-image]');
             if (imgElem) imgElem.src = colorImg;
           }
-
           updateSummary();
         });
       });
 
-      // Size Button click
       card.querySelectorAll('.bundle-size-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
           card.querySelectorAll('.bundle-size-btn').forEach(s => s.classList.remove('is-active'));
           this.classList.add('is-active');
-
           const sizeVal = this.dataset.sizeVal;
           card.querySelector('[data-selected-size]').textContent = sizeVal;
           selections[itemNum].size = sizeVal;
-
           updateSummary();
         });
       });
@@ -629,12 +729,11 @@
             choiceSpan.textContent = `${item.color} / ${item.size}`;
           }
         }
-
         const card = container.querySelector(`[data-bundle-item="${num}"]`);
         if (card) {
           const statusSpan = card.querySelector('[data-item-status]');
           if (selections[num].color && selections[num].size) {
-            statusSpan.textContent = `✓ ${selections[num].color}, Size ${selections[num].size}`;
+            statusSpan.textContent = `✓ ${selections[num].color}, ${selections[num].size}`;
             statusSpan.classList.add('is-ready');
           }
         }
@@ -643,12 +742,10 @@
 
     updateSummary();
 
-    // Add Complete Bundle to Cart
     if (addBtn) {
       addBtn.addEventListener('click', function() {
         const btnText = addBtn.querySelector('.bundle-btn__text');
         const btnSpinner = addBtn.querySelector('.bundle-btn__spinner');
-
         btnText.style.display = 'none';
         btnSpinner.style.display = 'inline-block';
         addBtn.disabled = true;
@@ -680,7 +777,7 @@
                   id: parseInt(match.id),
                   quantity: 1,
                   properties: {
-                    "_bundle_title": "{{ bundle_title_custom | default: product.title | escape }}",
+                    "_bundle_title": "{{ clean_product_title | escape }}",
                     "Selected Color": sel.color,
                     "Selected Size": sel.size
                   }
@@ -780,3 +877,5 @@
   }
 })();
 </script>
+
+
