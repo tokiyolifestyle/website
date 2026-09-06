@@ -777,17 +777,21 @@
       display: flex;
       overflow-x: auto;
       scrollbar-width: none;
-      padding-bottom: 0.5rem;
-      padding-inline: 0.5rem;
-      margin-inline: 0;
-      gap: 6px;
+      padding-bottom: 0.75rem;
+      padding-inline: 1rem;
+      margin-inline: -1rem;
+      gap: 10px;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
     }
     .catg-universe__grid::-webkit-scrollbar {
       display: none;
     }
     .catg-card-3d {
-      width: calc(26% - 2px);
+      width: 140px;
+      min-width: 140px;
       flex-shrink: 0;
+      scroll-snap-align: start;
     }
   }
 
@@ -996,14 +1000,31 @@
 
   /* ═══ Responsive ═══ */
   @media(max-width:749px) {
-    .catg-universe__tab { padding: 0.65rem 1.75rem; font-size: 0.7rem; }
-    .catg-card-3d__title { font-size: 0.75rem; transform: none !important; }
-    .catg-card-3d__content { padding: 0.85rem !important; transform: none !important; }
-    .catg-card-3d__inner { transform: none !important; box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important; }
+    .catg-universe__tabs {
+      padding: 3px !important;
+      margin-bottom: 0.75rem !important;
+      gap: 2px !important;
+    }
+    .catg-universe__tab {
+      padding: 0.5rem 0.95rem !important;
+      font-size: 0.65rem !important;
+      letter-spacing: 0.08em !important;
+    }
+    .catg-universe__tabs-bg {
+      top: 3px !important; bottom: 3px !important; left: 3px !important;
+    }
+    .catg-card-3d__title { font-size: 0.82rem !important; transform: none !important; font-weight: 800 !important; }
+    .catg-card-3d__content { padding: 0.75rem !important; transform: none !important; }
+    .catg-card-3d__inner { transform: none !important; box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important; aspect-ratio: 3/4 !important; border-radius: 12px !important; }
+    .catg-card-3d__overlay {
+      opacity: 1 !important;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%) !important;
+    }
     .catg-quickstrip__circle { width: 52px; height: 52px; }
     .catg-quickstrip__track { justify-content: space-around !important; gap: 0.5rem !important; padding-inline: 0.5rem !important; }
     .catg-universe__section-icon { width: 36px; height: 36px; border-radius: 8px; }
-    .catg-universe__section-badge { font-size: 0.7rem; }
+    .catg-universe__section-badge { font-size: 0.75rem !important; font-weight: 800 !important; }
+    .catg-universe__section-sub { font-size: 0.68rem !important; }
     .catg-card-3d__tag { display: none; }
   }
 
@@ -1099,7 +1120,74 @@
     transform: translateX(3px);
   }
   .catg-discovery-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 16px !important;
     margin-bottom: 1rem;
+  }
+  .catg-discovery-card-wrapper {
+    display: block;
+    width: 100%;
+  }
+  .catg-discovery-card-wrapper .product-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100%;
+  }
+
+  @media (max-width: 989px) {
+    .catg-discovery-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px !important;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .catg-discovery-section {
+      margin-top: 1.5rem !important;
+      padding-top: 1.5rem !important;
+    }
+    .catg-discovery-header {
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 8px !important;
+      margin-bottom: 1rem !important;
+    }
+    .catg-discovery-title {
+      font-size: 1.35rem !important;
+      margin: 0 !important;
+    }
+    .catg-discovery-subtitle {
+      display: none !important;
+    }
+    .catg-discovery-badge {
+      font-size: 9px !important;
+      margin-bottom: 2px !important;
+    }
+    .catg-discovery-all-link {
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      white-space: nowrap !important;
+    }
+    .catg-discovery-grid.product-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px !important;
+      overflow-x: visible !important;
+      padding-inline: 0 !important;
+      margin-inline: 0 !important;
+    }
+    .catg-discovery-card-wrapper {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: none !important;
+    }
+    .catg-discovery-card-wrapper .product-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: none !important;
+    }
   }
 
   /* Register CSS custom property for conic-gradient animation */
