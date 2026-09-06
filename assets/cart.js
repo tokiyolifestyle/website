@@ -192,15 +192,18 @@ class TokiyoCart {
     this.overlay?.classList.add('is-open');
     document.body.style.overflow = 'hidden';
     
+    await this.refreshCart();
     const cart = await this.getCart();
     await this.syncCodFeeInCart(cart);
-    await this.refreshCart();
   }
+  open() { return this.openDrawer(); }
+  refresh() { return this.refreshCart(); }
   closeDrawer() {
     this.drawer?.classList.remove('is-open');
     this.overlay?.classList.remove('is-open');
     document.body.style.overflow = '';
   }
+  close() { return this.closeDrawer(); }
   async getCart() { return (await fetch('/cart.js?v=' + Date.now())).json(); }
   async addFromForm(form) {
     const btn = form.querySelector('[data-add-to-cart-btn]');
@@ -270,13 +273,12 @@ class TokiyoCart {
       });
 
       const subtotalRs = subtotalCents / 100;
-      const needsCodFee = (method === 'cod' && subtotalRs < 1199);
+      const subtotalWithoutCod = cart.items.reduce((sum, item) => {
+        return Number(item.variant_id) !== Number(this.codFeeVariantId) ? sum + item.final_line_price : sum;
+      }, 0) / 100;
 
-      // Force live update of the subtotal cents variable read by sync scripts
-      window.cartSubtotalCents = subtotalCents;
-      if (typeof window.syncCartPayment === 'function') {
-        window.syncCartPayment();
-      }
+      const needsCodFee = method === 'cod' && subtotalWithoutCod < 1199;
+      const hasCodFee = cart.items.some(item => Number(item.variant_id) === Number(this.codFeeVariantId));
 
       let cartChanged = false;
       if (needsCodFee && !hasCodFee) {
@@ -317,7 +319,7 @@ class TokiyoCart {
     }
 
     try {
-      const res = await fetch(`/?sections=${sectionsToFetch.join(',')}`);
+      const res = await fetch(`/?sections=${sectionsToFetch.join(',')}&_t=${Date.now()}`);
       const data = await res.json();
 
       if (data['cart-drawer']) {
@@ -341,6 +343,9 @@ class TokiyoCart {
         this.threshold = parseFloat(document.querySelector('[data-free-shipping-threshold]')?.dataset.freeShippingThreshold || '0') * 100;
       }
 
+      const cart = await this.getCart();
+      this.updateCount(cart);
+
       // Re-update message & progress displays on page
       this.recoverPaymentMethod();
     } catch(err) {
@@ -348,4 +353,17 @@ class TokiyoCart {
     }
   }
 }
-document.addEventListener('DOMContentLoaded', () => { window.TokiyoCart = new TokiyoCart(); });
+
+function initTokiyoCart() {
+  if (!window.TokiyoCart) {
+    window.TokiyoCart = new TokiyoCart();
+    window.CartDrawer = window.TokiyoCart;
+    window.refreshCartDrawer = () => window.TokiyoCart?.refreshCart();
+    window.openCartDrawer = () => window.TokiyoCart?.openDrawer();
+  }
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTokiyoCart);
+} else {
+  initTokiyoCart();
+}
