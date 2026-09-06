@@ -1172,22 +1172,34 @@
       white-space: nowrap !important;
     }
     .catg-discovery-grid.product-grid {
-      display: grid !important;
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 10px !important;
-      overflow-x: visible !important;
-      padding-inline: 0 !important;
-      margin-inline: 0 !important;
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory !important;
+      scroll-behavior: smooth !important;
+      -webkit-overflow-scrolling: touch !important;
+      gap: 12px !important;
+      padding-bottom: 12px !important;
+      padding-inline: 16px !important;
+      margin-inline: -16px !important;
+    }
+    .catg-discovery-grid.product-grid::-webkit-scrollbar {
+      display: none !important;
     }
     .catg-discovery-card-wrapper {
-      width: 100% !important;
-      max-width: 100% !important;
-      flex: none !important;
+      flex: 0 0 168px !important;
+      min-width: 168px !important;
+      max-width: 168px !important;
+      width: 168px !important;
+      scroll-snap-align: start !important;
+    }
+    .catg-discovery-card-wrapper[style*="display: none"] {
+      display: none !important;
     }
     .catg-discovery-card-wrapper .product-card {
       width: 100% !important;
       max-width: 100% !important;
-      flex: none !important;
+      height: 100% !important;
     }
   }
 
