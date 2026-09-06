@@ -272,13 +272,8 @@ class TokiyoCart {
         }
       });
 
-      const subtotalRs = subtotalCents / 100;
-      const subtotalWithoutCod = cart.items.reduce((sum, item) => {
-        return Number(item.variant_id) !== Number(this.codFeeVariantId) ? sum + item.final_line_price : sum;
-      }, 0) / 100;
-
+      const subtotalWithoutCod = subtotalCents / 100;
       const needsCodFee = method === 'cod' && subtotalWithoutCod < 1199;
-      const hasCodFee = cart.items.some(item => Number(item.variant_id) === Number(this.codFeeVariantId));
 
       let cartChanged = false;
       if (needsCodFee && !hasCodFee) {
