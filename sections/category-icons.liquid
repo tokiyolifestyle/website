@@ -351,6 +351,12 @@
                     {%- endif -%}
                   {%- endfor -%}
                 {%- endif -%}
+                {%- if card_image == blank -%}
+                  {%- assign card_image = fallback_collection.products.first.featured_image -%}
+                {%- endif -%}
+                {%- if card_image == blank -%}
+                  {%- assign card_image = collections['men-oversized'].products.first.featured_image -%}
+                {%- endif -%}
 
                 {%- assign card_counter = card_counter | plus: 1 -%}
                 <a href="{{ block_link }}" class="catg-card-3d" data-tilt {{ block.shopify_attributes }}>
@@ -1247,6 +1253,7 @@
   function initCatgTabs() {
     const tabs = document.querySelectorAll('[data-catg-tab]');
     const panels = document.querySelectorAll('[data-catg-panel]');
+    const tabBg = document.querySelector('[data-tab-slider]');
     
     tabs.forEach(tab => {
       tab.addEventListener('click', function(e) {
@@ -1261,13 +1268,28 @@
         this.classList.add('is-active');
         this.setAttribute('aria-selected', 'true');
 
+        if (tabBg) {
+          if (targetGender === 'women') {
+            tabBg.classList.add('slide-right');
+          } else {
+            tabBg.classList.remove('slide-right');
+          }
+        }
+
         panels.forEach(panel => {
           if (panel.getAttribute('data-catg-panel') === targetGender) {
             panel.classList.add('is-active');
             panel.style.display = 'block';
+            panel.removeAttribute('hidden');
+            panel.querySelectorAll('.catg-universe__section').forEach(sec => {
+              if (sec.querySelectorAll('.catg-card-3d').length > 0) {
+                sec.style.display = 'block';
+              }
+            });
           } else {
             panel.classList.remove('is-active');
             panel.style.display = 'none';
+            panel.setAttribute('hidden', '');
           }
         });
       });
