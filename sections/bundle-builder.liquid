@@ -30,6 +30,18 @@
     {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm038,tokiyo-lifestyle-oversized-t-shirt-totm006,tokiyo-lifestyle-oversized-t-shirt-totm008' -%}
     {%- assign bundle_badge = "Bappa's Blessings Special — Buy 3 @ Rs. 1869" -%}
     {%- assign bundle_title_custom = "Men's Festive Trio (3 Oversized Tees)" -%}
+  {%- when 'lovebirds-pick-totm003-tovwo001' -%}
+    {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm003,tokiyo-lifestyle-women-oversized-t-shirt-tovwo001' -%}
+    {%- assign bundle_badge = "Lovebird’s Pick — Pick Any 2 @ ₹1,299" -%}
+    {%- assign bundle_title_custom = "Lovebird's Pick: TOTM003 + TOVWO001 (Couple Combo)" -%}
+  {%- when 'lovebirds-pick-totm044-tovwo011' -%}
+    {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm044,tokiyo-lifestyle-women-oversized-t-shirt-tovwo011' -%}
+    {%- assign bundle_badge = "Lovebird’s Pick — Pick Any 2 @ ₹1,349" -%}
+    {%- assign bundle_title_custom = "Lovebird's Pick: TOTM044 + TOVWO011 (Couple Combo)" -%}
+  {%- when 'lovebirds-pick-totm039-tovwo015' -%}
+    {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm039,tokiyo-lifestyle-women-oversized-t-shirt-tovwo015' -%}
+    {%- assign bundle_badge = "Lovebird’s Pick — Pick Any 2 @ ₹1,299" -%}
+    {%- assign bundle_title_custom = "Lovebird's Pick: TOTM039 + TOVWO015 (Couple Combo)" -%}
   {%- else -%}
     {%- assign item_handles = 'tokiyo-lifestyle-oversized-t-shirt-totm038,tokiyo-lifestyle-oversized-t-shirt-totm008' -%}
     {%- assign bundle_badge = "Bappa's Festive Combo Offer" -%}
@@ -42,20 +54,44 @@
 {%- assign handle_array = item_handles | split: ',' -%}
 {%- assign item_count = handle_array.size -%}
 
-{%- comment -%} ── Festive Snow & Sparkle Rain Container ── {%- endcomment -%}
-<div class="festive-rain-container" id="FestiveRainContainer" aria-hidden="true"></div>
+{%- comment -%} ── Festive Snow & Sparkle Rain Container (Festive Combos Only) ── {%- endcomment -%}
+{%- unless bundle_handle contains 'lovebird' -%}
+  <div class="festive-rain-container" id="FestiveRainContainer" aria-hidden="true"></div>
+{%- endunless -%}
 
 {%- assign bundle_var_id = product.selected_or_first_available_variant.id | default: product.variants.first.id -%}
 <div id="bundle-selector" class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ bundle_var_id }}" data-bundle-price="{{ product.price }}">
   
   <div class="bundle-page__header">
     <div class="bundle-page__badge">
-      <span class="bundle-page__badge-icon">✦</span>
+      <span class="bundle-page__badge-icon">{% if bundle_handle contains 'lovebird' %}❤️{% else %}✦{% endif %}</span>
       <span>{{ clean_bundle_badge }}</span>
     </div>
     <h1 class="bundle-page__title">{{ clean_product_title }}</h1>
-    <p class="bundle-page__subtitle">Select color &amp; size for each tee below — festive combo offer unlocked!</p>
+    <p class="bundle-page__subtitle">
+      {%- if bundle_handle contains 'lovebird' -%}
+        Select color &amp; size for both fits below — couple combo deal unlocked!
+      {%- else -%}
+        Select color &amp; size for each tee below — festive combo offer unlocked!
+      {%- endif -%}
+    </p>
   </div>
+
+  {%- if bundle_handle contains 'lovebird' and product.featured_image != blank -%}
+    <div class="bundle-lovebird-hero-preview">
+      <img 
+        src="{{ product.featured_image | image_url: width: 1400 }}" 
+        alt="{{ clean_product_title | escape }}" 
+        class="bundle-lovebird-hero-img"
+        loading="eager"
+      >
+      <div class="bundle-lovebird-hero-tag">
+        <span>❤️ OFFICIAL COUPLE STYLING LOOKBOOK</span>
+        <span>•</span>
+        <span>Configure your fits below</span>
+      </div>
+    </div>
+  {%- endif -%}
 
   <div class="bundle-page__layout">
     <div class="bundle-page__items">
@@ -64,7 +100,15 @@
         {%- if bundled_product != blank -%}
           <div class="bundle-item-card" data-bundle-item="{{ forloop.index }}" data-product-handle="{{ bundled_product.handle }}" data-product-title="{{ bundled_product.title }}">
             <div class="bundle-item-card__header">
-              <span class="bundle-item-card__step">ITEM {{ forloop.index }} OF {{ item_count }}</span>
+              {%- if bundle_handle contains 'lovebird' -%}
+                {%- if forloop.index == 1 -%}
+                  <span class="bundle-item-card__step" style="background:#1e293b; color:#38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); font-weight:800; letter-spacing:0.06em; padding:4px 12px; border-radius:6px;">👔 HIS FIT — Men's Oversized</span>
+                {%- else -%}
+                  <span class="bundle-item-card__step" style="background:#3b122d; color:#f472b6; border: 1px solid rgba(244, 114, 182, 0.4); font-weight:800; letter-spacing:0.06em; padding:4px 12px; border-radius:6px;">👗 HER FIT — Women's Oversized</span>
+                {%- endif -%}
+              {%- else -%}
+                <span class="bundle-item-card__step">ITEM {{ forloop.index }} OF {{ item_count }}</span>
+              {%- endif -%}
               <span class="bundle-item-card__status" data-item-status>Select Options</span>
             </div>
 
@@ -153,7 +197,11 @@
     <div class="bundle-page__summary-wrap">
       <div class="bundle-summary-card ganesh-summary-card">
         <div class="bundle-summary-card__festive-tag">
-          🥮 Bappa's Festive Summary
+          {%- if bundle_handle contains 'lovebird' -%}
+            ❤️ Couple Combo Summary
+          {%- else -%}
+            🥮 Bappa's Festive Summary
+          {%- endif -%}
         </div>
 
         <h3 class="bundle-summary-card__title">{{ bundle_title_custom | replace: '₹', 'Rs. ' }}</h3>
@@ -162,7 +210,12 @@
           {%- for handle in handle_array -%}
             {%- assign bp = all_products[handle] -%}
             <div class="bundle-summary-card__row" data-summary-row="{{ forloop.index }}">
-              <span class="bundle-summary-card__item-name">{{ bp.title | replace: 'Tokiyo Lifestyle ', '' | truncate: 22 }}</span>
+              <span class="bundle-summary-card__item-name">
+                {%- if bundle_handle contains 'lovebird' -%}
+                  {%- if forloop.index == 1 -%}👔 His: {%- else -%}👗 Her: {%- endif -%}
+                {%- endif -%}
+                {{ bp.title | replace: 'Tokiyo Lifestyle ', '' | truncate: 22 }}
+              </span>
               <span class="bundle-summary-card__item-choice" data-summary-choice>Loading...</span>
             </div>
           {%- endfor -%}
@@ -182,7 +235,11 @@
             </div>
             {%- assign save_amt = product.compare_at_price | minus: product.price -%}
             <div class="bundle-summary-card__savings">
-              You Save {{ save_amt | money }} (Ganesh Utsav Offer)
+              {%- if bundle_handle contains 'lovebird' -%}
+                You Save {{ save_amt | money }} (Couple Deal Discount)
+              {%- else -%}
+                You Save {{ save_amt | money }} (Ganesh Utsav Offer)
+              {%- endif -%}
             </div>
           {%- endif -%}
         </div>
@@ -198,13 +255,67 @@
           <span class="bundle-btn__spinner" style="display:none;">Adding...</span>
         </button>
         
-        <p class="bundle-summary-card__footnote">Ganpati Bappa Morya! Offer auto-applied in cart.</p>
+        <p class="bundle-summary-card__footnote">
+          {%- if bundle_handle contains 'lovebird' -%}
+            Two Hearts. Two Fits. One Deal. Free shipping on prepaid orders!
+          {%- else -%}
+            Ganpati Bappa Morya! Offer auto-applied in cart.
+          {%- endif -%}
+        </p>
       </div>
     </div>
   </div>
 </div>
 
 <style>
+/* Lookbook Preview Banner */
+.bundle-lovebird-hero-preview {
+  margin-bottom: 32px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  background: #09090b;
+  border: 1.5px solid rgba(255, 215, 0, 0.35);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bundle-lovebird-hero-img {
+  width: auto;
+  max-width: 100%;
+  max-height: 480px;
+  object-fit: contain;
+  display: block;
+}
+.bundle-lovebird-hero-tag {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(12, 12, 16, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 215, 0, 0.45);
+  color: #ffffff;
+  padding: 6px 20px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
+@media (max-width: 749px) {
+  .bundle-lovebird-hero-tag {
+    font-size: 10px;
+    padding: 5px 12px;
+    bottom: 8px;
+  }
+}
 /* Reset & Modern Typography Enforcement */
 .bundle-page,
 .bundle-page * {
