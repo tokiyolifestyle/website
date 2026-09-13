@@ -41,6 +41,8 @@
                     }}
                   {%- endif -%}
                 </picture>
+              {%- elsif block.settings.image_url != blank -%}
+                <img src="{{ block.settings.image_url }}" class="hero-carousel__img" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" alt="{{ block.settings.heading | escape }}">
               {%- else -%}
                 {%- assign slide_index = forloop.index0 | modulo: 6 | plus: 1 -%}
                 {%- case slide_index -%}
@@ -65,7 +67,7 @@
           </a>
 
           {%- assign is_combo_slide = false -%}
-          {%- if block.settings.cta_link contains 'festive' or block.settings.heading contains 'Festive' or block.settings.heading contains 'Duo' or block.settings.heading contains 'Trio' -%}
+          {%- if block.settings.cta_link contains 'festive' or block.settings.heading contains 'Festive' or block.settings.heading contains 'Duo' or block.settings.heading contains 'Trio' or block.settings.cta_link contains 'lovebird' or block.settings.heading contains 'Lovebird' -%}
             {%- assign is_combo_slide = true -%}
           {%- endif -%}
 
@@ -105,6 +107,24 @@
             {%- assign combo_img3 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO005_PE_1.png?v=1788286424' -%}
             {%- assign combo_title3 = 'TOVWO005' -%}
             {%- assign combo_badge_txt = 'BUY 3 @ ₹1,969' -%}
+          {%- elsif block.settings.cta_link contains 'lovebirds-pick-totm003-tovwo001' -%}
+            {%- assign combo_img1 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM003_BE_1.png?v=1788284770' -%}
+            {%- assign combo_title1 = 'TOTM003' -%}
+            {%- assign combo_img2 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO001_PE_1.png?v=1788286232' -%}
+            {%- assign combo_title2 = 'TOVWO001' -%}
+            {%- assign combo_badge_txt = 'GET IT @ ₹1,299' -%}
+          {%- elsif block.settings.cta_link contains 'lovebirds-pick-totm044-tovwo011' -%}
+            {%- assign combo_img1 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM044_BL_2.png?v=1788286108' -%}
+            {%- assign combo_title1 = 'TOTM044' -%}
+            {%- assign combo_img2 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO011_LA_1.png?v=1788286553' -%}
+            {%- assign combo_title2 = 'TOVWO011' -%}
+            {%- assign combo_badge_txt = 'PICK ANY 2 @ ₹1,349' -%}
+          {%- elsif block.settings.cta_link contains 'lovebirds-pick-totm039-tovwo015' -%}
+            {%- assign combo_img1 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOTM039_WI_1.png?v=1788285957' -%}
+            {%- assign combo_title1 = 'TOTM039' -%}
+            {%- assign combo_img2 = 'https://cdn.shopify.com/s/files/1/0837/3292/2612/files/TOVWO015_AI_1.png?v=1788286752' -%}
+            {%- assign combo_title2 = 'TOVWO015' -%}
+            {%- assign combo_badge_txt = 'PICK ANY 2 @ ₹1,299' -%}
           {%- endif -%}
 
           <div class="hero-carousel__content page-width hero-carousel__content--{{ block.settings.content_alignment | default: section.settings.content_alignment }} {% if is_combo_slide %}hero-carousel__content--combo{% endif %}">
@@ -702,6 +722,7 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Background image" },
         { "type": "image_picker", "id": "image_mobile", "label": "Mobile background image (Optional)" },
+        { "type": "text", "id": "image_url", "label": "Direct Image URL (Optional)" },
         { "type": "text", "id": "video_url", "label": "Video URL (.mp4)", "info": "Overrides image if set" },
         { "type": "color", "id": "bg_color", "label": "Fallback background color", "default": "#0A0A0A" },
         { "type": "range", "id": "overlay_opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "label": "Overlay darkness", "default": 45 },

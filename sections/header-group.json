@@ -8,28 +8,28 @@
         "announcement-1": {
           "type": "announcement",
           "settings": {
-            "text": "Free shipping on all prepaid orders",
+            "text": "NEW HERE? GET 10% OFF",
             "link": ""
           }
         },
         "announcement-2": {
           "type": "announcement",
           "settings": {
-            "text": "New Arrivals Dropping Every Friday",
+            "text": "TWO HEARTS. TWO FITS. ONE DEAL.",
             "link": ""
           }
         },
         "announcement-3": {
           "type": "announcement",
           "settings": {
-            "text": "USE CODE TOKIYO10 FOR 10% OFF YOUR FIRST ORDER ★ FOR FIRST 1000 CUSTOMERS ONLY",
+            "text": "Limited-time festive offers. Limited-time fits.",
             "link": ""
           }
         },
         "announcement-4": {
           "type": "announcement",
           "settings": {
-            "text": "Premium Quality • Ethically Made • Designed in India",
+            "text": "Free shipping on all prepaid orders",
             "link": ""
           }
         }

@@ -13,12 +13,6 @@
         </div>
       {%- endfor -%}
     {%- endfor -%}
-    {%- comment -%} Hardcoded Promo Slide {%- endcomment -%}
-    {%- for i in (1..2) -%}
-      <div class="announcement-bar__item">
-        <p>✦&nbsp;&nbsp;USE CODE: TOKIYO10 FOR 10% OFF YOUR FIRST ORDER&nbsp;&nbsp;✦</p>
-      </div>
-    {%- endfor -%}
     
     {%- comment -%} Duplicate for seamless loop {%- endcomment -%}
     {%- for block in section.blocks -%}
@@ -31,11 +25,6 @@
           {%- endif -%}
         </div>
       {%- endfor -%}
-    {%- endfor -%}
-    {%- for i in (1..2) -%}
-      <div class="announcement-bar__item" aria-hidden="true">
-        <p>✦&nbsp;&nbsp;USE CODE: TOKIYO10 FOR 10% OFF YOUR FIRST ORDER&nbsp;&nbsp;✦</p>
-      </div>
     {%- endfor -%}
   </div>
 </div>

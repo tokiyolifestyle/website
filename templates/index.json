@@ -75,9 +75,63 @@
             "cta2_label": "Explore Catalog",
             "cta2_link": "/collections/all"
           }
+        },
+        "slide-lovebirds-1": {
+          "type": "slide",
+          "settings": {
+            "image_url": "https://cdn.shopify.com/s/files/1/0837/3292/2612/files/lovebirds_totm003_tovwo001.png?v=1789285312",
+            "video_url": "",
+            "bg_color": "#0a0a0a",
+            "overlay_opacity": 35,
+            "content_alignment": "left",
+            "eyebrow": "Lovebird’s Pick • Special Couple Combo",
+            "heading": "Lovebird’s Pick — Get It @ ₹1,299",
+            "subheading": "TOTM003 + TOVWO001 couple pairing. Choose your color and size for each tee.",
+            "cta_label": "Claim Couple Deal • ₹1,299",
+            "cta_link": "/products/lovebirds-pick-totm003-tovwo001",
+            "cta2_label": "Explore All",
+            "cta2_link": "/collections/all"
+          }
+        },
+        "slide-lovebirds-2": {
+          "type": "slide",
+          "settings": {
+            "image_url": "https://cdn.shopify.com/s/files/1/0837/3292/2612/files/lovebirds_totm044_tovwo011.jpg?v=1789285317",
+            "video_url": "",
+            "bg_color": "#0a0a0a",
+            "overlay_opacity": 35,
+            "content_alignment": "left",
+            "eyebrow": "Lovebird’s Pick • Pick Any 2",
+            "heading": "Lovebird’s Pick — Buy 2 @ ₹1,349",
+            "subheading": "TOTM044 + TOVWO011 couple pairing. 240 GSM heavy cotton oversized fits.",
+            "cta_label": "Claim Couple Deal • ₹1,349",
+            "cta_link": "/products/lovebirds-pick-totm044-tovwo011",
+            "cta2_label": "Explore All",
+            "cta2_link": "/collections/all"
+          }
+        },
+        "slide-lovebirds-3": {
+          "type": "slide",
+          "settings": {
+            "image_url": "https://cdn.shopify.com/s/files/1/0837/3292/2612/files/lovebirds_totm039_tovwo015.png?v=1789285322",
+            "video_url": "",
+            "bg_color": "#0a0a0a",
+            "overlay_opacity": 35,
+            "content_alignment": "left",
+            "eyebrow": "Lovebird’s Pick • Pick Any 2",
+            "heading": "Lovebird’s Pick — Buy 2 @ ₹1,299",
+            "subheading": "TOTM039 + TOVWO015 couple pairing. Iconic Japanese streetwear graphics & boxy drop.",
+            "cta_label": "Claim Couple Deal • ₹1,299",
+            "cta_link": "/products/lovebirds-pick-totm039-tovwo015",
+            "cta2_label": "Explore All",
+            "cta2_link": "/collections/all"
+          }
         }
       },
       "block_order": [
+        "slide-lovebirds-1",
+        "slide-lovebirds-2",
+        "slide-lovebirds-3",
         "slide-men-duo",
         "slide-men-trio",
         "slide-women-duo",
@@ -202,7 +256,7 @@
     "scrolling-text-1": {
       "type": "scrolling-text",
       "settings": {
-        "text": "Premium Quality | New Season Arrivals | Free Shipping on Prepaid Orders | Wear Your Confidence | Limited Edition Drops | Crafted With Care",
+        "text": "TWO HEARTS. TWO FITS. ONE DEAL. | LIMITED-TIME FESTIVE OFFERS | NEW HERE? GET 10% OFF | Free Shipping on Prepaid Orders | Wear Your Confidence | Limited Edition Drops",
         "separator": "✦",
         "speed": 25,
         "font_size": 14,
@@ -398,10 +452,10 @@
       "settings": {
         "eyebrow": "Stay Connected",
         "title": "Get Early Access to New Drops",
-        "subtitle": "Subscribe and get 10% off your first order with code TOKIYO10 (First 1000 customers only).",
+        "subtitle": "Subscribe and get 10% off your first order with code TOKIYO10.",
         "placeholder": "Enter your email",
         "button_label": "Subscribe",
-        "success_message": "You're in! Use code TOKIYO10 for 10% off your first order (First 1000 customers only).",
+        "success_message": "You're in! Use code TOKIYO10 for 10% off your first order.",
         "disclaimer": "By subscribing you agree to our Privacy Policy."
       }
     }
