@@ -23,25 +23,20 @@
               {%- if is_lovebird_slide -%}
                 {%- assign lb_img = block.settings.image_url -%}
                 {%- if lb_img == blank and block.settings.image != blank -%}
-                  {%- assign lb_img = block.settings.image | image_url: width: 1600 -%}
+                  {%- assign lb_img = block.settings.image | image_url: width: 1920 -%}
                 {%- endif -%}
-                <div class="hero-carousel__lovebird-stage">
-                  <div class="hero-carousel__lovebird-backdrop" style="background-image: url('{{ lb_img }}');" aria-hidden="true"></div>
-                  <div class="hero-carousel__lovebird-overlay" aria-hidden="true"></div>
-                  <div class="hero-carousel__lovebird-poster-wrap">
-                    <img 
-                      src="{{ lb_img }}" 
-                      alt="{{ block.settings.heading | escape }}" 
-                      class="hero-carousel__lovebird-poster"
-                      loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                      fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
-                    >
-                  </div>
-                  <div class="hero-carousel__lovebird-floating-cta">
-                    <span class="hero-carousel__lovebird-floating-cta__badge">❤️ COUPLE COMBO</span>
-                    <span class="hero-carousel__lovebird-floating-cta__title">{{ block.settings.heading }}</span>
-                    <span class="hero-carousel__lovebird-floating-cta__btn">Tap to Customize Sizes &amp; Colors ➔</span>
-                  </div>
+                <img 
+                  src="{{ lb_img }}" 
+                  class="hero-carousel__img hero-carousel__img--lovebird" 
+                  loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" 
+                  fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
+                  alt="{{ block.settings.heading | escape }}"
+                >
+                <div class="hero-carousel__overlay" style="opacity: 0.1;"></div>
+                <div class="hero-lovebird-floating-pill">
+                  <span class="hero-lovebird-floating-pill__badge">❤️ COUPLE COMBO</span>
+                  <span class="hero-lovebird-floating-pill__text">{{ block.settings.heading }}</span>
+                  <span class="hero-lovebird-floating-pill__cta">Customize Sizes &amp; Colors ➔</span>
                 </div>
               {%- elsif is_festive_combo -%}
                 {%- comment -%} Luxury Festive Stage Background (replaces giant human photo) {%- endcomment -%}
@@ -353,13 +348,9 @@
     transform: none;
   }
   /* ============================================================
-     Lovebird Couple Combo Slides (Full Artwork Showcase)
+     Lovebird Couple Combo Slides (Edge-to-Edge Showcase)
      ============================================================ */
   .hero-carousel__slide--lovebird {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: #08080a !important;
     overflow: hidden;
   }
 
@@ -371,72 +362,18 @@
     text-decoration: none;
   }
 
-  .hero-lovebird-stage,
-  .hero-carousel__lovebird-stage {
+  .hero-carousel__img--lovebird {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 25% !important;
+    display: block !important;
+  }
+
+  /* Sleek floating CTA pill at the bottom */
+  .hero-lovebird-floating-pill {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  /* Atmospheric backdrop: soft blurred ambient color tone of the poster */
-  .hero-carousel__lovebird-backdrop {
-    position: absolute;
-    inset: -40px;
-    background-position: center;
-    background-size: cover;
-    filter: blur(52px) brightness(0.35) saturate(1.2);
-    transform: scale(1.15);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .hero-carousel__lovebird-overlay {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.65) 100%);
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  /* Main Poster Container: Guarantees 100% full picture visibility without any cropping */
-  .hero-carousel__lovebird-poster-wrap {
-    position: relative;
-    z-index: 3;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 16px 54px;
-    box-sizing: border-box;
-  }
-
-  .hero-carousel__lovebird-poster {
-    height: 100%;
-    max-height: 100%;
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-    object-position: center;
-    display: block;
-    border-radius: 12px;
-    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 25px rgba(255, 255, 255, 0.05);
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .hero-carousel__slide--lovebird.is-active:hover .hero-carousel__lovebird-poster {
-    transform: scale(1.015);
-  }
-
-  /* Sleek floating CTA bar at the bottom */
-  .hero-carousel__lovebird-floating-cta {
-    position: absolute;
-    bottom: 22px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 5;
@@ -446,17 +383,17 @@
     background: rgba(12, 12, 16, 0.88);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 215, 0, 0.45);
-    padding: 8px 22px;
+    border: 1.5px solid rgba(255, 215, 0, 0.45);
+    padding: 8px 24px;
     border-radius: 999px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 18px rgba(255, 215, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.25);
     color: #ffffff;
     pointer-events: none;
     transition: all 0.3s ease;
     white-space: nowrap;
   }
 
-  .hero-carousel__lovebird-floating-cta__badge {
+  .hero-lovebird-floating-pill__badge {
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.06em;
@@ -467,49 +404,17 @@
     border-radius: 999px;
   }
 
-  .hero-carousel__lovebird-floating-cta__title {
+  .hero-lovebird-floating-pill__text {
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.02em;
     color: #ffffff;
   }
 
-  .hero-carousel__lovebird-floating-cta__btn {
+  .hero-lovebird-floating-pill__cta {
     font-size: 12px;
     font-weight: 800;
     color: #ffd700;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  @media (max-width: 749px) {
-    .hero-carousel {
-      height: 75vh !important;
-      min-height: 520px !important;
-    }
-    .hero-carousel__lovebird-poster-wrap {
-      padding: 8px 8px 46px;
-    }
-    .hero-carousel__lovebird-floating-cta {
-      bottom: 16px;
-      padding: 6px 14px;
-      gap: 8px;
-      max-width: 92%;
-    }
-    .hero-carousel__lovebird-floating-cta__badge {
-      font-size: 10px;
-      padding: 2px 7px;
-    }
-    .hero-carousel__lovebird-floating-cta__title {
-      font-size: 11px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .hero-carousel__lovebird-floating-cta__btn {
-      font-size: 11px;
-    }
   }
 
   /* ============================================================
@@ -763,13 +668,41 @@
   /* Responsive styling */
   @media (max-width: 989px) {
     .hero-carousel {
+      height: 70vh !important;
+      min-height: 500px !important;
+    }
+    .hero-carousel:has(.hero-carousel__slide--combo.is-active) {
       height: auto !important;
-      min-height: 560px;
     }
     .hero-carousel__slide--combo {
+      height: auto !important;
+      min-height: 560px;
       align-items: flex-start;
       padding-top: 1.5rem;
       padding-bottom: 3.5rem;
+    }
+    .hero-carousel__img--lovebird {
+      object-position: center top !important;
+    }
+    .hero-lovebird-floating-pill {
+      bottom: 16px;
+      padding: 6px 14px;
+      gap: 8px;
+      max-width: 92%;
+    }
+    .hero-lovebird-floating-pill__badge {
+      font-size: 10px;
+      padding: 2px 7px;
+    }
+    .hero-lovebird-floating-pill__text {
+      font-size: 11px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .hero-lovebird-floating-pill__cta {
+      font-size: 11px;
+      display: none;
     }
     .hero-carousel__content--combo {
       flex-direction: column;
@@ -818,6 +751,10 @@
   }
 
   @media (max-width: 480px) {
+    .hero-carousel {
+      height: 65vh !important;
+      min-height: 440px !important;
+    }
     .hero-combo-display--duo .hero-combo-card {
       width: 122px;
       height: 155px;
