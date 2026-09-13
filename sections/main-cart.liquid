@@ -44,7 +44,8 @@
                   {%- assign display_vendor = 'TOKIYO LIFESTYLE' -%}
                 {%- endif -%}
                 <p class="cart-item__vendor">{{ display_vendor }}</p>
-                <p class="cart-item__title"><a href="{{ item.url }}">{{ item.product.title }}</a></p>
+                {%- assign clean_item_title = item.product.title -%}
+                <p class="cart-item__title"><a href="{{ item.url }}">{{ clean_item_title }}</a></p>
                 {%- unless item.product.has_only_default_variant -%}<p class="cart-item__variant">{{ item.variant.title }}</p>{%- endunless -%}
                 <div class="cart-item__price-wrap">
                   <p class="cart-item__price">{{ item.final_price | money }}</p>
@@ -121,7 +122,7 @@
           <div class="cart-page__summary-divider"></div>
           <div class="cart-page__summary-row cart-page__summary-total">
             <span>Total</span>
-            <span id="CartTotalPriceDisplay">{{ cart_subtotal_cents | money }}</span>
+            <span id="CartTotalPriceDisplay" data-cart-subtotal="{{ cart_subtotal_cents }}">{{ cart_subtotal_cents | money }}</span>
           </div>
           <p class="cart-page__summary-note">Price is inclusive of GST.</p>
 

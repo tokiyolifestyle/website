@@ -555,8 +555,14 @@ function quickAddToCart(variantId, quantity = 1, buttonEl = null) {
         buttonEl.disabled = false;
       }, 1500);
     }
-    const cartToggle = document.querySelector('[data-cart-drawer-toggle]');
-    if (cartToggle) cartToggle.click();
+    if (window.TokiyoCart && typeof window.TokiyoCart.openDrawer === 'function') {
+      window.TokiyoCart.openDrawer();
+    } else if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+      window.CartDrawer.open();
+    } else {
+      const cartToggle = document.querySelector('[data-cart-drawer-toggle]');
+      if (cartToggle) cartToggle.click();
+    }
     closeQuickAddModal();
   })
   .catch(err => {

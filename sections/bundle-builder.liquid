@@ -36,8 +36,8 @@
     {%- assign bundle_title_custom = product.title -%}
 {%- endcase -%}
 
-{%- assign clean_product_title = product.title | replace: '₹', 'Rs. ' | replace: '(Buy', '— Buy' | replace: ')', '' -%}
-{%- assign clean_bundle_badge = bundle_badge | replace: '₹', 'Rs. ' -%}
+{%- assign clean_product_title = bundle_title_custom | default: product.title -%}
+{%- assign clean_bundle_badge = bundle_badge -%}
 
 {%- assign handle_array = item_handles | split: ',' -%}
 {%- assign item_count = handle_array.size -%}
@@ -45,38 +45,16 @@
 {%- comment -%} ── Festive Snow & Sparkle Rain Container ── {%- endcomment -%}
 <div class="festive-rain-container" id="FestiveRainContainer" aria-hidden="true"></div>
 
-<div id="bundle-selector" class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ product.selected_or_first_available_variant.id }}" data-bundle-price="{{ product.price }}">
+{%- assign bundle_var_id = product.selected_or_first_available_variant.id | default: product.variants.first.id -%}
+<div id="bundle-selector" class="bundle-page page-width" data-bundle-builder data-bundle-id="{{ product.id }}" data-bundle-variant-id="{{ bundle_var_id }}" data-bundle-price="{{ product.price }}">
   
-  {%- comment -%} Ganesh Puja Special Header (Direct Top Section) {%- endcomment -%}
-  <div class="bundle-page__header bundle-ganesh-header">
-    <div class="ganesh-header__banner">
-      <div class="ganesh-header__left-mascot">
-        <img src="{{ 'mooshak-namaste.jpg' | asset_url }}" alt="Mooshak Ji Namaste" class="ganesh-header__mooshak-img" loading="eager">
-        <span class="ganesh-header__mascot-tag">Mooshak Ji 🙏</span>
-      </div>
-
-      <div class="ganesh-header__center">
-        <div class="bundle-page__badge ganesh-badge">
-          <span class="ganesh-star">🐘</span>
-          <span>{{ clean_bundle_badge }}</span>
-        </div>
-        <h1 class="bundle-page__title ganesh-title">{{ clean_product_title }}</h1>
-        <p class="bundle-page__subtitle">Select color &amp; size for each tee below — Bappa's festive combo offer unlocked!</p>
-
-        <div class="ganesh-header__modak-perks">
-          <span class="modak-pill">🥮 Bappa's Modak Deal</span>
-          <span class="modak-pill">✓ Free Prepaid Delivery</span>
-          <span class="modak-pill">✓ 240 GSM Premium Cotton</span>
-        </div>
-      </div>
-
-      <div class="ganesh-header__right-anime">
-        <div class="anime-avatar-wrap">
-          <img src="https://cdn.shopify.com/s/files/1/0887/7234/6164/files/anime-boy-avatar.png?v=1700000000" alt="Tokiyo Anime Character" class="ganesh-header__anime-img" onerror="this.style.display='none'">
-          <span class="ganesh-header__anime-tag">Tokiyo Anime ✦</span>
-        </div>
-      </div>
+  <div class="bundle-page__header">
+    <div class="bundle-page__badge">
+      <span class="bundle-page__badge-icon">✦</span>
+      <span>{{ clean_bundle_badge }}</span>
     </div>
+    <h1 class="bundle-page__title">{{ clean_product_title }}</h1>
+    <p class="bundle-page__subtitle">Select color &amp; size for each tee below — festive combo offer unlocked!</p>
   </div>
 
   <div class="bundle-page__layout">
@@ -773,32 +751,112 @@
         addBtn.disabled = true;
 
         const properties = { "_is_bundle": "true" };
-        Object.keys(selections).forEach(function(num) {
-          const sel = selections[num];
-          properties[`Item ${num}`] = `${sel.title} (${sel.color} / ${sel.size})`;
+        const itemsToAdd = [];
+
+        itemCards.forEach(function(card) {
+          const itemNum = card.dataset.bundleItem;
+          const sel = selections[itemNum];
+          if (!sel) return;
+          properties[`Item ${itemNum}`] = `${sel.title} (${sel.color} / ${sel.size})`;
+
+          const variantsJson = card.querySelector('[data-variants-json]');
+          if (variantsJson) {
+            try {
+              const variants = JSON.parse(variantsJson.textContent);
+              const targetColor = (sel.color || '').toLowerCase().trim();
+              const targetSize = (sel.size || '').toLowerCase().trim();
+              const match = variants.find(v => {
+                const opts = v.options.map(o => String(o).toLowerCase().trim());
+                const colorMatch = !targetColor || opts.some(o => o === targetColor || targetColor.includes(o) || o.includes(targetColor));
+                const sizeMatch = !targetSize || opts.some(o => o === targetSize);
+                return colorMatch && sizeMatch;
+              }) || variants.find(v => v.available) || variants[0];
+
+              if (match && match.id) {
+                itemsToAdd.push({
+                  id: parseInt(match.id),
+                  quantity: 1,
+                  properties: {
+                    "_bundle_title": "{{ clean_product_title | escape }}",
+                    "Selected Color": sel.color,
+                    "Selected Size": sel.size
+                  }
+                });
+              }
+            } catch(e) {
+              console.error("Variant parse error:", e);
+            }
+          }
         });
+
+        const targetVarId = parseInt(bundleVariantId) || parseInt("{{ product.variants.first.id }}");
+        let payloadItems = [];
+
+        if (targetVarId && !isNaN(targetVarId)) {
+          payloadItems.push({ id: targetVarId, quantity: 1, properties: properties });
+        } else if (itemsToAdd.length > 0) {
+          payloadItems = itemsToAdd;
+        } else {
+          btnText.style.display = 'inline-block';
+          btnSpinner.style.display = 'none';
+          addBtn.disabled = false;
+          alert("Please select color and size for all items.");
+          return;
+        }
+
+        function onSuccessAdd(data) {
+          if (window.TokiyoCart && typeof window.TokiyoCart.openDrawer === 'function') {
+            window.TokiyoCart.openDrawer();
+          } else if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+            window.CartDrawer.open();
+          } else if (typeof window.openCartDrawer === 'function') {
+            window.openCartDrawer();
+          } else {
+            const toggle = document.querySelector('[data-cart-drawer-toggle]');
+            if (toggle) {
+              toggle.click();
+            } else if (document.querySelector('[data-cart-drawer]')) {
+              document.querySelector('[data-cart-drawer]').classList.add('is-open');
+              document.body.classList.add('cart-drawer-open');
+            } else {
+              window.location.href = '/cart';
+            }
+          }
+        }
 
         fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            items: [{ id: parseInt(bundleVariantId), quantity: 1, properties: properties }]
-          })
+          body: JSON.stringify({ items: payloadItems })
         })
         .then(res => res.json())
         .then(cartData => {
           btnText.style.display = 'inline-block';
           btnSpinner.style.display = 'none';
           addBtn.disabled = false;
-          if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
-            window.CartDrawer.open();
-          } else if (document.querySelector('[data-cart-drawer]')) {
-            document.querySelector('[data-cart-drawer]').classList.add('is-open');
-            document.body.classList.add('cart-drawer-open');
-            document.dispatchEvent(new CustomEvent('cart:updated', { detail: cartData }));
-          } else {
-            window.location.href = '/cart';
+
+          if (cartData.status && cartData.status >= 400) {
+            if (payloadItems.length === 1 && itemsToAdd.length > 0) {
+              return fetch('/cart/add.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ items: itemsToAdd })
+              })
+              .then(r => r.json())
+              .then(secondTryData => {
+                if (secondTryData.status && secondTryData.status >= 400) {
+                  alert("Could not add items to cart: " + (secondTryData.description || secondTryData.message));
+                  return;
+                }
+                onSuccessAdd(secondTryData);
+              });
+            } else {
+              alert("Could not add bundle to cart: " + (cartData.description || cartData.message));
+              return;
+            }
           }
+
+          onSuccessAdd(cartData);
         })
         .catch(err => {
           console.error("Error adding bundle to cart:", err);

@@ -53,7 +53,31 @@ window.syncCartPayment = function() {
     }
   }
 
-  const subtotalCents = window.cartSubtotalCents || 0;
+  // Retrieve accurate subtotal in cents
+  let subtotalCents = null;
+  if (typeof explicitSubtotalCents === 'number') {
+    subtotalCents = explicitSubtotalCents;
+    window.cartSubtotalCents = subtotalCents;
+  } else {
+    // Try reading from DOM elements with data-cart-subtotal
+    const drawerSubtotalEl = document.getElementById('DrawerTotalPriceDisplay') || document.getElementById('CartDrawer');
+    const pageSubtotalEl = document.getElementById('CartTotalPriceDisplay') || document.querySelector('.cart-page');
+    
+    if (drawerSubtotalEl && drawerSubtotalEl.dataset.cartSubtotal !== undefined) {
+      subtotalCents = parseFloat(drawerSubtotalEl.dataset.cartSubtotal);
+    } else if (pageSubtotalEl && pageSubtotalEl.dataset.cartSubtotal !== undefined) {
+      subtotalCents = parseFloat(pageSubtotalEl.dataset.cartSubtotal);
+    } else if (window.cartSubtotalCents !== undefined && window.cartSubtotalCents !== null) {
+      subtotalCents = window.cartSubtotalCents;
+    }
+  }
+
+  if (subtotalCents === null || isNaN(subtotalCents)) {
+    subtotalCents = window.cartSubtotalCents || 0;
+  } else {
+    window.cartSubtotalCents = subtotalCents;
+  }
+
   const subtotalRs = subtotalCents / 100;
   
   let codFee = 0;
@@ -68,7 +92,14 @@ window.syncCartPayment = function() {
 
   const subtotalPriceEl = document.getElementById('DrawerTotalPriceDisplay');
   if (subtotalPriceEl) {
-    subtotalPriceEl.innerText = formattedPrice;
+    // Only update if subtotal is known or display is not already formatted
+    if (subtotalCents > 0 || (subtotalPriceEl.dataset.cartSubtotal && subtotalPriceEl.dataset.cartSubtotal === '0')) {
+      subtotalPriceEl.innerText = formattedPrice;
+    } else if (subtotalPriceEl.dataset.cartSubtotal) {
+      const elCents = parseFloat(subtotalPriceEl.dataset.cartSubtotal) || 0;
+      const elTotal = (elCents / 100) + codFee;
+      subtotalPriceEl.innerText = '₹' + elTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
   }
   const codFeeRow = document.getElementById('CartCodFeeRow');
   if (codFeeRow) {
@@ -77,7 +108,13 @@ window.syncCartPayment = function() {
 
   const cartTotalPriceEl = document.getElementById('CartTotalPriceDisplay');
   if (cartTotalPriceEl) {
-    cartTotalPriceEl.innerText = formattedPrice;
+    if (subtotalCents > 0 || (cartTotalPriceEl.dataset.cartSubtotal && cartTotalPriceEl.dataset.cartSubtotal === '0')) {
+      cartTotalPriceEl.innerText = formattedPrice;
+    } else if (cartTotalPriceEl.dataset.cartSubtotal) {
+      const elCents = parseFloat(cartTotalPriceEl.dataset.cartSubtotal) || 0;
+      const elTotal = (elCents / 100) + codFee;
+      cartTotalPriceEl.innerText = '₹' + elTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
   }
   const cartCodFeeRow = document.getElementById('CartCodFeeSummaryRow');
   if (cartCodFeeRow) {
@@ -192,15 +229,18 @@ class TokiyoCart {
     this.overlay?.classList.add('is-open');
     document.body.style.overflow = 'hidden';
     
+    await this.refreshCart();
     const cart = await this.getCart();
     await this.syncCodFeeInCart(cart);
-    await this.refreshCart();
   }
+  open() { return this.openDrawer(); }
+  refresh() { return this.refreshCart(); }
   closeDrawer() {
     this.drawer?.classList.remove('is-open');
     this.overlay?.classList.remove('is-open');
     document.body.style.overflow = '';
   }
+  close() { return this.closeDrawer(); }
   async getCart() { return (await fetch('/cart.js?v=' + Date.now())).json(); }
   async addFromForm(form) {
     const btn = form.querySelector('[data-add-to-cart-btn]');
@@ -260,22 +300,22 @@ class TokiyoCart {
       
       let subtotalCents = 0;
       let hasCodFee = false;
+      let codItemKey = null;
       
       cart.items.forEach(item => {
         if (Number(item.variant_id) === Number(this.codFeeVariantId)) {
           hasCodFee = true;
+          codItemKey = item.key;
         } else {
           subtotalCents += item.final_line_price;
         }
       });
 
-      const subtotalRs = subtotalCents / 100;
-      const needsCodFee = (method === 'cod' && subtotalRs < 1199);
-
-      // Force live update of the subtotal cents variable read by sync scripts
+      const subtotalWithoutCod = subtotalCents / 100;
+      const needsCodFee = method === 'cod' && subtotalWithoutCod < 1199;
       window.cartSubtotalCents = subtotalCents;
       if (typeof window.syncCartPayment === 'function') {
-        window.syncCartPayment();
+        window.syncCartPayment(subtotalCents);
       }
 
       let cartChanged = false;
@@ -286,11 +326,11 @@ class TokiyoCart {
           body: JSON.stringify({ items: [{ id: this.codFeeVariantId, quantity: 1 }] })
         });
         cartChanged = true;
-      } else if (!needsCodFee && hasCodFee) {
+      } else if (!needsCodFee && hasCodFee && codItemKey) {
         await fetch('/cart/change.js', {
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
-          body: JSON.stringify({ id: String(this.codFeeVariantId), quantity: 0 })
+          body: JSON.stringify({ id: codItemKey, quantity: 0 })
         });
         cartChanged = true;
       }
@@ -317,7 +357,7 @@ class TokiyoCart {
     }
 
     try {
-      const res = await fetch(`/?sections=${sectionsToFetch.join(',')}`);
+      const res = await fetch(`/?sections=${sectionsToFetch.join(',')}&_t=${Date.now()}`);
       const data = await res.json();
 
       if (data['cart-drawer']) {
@@ -341,11 +381,40 @@ class TokiyoCart {
         this.threshold = parseFloat(document.querySelector('[data-free-shipping-threshold]')?.dataset.freeShippingThreshold || '0') * 100;
       }
 
+      const cart = await this.getCart();
+      this.updateCount(cart);
+
+      let subtotalCents = 0;
+      if (cart && cart.items) {
+        cart.items.forEach(item => {
+          if (Number(item.variant_id) !== Number(this.codFeeVariantId)) {
+            subtotalCents += item.final_line_price;
+          }
+        });
+      }
+      window.cartSubtotalCents = subtotalCents;
+
       // Re-update message & progress displays on page
       this.recoverPaymentMethod();
+      if (typeof window.syncCartPayment === 'function') {
+        window.syncCartPayment(subtotalCents);
+      }
     } catch(err) {
       console.error('Cart refresh failed:', err);
     }
   }
 }
-document.addEventListener('DOMContentLoaded', () => { window.TokiyoCart = new TokiyoCart(); });
+
+function initTokiyoCart() {
+  if (!window.TokiyoCart) {
+    window.TokiyoCart = new TokiyoCart();
+    window.CartDrawer = window.TokiyoCart;
+    window.refreshCartDrawer = () => window.TokiyoCart?.refreshCart();
+    window.openCartDrawer = () => window.TokiyoCart?.openDrawer();
+  }
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTokiyoCart);
+} else {
+  initTokiyoCart();
+}
