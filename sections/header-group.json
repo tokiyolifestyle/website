@@ -8,28 +8,28 @@
         "announcement-1": {
           "type": "announcement",
           "settings": {
-            "text": "NEW HERE? GET 10% OFF",
-            "link": ""
+            "text": "DUSSEHRA & DURGA PUJA FESTIVE DROPS LIVE 🔱",
+            "link": "/collections/all"
           }
         },
         "announcement-2": {
           "type": "announcement",
           "settings": {
-            "text": "TWO HEARTS. TWO FITS. ONE DEAL.",
-            "link": ""
+            "text": "BUY 2 SAVE ₹200 • BUY 3 SAVE ₹350 • BUY 4 SAVE ₹500 🔥",
+            "link": "/collections/all"
           }
         },
         "announcement-3": {
           "type": "announcement",
           "settings": {
-            "text": "Limited-time festive offers. Limited-time fits.",
+            "text": "SHUBHO SHARODIYA — 10% OFF FIRST ORDER WITH CODE TOKIYO10 🎫",
             "link": ""
           }
         },
         "announcement-4": {
           "type": "announcement",
           "settings": {
-            "text": "Free shipping on all prepaid orders",
+            "text": "FREE SHIPPING ON ALL PREPAID ORDERS 🎁",
             "link": ""
           }
         }

@@ -37,21 +37,58 @@
 
     <div class="cart-drawer__body" data-cart-body style="overflow-y: auto; -webkit-overflow-scrolling: touch;">
       {%- if cart.item_count > 0 -%}
+        {%- assign festive_count = 0 -%}
         {%- assign has_bundle = false -%}
         {%- for itm in cart.items -%}
+          {%- if itm.product.tags contains 'festive-special-drop' -%}
+            {%- assign festive_count = festive_count | plus: itm.quantity -%}
+          {%- endif -%}
           {%- assign itm_title_dn = itm.product.title | downcase -%}
           {%- if itm.product.type == 'Combo Bundle' or itm_title_dn contains 'bundle' or itm_title_dn contains 'combo' or itm_title_dn contains 'duo' or itm_title_dn contains 'trio' -%}
             {%- assign has_bundle = true -%}
           {%- endif -%}
         {%- endfor -%}
 
-        {%- if has_bundle -%}
+        {%- if festive_count > 0 -%}
+          <div class="cart-drawer__promo-notice" style="margin-bottom: 1.25rem; padding: 0.85rem 1rem; background: linear-gradient(135deg, #FFF7ED 0%, #FEF2F2 100%); border-radius: 10px; border: 1.5px dashed #F97316; display: flex; flex-direction: column; gap: 0.35rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <span style="font-size: 1.15rem; line-height: 1;">🔱</span>
+                <span style="font-size: 0.74rem; font-weight: 800; color: #9A3412; text-transform: uppercase; letter-spacing: 0.02em;">
+                  {%- if festive_count == 1 -%}
+                    Add 1 more to Save ₹200!
+                  {%- elsif festive_count == 2 -%}
+                    Tier 1: ₹200 OFF Applied!
+                  {%- elsif festive_count == 3 -%}
+                    Tier 2: ₹350 OFF Applied!
+                  {%- else -%}
+                    Max Savings: ₹500 OFF Applied!
+                  {%- endif -%}
+                </span>
+              </div>
+              <span style="font-size: 0.72rem; color: #EA580C; font-weight: 800;">
+                {%- if festive_count == 1 -%}
+                  Save ₹200 Next
+                {%- elsif festive_count == 2 -%}
+                  +1 for ₹350 OFF
+                {%- elsif festive_count == 3 -%}
+                  +1 for ₹500 OFF
+                {%- else -%}
+                  🎉 ₹500 Saved!
+                {%- endif -%}
+              </span>
+            </div>
+            <div style="font-size: 0.68rem; color: #7C2D12; font-weight: 500;">
+              Durga Puja Special: Buy 2 Save ₹200 • Buy 3 Save ₹350 • Buy 4+ Save ₹500
+            </div>
+          </div>
+        {%- elsif has_bundle -%}
           <div class="cart-drawer__promo-notice" style="margin-bottom: 1.25rem; padding: 0.75rem 1rem; background: #FFF8E7; border-radius: 8px; border: 1px dashed #E5A823; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
             <div style="display: flex; align-items: center; gap: 0.4rem;">
               <span style="font-size: 1rem; line-height: 1;">⚡</span>
               <span style="font-size: 0.72rem; font-weight: 700; color: #8A6000; text-transform: uppercase; letter-spacing: 0.02em;">Festive Combo Deal Applied!</span>
             </div>
-            <span style="font-size: 0.72rem; color: #8A6000; font-weight: 800;">Special Price (No extra coupons)</span>
+            <span style="font-size: 0.72rem; color: #8A6000; font-weight: 800;">Special Price</span>
           </div>
         {%- else -%}
           <div class="cart-drawer__promo-notice" style="margin-bottom: 1.25rem; padding: 0.75rem 1rem; background: #F8F8F9; border-radius: 8px; border: 1px dashed rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">

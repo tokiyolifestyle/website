@@ -179,10 +179,10 @@
     </span>
   </a>
 
-  <!-- --- Animated Mooshak Ji Wandering Widget --- -->
+  <!-- --- Animated Durga Puja / Dussehra Festive Mascot Widget --- -->
   <div id="TokiyoMascot" class="tokiyo-mascot" aria-hidden="true" style="display: none;">
-    <div class="tokiyo-mascot__bubble" id="MascotBubble">Ganpati Bappa Morya! 🙏</div>
-    <img src="{{ 'mooshak-namaste.jpg' | asset_url }}" alt="Mooshak Ji Mascot" id="MascotImg" loading="lazy" style="border-radius: 50%; border: 2px solid #ffd700; box-shadow: 0 0 15px rgba(255,215,0,0.5);">
+    <div class="tokiyo-mascot__bubble" id="MascotBubble">Shubho Sharodiya! 🔱</div>
+    <img src="{{ 'durga-festive-mascot.jpg' | asset_url }}" alt="Durga Puja Festive Mascot" id="MascotImg" loading="lazy" style="border-radius: 50%; border: 2px solid #ffd700; box-shadow: 0 0 20px rgba(255,100,0,0.6);">
   </div>
 
   <style>
@@ -309,16 +309,16 @@
       mascot.style.display = 'block';
 
       const quotes = [
+        "Shubho Sharodiya! 🔱",
+        "Happy Durga Puja & Dussehra! ✨",
         "NEW HERE? GET 10% OFF with code TOKIYO10! 🎫",
-        "Ganpati Bappa Morya! 🌸",
-        "Mooshak Ji blessing your shopping! 🙏",
-        "Check out our Festive Combo deals! 🥮",
-        "TWO HEARTS. TWO FITS. ONE DEAL. 🔥",
-        "Crafted with premium 240 GSM cotton! 👕",
-        "Stay bold. Stay comfortable. ✦",
+        "Celebrate in Divine Tokiyo Style! 🌸",
+        "Maa Durga's festive drops are live! ✦",
+        "Dussehra Special: Buy More, Save More! 🔥",
+        "Crafted with premium 240 GSM heavy cotton! 👕",
+        "TWO HEARTS. TWO FITS. ONE DEAL. ✦",
         "Welcome to Tokiyo Lifestyle! 🇯🇵",
-        "Limited-time festive offers are live! ✦",
-        "Streetwear engineered for comfort! ✦"
+        "Streetwear engineered for comfort & festive grace! ✦"
       ];
 
       function showBubble(text, duration = 3000) {
@@ -327,7 +327,7 @@
         setTimeout(() => { mascot.classList.remove('has-bubble'); }, duration);
       }
 
-      setTimeout(() => { showBubble("Welcome to Tokiyo! ✦"); }, 2500);
+      setTimeout(() => { showBubble("Shubho Sharodiya! 🔱"); }, 2500);
 
       function wander() {
         if (isMobile()) return; // Keep mascot static in the corner on mobile
