@@ -8,8 +8,10 @@
     {%- for block in section.blocks -%}
       {%- if block.type == 'slide' -%}
         {%- assign is_festive_combo = false -%}
-        {%- if block.settings.cta_link contains 'festive' or block.settings.heading contains 'Festive' or block.settings.heading contains 'Duo' or block.settings.heading contains 'Trio' -%}
-          {%- assign is_festive_combo = true -%}
+        {%- if block.settings.image == blank and block.settings.image_url == blank -%}
+          {%- if block.settings.cta_link contains 'womens-festive-duo' or block.settings.cta_link contains 'womens-festive-trio' or block.settings.cta_link contains 'mens-festive-duo' or block.settings.cta_link contains 'mens-festive-trio' -%}
+            {%- assign is_festive_combo = true -%}
+          {%- endif -%}
         {%- endif -%}
 
         {%- assign is_lovebird_slide = false -%}
@@ -281,7 +283,7 @@
     z-index: 0;
     transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility 0.8s;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     pointer-events: none;
     visibility: hidden;
   }
@@ -322,8 +324,9 @@
   .hero-carousel__overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.05) !important;
-    opacity: 0.1 !important;
+    background: linear-gradient(90deg, rgba(8,8,10,0.85) 0%, rgba(8,8,10,0.58) 42%, rgba(8,8,10,0.15) 65%, transparent 100%) !important;
+    opacity: 1 !important;
+    pointer-events: none;
   }
   .hero-carousel__gradient {
     display: none !important;
@@ -816,6 +819,15 @@
     .hero-carousel {
       height: 70vh !important;
       min-height: 460px !important;
+    }
+    .hero-carousel__slide {
+      align-items: flex-end !important;
+    }
+    .hero-carousel__overlay {
+      background: linear-gradient(180deg, rgba(8,8,10,0.1) 0%, rgba(8,8,10,0.45) 45%, rgba(8,8,10,0.92) 85%) !important;
+    }
+    .hero-carousel__content {
+      padding-bottom: 2.8rem !important;
     }
     .hero-carousel__slide--combo {
       min-height: 460px !important;
