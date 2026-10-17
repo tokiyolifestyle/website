@@ -81,7 +81,22 @@
                     {%- endif -%}
                   </picture>
                 {%- elsif block.settings.image_url != blank -%}
-                  <img src="{{ block.settings.image_url }}" class="hero-carousel__img" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" alt="{{ block.settings.heading | escape }}">
+                  {%- assign desk_img = block.settings.image_url -%}
+                  {%- unless desk_img contains 'http://' or desk_img contains 'https://' or desk_img contains '//' -%}
+                    {%- assign desk_img = desk_img | remove: 'assets/' | asset_url -%}
+                  {%- endunless -%}
+                  {%- assign mob_img = block.settings.image_mobile_url -%}
+                  {%- if mob_img != blank -%}
+                    {%- unless mob_img contains 'http://' or mob_img contains 'https://' or mob_img contains '//' -%}
+                      {%- assign mob_img = mob_img | remove: 'assets/' | asset_url -%}
+                    {%- endunless -%}
+                  {%- endif -%}
+                  <picture>
+                    {%- if mob_img != blank -%}
+                      <source media="(max-width: 749px)" srcset="{{ mob_img }}">
+                    {%- endif -%}
+                    <img src="{{ desk_img }}" class="hero-carousel__img" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" alt="{{ block.settings.heading | escape }}">
+                  </picture>
                 {%- else -%}
                   {%- assign slide_index = forloop.index0 | modulo: 6 | plus: 1 -%}
                   {%- case slide_index -%}
@@ -1144,6 +1159,7 @@
         { "type": "image_picker", "id": "image", "label": "Background image" },
         { "type": "image_picker", "id": "image_mobile", "label": "Mobile background image (Optional)" },
         { "type": "text", "id": "image_url", "label": "Direct Image URL (Optional)" },
+        { "type": "text", "id": "image_mobile_url", "label": "Direct Mobile Image URL (Optional)" },
         { "type": "text", "id": "video_url", "label": "Video URL (.mp4)", "info": "Overrides image if set" },
         { "type": "color", "id": "bg_color", "label": "Fallback background color", "default": "#0A0A0A" },
         { "type": "range", "id": "overlay_opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "label": "Overlay darkness", "default": 45 },

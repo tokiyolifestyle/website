@@ -12,6 +12,42 @@
     "hero-banner": {
       "type": "hero-banner",
       "blocks": {
+        "slide-durga-festive": {
+          "type": "slide",
+          "settings": {
+            "image_url": "hero-durga-puja-desktop.jpg",
+            "image_mobile_url": "hero-durga-puja-mobile.jpg",
+            "video_url": "",
+            "bg_color": "#0a0a0a",
+            "overlay_opacity": 30,
+            "content_alignment": "left",
+            "eyebrow": "🔱 DUSSEHRA & DURGA PUJA SPECIAL",
+            "heading": "Buy More, Save More — Up to ₹500 OFF",
+            "subheading": "Buy 2 Save ₹200 • Buy 3 Save ₹350 • Buy 4+ Save ₹500. Mix & match across 9 exclusive women's oversized streetwear fits.",
+            "cta_label": "Claim Festive Offer",
+            "cta_link": "/collections/festive-special-drop",
+            "cta2_label": "Explore All Fits",
+            "cta2_link": "/collections/all"
+          }
+        },
+        "slide-last-drop": {
+          "type": "slide",
+          "settings": {
+            "image_url": "hero-last-drop-desktop.jpg",
+            "image_mobile_url": "hero-last-drop-mobile.jpg",
+            "video_url": "",
+            "bg_color": "#0a0a0a",
+            "overlay_opacity": 25,
+            "content_alignment": "left",
+            "eyebrow": "⚡ FINAL ARCHIVE CLEARANCE",
+            "heading": "The Last Drop — Up to 30% OFF",
+            "subheading": "Buy 2 Get 20% OFF • Buy 4 Get 30% OFF. Final archive stock on 8 iconic oversized Japanese streetwear designs.",
+            "cta_label": "Shop The Last Drop",
+            "cta_link": "/collections/the-last-drop",
+            "cta2_label": "Men's Drops",
+            "cta2_link": "/collections/men-oversized"
+          }
+        },
         "slide-lovebirds-1": {
           "type": "slide",
           "settings": {
@@ -65,6 +101,8 @@
         }
       },
       "block_order": [
+        "slide-durga-festive",
+        "slide-last-drop",
         "slide-lovebirds-1",
         "slide-lovebirds-2",
         "slide-lovebirds-3"
