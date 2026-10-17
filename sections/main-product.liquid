@@ -251,6 +251,33 @@
         </div>
       {%- endif -%}
 
+      {%- comment -%} The Last Drop Archive Clearance Banner {%- endcomment -%}
+      {%- if product.tags contains 'the-last-drop' -%}
+        <div class="product-info__last-drop" style="margin: 1.25rem 0; padding: 1rem 1.15rem; background: linear-gradient(135deg, #18181B 0%, #09090B 100%); border-radius: 12px; border: 1.5px solid #F59E0B; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.12);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.65rem;">
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="font-size: 1.15rem; line-height: 1;">⚡</span>
+              <span style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #FBBF24;">The Last Drop • Clearance</span>
+            </div>
+            <span style="font-size: 0.65rem; font-weight: 700; background: #DC2626; color: #FFFFFF; padding: 0.2rem 0.55rem; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.03em;">Final Archive</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.65rem; text-align: center;">
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 0.6rem 0.4rem;">
+              <div style="font-size: 0.68rem; font-weight: 700; color: #D1D5DB; text-transform: uppercase;">BUY ANY 2</div>
+              <div style="font-size: 1.05rem; font-weight: 900; color: #F59E0B;">GET 20% OFF</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.08); border: 1.5px solid #F59E0B; border-radius: 8px; padding: 0.6rem 0.4rem; box-shadow: 0 0 12px rgba(245,158,11,0.18);">
+              <div style="font-size: 0.68rem; font-weight: 700; color: #FDE68A; text-transform: uppercase;">BUY ANY 4+</div>
+              <div style="font-size: 1.05rem; font-weight: 900; color: #EF4444;">GET 30% OFF</div>
+            </div>
+          </div>
+          <div style="margin-top: 0.65rem; font-size: 0.7rem; color: #9CA3AF; display: flex; align-items: center; justify-content: space-between;">
+            <span>✦ Mix & match across 8 archive streetwear fits</span>
+            <a href="/collections/the-last-drop" style="color: #FBBF24; font-weight: 700; text-decoration: underline;">View All 8 Fits →</a>
+          </div>
+        </div>
+      {%- endif -%}
+
       {%- comment -%} Promo Code Box (Only for individual products) {%- endcomment -%}
       {%- assign prod_title_dn = product.title | downcase -%}
       {%- unless product.type == 'Combo Bundle' or prod_title_dn contains 'bundle' or prod_title_dn contains 'combo' or prod_title_dn contains 'duo' or prod_title_dn contains 'trio' -%}
