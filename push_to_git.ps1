@@ -51,6 +51,7 @@ if (-not $token) {
 if ($token) {
     Write-Host "Token retrieved successfully!"
     $remoteUrl = "https://${token}@github.com/tokiyolifestyle/website.git"
+    git -c credential.helper= pull --rebase $remoteUrl main
     git -c credential.helper= push $remoteUrl main
 } else {
     Write-Error "Could not retrieve token from Windows Credential Manager"
