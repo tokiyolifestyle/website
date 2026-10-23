@@ -197,7 +197,12 @@ class TokiyoCart {
       const form = e.target.closest('[data-add-to-cart-form]');
       if (form) {
         e.preventDefault();
-        this.addFromForm(form);
+        const isBuyNow = !!(e.submitter && (
+          e.submitter.name === 'checkout' || 
+          e.submitter.classList.contains('product-info__buy-now') || 
+          e.submitter.dataset.buyNow !== undefined
+        ));
+        this.addFromForm(form, isBuyNow, e.submitter);
         return;
       }
 
@@ -276,20 +281,71 @@ class TokiyoCart {
   }
   close() { return this.closeDrawer(); }
   async getCart() { return (await fetch('/cart.js?v=' + Date.now())).json(); }
-  async addFromForm(form) {
-    const btn = form.querySelector('[data-add-to-cart-btn]');
-    const origText = btn?.textContent;
-    if (btn) { btn.disabled = true; btn.textContent = 'Adding...'; }
+  async addFromForm(form, isBuyNow = false, submitterBtn = null) {
+    if (form.dataset.submitting === 'true') return;
+    form.dataset.submitting = 'true';
+
+    const atcBtn = form.querySelector('[data-add-to-cart-btn]');
+    const buyNowBtn = form.querySelector('.product-info__buy-now');
+    const activeBtn = submitterBtn || (isBuyNow ? buyNowBtn : atcBtn);
+    const origHtml = activeBtn ? activeBtn.innerHTML : '';
+
+    if (activeBtn) {
+      activeBtn.disabled = true;
+      activeBtn.innerHTML = isBuyNow ? 'Proceeding to checkout...' : 'Adding...';
+    }
+
     try {
-      const res = await fetch('/cart/add.js', { method: 'POST', headers: {'X-Requested-With':'XMLHttpRequest'}, body: new FormData(form) });
-      if (!res.ok) throw new Error('Add failed');
+      const res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        body: new FormData(form)
+      });
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.description || errJson.message || 'Add to cart failed');
+      }
+
+      if (isBuyNow) {
+        try {
+          await this.syncCodFeeInCart();
+        } catch (syncErr) {
+          console.error('COD sync error during buy now:', syncErr);
+        }
+        window.location.href = '/checkout';
+        return;
+      }
+
+      // Add to Cart success:
+      if (activeBtn) {
+        activeBtn.innerHTML = 'Added! ✓';
+        setTimeout(() => {
+          if (activeBtn) {
+            activeBtn.disabled = false;
+            activeBtn.innerHTML = origHtml;
+          }
+        }, 1200);
+      }
+
+      if (typeof window.showToast === 'function') {
+        window.showToast('Added to cart! 🛒');
+      }
+
       const cart = await this.getCart();
       this.updateCount(cart);
-      
-      // Open drawer will sync COD fee and refresh cart layout
       await this.openDrawer();
-    } catch(err) { console.error(err); }
-    finally { if (btn) { btn.disabled = false; btn.textContent = origText; } }
+    } catch(err) {
+      console.error('Cart add error:', err);
+      if (typeof window.showToast === 'function') {
+        window.showToast(err.message || 'Could not add item to cart');
+      }
+      if (activeBtn) {
+        activeBtn.disabled = false;
+        activeBtn.innerHTML = origHtml;
+      }
+    } finally {
+      delete form.dataset.submitting;
+    }
   }
   async updateItem(key, qty) {
     const res = await fetch('/cart/change.js', { method: 'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'}, body: JSON.stringify({id:key,quantity:qty}) });
@@ -317,7 +373,7 @@ class TokiyoCart {
   }
   
   async syncCodFeeInCart(cart = null) {
-    const checkoutBtns = document.querySelectorAll('button[name="checkout"], .cart-checkout-btn');
+    const checkoutBtns = document.querySelectorAll('#CartDrawerForm button[name="checkout"], #CartForm button[name="checkout"], #CartDrawerForm .cart-checkout-btn, #CartForm .cart-checkout-btn');
     try {
       checkoutBtns.forEach(btn => {
         btn.disabled = true;
