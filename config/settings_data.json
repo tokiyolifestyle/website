@@ -53,6 +53,7 @@
     "enable_size_guide": true,
     "men_size_guide_image": "",
     "women_size_guide_image": "",
+    "hoodie_size_guide_image": "",
     "enable_color_swatches": true,
     "enable_wishlist": true,
     "enable_compare": true,

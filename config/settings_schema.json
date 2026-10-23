@@ -382,6 +382,11 @@
         "label": "Women's Oversized Size Guide Image"
       },
       {
+        "type": "image_picker",
+        "id": "hoodie_size_guide_image",
+        "label": "Hoodie Size Guide Image"
+      },
+      {
         "type": "checkbox",
         "id": "enable_color_swatches",
         "label": "Enable color swatches",

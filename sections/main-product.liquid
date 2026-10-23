@@ -6,8 +6,19 @@
   {%- assign is_women = true -%}
 {%- endif -%}
 
+{%- assign is_hoodie = false -%}
+{%- if product.title contains 'Hoodie' or product.type contains 'Hoodie' or product.tags contains 'hoodie' or product.tags contains 'Hoodie' -%}
+  {%- assign is_hoodie = true -%}
+{%- endif -%}
+
 {%- assign size_guide_img_src = '' -%}
-{%- if is_women -%}
+{%- if is_hoodie -%}
+  {%- if settings.hoodie_size_guide_image != blank -%}
+    {%- assign size_guide_img_src = settings.hoodie_size_guide_image | image_url: width: 1000 -%}
+  {%- else -%}
+    {%- assign size_guide_img_src = 'hoodie-size-guide.jpg' | asset_url -%}
+  {%- endif -%}
+{%- elsif is_women -%}
   {%- if settings.women_size_guide_image != blank -%}
     {%- assign size_guide_img_src = settings.women_size_guide_image | image_url: width: 1000 -%}
   {%- else -%}
