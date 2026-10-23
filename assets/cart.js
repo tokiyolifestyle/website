@@ -7,12 +7,22 @@ window.updatePaymentMethod = function(method) {
   if (typeof window.syncCartPayment === 'function') {
     window.syncCartPayment();
   }
+  if (window.TokiyoCart) {
+    window.TokiyoCart.syncCodFeeInCart().then(changed => {
+      if (changed) window.TokiyoCart.refreshCart();
+    });
+  }
 };
 
 window.updateCartPaymentMethod = function(method) {
   localStorage.setItem('tokiyo_payment_method', method);
   if (typeof window.syncCartPayment === 'function') {
     window.syncCartPayment();
+  }
+  if (window.TokiyoCart) {
+    window.TokiyoCart.syncCodFeeInCart().then(changed => {
+      if (changed) window.TokiyoCart.refreshCart();
+    });
   }
 };
 
@@ -183,11 +193,32 @@ class TokiyoCart {
         this.updateItem(item.dataset.cartItem, newQty);
       }
     });
-    document.addEventListener('submit', e => {
+    document.addEventListener('submit', async e => {
       const form = e.target.closest('[data-add-to-cart-form]');
-      if (!form) return;
-      e.preventDefault();
-      this.addFromForm(form);
+      if (form) {
+        e.preventDefault();
+        this.addFromForm(form);
+        return;
+      }
+
+      const checkoutForm = e.target.closest('#CartDrawerForm, #CartForm');
+      if (checkoutForm && (e.submitter?.name === 'checkout' || checkoutForm.querySelector('button[name="checkout"]'))) {
+        e.preventDefault();
+        const submitBtn = checkoutForm.querySelector('button[name="checkout"], .cart-checkout-btn');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          if (!submitBtn.dataset.originalText) {
+            submitBtn.dataset.originalText = submitBtn.innerHTML;
+          }
+          submitBtn.innerHTML = 'Proceeding to checkout...';
+        }
+        try {
+          await this.syncCodFeeInCart();
+        } catch (err) {
+          console.error('Checkout sync error:', err);
+        }
+        window.location.href = '/checkout';
+      }
     });
     document.addEventListener('change', e => {
       if (e.target.name === 'payment_method_choice' || e.target.name === 'cart_payment_method_choice') {
@@ -231,7 +262,10 @@ class TokiyoCart {
     
     await this.refreshCart();
     const cart = await this.getCart();
-    await this.syncCodFeeInCart(cart);
+    const changed = await this.syncCodFeeInCart(cart);
+    if (changed) {
+      await this.refreshCart();
+    }
   }
   open() { return this.openDrawer(); }
   refresh() { return this.refreshCart(); }
