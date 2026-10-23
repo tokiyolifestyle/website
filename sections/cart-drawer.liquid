@@ -40,7 +40,9 @@
         {%- assign festive_count = 0 -%}
         {%- assign last_drop_count = 0 -%}
         {%- assign has_bundle = false -%}
+        {%- assign has_discountable_item = false -%}
         {%- for itm in cart.items -%}
+          {%- if itm.variant_id == 48862017716468 -%}{%- continue -%}{%- endif -%}
           {%- if itm.product.tags contains 'festive-special-drop' -%}
             {%- assign festive_count = festive_count | plus: itm.quantity -%}
           {%- endif -%}
@@ -51,6 +53,9 @@
           {%- if itm.product.type == 'Combo Bundle' or itm_title_dn contains 'bundle' or itm_title_dn contains 'combo' or itm_title_dn contains 'duo' or itm_title_dn contains 'trio' -%}
             {%- assign has_bundle = true -%}
           {%- endif -%}
+          {%- unless itm.product.tags contains 'no-discount' or itm.product.type == 'Hoodie' or itm_title_dn contains 'hoodie' or itm.product.type == 'Combo Bundle' or itm_title_dn contains 'bundle' or itm_title_dn contains 'combo' -%}
+            {%- assign has_discountable_item = true -%}
+          {%- endunless -%}
         {%- endfor -%}
 
         {%- if festive_count > 0 -%}
@@ -120,7 +125,7 @@
           </div>
         {%- endif -%}
 
-        {%- if festive_count == 0 and last_drop_count == 0 -%}
+        {%- if festive_count == 0 and last_drop_count == 0 and has_discountable_item -%}
           {%- if has_bundle -%}
             <div class="cart-drawer__promo-notice" style="margin-bottom: 1.25rem; padding: 0.75rem 1rem; background: #FFF8E7; border-radius: 8px; border: 1px dashed #E5A823; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
               <div style="display: flex; align-items: center; gap: 0.4rem;">

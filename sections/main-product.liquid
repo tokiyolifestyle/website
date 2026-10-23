@@ -280,7 +280,7 @@
 
       {%- comment -%} Promo Code Box (Only for individual products) {%- endcomment -%}
       {%- assign prod_title_dn = product.title | downcase -%}
-      {%- unless product.type == 'Combo Bundle' or prod_title_dn contains 'bundle' or prod_title_dn contains 'combo' or prod_title_dn contains 'duo' or prod_title_dn contains 'trio' -%}
+      {%- unless product.type == 'Combo Bundle' or product.type == 'Hoodie' or product.tags contains 'no-discount' or prod_title_dn contains 'bundle' or prod_title_dn contains 'combo' or prod_title_dn contains 'duo' or prod_title_dn contains 'trio' or prod_title_dn contains 'hoodie' -%}
         <div class="product-info__promo-code" style="margin: 1.25rem 0; padding: 0.85rem 1.15rem; background: #F8F8F9; border-radius: 12px; border: 1px dashed rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
             <span style="font-size: 1.1rem; line-height: 1;">🎫</span>
