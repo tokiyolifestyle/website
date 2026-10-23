@@ -12,6 +12,24 @@
     "hero-banner": {
       "type": "hero-banner",
       "blocks": {
+        "slide-hoodie-drop": {
+          "type": "slide",
+          "settings": {
+            "image_url": "hero-hoodie-desktop.jpg",
+            "image_mobile_url": "hero-hoodie-mobile.jpg",
+            "video_url": "",
+            "bg_color": "#0a0a0a",
+            "overlay_opacity": 20,
+            "content_alignment": "left",
+            "eyebrow": "🔥 NEW ARRIVAL • 380+ GSM FLEECE",
+            "heading": "Signature Heavyweight Oversized Hoodie",
+            "subheading": "Crafted from ultra-soft 380+ GSM combed cotton fleece with 3D embossed puff print & hood embroidery. Unisex streetwear fit.",
+            "cta_label": "Shop The Hoodie • ₹1,700",
+            "cta_link": "/products/tokiyo-lifestyle-signature-oversized-hoodie-cream",
+            "cta2_label": "Explore Hoodies",
+            "cta2_link": "/collections/hoodies"
+          }
+        },
         "slide-durga-festive": {
           "type": "slide",
           "settings": {
@@ -101,6 +119,7 @@
         }
       },
       "block_order": [
+        "slide-hoodie-drop",
         "slide-durga-festive",
         "slide-last-drop",
         "slide-lovebirds-1",
@@ -278,9 +297,17 @@
             "title": "Signature & Story Wear",
             "link": "/collections/men-oversized-signature"
           }
+        },
+        "col-6": {
+          "type": "collection",
+          "settings": {
+            "title": "Hoodies & Winterwear",
+            "link": "/collections/hoodies"
+          }
         }
       },
       "block_order": [
+        "col-6",
         "col-1",
         "col-2",
         "col-3",
