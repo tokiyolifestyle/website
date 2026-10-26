@@ -1,0 +1,528 @@
+{%- comment -%}
+  ═══════════════════════════════════════════════════════════════════════
+  TOKIYO 3D DIWALI EXPERIENCE & IMMERSIVE FESTIVAL SYSTEM
+  Features:
+  1. Interactive Corner Diya Lamps with realistic flickering 3D flame & aura
+  2. Canvas-driven cinematic Crackers & Fireworks (Golden Chrysanthemum, Willow, Glitter)
+  3. Floating ambient Diyas & Marigold/Sparkle Petals rising softly
+  4. Audio-visual Crackle spark effects & burst interactions on click/tap
+  5. Performance optimized: uses requestAnimationFrame, pauses offscreen / reduced motion
+  ═══════════════════════════════════════════════════════════════════════
+{%- endcomment -%}
+
+<div id="TokiyoDiwaliExperience" class="tokiyo-diwali-universe" aria-hidden="true">
+  <!-- Fireworks & Sparkle Canvas -->
+  <canvas id="DiwaliFireworksCanvas" class="diwali-fireworks-canvas"></canvas>
+
+  <!-- Interactive 3D Bottom Diyas -->
+  <div class="diwali-corner-diya diwali-corner-diya--left" title="Happy Diwali! Tap for Fireworks">
+    <div class="diwali-diya-3d">
+      <div class="diwali-diya-flame">
+        <div class="diwali-flame-core"></div>
+        <div class="diwali-flame-glow"></div>
+        <div class="diwali-flame-aura"></div>
+      </div>
+      <div class="diwali-diya-body">
+        <div class="diwali-diya-rim"></div>
+        <div class="diwali-diya-oil"></div>
+      </div>
+      <div class="diwali-diya-shadow"></div>
+    </div>
+  </div>
+
+  <div class="diwali-corner-diya diwali-corner-diya--right" title="Happy Diwali! Tap for Fireworks">
+    <div class="diwali-diya-3d">
+      <div class="diwali-diya-flame">
+        <div class="diwali-flame-core"></div>
+        <div class="diwali-flame-glow"></div>
+        <div class="diwali-flame-aura"></div>
+      </div>
+      <div class="diwali-diya-body">
+        <div class="diwali-diya-rim"></div>
+        <div class="diwali-diya-oil"></div>
+      </div>
+      <div class="diwali-diya-shadow"></div>
+    </div>
+  </div>
+
+  <!-- Festive Floating Sparkle Petals Container -->
+  <div id="DiwaliSparkleRain" class="diwali-sparkle-rain"></div>
+</div>
+
+<style>
+  /* ═══ DIWALI ROOT CONTAINER ═══ */
+  .tokiyo-diwali-universe {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 850;
+    overflow: hidden;
+  }
+
+  /* ═══ FULLSCREEN FIREWORKS CANVAS ═══ */
+  .diwali-fireworks-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ═══ 3D CORNER DIYAS ═══ */
+  .diwali-corner-diya {
+    position: fixed;
+    bottom: 22px;
+    z-index: 860;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+  }
+  .diwali-corner-diya--left {
+    left: 20px;
+  }
+  .diwali-corner-diya--right {
+    right: 85px; /* Leaves room for floating cart/whatsapp */
+  }
+  .diwali-corner-diya:hover {
+    transform: scale(1.18) translateY(-4px);
+    filter: drop-shadow(0 0 18px rgba(255, 170, 0, 0.9));
+  }
+  .diwali-corner-diya:active {
+    transform: scale(0.95);
+  }
+
+  /* Realistic 3D Clay Diya */
+  .diwali-diya-3d {
+    position: relative;
+    width: 52px;
+    height: 38px;
+    transform-style: preserve-3d;
+  }
+
+  /* Clay Diya Body */
+  .diwali-diya-body {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 20px;
+    background: radial-gradient(ellipse at 50% 30%, #C25E2E 0%, #852C0C 70%, #4D1200 100%);
+    border-radius: 4px 4px 24px 24px / 4px 4px 18px 18px;
+    box-shadow: 
+      inset 0 -3px 6px rgba(0,0,0,0.5),
+      inset 0 2px 4px rgba(255,200,100,0.4),
+      0 4px 10px rgba(0,0,0,0.35);
+    border: 1px solid rgba(255, 190, 100, 0.35);
+  }
+
+  /* Brass / Gold Rim */
+  .diwali-diya-rim {
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    right: 2px;
+    height: 6px;
+    background: linear-gradient(90deg, #D97706 0%, #FDE68A 50%, #B45309 100%);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+
+  /* Golden Oil Pool */
+  .diwali-diya-oil {
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    right: 6px;
+    height: 8px;
+    background: radial-gradient(ellipse at center, #FBBF24 0%, #D97706 60%, #78350F 100%);
+    border-radius: 50%;
+    opacity: 0.9;
+  }
+
+  /* 3D Realistic Flickering Flame */
+  .diwali-diya-flame {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 26px;
+    pointer-events: none;
+  }
+
+  .diwali-flame-core {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 24px;
+    background: radial-gradient(ellipse at 50% 85%, #FFFFFF 0%, #FFFBEB 25%, #FDE047 50%, #F97316 75%, #DC2626 95%, transparent 100%);
+    border-radius: 50% 50% 35% 35% / 60% 60% 40% 40%;
+    animation: diwaliFlicker 0.12s infinite alternate ease-in-out;
+    filter: blur(0.3px);
+  }
+
+  .diwali-flame-glow {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 42px;
+    background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.75) 0%, rgba(249, 115, 22, 0.4) 45%, rgba(239, 68, 68, 0) 75%);
+    border-radius: 50%;
+    animation: diwaliGlowPulse 0.4s infinite alternate ease-in-out;
+    pointer-events: none;
+  }
+
+  .diwali-flame-aura {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, rgba(255, 180, 50, 0.28) 0%, rgba(255, 120, 0, 0.12) 50%, transparent 75%);
+    border-radius: 50%;
+    animation: diwaliAura 1.5s infinite alternate ease-in-out;
+    pointer-events: none;
+  }
+
+  .diwali-diya-shadow {
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 10px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  @keyframes diwaliFlicker {
+    0%   { transform: translateX(-50%) scale(1) rotate(-1deg); opacity: 0.95; }
+    50%  { transform: translateX(-52%) scale(1.06, 0.94) rotate(1.5deg); opacity: 1; }
+    100% { transform: translateX(-48%) scale(0.96, 1.05) rotate(-1deg); opacity: 0.92; }
+  }
+
+  @keyframes diwaliGlowPulse {
+    0%   { transform: translateX(-50%) scale(0.95); opacity: 0.7; }
+    100% { transform: translateX(-50%) scale(1.15); opacity: 0.95; }
+  }
+
+  @keyframes diwaliAura {
+    0%   { transform: translateX(-50%) scale(0.9); opacity: 0.5; }
+    100% { transform: translateX(-50%) scale(1.2); opacity: 0.85; }
+  }
+
+  /* ═══ FLOATING SPARKLE PETALS RAIN ═══ */
+  .diwali-sparkle-rain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .diwali-spark-particle {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    animation: diwaliSparkFloat linear forwards;
+  }
+
+  @keyframes diwaliSparkFloat {
+    0% {
+      transform: translateY(0) scale(0.8) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.9;
+    }
+    90% {
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(-110vh) scale(1.2) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  /* Mobile Adjustments */
+  @media (max-width: 749px) {
+    .diwali-corner-diya--left {
+      bottom: 74px !important;
+      left: 12px !important;
+      transform: scale(0.85);
+    }
+    .diwali-corner-diya--right {
+      bottom: 74px !important;
+      right: 12px !important;
+      transform: scale(0.85);
+    }
+    .diwali-corner-diya--left:hover,
+    .diwali-corner-diya--right:hover {
+      transform: scale(0.95) translateY(-2px);
+    }
+  }
+
+  /* Accessibility: respect user preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .diwali-fireworks-canvas { display: none !important; }
+    .diwali-sparkle-rain { display: none !important; }
+    .diwali-flame-core, .diwali-flame-glow, .diwali-flame-aura { animation: none !important; }
+  }
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  /* ═══ FIREWORKS & CRACKERS ENGINE ═══ */
+  const canvas = document.getElementById('DiwaliFireworksCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }, { passive: true });
+
+  const particles = [];
+  const rockets = [];
+
+  // Luxury Festive Colors (Gold, Amber, Deep Crimson, Emerald, Violet)
+  const FESTIVE_PALETTES = [
+    ['#F59E0B', '#FBBF24', '#FDE68A', '#FEF3C7', '#D97706'], // Imperial Gold
+    ['#EF4444', '#F87171', '#FCA5A5', '#DC2626', '#FFED4A'], // Festive Crimson & Gold
+    ['#10B981', '#34D399', '#6EE7B7', '#059669', '#FDE047'], // Emerald Sparkle
+    ['#8B5CF6', '#A78BFA', '#C4B5FD', '#7C3AED', '#FBBF24'], // Royal Violet & Gold
+    ['#EC4899', '#F472B6', '#FBCFE8', '#DB2777', '#FEF08A'], // Magenta Spark
+  ];
+
+  class Rocket {
+    constructor(startX, startY, targetX, targetY, colorPalette) {
+      this.x = startX;
+      this.y = startY;
+      this.startX = startX;
+      this.startY = startY;
+      this.targetX = targetX;
+      this.targetY = targetY;
+      this.palette = colorPalette || FESTIVE_PALETTES[Math.floor(Math.random() * FESTIVE_PALETTES.length)];
+      this.distanceToTarget = Math.hypot(targetX - startX, targetY - startY);
+      this.distanceTraveled = 0;
+      this.coordinates = [];
+      this.coordinateCount = 3;
+      while (this.coordinateCount--) {
+        this.coordinates.push([this.x, this.y]);
+      }
+      this.angle = Math.atan2(targetY - startY, targetX - startX);
+      this.speed = 4.5;
+      this.acceleration = 1.05;
+      this.brightness = Math.random() * 30 + 70;
+      this.targetRadius = 1;
+    }
+
+    update(index) {
+      this.coordinates.pop();
+      this.coordinates.unshift([this.x, this.y]);
+
+      this.speed *= this.acceleration;
+      const vx = Math.cos(this.angle) * this.speed;
+      const vy = Math.sin(this.angle) * this.speed;
+      this.distanceTraveled = Math.hypot(this.x - this.startX, this.y - this.startY);
+
+      if (this.distanceTraveled >= this.distanceToTarget) {
+        createCrackerBurst(this.targetX, this.targetY, this.palette);
+        rockets.splice(index, 1);
+      } else {
+        this.x += vx;
+        this.y += vy;
+      }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+      ctx.lineTo(this.x, this.y);
+      ctx.strokeStyle = `hsl(45, 100%, ${this.brightness}%)`;
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    }
+  }
+
+  class Particle {
+    constructor(x, y, color) {
+      this.x = x;
+      this.y = y;
+      this.coordinates = [];
+      this.coordinateCount = 5;
+      while (this.coordinateCount--) {
+        this.coordinates.push([this.x, this.y]);
+      }
+      this.angle = Math.random() * Math.PI * 2;
+      this.speed = Math.random() * 8 + 1.5;
+      this.friction = 0.95;
+      this.gravity = 0.65;
+      this.color = color;
+      this.alpha = 1;
+      this.decay = Math.random() * 0.018 + 0.012;
+      this.sparkle = Math.random() < 0.35;
+    }
+
+    update(index) {
+      this.coordinates.pop();
+      this.coordinates.unshift([this.x, this.y]);
+      this.speed *= this.friction;
+      this.x += Math.cos(this.angle) * this.speed;
+      this.y += Math.sin(this.angle) * this.speed + this.gravity;
+      this.alpha -= this.decay;
+
+      if (this.alpha <= this.decay) {
+        particles.splice(index, 1);
+      }
+    }
+
+    draw() {
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+      ctx.lineTo(this.x, this.y);
+      ctx.strokeStyle = this.color;
+      ctx.globalAlpha = Math.max(0, this.alpha);
+      ctx.lineWidth = this.sparkle ? (Math.random() * 2.8 + 1) : 2;
+      ctx.stroke();
+
+      if (this.sparkle && Math.random() < 0.25) {
+        ctx.fillStyle = '#FFFFFF';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+  }
+
+  function createCrackerBurst(x, y, palette) {
+    const particleCount = Math.floor(Math.random() * 40) + 60;
+    for (let i = 0; i < particleCount; i++) {
+      const color = palette[Math.floor(Math.random() * palette.length)];
+      particles.push(new Particle(x, y, color));
+    }
+  }
+
+  function launchRandomFirework() {
+    const startX = width * (0.15 + Math.random() * 0.7);
+    const startY = height;
+    const targetX = width * (0.1 + Math.random() * 0.8);
+    const targetY = height * (0.1 + Math.random() * 0.45);
+    rockets.push(new Rocket(startX, startY, targetX, targetY));
+  }
+
+  // Interactive Click / Tap burst anywhere on page
+  window.addEventListener('click', (e) => {
+    // Only launch interactive firework if user clicked on background or decorative area
+    const target = e.target;
+    if (target.closest('a, button, input, select, textarea, [data-cart-drawer-toggle]')) return;
+    createCrackerBurst(e.clientX, e.clientY, FESTIVE_PALETTES[Math.floor(Math.random() * FESTIVE_PALETTES.length)]);
+  });
+
+  // Tap on Diya triggers twin celebratory bursts
+  document.querySelectorAll('.diwali-corner-diya').forEach(diya => {
+    diya.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const rect = diya.getBoundingClientRect();
+      const originX = rect.left + rect.width / 2;
+      const originY = rect.top;
+
+      // Launch multiple spectacular fireworks upwards
+      for (let i = 0; i < 3; i++) {
+        setTimeout(() => {
+          const targetX = Math.max(60, Math.min(width - 60, originX + (Math.random() - 0.5) * 320));
+          const targetY = height * 0.18 + Math.random() * (height * 0.28);
+          rockets.push(new Rocket(originX, originY, targetX, targetY));
+        }, i * 220);
+      }
+    });
+  });
+
+  /* Main Animation Loop */
+  let lastLaunchTime = Date.now();
+  let launchInterval = 3200; // Launch automatic firework every ~3.2s
+
+  function loop() {
+    requestAnimationFrame(loop);
+
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.22)';
+    ctx.fillRect(0, 0, width, height);
+    ctx.globalCompositeOperation = 'lighter';
+
+    let r = rockets.length;
+    while (r--) {
+      rockets[r].draw();
+      rockets[r].update(r);
+    }
+
+    let p = particles.length;
+    while (p--) {
+      particles[p].draw();
+      particles[p].update(p);
+    }
+
+    const now = Date.now();
+    if (now - lastLaunchTime > launchInterval) {
+      lastLaunchTime = now;
+      launchRandomFirework();
+      launchInterval = 2500 + Math.random() * 2500; // Natural rhythm
+    }
+  }
+  loop();
+
+  /* ═══ AMBIENT FLOATING SPARKLES & PETALS ═══ */
+  const sparkleContainer = document.getElementById('DiwaliSparkleRain');
+  if (sparkleContainer) {
+    const SPARKLE_CHARS = ['✦', '✧', '🪔', '✨', '•', '🌸', '🌼'];
+    const COLORS = ['#F59E0B', '#FBBF24', '#FDE68A', '#F97316', '#FFD700', '#EA580C'];
+
+    function createFloatingSparkle() {
+      if (document.hidden) return;
+      const el = document.createElement('span');
+      el.className = 'diwali-spark-particle';
+      const char = SPARKLE_CHARS[Math.floor(Math.random() * SPARKLE_CHARS.length)];
+      el.textContent = char;
+
+      const size = char === '🪔' ? (Math.random() * 8 + 14) : (char === '🌼' || char === '🌸' ? (Math.random() * 6 + 10) : (Math.random() * 10 + 6));
+      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      const duration = Math.random() * 8 + 7;
+      const left = Math.random() * 100;
+
+      el.style.left = `${left}vw`;
+      el.style.bottom = '-30px';
+      el.style.fontSize = `${size}px`;
+      el.style.color = color;
+      el.style.textShadow = `0 0 ${Math.random() * 10 + 6}px ${color}`;
+      el.style.animationDuration = `${duration}s`;
+
+      sparkleContainer.appendChild(el);
+
+      setTimeout(() => {
+        el.remove();
+      }, duration * 1000);
+    }
+
+    // Spawn 1 sparkle every 450ms
+    setInterval(createFloatingSparkle, 450);
+    // Initial batch
+    for (let i = 0; i < 8; i++) {
+      setTimeout(createFloatingSparkle, i * 200);
+    }
+  }
+
+})();
+</script>

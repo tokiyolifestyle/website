@@ -179,10 +179,10 @@
     </span>
   </a>
 
-  <!-- --- Animated Durga Puja / Dussehra Festive Mascot Widget --- -->
+  <!-- --- Animated Diwali Royal Lion Festive Mascot Widget --- -->
   <div id="TokiyoMascot" class="tokiyo-mascot" aria-hidden="true" style="display: none;">
-    <div class="tokiyo-mascot__bubble" id="MascotBubble">Shubho Sharodiya! 🔱</div>
-    <img src="{{ 'durga-festive-mascot.jpg' | asset_url }}" alt="Durga Puja Festive Mascot" id="MascotImg" loading="lazy" style="border-radius: 50%; border: 2px solid #ffd700; box-shadow: 0 0 20px rgba(255,100,0,0.6);">
+    <div class="tokiyo-mascot__bubble" id="MascotBubble">Happy Diwali! 🪔✨</div>
+    <img src="{{ 'diwali-mascot.jpg' | asset_url }}" alt="Diwali Festive Royal Lion Mascot" id="MascotImg" loading="lazy" style="border-radius: 50%; border: 2.5px solid #F59E0B; box-shadow: 0 0 25px rgba(245,158,11,0.75);">
   </div>
 
   <style>
@@ -309,17 +309,16 @@
       mascot.style.display = 'block';
 
       const quotes = [
-        "Roar into Durga Puja & Dussehra! 🦁",
-        "Shubho Sharodiya! 🔱",
-        "Happy Durga Puja & Dussehra! ✨",
+        "Happy Diwali! May your fit shine brighter! 🪔",
+        "Diwali Festive Dhamaka is LIVE! 💥✨",
+        "Light up your style with Tokiyo! 🌟",
         "NEW HERE? GET 10% OFF with code TOKIYO10! 🎫",
         "Celebrate in Royal Tokiyo Streetwear! 👑",
-        "Maa Durga's festive drops are live! ✦",
-        "Dussehra Special: Buy More, Save More! 🔥",
+        "Diwali Special: Buy More, Save Up to ₹500! 🔥",
         "Crafted with premium 240 GSM heavy cotton! 👕",
-        "TWO HEARTS. TWO FITS. ONE DEAL. ✦",
-        "Welcome to Tokiyo Lifestyle! 🇯🇵",
-        "Streetwear engineered for bold style! ✦"
+        "TWO HEARTS. TWO FITS. ONE DIWALI DEAL. ✦",
+        "Tap the bottom Diyas for fireworks! 🎆",
+        "Welcome to Tokiyo Lifestyle! 🇯🇵"
       ];
 
       function showBubble(text, duration = 3000) {
@@ -328,7 +327,7 @@
         setTimeout(() => { mascot.classList.remove('has-bubble'); }, duration);
       }
 
-      setTimeout(() => { showBubble("Shubho Sharodiya! 🔱"); }, 2500);
+      setTimeout(() => { showBubble("Happy Diwali! 🪔✨"); }, 2500);
 
       function wander() {
         if (isMobile()) return; // Keep mascot static in the corner on mobile
@@ -403,6 +402,9 @@
       border: 1px solid #111;
     ">{{ cart_item_count }}</span>
   </button>
+
+  <!-- 3D Diwali Experience & Fireworks System -->
+  {% render 'diwali-festive-experience' %}
 
 </body>
 </html>

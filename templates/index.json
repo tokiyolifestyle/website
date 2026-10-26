@@ -33,16 +33,16 @@
         "slide-durga-festive": {
           "type": "slide",
           "settings": {
-            "image_url": "hero-durga-puja-desktop.jpg",
-            "image_mobile_url": "hero-durga-puja-mobile.jpg",
+            "image_url": "hero-diwali-desktop.jpg",
+            "image_mobile_url": "hero-diwali-mobile.jpg",
             "video_url": "",
             "bg_color": "#0a0a0a",
             "overlay_opacity": 30,
             "content_alignment": "left",
-            "eyebrow": "🔱 DUSSEHRA & DURGA PUJA SPECIAL",
+            "eyebrow": "🪔 DIWALI GRAND FESTIVE DHAMAKA ✨",
             "heading": "Buy More, Save More — Up to ₹500 OFF",
-            "subheading": "Buy 2 Save ₹200 • Buy 3 Save ₹350 • Buy 4+ Save ₹500. Mix & match across 9 exclusive women's oversized streetwear fits.",
-            "cta_label": "Claim Festive Offer",
+            "subheading": "Buy 2 Save ₹200 • Buy 3 Save ₹350 • Buy 4+ Save ₹500. Light up your wardrobe with exclusive premium streetwear fits.",
+            "cta_label": "Claim Diwali Offer",
             "cta_link": "/collections/festive-special-drop",
             "cta2_label": "Explore All Fits",
             "cta2_link": "/collections/all"
