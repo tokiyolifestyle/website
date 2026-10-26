@@ -97,12 +97,12 @@
     {%- comment -%} ═══ Gender Tabs — Futuristic pill style with SHOP ALL ═══ {%- endcomment -%}
     <div class="catg-universe__tabs" role="tablist">
       <div class="catg-universe__tabs-bg" data-tab-slider></div>
-      <button class="catg-universe__tab is-active" role="tab" aria-selected="true" data-catg-tab="men" id="utab-men">
-        <span class="catg-universe__tab-text">MEN'S</span>
+      <button class="catg-universe__tab is-active" role="tab" aria-selected="true" data-catg-tab="oversized" id="utab-oversized">
+        <span class="catg-universe__tab-text">OVERSIZED T-SHIRT</span>
         <span class="catg-universe__tab-glow"></span>
       </button>
-      <button class="catg-universe__tab" role="tab" aria-selected="false" data-catg-tab="women" id="utab-women">
-        <span class="catg-universe__tab-text">WOMEN'S</span>
+      <button class="catg-universe__tab" role="tab" aria-selected="false" data-catg-tab="winter" id="utab-winter">
+        <span class="catg-universe__tab-text">WINTER DROP</span>
         <span class="catg-universe__tab-glow"></span>
       </button>
       <a href="/collections/all" class="catg-universe__tab catg-universe__tab--all" id="utab-all" title="Shop All Products">
@@ -111,10 +111,10 @@
       </a>
     </div>
  
-    {%- comment -%} ═══ MEN'S PANEL ═══ {%- endcomment -%}
-    <div class="catg-universe__panel is-active" data-catg-panel="men" id="upanel-men">
+    {%- comment -%} ═══ OVERSIZED T-SHIRT PANEL ═══ {%- endcomment -%}
+    <div class="catg-universe__panel is-active" data-catg-panel="oversized" id="upanel-oversized">
  
-      {%- comment -%} Oversized Section {%- endcomment -%}
+      {%- comment -%} Men's Oversized Section {%- endcomment -%}
       <div class="catg-universe__section">
         <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
           <div class="catg-universe__section-left">
@@ -122,8 +122,8 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8L10 5C10 5 11.5 10 16 10L22 5L20 14H17V22H7V14H4L2 5Z"/></svg>
             </span>
             <div>
-              <span class="catg-universe__section-badge">OVERSIZED</span>
-              <span class="catg-universe__section-sub">Drop-shoulder premium fits</span>
+              <span class="catg-universe__section-badge">MEN'S OVERSIZED</span>
+              <span class="catg-universe__section-sub">Drop-shoulder premium 240+ GSM fits</span>
             </div>
           </div>
           <div class="catg-universe__section-chevron">
@@ -296,11 +296,8 @@
         </div>
       </div>
       {%- endcomment -%}
-    </div>
  
-    {%- comment -%} ═══ WOMEN'S PANEL ═══ {%- endcomment -%}
-    <div class="catg-universe__panel" data-catg-panel="women" id="upanel-women" hidden>
-      {%- comment -%} Oversized {%- endcomment -%}
+      {%- comment -%} Women's Oversized Section {%- endcomment -%}
       <div class="catg-universe__section">
         <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
           <div class="catg-universe__section-left">
@@ -308,7 +305,7 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8L10 5C10 5 11.5 10 16 10L22 5L20 14H17V22H7V14H4L2 5Z"/></svg>
             </span>
             <div>
-              <span class="catg-universe__section-badge">OVERSIZED</span>
+              <span class="catg-universe__section-badge">WOMEN'S OVERSIZED</span>
               <span class="catg-universe__section-sub">Drop-shoulder premium fits</span>
             </div>
           </div>
@@ -456,6 +453,135 @@
         </div>
       </div>
       {%- endunless -%}
+    </div>
+ 
+    {%- comment -%} ═══ WINTER DROP PANEL ═══ {%- endcomment -%}
+    <div class="catg-universe__panel" data-catg-panel="winter" id="upanel-winter" hidden>
+      <div class="catg-universe__section">
+        <div class="catg-universe__section-header" data-catg-accordion aria-expanded="true">
+          <div class="catg-universe__section-left">
+            <span class="catg-universe__section-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </span>
+            <div>
+              <span class="catg-universe__section-badge">WINTER &amp; SPECIAL DROPS</span>
+              <span class="catg-universe__section-sub">Heavyweight Fleece, Seasonal Drops &amp; Exclusive Combos</span>
+            </div>
+          </div>
+          <div class="catg-universe__section-chevron">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="catg-universe__section-body is-open">
+          <div class="catg-universe__grid">
+
+            {%- comment -%} Card 1: Heavyweight Hoodies {%- endcomment -%}
+            <a href="/collections/hoodies" class="catg-card-3d" data-tilt>
+              <div class="catg-card-3d__inner">
+                <div class="catg-card-3d__glow-border"></div>
+                <div class="catg-card-3d__media">
+                  <img src="{{ 'hero-hoodie-desktop.jpg' | asset_url }}"
+                       alt="Heavyweight Fleece Hoodies"
+                       class="catg-card-3d__img"
+                       loading="lazy"
+                       width="600"
+                       height="600">
+                  <div class="catg-card-3d__shimmer"></div>
+                  <div class="catg-card-3d__overlay"></div>
+                </div>
+                <div class="catg-card-3d__content">
+                  <span class="catg-card-3d__tag">380+ GSM FLEECE</span>
+                  <h3 class="catg-card-3d__title">HOODIES</h3>
+                  <div class="catg-card-3d__explore">
+                    <span>Explore</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </div>
+                </div>
+                <div class="catg-card-3d__shine" data-card-shine></div>
+              </div>
+            </a>
+
+            {%- comment -%} Card 2: Festive Drop {%- endcomment -%}
+            <a href="/collections/festive-special-drop" class="catg-card-3d" data-tilt>
+              <div class="catg-card-3d__inner">
+                <div class="catg-card-3d__glow-border"></div>
+                <div class="catg-card-3d__media">
+                  <img src="{{ 'hero-durga-puja-desktop.jpg' | asset_url }}"
+                       alt="Festive Special Drop"
+                       class="catg-card-3d__img"
+                       loading="lazy"
+                       width="600"
+                       height="600">
+                  <div class="catg-card-3d__shimmer"></div>
+                  <div class="catg-card-3d__overlay"></div>
+                </div>
+                <div class="catg-card-3d__content">
+                  <span class="catg-card-3d__tag">LIMITED DROP</span>
+                  <h3 class="catg-card-3d__title">FESTIVE DROP</h3>
+                  <div class="catg-card-3d__explore">
+                    <span>Explore</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </div>
+                </div>
+                <div class="catg-card-3d__shine" data-card-shine></div>
+              </div>
+            </a>
+
+            {%- comment -%} Card 3: The Last Drop {%- endcomment -%}
+            <a href="/collections/the-last-drop" class="catg-card-3d" data-tilt>
+              <div class="catg-card-3d__inner">
+                <div class="catg-card-3d__glow-border"></div>
+                <div class="catg-card-3d__media">
+                  <img src="{{ 'hero-last-drop-desktop.jpg' | asset_url }}"
+                       alt="The Last Drop Vault"
+                       class="catg-card-3d__img"
+                       loading="lazy"
+                       width="600"
+                       height="600">
+                  <div class="catg-card-3d__shimmer"></div>
+                  <div class="catg-card-3d__overlay"></div>
+                </div>
+                <div class="catg-card-3d__content">
+                  <span class="catg-card-3d__tag">UP TO 30% OFF</span>
+                  <h3 class="catg-card-3d__title">THE LAST DROP</h3>
+                  <div class="catg-card-3d__explore">
+                    <span>Explore</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </div>
+                </div>
+                <div class="catg-card-3d__shine" data-card-shine></div>
+              </div>
+            </a>
+
+            {%- comment -%} Card 4: Lovebird's Pick (Couple Combo) {%- endcomment -%}
+            <a href="/products/lovebirds-pick-totm003-tovwo001" class="catg-card-3d" data-tilt>
+              <div class="catg-card-3d__inner">
+                <div class="catg-card-3d__glow-border"></div>
+                <div class="catg-card-3d__media">
+                  <img src="https://cdn.shopify.com/s/files/1/0837/3292/2612/files/lovebirds_totm003_tovwo001.png?v=1789285312"
+                       alt="Lovebird's Pick Couple Combo"
+                       class="catg-card-3d__img"
+                       loading="lazy"
+                       width="600"
+                       height="600">
+                  <div class="catg-card-3d__shimmer"></div>
+                  <div class="catg-card-3d__overlay"></div>
+                </div>
+                <div class="catg-card-3d__content">
+                  <span class="catg-card-3d__tag">COUPLE COMBO</span>
+                  <h3 class="catg-card-3d__title">LOVEBIRD'S PICK</h3>
+                  <div class="catg-card-3d__explore">
+                    <span>Explore</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </div>
+                </div>
+                <div class="catg-card-3d__shine" data-card-shine></div>
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </div>
     </div>
 
     {%- comment -%} ═══ Dynamic 7-8 Product Discovery Grid (Shuffles on Every Refresh) ═══ {%- endcomment -%}
@@ -679,6 +805,19 @@
     transition: opacity 0.3s ease;
   }
   .catg-universe__tab:hover .catg-universe__tab-glow { opacity: 1; }
+  @media (max-width: 749px) {
+    .catg-universe__tabs {
+      max-width: calc(100vw - 24px);
+      padding: 3px;
+      margin-bottom: 0.75rem;
+    }
+    .catg-universe__tab {
+      padding: 0.55rem 0.85rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+  }
 
   /* ═══ Panels ═══ */
   .catg-universe__panel {
@@ -1216,25 +1355,6 @@
 (function(){
   'use strict';
 
-  /* ═══ Tab Switching ═══ */
-  const tabs = document.querySelectorAll('[data-catg-tab]');
-  const panels = document.querySelectorAll('[data-catg-panel]');
-  const slider = document.querySelector('[data-tab-slider]');
-  tabs.forEach((tab, i) => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected','false'); });
-      panels.forEach(p => { p.classList.remove('is-active'); p.hidden = true; });
-      tab.classList.add('is-active');
-      tab.setAttribute('aria-selected','true');
-      const panel = document.querySelector(`[data-catg-panel="${tab.dataset.catgTab}"]`);
-      if(panel) { panel.classList.add('is-active'); panel.hidden = false; }
-      /* Slide background pill */
-      if(slider) slider.classList.toggle('slide-right', i === 1);
-      /* Re-init 3D tilt for new panel */
-      init3DTilt();
-    });
-  });
-
   /* ═══ Accordion ═══ */
   document.querySelectorAll('[data-catg-accordion]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1405,6 +1525,10 @@
             panel.setAttribute('hidden', '');
           }
         });
+
+        if (typeof init3DTilt === 'function') {
+          init3DTilt();
+        }
       });
     });
 
