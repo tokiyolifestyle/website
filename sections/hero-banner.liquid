@@ -791,6 +791,24 @@
     .hero-carousel__ctas {
       justify-content: center;
     }
+    .hero-carousel__content--left .hero-carousel__text-side {
+      text-align: left !important;
+      max-width: 60% !important;
+      margin-inline: 0 !important;
+    }
+    .hero-carousel__content--left .hero-carousel__eyebrow {
+      text-align: left !important;
+    }
+    .hero-carousel__content--left .hero-carousel__heading {
+      text-align: left !important;
+    }
+    .hero-carousel__content--left .hero-carousel__subheading {
+      text-align: left !important;
+      margin-inline: 0 !important;
+    }
+    .hero-carousel__content--left .hero-carousel__ctas {
+      justify-content: flex-start !important;
+    }
     .hero-combo-display--duo .hero-combo-card {
       width: 130px;
       height: 165px;
@@ -820,18 +838,24 @@
       height: 70vh !important;
       min-height: 460px !important;
     }
+    .hero-carousel__img {
+      object-position: center 38% !important;
+    }
     .hero-carousel__slide {
-      align-items: flex-end !important;
+      align-items: center !important;
     }
     .hero-carousel__overlay {
-      background: linear-gradient(180deg, rgba(8,8,10,0.1) 0%, rgba(8,8,10,0.45) 45%, rgba(8,8,10,0.92) 85%) !important;
+      background: linear-gradient(90deg, rgba(8,8,10,0.85) 0%, rgba(8,8,10,0.58) 46%, rgba(8,8,10,0.06) 72%, transparent 100%) !important;
     }
     .hero-carousel__content {
-      padding-bottom: 2.8rem !important;
+      padding-bottom: 1.5rem !important;
     }
     .hero-carousel__slide--combo {
       min-height: 460px !important;
       align-items: center !important;
+    }
+    .hero-carousel__slide--combo .hero-carousel__overlay {
+      background: linear-gradient(180deg, rgba(8,8,10,0.1) 0%, rgba(8,8,10,0.45) 45%, rgba(8,8,10,0.92) 85%) !important;
     }
     .hero-carousel__content--combo {
       padding-top: 1rem !important;
@@ -862,6 +886,57 @@
       padding: 8px 12px !important;
       font-size: 11px !important;
       white-space: nowrap !important;
+    }
+
+    /* Left-aligned slides (e.g. Hoodie Drop) on mobile: shop options stay strictly on the left, models crystal clear on the right */
+    .hero-carousel__content--left {
+      text-align: left !important;
+      padding-inline: 1.25rem !important;
+    }
+    .hero-carousel__content--left .hero-carousel__text-side {
+      text-align: left !important;
+      max-width: 58% !important;
+      margin-inline: 0 !important;
+    }
+    .hero-carousel__content--left .hero-carousel__eyebrow {
+      text-align: left !important;
+      font-size: 0.65rem !important;
+      margin-bottom: 0.35rem !important;
+    }
+    .hero-carousel__content--left .hero-carousel__heading {
+      text-align: left !important;
+      font-size: clamp(1.2rem, 4.6vw, 1.55rem) !important;
+      line-height: 1.15 !important;
+      margin-bottom: 0.35rem !important;
+    }
+    .hero-carousel__content--left .hero-carousel__subheading {
+      text-align: left !important;
+      margin-inline: 0 !important;
+      max-width: 100% !important;
+      font-size: 0.72rem !important;
+      line-height: 1.4 !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      margin-bottom: 0.75rem !important;
+      opacity: 0.85 !important;
+    }
+    .hero-carousel__content--left .hero-carousel__ctas {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+      gap: 7px !important;
+      margin-bottom: 0.5rem !important;
+    }
+    .hero-carousel__content--left .hero-carousel__ctas .button {
+      padding: 8px 14px !important;
+      font-size: 11px !important;
+      letter-spacing: 0.04em !important;
+      width: auto !important;
+      max-width: 100% !important;
+      text-align: center !important;
     }
     .hero-combo-display {
       margin-bottom: 0.3rem !important;
