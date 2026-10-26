@@ -33,7 +33,11 @@ public class CredMan {
             byte[] blob = new byte[cred.CredentialBlobSize];
             Marshal.Copy(cred.CredentialBlob, blob, 0, cred.CredentialBlobSize);
             CredFree(credPtr);
-            return Encoding.UTF8.GetString(blob);
+            if (cred.CredentialBlobSize >= 2 && blob[1] == 0) {
+                return Encoding.Unicode.GetString(blob).Trim('\0', ' ', '\r', '\n');
+            } else {
+                return Encoding.UTF8.GetString(blob).Trim('\0', ' ', '\r', '\n');
+            }
         }
         return null;
     }
@@ -42,10 +46,19 @@ public class CredMan {
 
 Add-Type -TypeDefinition $csharpSource
 
-$token = [CredMan]::GetPassword("LegacyGeneric:target=GitHub - https://api.github.com/tokiyolifestyle")
-if (-not $token) {
-    # try other targets if needed
-    $token = [CredMan]::GetPassword("git:https://github.com")
+$targets = @(
+    "LegacyGeneric:target=git:https://tokiyolifestyle@github.com",
+    "git:https://tokiyolifestyle@github.com",
+    "LegacyGeneric:target=GitHub - https://api.github.com/tokiyolifestyle",
+    "git:https://github.com"
+)
+
+$token = $null
+foreach ($t in $targets) {
+    $token = [CredMan]::GetPassword($t)
+    if ($token) {
+        break
+    }
 }
 
 if ($token) {
