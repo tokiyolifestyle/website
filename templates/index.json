@@ -21,10 +21,10 @@
             "bg_color": "#0a0a0a",
             "overlay_opacity": 20,
             "content_alignment": "left",
-            "eyebrow": "🔥 NEW ARRIVAL • 380+ GSM FLEECE",
+            "eyebrow": "🔥 WINTER SPECIAL • 10% OFF WITH CODE TOKIYO10",
             "heading": "Signature Heavyweight Oversized Hoodie",
-            "subheading": "Crafted from ultra-soft 380+ GSM combed cotton fleece with 3D embossed puff print & hood embroidery. Unisex streetwear fit.",
-            "cta_label": "Shop The Hoodie • ₹1,700",
+            "subheading": "Crafted from ultra-soft 380+ GSM combed cotton fleece with 3D embossed puff print & hood embroidery. Get 10% OFF with code TOKIYO10 (Save ₹170).",
+            "cta_label": "Shop The Hoodie • ₹1,699",
             "cta_link": "/products/tokiyo-lifestyle-signature-oversized-hoodie-cream",
             "cta2_label": "Explore Hoodies",
             "cta2_link": "/collections/hoodies"
@@ -33,18 +33,18 @@
         "slide-durga-festive": {
           "type": "slide",
           "settings": {
-            "image_url": "hero-diwali-desktop.jpg",
-            "image_mobile_url": "hero-diwali-mobile.jpg",
+            "image_url": "hero-winter-desktop.jpg",
+            "image_mobile_url": "hero-winter-mobile.jpg",
             "video_url": "",
             "bg_color": "#0a0a0a",
             "overlay_opacity": 30,
             "content_alignment": "left",
-            "eyebrow": "🪔 DIWALI GRAND FESTIVE DHAMAKA ✨",
+            "eyebrow": "❄️ WINTER COLLECTION 2026 • HEAVYWEIGHT DROPS ☃️",
             "heading": "Buy More, Save More — Up to ₹500 OFF",
-            "subheading": "Buy 2 Save ₹200 • Buy 3 Save ₹350 • Buy 4+ Save ₹500. Light up your wardrobe with exclusive premium streetwear fits.",
-            "cta_label": "Claim Diwali Offer",
-            "cta_link": "/collections/festive-special-drop",
-            "cta2_label": "Explore All Fits",
+            "subheading": "Buy 2 Save ₹200 • Buy 3 Save ₹350 • Buy 4+ Save ₹500. Wrap up in 380+ GSM combed fleece hoodies & heavyweight Japanese streetwear.",
+            "cta_label": "Claim Winter Offer",
+            "cta_link": "/collections/hoodies",
+            "cta2_label": "Explore Winter Fits",
             "cta2_link": "/collections/all"
           }
         },
@@ -65,66 +65,12 @@
             "cta2_label": "Men's Drops",
             "cta2_link": "/collections/men-oversized"
           }
-        },
-        "slide-lovebirds-1": {
-          "type": "slide",
-          "settings": {
-            "image_url": "https://cdn.shopify.com/s/files/1/0837/3292/2612/files/lovebirds_totm003_tovwo001.png?v=1789285312",
-            "video_url": "",
-            "bg_color": "#0a0a0a",
-            "overlay_opacity": 35,
-            "content_alignment": "left",
-            "eyebrow": "Lovebird’s Pick • Special Couple Combo",
-            "heading": "Lovebird’s Pick — Get It @ ₹1,299",
-            "subheading": "TOTM003 + TOVWO001 couple pairing. Choose your color and size for each tee.",
-            "cta_label": "Claim Couple Deal • ₹1,299",
-            "cta_link": "/products/lovebirds-pick-totm003-tovwo001",
-            "cta2_label": "Explore All",
-            "cta2_link": "/collections/all"
-          }
-        },
-        "slide-lovebirds-2": {
-          "type": "slide",
-          "settings": {
-            "image_url": "https://cdn.shopify.com/s/files/1/0837/3292/2612/files/lovebirds_totm044_tovwo011.jpg?v=1789285317",
-            "video_url": "",
-            "bg_color": "#0a0a0a",
-            "overlay_opacity": 35,
-            "content_alignment": "left",
-            "eyebrow": "Lovebird’s Pick • Pick Any 2",
-            "heading": "Lovebird’s Pick — Buy 2 @ ₹1,349",
-            "subheading": "TOTM044 + TOVWO011 couple pairing. 240 GSM heavy cotton oversized fits.",
-            "cta_label": "Claim Couple Deal • ₹1,349",
-            "cta_link": "/products/lovebirds-pick-totm044-tovwo011",
-            "cta2_label": "Explore All",
-            "cta2_link": "/collections/all"
-          }
-        },
-        "slide-lovebirds-3": {
-          "type": "slide",
-          "settings": {
-            "image_url": "https://cdn.shopify.com/s/files/1/0837/3292/2612/files/lovebirds_totm039_tovwo015.png?v=1789285322",
-            "video_url": "",
-            "bg_color": "#0a0a0a",
-            "overlay_opacity": 35,
-            "content_alignment": "left",
-            "eyebrow": "Lovebird’s Pick • Pick Any 2",
-            "heading": "Lovebird’s Pick — Buy 2 @ ₹1,299",
-            "subheading": "TOTM039 + TOVWO015 couple pairing. Iconic Japanese streetwear graphics & boxy drop.",
-            "cta_label": "Claim Couple Deal • ₹1,299",
-            "cta_link": "/products/lovebirds-pick-totm039-tovwo015",
-            "cta2_label": "Explore All",
-            "cta2_link": "/collections/all"
-          }
         }
       },
       "block_order": [
         "slide-hoodie-drop",
         "slide-durga-festive",
-        "slide-last-drop",
-        "slide-lovebirds-1",
-        "slide-lovebirds-2",
-        "slide-lovebirds-3"
+        "slide-last-drop"
       ],
       "settings": {
         "hero_height": 75,
@@ -245,7 +191,7 @@
     "scrolling-text-1": {
       "type": "scrolling-text",
       "settings": {
-        "text": "TWO HEARTS. TWO FITS. ONE DEAL. | LIMITED-TIME FESTIVE OFFERS | NEW HERE? GET 10% OFF | Free Shipping on Prepaid Orders | Wear Your Confidence | Limited Edition Drops",
+        "text": "LIMITED-TIME WINTER OFFERS ❄️ | NEW HERE? GET 10% OFF WITH CODE TOKIYO10 | Free Shipping on Prepaid Orders | Wear Your Confidence | Limited Edition Drops",
         "separator": "✦",
         "speed": 25,
         "font_size": 14,

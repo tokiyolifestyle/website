@@ -66,7 +66,7 @@ async function createHoodie() {
   const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
   const variants = sizes.map((size, idx) => ({
     title: size,
-    price: '1700.00',
+    price: '1699.00',
     compare_at_price: '2199.00',
     option1: size,
     sku: `TOHD001_CR_${size}`,

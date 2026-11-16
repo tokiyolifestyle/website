@@ -11,8 +11,19 @@
   {%- assign is_hoodie = true -%}
 {%- endif -%}
 
+{%- assign is_cargo = false -%}
+{%- if product.title contains 'Cargo' or product.type contains 'Cargo' or product.tags contains 'cargo' or product.tags contains 'Cargo' or product.title contains 'Pant' or product.type contains 'Pant' -%}
+  {%- assign is_cargo = true -%}
+{%- endif -%}
+
 {%- assign size_guide_img_src = '' -%}
-{%- if is_hoodie -%}
+{%- if is_cargo -%}
+  {%- if settings.cargo_size_guide_image != blank -%}
+    {%- assign size_guide_img_src = settings.cargo_size_guide_image | image_url: width: 1000 -%}
+  {%- else -%}
+    {%- assign size_guide_img_src = 'cargo-size-guide.jpg' | asset_url -%}
+  {%- endif -%}
+{%- elsif is_hoodie -%}
   {%- if settings.hoodie_size_guide_image != blank -%}
     {%- assign size_guide_img_src = settings.hoodie_size_guide_image | image_url: width: 1000 -%}
   {%- else -%}
@@ -231,33 +242,33 @@
         <div class="product-info__tax-label">Inclusive of all taxes</div>
       </div>
 
-      {%- comment -%} Diwali Multi-Buy Offer Banner {%- endcomment -%}
-      {%- if product.tags contains 'festive-special-drop' -%}
-        <div class="product-info__festive-multibuy" style="margin: 1.25rem 0; padding: 1rem 1.15rem; background: linear-gradient(135deg, #FFF7ED 0%, #FEF2F2 100%); border-radius: 12px; border: 1.5px solid #F97316; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.08);">
+      {%- comment -%} Winter Multi-Buy Offer Banner {%- endcomment -%}
+      {%- if product.tags contains 'festive-special-drop' or product.type == 'Hoodie' or is_hoodie -%}
+        <div class="product-info__festive-multibuy" style="margin: 1.25rem 0; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%); border-radius: 12px; border: 1.5px solid #0284C7; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.08);">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.65rem;">
             <div style="display: flex; align-items: center; gap: 0.4rem;">
-              <span style="font-size: 1.15rem; line-height: 1;">🪔</span>
-              <span style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #9A3412;">Diwali Festive Dhamaka Special</span>
+              <span style="font-size: 1.15rem; line-height: 1;">❄️</span>
+              <span style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #0369A1;">Winter Special Multi-Buy Offer</span>
             </div>
-            <span style="font-size: 0.65rem; font-weight: 700; background: #EA580C; color: #FFFFFF; padding: 0.2rem 0.55rem; border-radius: 20px; text-transform: uppercase;">Mix & Match</span>
+            <span style="font-size: 0.65rem; font-weight: 700; background: #0284C7; color: #FFFFFF; padding: 0.2rem 0.55rem; border-radius: 20px; text-transform: uppercase;">Mix & Match</span>
           </div>
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; text-align: center;">
-            <div style="background: #FFFFFF; border: 1px solid rgba(249,115,22,0.25); border-radius: 8px; padding: 0.5rem 0.25rem;">
-              <div style="font-size: 0.65rem; font-weight: 700; color: #78350F;">BUY ANY 2</div>
-              <div style="font-size: 0.88rem; font-weight: 900; color: #C2410C;">Save ₹200</div>
+            <div style="background: #FFFFFF; border: 1px solid rgba(2,132,199,0.25); border-radius: 8px; padding: 0.5rem 0.25rem;">
+              <div style="font-size: 0.65rem; font-weight: 700; color: #075985;">BUY ANY 2</div>
+              <div style="font-size: 0.88rem; font-weight: 900; color: #0284C7;">Save ₹200</div>
             </div>
-            <div style="background: #FFFFFF; border: 1px solid rgba(249,115,22,0.25); border-radius: 8px; padding: 0.5rem 0.25rem;">
-              <div style="font-size: 0.65rem; font-weight: 700; color: #78350F;">BUY ANY 3</div>
-              <div style="font-size: 0.88rem; font-weight: 900; color: #C2410C;">Save ₹350</div>
+            <div style="background: #FFFFFF; border: 1px solid rgba(2,132,199,0.25); border-radius: 8px; padding: 0.5rem 0.25rem;">
+              <div style="font-size: 0.65rem; font-weight: 700; color: #075985;">BUY ANY 3</div>
+              <div style="font-size: 0.88rem; font-weight: 900; color: #0284C7;">Save ₹350</div>
             </div>
-            <div style="background: #FFFFFF; border: 1.5px solid #EA580C; border-radius: 8px; padding: 0.5rem 0.25rem; box-shadow: 0 2px 8px rgba(234,88,12,0.12);">
-              <div style="font-size: 0.65rem; font-weight: 700; color: #78350F;">BUY ANY 4+</div>
-              <div style="font-size: 0.88rem; font-weight: 900; color: #EA580C;">Save ₹500</div>
+            <div style="background: #FFFFFF; border: 1.5px solid #0284C7; border-radius: 8px; padding: 0.5rem 0.25rem; box-shadow: 0 2px 8px rgba(2,132,199,0.12);">
+              <div style="font-size: 0.65rem; font-weight: 700; color: #075985;">BUY ANY 4+</div>
+              <div style="font-size: 0.88rem; font-weight: 900; color: #0284C7;">Save ₹500</div>
             </div>
           </div>
-          <div style="margin-top: 0.65rem; font-size: 0.7rem; color: #7C2D12; display: flex; align-items: center; justify-content: space-between;">
+          <div style="margin-top: 0.65rem; font-size: 0.7rem; color: #075985; display: flex; align-items: center; justify-content: space-between;">
             <span>✦ Pick any color or size in this collection</span>
-            <a href="/collections/festive-special-drop" style="color: #EA580C; font-weight: 700; text-decoration: underline;">View All 9 Fits →</a>
+            <a href="/collections/hoodies" style="color: #0284C7; font-weight: 700; text-decoration: underline;">Explore Winter Fits →</a>
           </div>
         </div>
       {%- endif -%}
@@ -289,18 +300,30 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Promo Code Box (Only for individual products) {%- endcomment -%}
+      {%- comment -%} Promo Code Box (Only for individual products - excluding bundles & cargo pants) {%- endcomment -%}
       {%- assign prod_title_dn = product.title | downcase -%}
-      {%- unless product.type == 'Combo Bundle' or product.type == 'Hoodie' or product.tags contains 'no-discount' or prod_title_dn contains 'bundle' or prod_title_dn contains 'combo' or prod_title_dn contains 'duo' or prod_title_dn contains 'trio' or prod_title_dn contains 'hoodie' -%}
+      {%- unless product.type == 'Combo Bundle' or is_cargo or product.tags contains 'no-discount' or prod_title_dn contains 'cargo' or prod_title_dn contains 'pant' or prod_title_dn contains 'bundle' or prod_title_dn contains 'combo' or prod_title_dn contains 'duo' or prod_title_dn contains 'trio' -%}
         <div class="product-info__promo-code" style="margin: 1.25rem 0; padding: 0.85rem 1.15rem; background: #F8F8F9; border-radius: 12px; border: 1px dashed rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
             <span style="font-size: 1.1rem; line-height: 1;">🎫</span>
             <div style="display: flex; flex-direction: column; gap: 2px;">
-              <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #111111;">10% OFF FIRST ORDER</span>
-              <span style="font-size: 0.68rem; color: #666666; font-weight: 500;">Valid for first 1,000 customers only</span>
+              <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #111111;">
+                {%- if is_hoodie -%}
+                  ❄️ 10% OFF WINTER HOODIE SPECIAL
+                {%- else -%}
+                  10% OFF FIRST ORDER
+                {%- endif -%}
+              </span>
+              <span style="font-size: 0.68rem; color: #666666; font-weight: 500;">
+                {%- if is_hoodie -%}
+                  Use code TOKIYO10 at checkout • Save ₹170 instantly!
+                {%- else -%}
+                  Valid for first 1,000 customers only
+                {%- endif -%}
+              </span>
             </div>
           </div>
-          <div style="background: #111111; color: #FFFFFF; font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 900; letter-spacing: 0.1em; padding: 0.45rem 0.85rem; border-radius: 6px; cursor: pointer; user-select: all; text-transform: uppercase;" onclick="navigator.clipboard.writeText('TOKIYO10'); alert('Code copied! 🎫');">
+          <div style="background: #111111; color: #FFFFFF; font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 900; letter-spacing: 0.1em; padding: 0.45rem 0.85rem; border-radius: 6px; cursor: pointer; user-select: all; text-transform: uppercase;" onclick="navigator.clipboard.writeText('TOKIYO10'); alert('Code TOKIYO10 copied! 🎫 Apply at checkout for 10% OFF');">
             TOKIYO10
           </div>
         </div>
@@ -596,6 +619,36 @@
             <li><strong>Heavyweight Drape:</strong> Structured oversized silhouette that never clings or loses shape.</li>
             <li><strong>Cloud-Soft Warmth:</strong> Plush brushed fleece interior providing breathable cold-weather insulation.</li>
             <li><strong>Bio-Washed &amp; Pre-Shrunk:</strong> Pre-treated for zero shrinkage and anti-pilling longevity.</li>
+          </ul>
+        </div>
+      {%- elsif is_cargo -%}
+        <div class="cargo-fit-highlight" style="margin: 1.25rem 0; padding: 1.15rem; background: #FAF9F6; border-radius: 12px; border: 1.5px solid #111111; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.25rem; line-height: 1;">👖</span>
+              <span style="font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #111111;">Relaxed Baggy Cargo Fit</span>
+            </div>
+            <span style="font-size: 0.65rem; font-weight: 700; background: #111111; color: #FFFFFF; padding: 0.25rem 0.65rem; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em;">Streetwear Essential</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; text-align: center; margin-bottom: 0.75rem;">
+            <div style="background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; padding: 0.5rem 0.25rem;">
+              <div style="font-size: 0.65rem; font-weight: 600; color: #666666; text-transform: uppercase;">Waistband</div>
+              <div style="font-size: 0.88rem; font-weight: 800; color: #111111;">Elastic + Cord</div>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; padding: 0.5rem 0.25rem;">
+              <div style="font-size: 0.65rem; font-weight: 600; color: #666666; text-transform: uppercase;">Pockets</div>
+              <div style="font-size: 0.88rem; font-weight: 800; color: #111111;">Dual Cargo</div>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; padding: 0.5rem 0.25rem;">
+              <div style="font-size: 0.65rem; font-weight: 600; color: #666666; text-transform: uppercase;">Silhouette</div>
+              <div style="font-size: 0.88rem; font-weight: 800; color: #111111;">Wide-Leg Baggy</div>
+            </div>
+          </div>
+          <ul style="margin: 0; padding-left: 1.15rem; font-size: 0.78rem; color: #444444; line-height: 1.55;">
+            <li><strong>Relaxed Baggy Drape:</strong> Engineered wide-leg cut with a clean natural break over sneakers.</li>
+            <li><strong>Custom Elastic Comfort:</strong> Ribbed elasticated waistband with adjustable drawstring cord for an all-day custom fit.</li>
+            <li><strong>Utility Side Pockets:</strong> Deep flap cargo pockets tailored for utility and street aesthetic.</li>
+            <li><strong>Premium Breathable Fabric:</strong> Heavyweight cotton-poly blend that holds its structure wash after wash.</li>
           </ul>
         </div>
       {%- endif -%}

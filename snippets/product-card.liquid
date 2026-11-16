@@ -108,6 +108,17 @@
           <script type="application/json" class="product-variants-json">
             [
               {%- for variant in product.variants -%}
+                {%- assign var_avail = variant.available -%}
+                {%- assign v_title_lower = variant.title | downcase -%}
+                {%- if v_title_lower contains 'airforce' or v_title_lower contains 'air force' -%}
+                  {%- if v_title_lower contains 'xl' or v_title_lower contains 'xxl' or v_title_lower contains '2xl' -%}
+                    {%- assign var_avail = false -%}
+                  {%- endif -%}
+                {%- elsif v_title_lower contains 'black' -%}
+                  {%- if v_title_lower contains 'xxl' or v_title_lower contains '2xl' -%}
+                    {%- assign var_avail = false -%}
+                  {%- endif -%}
+                {%- endif -%}
                 {
                   "id": {{ variant.id }},
                   "title": {{ variant.title | json }},
@@ -117,7 +128,7 @@
                   "price": {{ variant.price | money | json }},
                   "price_raw": {{ variant.price }},
                   "compare_at_price": {{ variant.compare_at_price | money | json }},
-                  "available": {{ variant.available | json }},
+                  "available": {{ var_avail | json }},
                   "image": {{ variant.featured_image | image_url: width: 600 | json }}
                 }{%- unless forloop.last -%},{%- endunless -%}
               {%- endfor -%}

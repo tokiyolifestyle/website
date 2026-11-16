@@ -8,21 +8,21 @@
         "announcement-1": {
           "type": "announcement",
           "settings": {
-            "text": "🪔 DIWALI GRAND FESTIVE DROPS LIVE • FESTIVE DHAMAKA ✨",
-            "link": "/collections/all"
+            "text": "❄️ WINTER COLLECTION DROPS LIVE • 380+ GSM FLEECE HOODIES ☃️",
+            "link": "/collections/hoodies"
           }
         },
         "announcement-2": {
           "type": "announcement",
           "settings": {
-            "text": "BUY 2 SAVE ₹200 • BUY 3 SAVE ₹350 • BUY 4 SAVE ₹500 💥",
+            "text": "BUY 2 SAVE ₹200 • BUY 3 SAVE ₹350 • BUY 4 SAVE ₹500 ❄️",
             "link": "/collections/all"
           }
         },
         "announcement-3": {
           "type": "announcement",
           "settings": {
-            "text": "HAPPY DIWALI — 10% OFF FIRST ORDER WITH CODE TOKIYO10 🪔",
+            "text": "WINTER SPECIAL — 10% OFF FIRST ORDER WITH CODE TOKIYO10 ❄️",
             "link": ""
           }
         },

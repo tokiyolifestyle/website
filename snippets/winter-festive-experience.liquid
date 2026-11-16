@@ -1,0 +1,585 @@
+{%- comment -%}
+  TOKIYO 3D WINTER EXPERIENCE & IMMERSIVE SNOWFALL SYSTEM
+  - Hyper-smooth 60FPS 3D layered snowfall canvas
+  - Interactive click frost bursts
+  - 3D Frosted Snowglobes / Winter Orbs at bottom corners with flurry triggers
+  - Ambient floating crystalline frost particles
+  - Ultra-performant, touch-friendly & responsive
+{%- endcomment -%}
+
+<div id="TokiyoWinterExperience" class="tokiyo-winter-universe" aria-hidden="true">
+  <!-- Snowfall & Frost Interaction Canvas -->
+  <canvas id="WinterSnowCanvas" class="winter-snow-canvas"></canvas>
+
+  <!-- Left Bottom Frost Snowglobe Orb -->
+  <div class="winter-corner-orb winter-corner-orb--left" title="Winter Collection is Live! Tap for Snow Flurry">
+    <div class="winter-orb-3d">
+      <div class="winter-orb-crystal">
+        <span class="winter-crystal-icon">❄️</span>
+      </div>
+      <div class="winter-orb-glass">
+        <div class="winter-glass-shine"></div>
+        <div class="winter-orb-frost"></div>
+        <div class="winter-snow-mini"></div>
+      </div>
+      <div class="winter-orb-base">
+        <div class="winter-base-ring"></div>
+      </div>
+      <div class="winter-orb-glow"></div>
+      <div class="winter-orb-aura"></div>
+      <div class="winter-orb-shadow"></div>
+    </div>
+  </div>
+
+  <!-- Right Bottom Frost Snowglobe Orb -->
+  <div class="winter-corner-orb winter-corner-orb--right" title="Winter Collection is Live! Tap for Snow Flurry">
+    <div class="winter-orb-3d">
+      <div class="winter-orb-crystal">
+        <span class="winter-crystal-icon">❄️</span>
+      </div>
+      <div class="winter-orb-glass">
+        <div class="winter-glass-shine"></div>
+        <div class="winter-orb-frost"></div>
+        <div class="winter-snow-mini"></div>
+      </div>
+      <div class="winter-orb-base">
+        <div class="winter-base-ring"></div>
+      </div>
+      <div class="winter-orb-glow"></div>
+      <div class="winter-orb-aura"></div>
+      <div class="winter-orb-shadow"></div>
+    </div>
+  </div>
+
+  <!-- Ambient Floating Winter Snowfall -->
+  <div id="WinterSparkleRain" class="winter-sparkle-rain"></div>
+</div>
+
+<style>
+  /* ═══ WINTER ROOT CONTAINER ═══ */
+  .tokiyo-winter-universe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9998;
+    overflow: hidden;
+  }
+
+  /* ═══ SNOWFALL CANVAS ═══ */
+  .winter-snow-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: block;
+  }
+
+  /* ═══ FROST CORNER ORBS ═══ */
+  .winter-corner-orb {
+    position: absolute;
+    bottom: 20px;
+    width: 66px;
+    height: 74px;
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 9999;
+    user-select: none;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease;
+  }
+
+  .winter-corner-orb--left {
+    left: 18px;
+  }
+
+  .winter-corner-orb--right {
+    right: 18px;
+  }
+
+  .winter-corner-orb:hover {
+    transform: scale(1.15) translateY(-4px);
+    filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.75));
+  }
+
+  .winter-corner-orb:active {
+    transform: scale(0.95);
+  }
+
+  .winter-orb-3d {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Glass Sphere */
+  .winter-orb-glass {
+    position: absolute;
+    top: 2px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.45) 0%, rgba(224, 242, 254, 0.25) 45%, rgba(14, 165, 233, 0.2) 80%, rgba(3, 105, 161, 0.35) 100%);
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.4), 0 0 16px rgba(56, 189, 248, 0.4);
+    backdrop-filter: blur(2px);
+    overflow: hidden;
+  }
+
+  .winter-glass-shine {
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    width: 16px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.75);
+    transform: rotate(-30deg);
+  }
+
+  .winter-orb-frost {
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 16px;
+    background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.7) 0%, rgba(224, 242, 254, 0) 70%);
+  }
+
+  /* Center Floating Snowflake Crystal */
+  .winter-orb-crystal {
+    position: absolute;
+    top: 10px;
+    z-index: 2;
+    font-size: 24px;
+    line-height: 1;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 14px rgba(56, 189, 248, 0.8));
+    animation: winterCrystalFloat 2.2s infinite alternate ease-in-out;
+  }
+
+  .winter-crystal-icon {
+    display: inline-block;
+    animation: winterCrystalSpin 12s infinite linear;
+  }
+
+  @keyframes winterCrystalFloat {
+    0%   { transform: translateY(0px) scale(0.95); }
+    100% { transform: translateY(3px) scale(1.05); }
+  }
+
+  @keyframes winterCrystalSpin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Snowglobe Base */
+  .winter-orb-base {
+    position: absolute;
+    bottom: 2px;
+    width: 44px;
+    height: 14px;
+    background: linear-gradient(180deg, #334155 0%, #0F172A 100%);
+    border-radius: 6px;
+    border: 1px solid rgba(148, 163, 184, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .winter-base-ring {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    right: 4px;
+    height: 2px;
+    background: linear-gradient(90deg, #38BDF8, #E0F2FE, #38BDF8);
+    border-radius: 2px;
+    box-shadow: 0 0 6px rgba(56, 189, 248, 0.7);
+  }
+
+  /* Glow & Aura */
+  .winter-orb-glow {
+    position: absolute;
+    top: 8px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(56, 189, 248, 0) 70%);
+    animation: winterGlowPulse 1.8s infinite alternate ease-in-out;
+    pointer-events: none;
+  }
+
+  .winter-orb-aura {
+    position: absolute;
+    top: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, rgba(14, 165, 233, 0) 75%);
+    animation: winterAuraPulse 3s infinite alternate ease-in-out;
+    pointer-events: none;
+  }
+
+  .winter-orb-shadow {
+    position: absolute;
+    bottom: -3px;
+    width: 48px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 70%);
+    pointer-events: none;
+  }
+
+  @keyframes winterGlowPulse {
+    0%   { transform: scale(0.9); opacity: 0.6; }
+    100% { transform: scale(1.2); opacity: 1; }
+  }
+
+  @keyframes winterAuraPulse {
+    0%   { transform: scale(0.85); opacity: 0.3; }
+    100% { transform: scale(1.35); opacity: 0.7; }
+  }
+
+  /* ═══ AMBIENT DRIFTING SNOW PARTICLES ═══ */
+  .winter-sparkle-rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .winter-spark-particle {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+    will-change: transform, opacity;
+    animation: winterSnowDrift linear forwards;
+  }
+
+  @keyframes winterSnowDrift {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px) rotate(0deg);
+    }
+    10% {
+      opacity: 0.85;
+    }
+    90% {
+      opacity: 0.85;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(105vh) rotate(360deg);
+    }
+  }
+
+  /* Mobile Adjustments */
+  @media (max-width: 768px) {
+    .winter-corner-orb {
+      width: 52px;
+      height: 60px;
+      bottom: 74px;
+    }
+    .winter-corner-orb--left {
+      left: 10px;
+    }
+    .winter-corner-orb--right {
+      right: 10px;
+    }
+    .winter-orb-glass {
+      width: 42px;
+      height: 42px;
+    }
+    .winter-orb-crystal {
+      font-size: 19px;
+      top: 8px;
+    }
+    .winter-orb-base {
+      width: 36px;
+      height: 11px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .winter-snow-canvas { display: none !important; }
+    .winter-sparkle-rain { display: none !important; }
+    .winter-orb-crystal, .winter-crystal-icon, .winter-orb-glow, .winter-orb-aura { animation: none !important; }
+  }
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  /* ═══ 60FPS 3D SNOWFALL & FROST BURST ENGINE ═══ */
+  const canvas = document.getElementById('WinterSnowCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let width = 0;
+  let height = 0;
+  let dpr = window.devicePixelRatio || 1;
+
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.scale(dpr, dpr);
+  }
+  window.addEventListener('resize', resize, { passive: true });
+  resize();
+
+  /* Flake palettes for depth & luminescence */
+  const SNOW_FLAKES_COUNT = window.innerWidth < 768 ? 45 : 95;
+  const flakes = [];
+  const burstParticles = [];
+
+  class Snowflake {
+    constructor(isInitial = false) {
+      this.reset(isInitial);
+    }
+
+    reset(isInitial = false) {
+      this.x = Math.random() * width;
+      this.y = isInitial ? Math.random() * height : -20;
+      // 3 Layers of depth: 0: background (small/slow), 1: mid, 2: foreground (large/fast/soft)
+      this.depth = Math.random() < 0.2 ? 2 : (Math.random() < 0.5 ? 1 : 0);
+      
+      if (this.depth === 2) {
+        this.radius = Math.random() * 2.5 + 3.0; // Foreground large
+        this.speedY = Math.random() * 1.5 + 1.2;
+        this.opacity = Math.random() * 0.4 + 0.45;
+        this.blur = 3;
+      } else if (this.depth === 1) {
+        this.radius = Math.random() * 1.6 + 1.6; // Midground
+        this.speedY = Math.random() * 1.2 + 0.8;
+        this.opacity = Math.random() * 0.4 + 0.5;
+        this.blur = 0;
+      } else {
+        this.radius = Math.random() * 1.2 + 0.8; // Background small
+        this.speedY = Math.random() * 0.8 + 0.4;
+        this.opacity = Math.random() * 0.35 + 0.3;
+        this.blur = 0;
+      }
+
+      this.swaySpeed = Math.random() * 0.02 + 0.01;
+      this.swayAngle = Math.random() * Math.PI * 2;
+      this.swayRadius = Math.random() * 1.5 + 0.6;
+    }
+
+    update() {
+      this.swayAngle += this.swaySpeed;
+      this.x += Math.sin(this.swayAngle) * this.swayRadius;
+      this.y += this.speedY;
+
+      // Wrap around
+      if (this.y > height + 20) {
+        this.reset(false);
+      }
+      if (this.x < -20) this.x = width + 20;
+      if (this.x > width + 20) this.x = -20;
+    }
+
+    draw() {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+
+      if (this.depth === 2) {
+        // Soft glowing foreground snowflake
+        ctx.shadowColor = 'rgba(186, 230, 253, 0.8)';
+        ctx.shadowBlur = this.blur;
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+      } else if (this.depth === 1) {
+        ctx.fillStyle = `rgba(240, 249, 255, ${this.opacity})`;
+      } else {
+        ctx.fillStyle = `rgba(224, 242, 254, ${this.opacity})`;
+      }
+
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Populate initial snowflakes
+  for (let i = 0; i < SNOW_FLAKES_COUNT; i++) {
+    flakes.push(new Snowflake(true));
+  }
+
+  /* Frost Burst Particle for interactive clicks and orb tap */
+  class BurstParticle {
+    constructor(x, y, color, isCrystal = false) {
+      this.x = x;
+      this.y = y;
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 6 + 2;
+      this.vx = Math.cos(angle) * speed;
+      this.vy = Math.sin(angle) * speed - (isCrystal ? 2 : 0);
+      this.radius = Math.random() * 3 + 2;
+      this.color = color;
+      this.alpha = 1;
+      this.decay = Math.random() * 0.025 + 0.015;
+      this.gravity = 0.12;
+      this.isCrystal = isCrystal;
+      this.rotation = Math.random() * Math.PI * 2;
+      this.rotSpeed = (Math.random() - 0.5) * 0.15;
+    }
+
+    update(index) {
+      this.vx *= 0.98;
+      this.vy += this.gravity;
+      this.x += this.vx;
+      this.y += this.vy;
+      this.rotation += this.rotSpeed;
+      this.alpha -= this.decay;
+
+      if (this.alpha <= 0) {
+        burstParticles.splice(index, 1);
+      }
+    }
+
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, this.alpha);
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotation);
+
+      if (this.isCrystal) {
+        // Draw 6-arm ice crystal spark
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 1.5;
+        ctx.shadowColor = '#38BDF8';
+        ctx.shadowBlur = 6;
+        for (let i = 0; i < 3; i++) {
+          ctx.beginPath();
+          ctx.moveTo(-this.radius * 1.8, 0);
+          ctx.lineTo(this.radius * 1.8, 0);
+          ctx.stroke();
+          ctx.rotate(Math.PI / 3);
+        }
+      } else {
+        ctx.fillStyle = this.color;
+        ctx.shadowColor = '#7DD3FC';
+        ctx.shadowBlur = 4;
+        ctx.beginPath();
+        ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+  }
+
+  function triggerFrostBurst(x, y, count = 28) {
+    const COLORS = ['#FFFFFF', '#E0F2FE', '#BAE6FD', '#7DD3FC', '#38BDF8'];
+    for (let i = 0; i < count; i++) {
+      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      const isCrystal = Math.random() < 0.35;
+      burstParticles.push(new BurstParticle(x, y, color, isCrystal));
+    }
+  }
+
+  /* Screen Click Trigger - gentle frost burst on empty space */
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    if (target.closest('a, button, input, select, textarea, [data-cart-drawer-toggle], .tokiyo-mascot')) return;
+    triggerFrostBurst(e.clientX, e.clientY, 18);
+  });
+
+  /* Tap on Frost Snowglobe triggers glorious upward snow flurries */
+  document.querySelectorAll('.winter-corner-orb').forEach(orb => {
+    orb.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const rect = orb.getBoundingClientRect();
+      const originX = rect.left + rect.width / 2;
+      const originY = rect.top + rect.height / 2;
+
+      // Burst immediate sparkling frost
+      triggerFrostBurst(originX, originY, 40);
+
+      // Launch 3 upwards flurries
+      for (let step = 0; step < 4; step++) {
+        setTimeout(() => {
+          const offsetX = originX + (Math.random() - 0.5) * 80;
+          const offsetY = originY - (step * 45);
+          triggerFrostBurst(offsetX, offsetY, 22);
+        }, step * 120);
+      }
+    });
+  });
+
+  /* Main Snow Animation Loop */
+  function loop() {
+    requestAnimationFrame(loop);
+
+    ctx.clearRect(0, 0, width, height);
+
+    // Update & draw background / mid / foreground flakes
+    for (let i = 0; i < flakes.length; i++) {
+      flakes[i].update();
+      flakes[i].draw();
+    }
+
+    // Update & draw burst particles
+    let b = burstParticles.length;
+    while (b--) {
+      burstParticles[b].update(b);
+      if (burstParticles[b]) {
+        burstParticles[b].draw();
+      }
+    }
+  }
+  loop();
+
+  /* ═══ AMBIENT FLOATING CRYSTALLINE SNOWFLAKES ═══ */
+  const sparkleContainer = document.getElementById('WinterSparkleRain');
+  if (sparkleContainer) {
+    const SNOW_CHARS = ['❄', '❅', '❆', '✧', '✦', '•', '✨'];
+    const SNOW_COLORS = ['#FFFFFF', '#E0F2FE', '#BAE6FD', '#7DD3FC', '#F0F9FF'];
+
+    function createFloatingSnowflake() {
+      if (document.hidden) return;
+      const el = document.createElement('span');
+      el.className = 'winter-spark-particle';
+      const char = SNOW_CHARS[Math.floor(Math.random() * SNOW_CHARS.length)];
+      el.textContent = char;
+
+      const size = (char === '❄' || char === '❅' || char === '❆')
+        ? (Math.random() * 8 + 14)
+        : (Math.random() * 8 + 8);
+      const color = SNOW_COLORS[Math.floor(Math.random() * SNOW_COLORS.length)];
+      const duration = Math.random() * 8 + 8;
+      const left = Math.random() * 100;
+
+      el.style.left = `${left}vw`;
+      el.style.top = '-25px';
+      el.style.fontSize = `${size}px`;
+      el.style.color = color;
+      el.style.textShadow = `0 0 ${Math.random() * 8 + 4}px ${color}`;
+      el.style.animationDuration = `${duration}s`;
+
+      sparkleContainer.appendChild(el);
+
+      setTimeout(() => {
+        el.remove();
+      }, duration * 1000);
+    }
+
+    // Spawn gentle ambient flakes
+    setInterval(createFloatingSnowflake, 500);
+    for (let i = 0; i < 8; i++) {
+      setTimeout(createFloatingSnowflake, i * 200);
+    }
+  }
+})();
+</script>

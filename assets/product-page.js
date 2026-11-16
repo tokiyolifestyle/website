@@ -6,7 +6,20 @@ function initVariantPicker() {
   const picker = document.querySelector('[data-variant-picker]');
   if (!picker) return;
 
-  const variantData = JSON.parse(document.querySelector('[data-variant-json]')?.textContent || '[]');
+  const rawVariantData = JSON.parse(document.querySelector('[data-variant-json]')?.textContent || '[]');
+  const variantData = rawVariantData.map(v => {
+    const opts = (v.options || []).map(o => (o || '').toLowerCase().trim());
+    const isAirforce = opts.some(o => o === 'airforce' || o === 'air force' || o.includes('airforce') || o.includes('air force'));
+    const isBlack = opts.some(o => o === 'black');
+    const isXL = opts.some(o => o === 'xl');
+    const isXXL = opts.some(o => o === 'xxl' || o === '2xl');
+
+    // Rule: Airforce color - XL & XXL out of stock; Black XXL out of stock
+    if ((isAirforce && (isXL || isXXL)) || (isBlack && isXXL)) {
+      return Object.assign({}, v, { available: false, inventory_quantity: 0 });
+    }
+    return v;
+  });
   const addBtn      = document.querySelector('[data-add-to-cart-btn]');
   const priceEl     = document.querySelector('[data-product-price]');
   const compareEl   = document.querySelector('[data-product-compare-price]');
@@ -83,7 +96,10 @@ function initVariantPicker() {
     if (stockEl) {
       const qty = variant.inventory_quantity;
       const managed = variant.inventory_management === 'shopify';
-      if (managed && qty <= 5 && qty > 0) {
+      if (!variant.available) {
+        stockEl.textContent = 'Out of Stock';
+        stockEl.className = 'stock-indicator stock-indicator--out';
+      } else if (managed && qty <= 5 && qty > 0) {
         stockEl.textContent = `Only ${qty} left in stock`;
         stockEl.className = 'stock-indicator stock-indicator--low';
       } else if (managed && qty <= 0) {

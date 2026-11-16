@@ -522,7 +522,20 @@ function initQuickAddModal() {
     const jsonScript = parent ? parent.querySelector('.product-variants-json') : null;
     let variants = [];
     if (jsonScript) {
-      try { variants = JSON.parse(jsonScript.textContent); } catch(err){}
+      try {
+        const rawVariants = JSON.parse(jsonScript.textContent);
+        variants = rawVariants.map(v => {
+          const opts = (v.options || [v.option1, v.option2, v.option3, v.title]).map(o => (o || '').toLowerCase().trim());
+          const isAirforce = opts.some(o => o === 'airforce' || o === 'air force' || o.includes('airforce') || o.includes('air force'));
+          const isBlack = opts.some(o => o === 'black');
+          const isXL = opts.some(o => o === 'xl');
+          const isXXL = opts.some(o => o === 'xxl' || o === '2xl');
+          if ((isAirforce && (isXL || isXXL)) || (isBlack && isXXL)) {
+            return Object.assign({}, v, { available: false, inventory_quantity: 0 });
+          }
+          return v;
+        });
+      } catch(err){}
     }
 
     if (hasOnlyDefault || variants.length <= 1) {

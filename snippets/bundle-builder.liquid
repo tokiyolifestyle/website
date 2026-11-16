@@ -11,6 +11,14 @@
 {%- endif -%}
 
 {%- assign bundle_handle = product.handle -%}
+{%- if bundle_handle contains 'lovebird' -%}
+  <script>window.location.replace('/collections/all');</script>
+  <div class="page-width" style="text-align: center; padding: 5rem 1rem;">
+    <h2 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem;">Offer Ended</h2>
+    <p style="color: #666; margin-bottom: 1.5rem;">The Lovebird’s Pick Couple Combo offer is no longer available.</p>
+    <a href="/collections/all" class="button button--solid" style="padding: 0.75rem 2rem;">Shop All Collections</a>
+  </div>
+{%- else -%}
 {%- assign item_handles = '' -%}
 
 {%- case bundle_handle -%}
@@ -200,7 +208,7 @@
           {%- if bundle_handle contains 'lovebird' -%}
             ❤️ Couple Combo Summary
           {%- else -%}
-            🪔 Diwali Dhamaka Festive Summary
+            ❄️ Winter Special Combo Summary
           {%- endif -%}
         </div>
 
@@ -238,7 +246,7 @@
               {%- if bundle_handle contains 'lovebird' -%}
                 You Save {{ save_amt | money }} (Couple Deal Discount)
               {%- else -%}
-                You Save {{ save_amt | money }} (Diwali Dhamaka Offer)
+                You Save {{ save_amt | money }} (Winter Special Offer)
               {%- endif -%}
             </div>
           {%- endif -%}
@@ -987,6 +995,8 @@
   }
 })();
 </script>
+
+{%- endif -%}
 
 {% schema %}
 {

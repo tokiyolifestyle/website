@@ -179,10 +179,10 @@
     </span>
   </a>
 
-  <!-- --- Animated Diwali Royal Lion Festive Mascot Widget --- -->
+  <!-- --- Animated Tokiyo Winter Shiba Mascot Widget --- -->
   <div id="TokiyoMascot" class="tokiyo-mascot" aria-hidden="true" style="display: none;">
-    <div class="tokiyo-mascot__bubble" id="MascotBubble">Happy Diwali! 🪔✨</div>
-    <img src="{{ 'diwali-mascot.jpg' | asset_url }}" alt="Diwali Festive Royal Lion Mascot" id="MascotImg" loading="lazy" style="border-radius: 50%; border: 2.5px solid #F59E0B; box-shadow: 0 0 25px rgba(245,158,11,0.75);">
+    <div class="tokiyo-mascot__bubble" id="MascotBubble">Winter Drop is LIVE! ❄️✨</div>
+    <img src="{{ 'winter-mascot.jpg' | asset_url }}" alt="Tokiyo Winter Streetwear Mascot" id="MascotImg" loading="lazy" style="border-radius: 50%; border: 2.5px solid #38BDF8; box-shadow: 0 0 25px rgba(56,189,248,0.75);">
   </div>
 
   <style>
@@ -309,15 +309,15 @@
       mascot.style.display = 'block';
 
       const quotes = [
-        "Happy Diwali! May your fit shine brighter! 🪔",
-        "Diwali Festive Dhamaka is LIVE! 💥✨",
-        "Light up your style with Tokiyo! 🌟",
+        "Winter Drop is LIVE! Stay warm & fly! ❄️✨",
+        "Crafted with 380+ GSM ultra-soft fleece! 🧶",
+        "Frosty outside, cozy inside with Tokiyo! ☕❄️",
         "NEW HERE? GET 10% OFF with code TOKIYO10! 🎫",
-        "Celebrate in Royal Tokiyo Streetwear! 👑",
-        "Diwali Special: Buy More, Save Up to ₹500! 🔥",
-        "Crafted with premium 240 GSM heavy cotton! 👕",
-        "TWO HEARTS. TWO FITS. ONE DIWALI DEAL. ✦",
-        "Tap the bottom Diyas for fireworks! 🎆",
+        "Wrap up in Japanese streetwear fits! 🇯🇵",
+        "Winter Special: Buy More, Save Up to ₹500! 🔥",
+        "Relaxed baggy cargo pants are live! 👖❄️",
+        "Heavyweight oversized hoodies are here! 👕❄️",
+        "Tap the bottom Snowglobes for a snow flurry! ❄️",
         "Welcome to Tokiyo Lifestyle! 🇯🇵"
       ];
 
@@ -327,7 +327,7 @@
         setTimeout(() => { mascot.classList.remove('has-bubble'); }, duration);
       }
 
-      setTimeout(() => { showBubble("Happy Diwali! 🪔✨"); }, 2500);
+      setTimeout(() => { showBubble("Winter Drop is LIVE! ❄️✨"); }, 2500);
 
       function wander() {
         if (isMobile()) return; // Keep mascot static in the corner on mobile
@@ -403,8 +403,8 @@
     ">{{ cart_item_count }}</span>
   </button>
 
-  <!-- 3D Diwali Experience & Fireworks System -->
-  {% render 'diwali-festive-experience' %}
+  <!-- 3D Winter Experience & Snowfall System -->
+  {% render 'winter-festive-experience' %}
 
 </body>
 </html>
