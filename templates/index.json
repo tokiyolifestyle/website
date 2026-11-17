@@ -30,24 +30,6 @@
             "cta2_link": "/collections/hoodies"
           }
         },
-        "slide-durga-festive": {
-          "type": "slide",
-          "settings": {
-            "image_url": "hero-winter-desktop.jpg",
-            "image_mobile_url": "hero-winter-mobile.jpg",
-            "video_url": "",
-            "bg_color": "#0a0a0a",
-            "overlay_opacity": 30,
-            "content_alignment": "left",
-            "eyebrow": "❄️ WINTER COLLECTION 2026 • HEAVYWEIGHT DROPS ☃️",
-            "heading": "Buy More, Save More — Up to ₹500 OFF",
-            "subheading": "Buy 2 Save ₹200 • Buy 3 Save ₹350 • Buy 4+ Save ₹500. Wrap up in 380+ GSM combed fleece hoodies & heavyweight Japanese streetwear.",
-            "cta_label": "Claim Winter Offer",
-            "cta_link": "/collections/hoodies",
-            "cta2_label": "Explore Winter Fits",
-            "cta2_link": "/collections/all"
-          }
-        },
         "slide-last-drop": {
           "type": "slide",
           "settings": {
@@ -69,7 +51,6 @@
       },
       "block_order": [
         "slide-hoodie-drop",
-        "slide-durga-festive",
         "slide-last-drop"
       ],
       "settings": {
