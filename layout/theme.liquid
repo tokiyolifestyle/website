@@ -179,10 +179,10 @@
     </span>
   </a>
 
-  <!-- --- Animated Tokiyo Mascot Widget --- -->
+  <!-- --- Animated Tokiyo Winter Snowman Mascot Widget --- -->
   <div id="TokiyoMascot" class="tokiyo-mascot" aria-hidden="true" style="display: none;">
-    <div class="tokiyo-mascot__bubble" id="MascotBubble">Welcome to Tokiyo! ✦</div>
-    <img src="{{ 'tokiyo-mascot.png' | asset_url }}" alt="Tokiyo Mascot" id="MascotImg" loading="lazy">
+    <div class="tokiyo-mascot__bubble" id="MascotBubble">Welcome to Tokiyo Winter! ☃️</div>
+    <img src="{{ 'winter-snowman-mascot.png' | asset_url }}" alt="Tokiyo Winter Snowman Mascot" id="MascotImg" loading="lazy" width="76" height="76">
   </div>
 
   <style>
@@ -309,12 +309,13 @@
       mascot.style.display = 'block';
 
       const quotes = [
-        "Welcome to Tokiyo Lifestyle! 🇯🇵",
-        "Crafted with 380+ GSM ultra-soft fleece! 🧶",
+        "Welcome to Tokiyo Winter Drops! ❄️",
+        "Brrr! Stay warm with our 380+ GSM fleece! ☃️",
         "Signature Heavyweight Hoodie is live! 🔥",
-        "NEW HERE? GET 10% OFF with code TOKIYO10! 🎫",
+        "Relaxed Baggy Cargo Pants just dropped! 👖",
+        "GET 10% OFF Hoodie with code TOKIYO10! 🎫",
         "Japanese Streetwear engineered for bold style! ✦",
-        "Premium combed cotton & boxy streetwear fits! 👕",
+        "Ultra-soft winter warmth & drop shoulder fits! 🧶",
         "Free Shipping on all Prepaid Orders! 🎁"
       ];
 
@@ -324,7 +325,7 @@
         setTimeout(() => { mascot.classList.remove('has-bubble'); }, duration);
       }
 
-      setTimeout(() => { showBubble("Welcome to Tokiyo! ✦"); }, 2500);
+      setTimeout(() => { showBubble("Welcome to Tokiyo Winter! ☃️"); }, 2500);
 
       function wander() {
         if (isMobile()) return; // Keep mascot static in the corner on mobile
