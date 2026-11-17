@@ -231,10 +231,18 @@
             "title": "Hoodies & Winterwear",
             "link": "/collections/hoodies"
           }
+        },
+        "col-7": {
+          "type": "collection",
+          "settings": {
+            "title": "Baggy Cargo Pants",
+            "link": "/products/tokiyo-lifestyle-relaxed-baggy-cargo-pants-heather-grey"
+          }
         }
       },
       "block_order": [
         "col-6",
+        "col-7",
         "col-1",
         "col-2",
         "col-3",

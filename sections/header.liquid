@@ -56,11 +56,12 @@
                       </ul>
                     </div>
                     <div class="mega-menu__column">
-                      <a href="/collections/hoodies" class="mega-menu__column-title" style="color: #ef4444;">Hoodies 🔥</a>
+                      <a href="/collections/hoodies" class="mega-menu__column-title" style="color: #ef4444;">Winter Drops 🔥</a>
                       <ul class="mega-menu__list" role="list">
-                        <li><a href="/products/tokiyo-lifestyle-signature-oversized-hoodie-cream">Signature Cream Hoodie</a></li>
+                        <li><a href="/products/tokiyo-lifestyle-signature-oversized-hoodie-cream">Signature Cream Hoodie (₹1,699)</a></li>
+                        <li><a href="/products/tokiyo-lifestyle-relaxed-baggy-cargo-pants-heather-grey">Relaxed Baggy Cargo Pants (₹1,249)</a></li>
                         <li><a href="/collections/hoodies">All Hoodies</a></li>
-                        <li><a href="/collections/new-arrivals">New Arrivals</a></li>
+                        <li><a href="/collections/all">Shop All Winter Drops</a></li>
                       </ul>
                     </div>
                   </div>
@@ -103,7 +104,7 @@
 
     <div class="site-header__icons">
       {%- if section.settings.enable_search -%}
-        <button class="site-header__icon-btn" data-search-drawer-toggle aria-label="{{ 'sections.header.search' | t }}">
+        <button type="button" class="site-header__icon-btn" data-search-drawer-toggle aria-label="{{ 'sections.header.search' | t | default: 'Search' }}">
           {% render 'icon-search' %}
         </button>
       {%- endif -%}
@@ -137,6 +138,12 @@
     <span class="mobile-nav__title">{{ shop.name }}</span>
     <button class="mobile-nav__close" data-mobile-nav-close aria-label="{{ 'accessibility.close' | t }}">
       {% render 'icon-close' %}
+    </button>
+  </div>
+  <div class="mobile-nav__search-bar" style="padding: 0.75rem 1.25rem; border-bottom: 1px solid #f0f0f0; background: #fafafa;">
+    <button type="button" class="mobile-nav__search-btn" data-search-drawer-toggle style="display:flex;align-items:center;gap:0.6rem;width:100%;padding:0.65rem 1rem;background:#fff;border:1px solid #e0e0e0;border-radius:24px;color:#777;font-size:0.875rem;cursor:pointer;">
+      {% render 'icon-search' %}
+      <span>Search hoodies, cargo pants, tees...</span>
     </button>
   </div>
   <ul class="mobile-nav__list" role="list">
@@ -195,8 +202,14 @@
               </ul>
             <!-- Hoodies (New) -->
             <li class="mobile-nav__subitem">
-              <a href="/collections/hoodies" class="mobile-nav__link mobile-nav__link--sub" style="color: #ef4444; font-weight: 700;">
-                <span>🔥 Hoodies (New Drop)</span>
+              <a href="/products/tokiyo-lifestyle-signature-oversized-hoodie-cream" class="mobile-nav__link mobile-nav__link--sub" style="color: #ef4444; font-weight: 700;">
+                <span>🔥 Signature Hoodie (₹1,699)</span>
+              </a>
+            </li>
+            <!-- Baggy Cargo Pants (New) -->
+            <li class="mobile-nav__subitem">
+              <a href="/products/tokiyo-lifestyle-relaxed-baggy-cargo-pants-heather-grey" class="mobile-nav__link mobile-nav__link--sub" style="color: #111; font-weight: 700;">
+                <span>👖 Baggy Cargo Pants (₹1,249)</span>
               </a>
             </li>
 
