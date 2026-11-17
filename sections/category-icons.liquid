@@ -506,17 +506,48 @@
               </div>
             </a>
 
-            {%- comment -%} Card 2: Relaxed Baggy Cargo Pants {%- endcomment -%}
-            {%- assign cargo_prod = collections['cargo-pants'].products.first | default: all_products['tokiyo-lifestyle-relaxed-baggy-cargo-pants-heather-grey'] -%}
-            {%- assign cargo_img = 'cargo-pants-heather-grey-flatlay.jpg' | asset_url -%}
-            {%- if cargo_prod != blank and cargo_prod.featured_image != blank -%}
-              {%- assign cargo_img = cargo_prod.featured_image | image_url: width: 600 -%}
+            {%- comment -%} Card 2: Relaxed Baggy Cargo Pants - Black {%- endcomment -%}
+            {%- assign cargo_blk = all_products['tokiyo-lifestyle-relaxed-baggy-cargo-pants-black'] -%}
+            {%- assign cargo_blk_img = 'cargo-pants-black-duo-lookbook.jpg' | asset_url -%}
+            {%- if cargo_blk != blank and cargo_blk.featured_image != blank -%}
+              {%- assign cargo_blk_img = cargo_blk.featured_image | image_url: width: 600 -%}
+            {%- endif -%}
+            <a href="/products/tokiyo-lifestyle-relaxed-baggy-cargo-pants-black" class="catg-card-3d catg-card-3d--winter" data-tilt>
+              <div class="catg-card-3d__inner">
+                <div class="catg-card-3d__glow-border"></div>
+                <div class="catg-card-3d__media">
+                  <img src="{{ cargo_blk_img }}"
+                       alt="Tokiyo Lifestyle Relaxed Baggy Cargo Pants - Black"
+                       class="catg-card-3d__img"
+                       loading="lazy"
+                       width="600"
+                       height="750">
+                  <div class="catg-card-3d__shimmer"></div>
+                  <div class="catg-card-3d__overlay"></div>
+                </div>
+                <div class="catg-card-3d__content catg-card-3d__content--always-visible">
+                  <span class="catg-card-3d__tag catg-card-3d__tag--promo">RELAXED BAGGY • BLACK</span>
+                  <h3 class="catg-card-3d__title">CARGO PANTS (BLACK)</h3>
+                  <div class="catg-card-3d__explore catg-card-3d__explore--visible">
+                    <span>Shop Now • ₹1,249</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </div>
+                </div>
+                <div class="catg-card-3d__shine" data-card-shine></div>
+              </div>
+            </a>
+
+            {%- comment -%} Card 3: Relaxed Baggy Cargo Pants - Heather Grey {%- endcomment -%}
+            {%- assign cargo_gry = all_products['tokiyo-lifestyle-relaxed-baggy-cargo-pants-heather-grey'] -%}
+            {%- assign cargo_gry_img = 'cargo-pants-heather-grey-duo-lookbook.jpg' | asset_url -%}
+            {%- if cargo_gry != blank and cargo_gry.featured_image != blank -%}
+              {%- assign cargo_gry_img = cargo_gry.featured_image | image_url: width: 600 -%}
             {%- endif -%}
             <a href="/products/tokiyo-lifestyle-relaxed-baggy-cargo-pants-heather-grey" class="catg-card-3d catg-card-3d--winter" data-tilt>
               <div class="catg-card-3d__inner">
                 <div class="catg-card-3d__glow-border"></div>
                 <div class="catg-card-3d__media">
-                  <img src="{{ cargo_img }}"
+                  <img src="{{ cargo_gry_img }}"
                        alt="Tokiyo Lifestyle Relaxed Baggy Cargo Pants - Heather Grey"
                        class="catg-card-3d__img"
                        loading="lazy"
@@ -526,8 +557,8 @@
                   <div class="catg-card-3d__overlay"></div>
                 </div>
                 <div class="catg-card-3d__content catg-card-3d__content--always-visible">
-                  <span class="catg-card-3d__tag catg-card-3d__tag--promo">RELAXED BAGGY FIT • ₹1,249</span>
-                  <h3 class="catg-card-3d__title">BAGGY CARGO PANTS</h3>
+                  <span class="catg-card-3d__tag catg-card-3d__tag--promo">RELAXED BAGGY • GREY</span>
+                  <h3 class="catg-card-3d__title">CARGO PANTS (GREY)</h3>
                   <div class="catg-card-3d__explore catg-card-3d__explore--visible">
                     <span>Shop Now • ₹1,249</span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -890,12 +921,12 @@
     }
   }
 
-  /* ═══ Winter Drop 2-Card Grid (Centered & Balanced) ═══ */
+  /* ═══ Winter Drop Grid (Centered & Balanced) ═══ */
   .catg-universe__grid--winter {
     display: grid !important;
-    grid-template-columns: repeat(2, minmax(280px, 340px)) !important;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 320px)) !important;
     justify-content: center !important;
-    gap: 24px !important;
+    gap: 20px !important;
   }
   @media(max-width: 767px) {
     .catg-universe__grid--winter {
